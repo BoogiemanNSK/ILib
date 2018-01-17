@@ -62,7 +62,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Constructor\Interface1.cs" />
+    <Compile Include="Constructor\Documents\Audio.cs" />
+    <Compile Include="Constructor\Documents\AV.cs" />
+    <Compile Include="Constructor\Documents\Book.cs" />
+    <Compile Include="Constructor\Documents\Document.cs" />
+    <Compile Include="Constructor\Documents\Journal.cs" />
+    <Compile Include="Constructor\Documents\Video.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

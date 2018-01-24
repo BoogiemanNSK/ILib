@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace I2P_Project.Constructor.Documents
+namespace I2P_Project.Classes.Documents
 {
     abstract class Document
     {

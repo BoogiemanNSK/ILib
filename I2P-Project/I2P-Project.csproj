@@ -92,7 +92,10 @@
     <Compile Include="Classes\Documents\Document.cs" />
     <Compile Include="Classes\Documents\Journal.cs" />
     <Compile Include="Classes\Documents\Video.cs" />
-    <Compile Include="Classes\LinQ\LinQ.cs" />
+    <Compile Include="Classes\UserSystem\Faculty.cs" />
+    <Compile Include="Classes\UserSystem\Librarian.cs" />
+    <Compile Include="Classes\UserSystem\Patron.cs" />
+    <Compile Include="Classes\UserSystem\Student.cs" />
     <Compile Include="Classes\UserSystem\User.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -4,7 +4,7 @@
     // TODO Make integration with DB and getters by ID
     abstract class User
     {
-
+      
         public int ID { get; set; }
 
         public string Name { get; set; }

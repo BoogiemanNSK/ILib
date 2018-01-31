@@ -1,21 +1,29 @@
-﻿using System.Data.Linq;
+﻿using System.Linq;//OBLIGATORY!!!!!!!!!!!!!!!!
 using System.Data.SqlClient;
+using I2P_Project.DataBases;
 
 namespace I2P_Project.Classes.Data_Managers
 {
     static class DataBaseManager
     {
 
-        private static DataContext _usersDB;
+        private static LINQtoUserDBDataContext db;
 
         public static void Initialize()
         {
-            var connString = new SqlConnection();
-            connString.ConnectionString =
-                "Server=(localdb)\\v11.0;" +
-                "Integrated Security=true;";
-            connString.Open();
-            _usersDB = new DataContext(connString);
+            db = new LINQtoUserDBDataContext();
+        }
+
+        public static bool CheckEmail(string email)
+        {
+            var test = (from p in db.users
+                        where p.email == email
+                        select p).Single();
+            if (test != null)
+            {
+                return true;
+            }
+            return false;
         }
 
     }

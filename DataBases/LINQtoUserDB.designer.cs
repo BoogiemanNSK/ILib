@@ -101,9 +101,9 @@ namespace I2P_Project.DataBases
 		
 		private string _phoneNumber;
 		
-		private int _lcNumber;
+		private int _icNumber;
 		
-		private string _eMail;
+		private string _email;
 		
 		private string _password;
 		
@@ -121,10 +121,10 @@ namespace I2P_Project.DataBases
     partial void OnaddressChanged();
     partial void OnphoneNumberChanging(string value);
     partial void OnphoneNumberChanged();
-    partial void OnlcNumberChanging(int value);
-    partial void OnlcNumberChanged();
-    partial void OneMailChanging(string value);
-    partial void OneMailChanged();
+    partial void OnicNumberChanging(int value);
+    partial void OnicNumberChanged();
+    partial void OnemailChanging(string value);
+    partial void OnemailChanged();
     partial void OnpasswordChanging(string value);
     partial void OnpasswordChanged();
     #endregion
@@ -234,42 +234,42 @@ namespace I2P_Project.DataBases
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lcNumber", DbType="Int NOT NULL")]
-		public int lcNumber
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_icNumber", DbType="Int NOT NULL")]
+		public int icNumber
 		{
 			get
 			{
-				return this._lcNumber;
+				return this._icNumber;
 			}
 			set
 			{
-				if ((this._lcNumber != value))
+				if ((this._icNumber != value))
 				{
-					this.OnlcNumberChanging(value);
+					this.OnicNumberChanging(value);
 					this.SendPropertyChanging();
-					this._lcNumber = value;
-					this.SendPropertyChanged("lcNumber");
-					this.OnlcNumberChanged();
+					this._icNumber = value;
+					this.SendPropertyChanged("icNumber");
+					this.OnicNumberChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_eMail", DbType="VarChar(MAX)")]
-		public string eMail
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(MAX)")]
+		public string email
 		{
 			get
 			{
-				return this._eMail;
+				return this._email;
 			}
 			set
 			{
-				if ((this._eMail != value))
+				if ((this._email != value))
 				{
-					this.OneMailChanging(value);
+					this.OnemailChanging(value);
 					this.SendPropertyChanging();
-					this._eMail = value;
-					this.SendPropertyChanged("eMail");
-					this.OneMailChanged();
+					this._email = value;
+					this.SendPropertyChanged("email");
+					this.OnemailChanged();
 				}
 			}
 		}

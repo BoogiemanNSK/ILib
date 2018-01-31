@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="LINQtoDocumentsDB">
+  <DataContextMoniker Name="/LINQtoDocumentsDBDataContext" />
+  <nestedChildShapes>
+    <classShape Id="0e927a4d-d164-4a46-8f8b-59d892802951" absoluteBounds="0.5, 0.5, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/LINQtoDocumentsDBDataContext/DocumentsDB" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c6aec8aa-427e-419a-9e62-26e7ffcbfd4f" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

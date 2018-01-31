@@ -5,28 +5,21 @@ namespace I2P_Project.Classes.Data_Managers
 {
     static class DataBaseManager
     {
-        private static LINQtoUserDBDataContext userDBContext;
-        private static Table<UserDB> users;
+        private static LINQtoUserDBDataContext db;
 
         public static void Initialize()
         {
-            userDBContext = new LINQtoUserDBDataContext();
-            users = userDBContext.GetTable<UserDB>();
+            db = new LINQtoUserDBDataContext();
         }
 
-        public static bool UserExist(string inputMail)
+        public static bool CheckEmail(string email)
         {
-            var query =
-                from user in users
-                where user.n == inputMail
-                select user;
-            if (query) return true;
+            var test = (from p in db.users
+                        where p.email == email
+                        select p).Single();
+            if (test != null)
+                return true;
             return false;
-        }
-
-        public static bool RightPassword(string inputMail, string inputPassword)
-        {
-
         }
 
     }

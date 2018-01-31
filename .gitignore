@@ -119,14 +119,6 @@ nCrunchTemp_*
 *.mm.*
 AutoTest.Net/
 
-VS17 Proj files
-*.sln
-*.csproj
-
-# SQL
-*.mdf
-*.ldf
-
 # Web workbench (sass)
 .sass-cache/
 

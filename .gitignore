@@ -210,12 +210,6 @@ Backup*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 
-<<<<<<< HEAD
-=======
-# SQL Server files
-*.ldf
-
->>>>>>> fef00aae0a74ad9f60416f68cdbd6c8fcbd1d796
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout

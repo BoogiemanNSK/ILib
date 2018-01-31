@@ -1,14 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="UserDB" Class="LINQtoUserDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Classes\DataBases\UserDB.mdf;Integrated Security=True" SettingsObjectName="I2P_Project.Properties.Settings" SettingsPropertyName="UserDBConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.UserDB" Member="UserDBs">
-    <Type Name="UserDB">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="Adress" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="PhoneNumber" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="LCNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CheckBookID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="UserType" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\DataBases\UserDB.mdf;Integrated Security=True" SettingsObjectName="I2P_Project.Properties.Settings" SettingsPropertyName="UserDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.users" Member="users">
+    <Type Name="users">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="userType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="phoneNumber" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="lcNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="eMail" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="password" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.userTypes" Member="userTypes">
+    <Type Name="userTypes">
+      <Column Name="typeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="typeName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

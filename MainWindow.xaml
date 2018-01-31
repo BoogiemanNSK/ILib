@@ -1,6 +1,12 @@
-﻿<NavigationWindow x:Class="I2P_Project.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Ilib" Height="450" Width="400" Source="Pages/LogInPage.xaml" Background="#FF5F5F5F">
-
-</NavigationWindow>
+﻿<Window x:Class="I2P_Project.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:I2P_Project"
+        mc:Ignorable="d"
+        Title="Ilib" Height="450" Width="400" Background="#FF5F5F5F">
+    <Grid>
+        
+    </Grid>
+</Window>

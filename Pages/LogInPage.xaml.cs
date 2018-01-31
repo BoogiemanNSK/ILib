@@ -10,15 +10,14 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace I2P_Project
+namespace I2P_Project.Pages
 {
     /// <summary>
-    /// Interaction logic for LogInPage.xaml
+    /// Логика взаимодействия для LogInPage.xaml
     /// </summary>
-    public partial class LogInPage : Page
+    public partial class LogInPage : Window
     {
         public LogInPage()
         {
@@ -29,12 +28,12 @@ namespace I2P_Project
         {
             // TODO
             // Check if such e-mail is in DB
-                // Check if e-mail matches with password in DB
-                    // Set current user state and then move to next (home) page
-                // else
-                    WrongLabel.Content = "Wrong password"; // TODO String constants
+            // Check if e-mail matches with password in DB
+            // Set current user state and then move to next (home) page
             // else
-                WrongLabel.Content = "User not found"; // TODO String constants
+            WrongLabel.Content = "Wrong password"; // TODO String constants
+                                                   // else
+            WrongLabel.Content = "User not found"; // TODO String constants
         }
 
         private void RegisterClick(object sender, RoutedEventArgs e)

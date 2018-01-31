@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="LINQtoUserDB">
+  <DataContextMoniker Name="/LINQtoUserDBDataContext" />
+  <nestedChildShapes>
+    <classShape Id="d0a659b4-ff93-4833-a6fd-ab840fd78ad6" absoluteBounds="1.25, 0.75, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/LINQtoUserDBDataContext/UserDB" />
+      <nestedChildShapes>
+        <elementListCompartment Id="82b579cd-87af-4a18-83ac-a055e7d20dca" absoluteBounds="1.2649999999999997, 1.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

@@ -1,5 +1,5 @@
 ﻿using I2P_Project.DataBases;
-using System.Data.Linq;
+using System.Linq;
 
 namespace I2P_Project.Classes.Data_Managers
 {
@@ -16,8 +16,18 @@ namespace I2P_Project.Classes.Data_Managers
         {
             var test = (from p in db.users
                         where p.email == email
-                        select p).Single();
-            if (test != null)
+                        select p);
+            if (test.Any())
+                return true;
+            return false;
+        }
+
+        public static bool CheckPassword(string email, string password)
+        {
+            var test = (from p in db.users
+                        where (p.email == email && p.password == password)
+                        select p);
+            if (test.Any())
                 return true;
             return false;
         }

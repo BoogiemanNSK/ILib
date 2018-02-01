@@ -22,22 +22,21 @@ namespace I2P_Project.Pages
     {
         public LogInPage()
         {
+            DataBaseManager.Initialize();
             InitializeComponent();
         }
 
         private void LogInClick(object sender, RoutedEventArgs e)
         {
-            // Check if such e-mail is in DB
-            // Check if e-mail matches with password in DB
-            // Set current user state and then move to next (home) page
-            // else
-            if (DataBaseManager.CheckEmail("calah47@yandex.ru"))
+            if (DataBaseManager.CheckEmail(EMailTB.Text))
             {
-                WrongLabel.Content = "Yeah!";
+                if (DataBaseManager.CheckPassword(EMailTB.Text, PasswordTB.Password))
+                    WrongLabel.Content = "Correct e-mail and password!";
+                else
+                    WrongLabel.Content = "Wrong password"; // TODO String constants
             }
-            //WrongLabel.Content = "Wrong password"; // TODO String constants
-            //                                       // else
-            //WrongLabel.Content = "User not found"; // TODO String constants
+            else
+                WrongLabel.Content = "User not found"; // TODO String constants
         }
 
         private void RegisterClick(object sender, RoutedEventArgs e)

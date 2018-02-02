@@ -1,0 +1,129 @@
+<Project>
+  <Name>Ilib</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>UserSystem</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>User</Name>
+        <Access>Public</Access>
+        <Location left="566" top="21" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int ID</Member>
+        <Member type="Field">public string Name</Member>
+        <Member type="Field">public string Adress</Member>
+        <Member type="Field">public string PhoneNumber</Member>
+        <Member type="Field">public int LibraryCardNumber</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Patron</Name>
+        <Access>Public</Access>
+        <Location left="773" top="128" />
+        <Size width="184" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public List&lt;int&gt; CheckedOutDocs</Member>
+        <Member type="Method">public abstract void CheckOut(int docID)</Member>
+        <Member type="Method">public void ReturnDoc(int docID)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Librarian</Name>
+        <Access>Public</Access>
+        <Location left="164" top="128" />
+        <Size width="377" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public List&lt;OverdueInfo&gt; CheckOverdue()</Member>
+        <Member type="Method">public void UpgradePatron(int patronID)</Member>
+        <Member type="Method">public void DowngradePatron(int patronID)</Member>
+        <Member type="Method">public void AddDoc(string path)</Member>
+        <Member type="Method">public void DeleteDoc(int docID)</Member>
+        <Member type="Method">public void ModifyDoc(int docID, string newName, string newDescription)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Faculty</Name>
+        <Access>Public</Access>
+        <Location left="659" top="414" />
+        <Size width="184" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public override void CheckOut(int docID)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Student</Name>
+        <Access>Public</Access>
+        <Location left="890" top="414" />
+        <Size width="183" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public override void CheckOut(int docID)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Structure">
+        <Name>OverdueInfo</Name>
+        <Access>Public</Access>
+        <Location left="256" top="414" />
+        <Size width="190" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Patron OverduedPatron</Member>
+        <Member type="Field">Document OverdueDocument</Member>
+        <Member type="Field">DataTime CheckOutTime</Member>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="3" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>797</X>
+          <Y>369</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>932</X>
+          <Y>369</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>753</X>
+          <Y>103</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>352</X>
+          <Y>100</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>541</X>
+          <Y>100</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Association" first="5" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>352</X>
+          <Y>386</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>352</X>
+          <Y>369</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

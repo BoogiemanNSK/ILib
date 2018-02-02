@@ -1,4 +1,5 @@
-﻿using System;
+﻿using I2P_Project.Classes.Data_Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,36 +11,39 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace I2P_Project
+namespace I2P_Project.Pages
 {
     /// <summary>
-    /// Interaction logic for LogInPage.xaml
+    /// Логика взаимодействия для LogInPage.xaml
     /// </summary>
-    public partial class LogInPage : Page
+    public partial class LogInPage : Window
     {
         public LogInPage()
         {
+            DataBaseManager.Initialize();
             InitializeComponent();
         }
 
         private void LogInClick(object sender, RoutedEventArgs e)
         {
-            // TODO
-            // Check if such e-mail is in DB
-                // Check if e-mail matches with password in DB
-                    // Set current user state and then move to next (home) page
-                // else
+            if (DataBaseManager.CheckEmail(EMailTB.Text))
+            {
+                if (DataBaseManager.CheckPassword(EMailTB.Text, PasswordTB.Password))
+                    WrongLabel.Content = "Correct e-mail and password!";
+                else
                     WrongLabel.Content = "Wrong password"; // TODO String constants
-            // else
+            }
+            else
                 WrongLabel.Content = "User not found"; // TODO String constants
         }
 
         private void RegisterClick(object sender, RoutedEventArgs e)
         {
-            // TODO Move to registration page
+            RegisterPage Register = new RegisterPage();
+            Register.Show();
+            Close();
         }
     }
 }

@@ -41,7 +41,9 @@ namespace I2P_Project.Pages
 
         private void RegisterClick(object sender, RoutedEventArgs e)
         {
-            // TODO Move to registration page
+            RegisterPage Register = new RegisterPage();
+            Register.Show();
+            Close();
         }
     }
 }

@@ -32,5 +32,25 @@ namespace I2P_Project.Classes.Data_Managers
             return false;
         }
 
+        public static void RegisterUser(string email, string password, string name, string adress, string phone, bool isLibrarian)
+        {
+            users newUser = new users();
+            newUser.email = email;
+            newUser.password = password;
+            newUser.name = name;
+            newUser.address = adress;
+            newUser.phoneNumber = phone;
+            newUser.userType = isLibrarian ? 2 : 0;
+            newUser.icNumber = NextLCNumber();
+            db.users.InsertOnSubmit(newUser);
+            db.SubmitChanges();
+        }
+
+        private static int NextLCNumber()
+        {
+            // TODO Implement query to find largest LC number and return next one
+            return 100;
+        }
+
     }
 }

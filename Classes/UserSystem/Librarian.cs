@@ -8,7 +8,7 @@ namespace I2P_Project.Classes.UserSystem
     class Librarian : User
     {
 
-        public List<OverdueInfo> CheckOverdue(int patronID)
+        public List<OverdueInfo> CheckOverdue()
         {
             List<OverdueInfo> ovList = new List<OverdueInfo>();
             // TODO

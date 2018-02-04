@@ -8,6 +8,11 @@ namespace I2P_Project.Classes.UserSystem
     class Librarian : User
     {
 
+        public Librarian(string eMail)
+        {
+            SetCurrent(eMail);
+        }
+
         public List<OverdueInfo> CheckOverdue()
         {
             List<OverdueInfo> ovList = new List<OverdueInfo>();

@@ -46,6 +46,16 @@ namespace I2P_Project.Classes.Data_Managers
             db.SubmitChanges();
         }
 
+        public static int GetUserType(string email)
+        {
+            var test = (from p in db.users
+                        where (p.email == email)
+                        select p);
+            if (test.Any())
+                return test.Single().userType;
+            return -1;
+        }
+
         private static int NextLCNumber()
         {
             // TODO Implement query to find largest LC number and return next one

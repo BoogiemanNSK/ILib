@@ -3,6 +3,10 @@
 
     class Faculty : Patron
     {
+        public Faculty(string eMail)
+        {
+            SetCurrent(eMail);
+        }
 
         public override void CheckOut(int docID)
         {

@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace I2P_Project.Classes.Documents
 {
+    /// <summary>
+    /// Main class for Documents.
+    /// Contain all fields.
+    /// </summary>
     abstract class Document
     {
         private string title;
@@ -15,7 +19,7 @@ namespace I2P_Project.Classes.Documents
         private bool isBesteller; //2 weeks for check out
         private DateTime timeOfCheckOut;
         private int personID;
-        private int bookType;
+        private int docType;
         //TODO
             //Connect with DB
         

@@ -33,8 +33,6 @@ namespace I2P_Project.Pages
                 if (DataBaseManager.CheckPassword(EMailTB.Text, PasswordTB.Password))
                 {
                     WrongLabel.Content = "Correct e-mail and password!";
-                    MainWindow Main = new MainWindow();
-                    Main.Show();
                     Close();
                 }
                 else

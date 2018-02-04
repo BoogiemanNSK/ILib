@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project"
         mc:Ignorable="d"
-        Title="Ilib" Height="1280" Width="1920" 
-        Background="#FF5F5F5F">
-    <Grid/>
+        Title="Ilib" Height="450" Width="400" Background="#FF5F5F5F">
+    <Grid>
+        
+    </Grid>
 </Window>

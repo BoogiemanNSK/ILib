@@ -26,33 +26,21 @@ namespace I2P_Project.Pages
         {
             InitializeComponent();
         }
-
-        private bool checkEmail()
-        {
-            String text = EMailTB.Text;
-            string pattern = "^([a-zA-Z0-9_-.]+)@([a-zA-Z0-9_-.]+).([a-zA-Z]{2,5})$";
-            Regex regex = new Regex(pattern);
-            Match match = regex.Match(text);
-            return match.Success;
-        }
-
+        
         private void OnRegisterClick(object sender, RoutedEventArgs e)
         {
             // TODO Implement some serial numbers to check librarians
             bool isLibrarian = false;
-            if (checkEmail())
-            {
-                DataBaseManager.RegisterUser
-                    (
-                        EMailTB.Text,
-                        PasswordTB.Text,
-                        NameTB.Text,
-                        AdressTB.Text,
-                        PhoneNumberTB.Text,
-                        isLibrarian
-                    );
-            }
 
+            DataBaseManager.RegisterUser
+                (
+                    EMailTB.Text,
+                    PasswordTB.Text,
+                    NameTB.Text,
+                    AdressTB.Text,
+                    PhoneNumberTB.Text,
+                    isLibrarian
+                );
         }
 
         private void OnBackClick(object sender, RoutedEventArgs e)

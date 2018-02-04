@@ -3,15 +3,22 @@ using System.Linq;
 
 namespace I2P_Project.Classes.Data_Managers
 {
+    /// <summary>
+    /// Static class for fast and easy acess to db.
+    /// All required quries are incapsulated in methods to provide information hiding.
+    /// </summary>
     static class DataBaseManager
     {
+        /// <summary> LINQ to database, used for easier interaction </summary>
         private static LINQtoUserDBDataContext db;
 
+        /// <summary> Initializing DB </summary>
         public static void Initialize()
         {
             db = new LINQtoUserDBDataContext();
         }
 
+        /// <summary> Checks if there exist a user with given e-mail </summary>
         public static bool CheckEmail(string email)
         {
             var test = (from p in db.users
@@ -22,6 +29,7 @@ namespace I2P_Project.Classes.Data_Managers
             return false;
         }
 
+        /// <summary> Checks if a user with given e-mail has given password </summary>
         public static bool CheckPassword(string email, string password)
         {
             var test = (from p in db.users
@@ -32,6 +40,7 @@ namespace I2P_Project.Classes.Data_Managers
             return false;
         }
 
+        /// <summary> Registers new user in data base </summary>
         public static void RegisterUser(string email, string password, string name, string adress, string phone, bool isLibrarian)
         {
             users newUser = new users();
@@ -46,6 +55,12 @@ namespace I2P_Project.Classes.Data_Managers
             db.SubmitChanges();
         }
 
+        /// <summary>
+        /// Returns numerator of user type:
+        /// 0 - Student
+        /// 1 - Faculty
+        /// 2 - Librarian
+        /// </summary>
         public static int GetUserType(string email)
         {
             var test = (from p in db.users
@@ -56,6 +71,7 @@ namespace I2P_Project.Classes.Data_Managers
             return -1;
         }
 
+        /// <summary> Increment library card number so that everyone had different Library Card number </summary>
         private static int NextLCNumber()
         {
             // TODO Implement query to find largest LC number and return next one

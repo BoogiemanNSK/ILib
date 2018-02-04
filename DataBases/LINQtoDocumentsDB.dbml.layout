@@ -2,10 +2,16 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="LINQtoDocumentsDB">
   <DataContextMoniker Name="/LINQtoDocumentsDBDataContext" />
   <nestedChildShapes>
-    <classShape Id="0e927a4d-d164-4a46-8f8b-59d892802951" absoluteBounds="0.5, 0.5, 2, 2.1554996744791666">
+    <classShape Id="a97c6d9b-135e-4178-b5a2-d9a80875980c" absoluteBounds="0.5, 1.125, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/LINQtoDocumentsDBDataContext/docTypes" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cca3a541-99f3-4ff3-9245-3e069bab9512" absoluteBounds="0.51500000000000012, 1.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6408d8f5-0515-4e31-bb90-03d32bd18ddd" absoluteBounds="1.75, 4, 2, 2.3478011067708335">
       <DataClassMoniker Name="/LINQtoDocumentsDBDataContext/DocumentsDB" />
       <nestedChildShapes>
-        <elementListCompartment Id="c6aec8aa-427e-419a-9e62-26e7ffcbfd4f" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="0c74fd0d-7b10-4da9-b99a-a509ef9f23d6" absoluteBounds="1.7650000000000001, 4.46, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

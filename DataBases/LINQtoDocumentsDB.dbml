@@ -1,14 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DocumentsDB" Class="LINQtoDocumentsDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\DataBases\DocumentsDB.mdf;Integrated Security=True" SettingsObjectName="I2P_Project.Properties.Settings" SettingsPropertyName="DocumentsDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.docTypes" Member="docTypes">
+    <Type Name="docTypes">
+      <Column Name="docID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="docName" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.DocumentsDB" Member="DocumentsDB">
     <Type Name="DocumentsDB">
-      <Column Name="PersonID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Title" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="Description" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="Price" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="IsBesteller" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="TimeOfCheckOut" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="BookType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="title" Type="System.String" DbType="NChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="personID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="isBesteller" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="timeOfCheckOut" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="docType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="docID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

@@ -30,6 +30,12 @@ namespace I2P_Project.DataBases
 		
     #region Определения метода расширяемости
     partial void OnCreated();
+    partial void InsertdocTypes(docTypes instance);
+    partial void UpdatedocTypes(docTypes instance);
+    partial void DeletedocTypes(docTypes instance);
+    partial void InsertDocumentsDB(DocumentsDB instance);
+    partial void UpdateDocumentsDB(DocumentsDB instance);
+    partial void DeleteDocumentsDB(DocumentsDB instance);
     #endregion
 		
 		public LINQtoDocumentsDBDataContext() : 
@@ -62,6 +68,14 @@ namespace I2P_Project.DataBases
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<docTypes> docTypes
+		{
+			get
+			{
+				return this.GetTable<docTypes>();
+			}
+		}
+		
 		public System.Data.Linq.Table<DocumentsDB> DocumentsDB
 		{
 			get
@@ -71,137 +85,318 @@ namespace I2P_Project.DataBases
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DocumentsDB")]
-	public partial class DocumentsDB
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.docTypes")]
+	public partial class docTypes : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
-		private int _PersonID;
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private string _Title;
+		private int _docID;
 		
-		private string _Description;
+		private System.Nullable<int> _docName;
 		
-		private string _Price;
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OndocIDChanging(int value);
+    partial void OndocIDChanged();
+    partial void OndocNameChanging(System.Nullable<int> value);
+    partial void OndocNameChanged();
+    #endregion
 		
-		private int _IsBesteller;
+		public docTypes()
+		{
+			OnCreated();
+		}
 		
-		private System.Nullable<int> _TimeOfCheckOut;
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_docID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int docID
+		{
+			get
+			{
+				return this._docID;
+			}
+			set
+			{
+				if ((this._docID != value))
+				{
+					this.OndocIDChanging(value);
+					this.SendPropertyChanging();
+					this._docID = value;
+					this.SendPropertyChanged("docID");
+					this.OndocIDChanged();
+				}
+			}
+		}
 		
-		private int _BookType;
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_docName", DbType="Int")]
+		public System.Nullable<int> docName
+		{
+			get
+			{
+				return this._docName;
+			}
+			set
+			{
+				if ((this._docName != value))
+				{
+					this.OndocNameChanging(value);
+					this.SendPropertyChanging();
+					this._docName = value;
+					this.SendPropertyChanged("docName");
+					this.OndocNameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DocumentsDB")]
+	public partial class DocumentsDB : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _title;
+		
+		private int _personID;
+		
+		private string _description;
+		
+		private int _price;
+		
+		private int _isBesteller;
+		
+		private System.DateTime _timeOfCheckOut;
+		
+		private int _docType;
+		
+		private int _docID;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OntitleChanging(string value);
+    partial void OntitleChanged();
+    partial void OnpersonIDChanging(int value);
+    partial void OnpersonIDChanged();
+    partial void OndescriptionChanging(string value);
+    partial void OndescriptionChanged();
+    partial void OnpriceChanging(int value);
+    partial void OnpriceChanged();
+    partial void OnisBestellerChanging(int value);
+    partial void OnisBestellerChanged();
+    partial void OntimeOfCheckOutChanging(System.DateTime value);
+    partial void OntimeOfCheckOutChanged();
+    partial void OndocTypeChanging(int value);
+    partial void OndocTypeChanged();
+    partial void OndocIDChanging(int value);
+    partial void OndocIDChanged();
+    #endregion
 		
 		public DocumentsDB()
 		{
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonID", DbType="Int NOT NULL")]
-		public int PersonID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_title", DbType="NChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string title
 		{
 			get
 			{
-				return this._PersonID;
+				return this._title;
 			}
 			set
 			{
-				if ((this._PersonID != value))
+				if ((this._title != value))
 				{
-					this._PersonID = value;
+					this.OntitleChanging(value);
+					this.SendPropertyChanging();
+					this._title = value;
+					this.SendPropertyChanged("title");
+					this.OntitleChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public string Title
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_personID", DbType="Int NOT NULL")]
+		public int personID
 		{
 			get
 			{
-				return this._Title;
+				return this._personID;
 			}
 			set
 			{
-				if ((this._Title != value))
+				if ((this._personID != value))
 				{
-					this._Title = value;
+					this.OnpersonIDChanging(value);
+					this.SendPropertyChanging();
+					this._personID = value;
+					this.SendPropertyChanged("personID");
+					this.OnpersonIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public string Description
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string description
 		{
 			get
 			{
-				return this._Description;
+				return this._description;
 			}
 			set
 			{
-				if ((this._Description != value))
+				if ((this._description != value))
 				{
-					this._Description = value;
+					this.OndescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._description = value;
+					this.SendPropertyChanged("description");
+					this.OndescriptionChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Price", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public string Price
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_price", DbType="Int NOT NULL")]
+		public int price
 		{
 			get
 			{
-				return this._Price;
+				return this._price;
 			}
 			set
 			{
-				if ((this._Price != value))
+				if ((this._price != value))
 				{
-					this._Price = value;
+					this.OnpriceChanging(value);
+					this.SendPropertyChanging();
+					this._price = value;
+					this.SendPropertyChanged("price");
+					this.OnpriceChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsBesteller", DbType="Int NOT NULL")]
-		public int IsBesteller
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isBesteller", DbType="Int NOT NULL")]
+		public int isBesteller
 		{
 			get
 			{
-				return this._IsBesteller;
+				return this._isBesteller;
 			}
 			set
 			{
-				if ((this._IsBesteller != value))
+				if ((this._isBesteller != value))
 				{
-					this._IsBesteller = value;
+					this.OnisBestellerChanging(value);
+					this.SendPropertyChanging();
+					this._isBesteller = value;
+					this.SendPropertyChanged("isBesteller");
+					this.OnisBestellerChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TimeOfCheckOut", DbType="Int")]
-		public System.Nullable<int> TimeOfCheckOut
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_timeOfCheckOut", DbType="DateTime NOT NULL")]
+		public System.DateTime timeOfCheckOut
 		{
 			get
 			{
-				return this._TimeOfCheckOut;
+				return this._timeOfCheckOut;
 			}
 			set
 			{
-				if ((this._TimeOfCheckOut != value))
+				if ((this._timeOfCheckOut != value))
 				{
-					this._TimeOfCheckOut = value;
+					this.OntimeOfCheckOutChanging(value);
+					this.SendPropertyChanging();
+					this._timeOfCheckOut = value;
+					this.SendPropertyChanged("timeOfCheckOut");
+					this.OntimeOfCheckOutChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BookType", DbType="Int NOT NULL")]
-		public int BookType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_docType", DbType="Int NOT NULL")]
+		public int docType
 		{
 			get
 			{
-				return this._BookType;
+				return this._docType;
 			}
 			set
 			{
-				if ((this._BookType != value))
+				if ((this._docType != value))
 				{
-					this._BookType = value;
+					this.OndocTypeChanging(value);
+					this.SendPropertyChanging();
+					this._docType = value;
+					this.SendPropertyChanged("docType");
+					this.OndocTypeChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_docID", DbType="Int NOT NULL")]
+		public int docID
+		{
+			get
+			{
+				return this._docID;
+			}
+			set
+			{
+				if ((this._docID != value))
+				{
+					this.OndocIDChanging(value);
+					this.SendPropertyChanging();
+					this._docID = value;
+					this.SendPropertyChanged("docID");
+					this.OndocIDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

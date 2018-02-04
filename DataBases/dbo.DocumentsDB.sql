@@ -1,9 +1,10 @@
-﻿CREATE TABLE [dbo].[DocumentsDB] (
-    [PersonID]          INT  DEFAULT ((0)) NOT NULL,
-    [Title]        TEXT NOT NULL,
-    [Description]      TEXT NOT NULL,
-    [Price] TEXT NOT NULL,
-    [IsBesteller]    INT  NOT NULL,
-    [TimeOfCheckOut] INT  NULL,
-	[BookType] INT NOT NULL,
-);
+﻿CREATE TABLE [dbo].[DocumentsDB]
+(
+	[title] NCHAR(50) NOT NULL PRIMARY KEY, 
+    [personID] INT NULL, 
+    [description] TEXT NULL, 
+    [price] INT NULL, 
+    [isBesteller] INT NULL, 
+    [timeOfChekOut] TIME NULL, 
+    [docType] INT NULL
+)

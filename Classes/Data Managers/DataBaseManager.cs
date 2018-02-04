@@ -54,9 +54,7 @@ namespace I2P_Project.Classes.Data_Managers
             db.users.InsertOnSubmit(newUser);
             db.SubmitChanges();
         }
-
-<<<<<<< HEAD
-=======
+        
         /// <summary>
         /// Returns numerator of user type:
         /// 0 - Student
@@ -74,7 +72,6 @@ namespace I2P_Project.Classes.Data_Managers
         }
 
         /// <summary> Increment library card number so that everyone had different Library Card number </summary>
->>>>>>> 7db16b4e06f1e8a761f9f30a606d34254705d4d6
         private static int NextLCNumber()
         {
             // TODO Implement query to find largest LC number and return next one

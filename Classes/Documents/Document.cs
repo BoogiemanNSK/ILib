@@ -26,7 +26,7 @@ namespace I2P_Project.Classes.Documents
                           select p);
             _current = getDoc.Single();
         }
-        public string Title { get {  return _current.title } }
+        public string Title { get { return _current.title; } }
 
         public string Description { get { return _current.description;  } }
 
@@ -34,7 +34,7 @@ namespace I2P_Project.Classes.Documents
         
         public bool IsBestseller { get { return _current.isBesteller == 1; } }
 
-        public DateTime TimeOfCheckOut { get {  return _current.timeOfCheckOut} }
+        public DateTime TimeOfCheckOut { get { return _current.timeOfCheckOut;  } }
 
         public int PersonID { get { return _current.personID;  } }
         

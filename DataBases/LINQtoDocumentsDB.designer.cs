@@ -30,12 +30,12 @@ namespace I2P_Project.DataBases
 		
     #region Определения метода расширяемости
     partial void OnCreated();
-    partial void InsertdocTypes(docTypes instance);
-    partial void UpdatedocTypes(docTypes instance);
-    partial void DeletedocTypes(docTypes instance);
     partial void InsertDocumentsDB(DocumentsDB instance);
     partial void UpdateDocumentsDB(DocumentsDB instance);
     partial void DeleteDocumentsDB(DocumentsDB instance);
+    partial void InsertdocTypes(docTypes instance);
+    partial void UpdatedocTypes(docTypes instance);
+    partial void DeletedocTypes(docTypes instance);
     #endregion
 		
 		public LINQtoDocumentsDBDataContext() : 
@@ -68,14 +68,6 @@ namespace I2P_Project.DataBases
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<docTypes> docTypes
-		{
-			get
-			{
-				return this.GetTable<docTypes>();
-			}
-		}
-		
 		public System.Data.Linq.Table<DocumentsDB> DocumentsDB
 		{
 			get
@@ -83,90 +75,12 @@ namespace I2P_Project.DataBases
 				return this.GetTable<DocumentsDB>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.docTypes")]
-	public partial class docTypes : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _docID;
-		
-		private System.Nullable<int> _docName;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OndocIDChanging(int value);
-    partial void OndocIDChanged();
-    partial void OndocNameChanging(System.Nullable<int> value);
-    partial void OndocNameChanged();
-    #endregion
-		
-		public docTypes()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_docID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int docID
+		public System.Data.Linq.Table<docTypes> docTypes
 		{
 			get
 			{
-				return this._docID;
-			}
-			set
-			{
-				if ((this._docID != value))
-				{
-					this.OndocIDChanging(value);
-					this.SendPropertyChanging();
-					this._docID = value;
-					this.SendPropertyChanged("docID");
-					this.OndocIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_docName", DbType="Int")]
-		public System.Nullable<int> docName
-		{
-			get
-			{
-				return this._docName;
-			}
-			set
-			{
-				if ((this._docName != value))
-				{
-					this.OndocNameChanging(value);
-					this.SendPropertyChanging();
-					this._docName = value;
-					this.SendPropertyChanged("docName");
-					this.OndocNameChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				return this.GetTable<docTypes>();
 			}
 		}
 	}
@@ -376,6 +290,92 @@ namespace I2P_Project.DataBases
 					this._docID = value;
 					this.SendPropertyChanged("docID");
 					this.OndocIDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.docTypes")]
+	public partial class docTypes : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _docID;
+		
+		private string _docName;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OndocIDChanging(int value);
+    partial void OndocIDChanged();
+    partial void OndocNameChanging(string value);
+    partial void OndocNameChanged();
+    #endregion
+		
+		public docTypes()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_docID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int docID
+		{
+			get
+			{
+				return this._docID;
+			}
+			set
+			{
+				if ((this._docID != value))
+				{
+					this.OndocIDChanging(value);
+					this.SendPropertyChanging();
+					this._docID = value;
+					this.SendPropertyChanged("docID");
+					this.OndocIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_docName", DbType="NVarChar(MAX)")]
+		public string docName
+		{
+			get
+			{
+				return this._docName;
+			}
+			set
+			{
+				if ((this._docName != value))
+				{
+					this.OndocNameChanging(value);
+					this.SendPropertyChanging();
+					this._docName = value;
+					this.SendPropertyChanged("docName");
+					this.OndocNameChanged();
 				}
 			}
 		}

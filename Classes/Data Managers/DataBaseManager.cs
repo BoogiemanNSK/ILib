@@ -10,18 +10,18 @@ namespace I2P_Project.Classes.Data_Managers
     static class DataBaseManager
     {
         /// <summary> LINQ to database, used for easier interaction </summary>
-        private static LINQtoUserDBDataContext db;
-
+        private static LINQtoUserDBDataContext udb;
+        private static LINQtoDocumentsDBDataContext ddb;
         /// <summary> Initializing DB </summary>
         public static void Initialize()
         {
-            db = new LINQtoUserDBDataContext();
+            udb = new LINQtoUserDBDataContext();
         }
 
         /// <summary> Checks if there exist a user with given e-mail </summary>
         public static bool CheckEmail(string email)
         {
-            var test = (from p in db.users
+            var test = (from p in udb.users
                         where p.email == email
                         select p);
             if (test.Any())
@@ -32,7 +32,7 @@ namespace I2P_Project.Classes.Data_Managers
         /// <summary> Checks if a user with given e-mail has given password </summary>
         public static bool CheckPassword(string email, string password)
         {
-            var test = (from p in db.users
+            var test = (from p in udb.users
                         where (p.email == email && p.password == password)
                         select p);
             if (test.Any())
@@ -51,8 +51,8 @@ namespace I2P_Project.Classes.Data_Managers
             newUser.phoneNumber = phone;
             newUser.userType = isLibrarian ? 2 : 0;
             newUser.icNumber = NextLCNumber();
-            db.users.InsertOnSubmit(newUser);
-            db.SubmitChanges();
+            udb.users.InsertOnSubmit(newUser);
+            udb.SubmitChanges();
         }
         
         /// <summary>
@@ -63,13 +63,24 @@ namespace I2P_Project.Classes.Data_Managers
         /// </summary>
         public static int GetUserType(string email)
         {
-            var test = (from p in db.users
+            var test = (from p in udb.users
                         where (p.email == email)
                         select p);
             if (test.Any())
                 return test.Single().userType;
             return -1;
         }
+
+        public static void SetReferAndStartTimer(int docID)
+        {
+            var test = (from p in ddb.DocumentsDB
+                        where (p.docID == docID)
+                        select p);
+            DocumentsDB _current = test.Single();
+            _current.personID = SystemDataManager.CurrentUser.PersonID;
+            System.DateTime time = new System.DateTime();
+            _current.timeOfCheckOut = time;
+       }
 
         /// <summary> Increment library card number so that everyone had different Library Card number </summary>
         private static int NextLCNumber()

@@ -1,4 +1,5 @@
 ﻿using I2P_Project.DataBases;
+using I2P_Project.Classes.Data_Managers;
 namespace I2P_Project.Classes.UserSystem
 {
 
@@ -12,6 +13,7 @@ namespace I2P_Project.Classes.UserSystem
         public override void CheckOut(int docID)
         {
             CheckedDocs.Add(docID);
+            DataBaseManager.SetReferAndStartTimer(docID);
         }
 
         

@@ -33,5 +33,13 @@ namespace I2P_Project.Properties {
                 return ((string)(this["UserDBConnectionString"]));
             }
         }
+
+        public string DocumentsDBConnectionString
+        {
+            get
+            {
+                return ((string)(this["DocumentsDBConnectionString"]));
+            }
+        }
     }
 }

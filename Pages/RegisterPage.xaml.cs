@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 namespace I2P_Project.Pages
 {
@@ -25,11 +26,12 @@ namespace I2P_Project.Pages
         {
             InitializeComponent();
         }
-
+        
         private void OnRegisterClick(object sender, RoutedEventArgs e)
         {
             // TODO Implement some serial numbers to check librarians
             bool isLibrarian = false;
+
             DataBaseManager.RegisterUser
                 (
                     EMailTB.Text,

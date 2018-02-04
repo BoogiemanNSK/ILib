@@ -27,5 +27,6 @@ namespace I2P_Project.Classes.UserSystem
         public string Adress { get { return _current.address; } }
         public string PhoneNumber { get { return _current.phoneNumber; } }
         public int LibraryCardNumber { get { return _current.icNumber; } }
+        public int PersonID { get { return _current.id;  } }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using I2P_Project.Classes.Data_Managers;
-using I2P_Project.Classes.UserSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +31,10 @@ namespace I2P_Project.Pages
             if (DataBaseManager.CheckEmail(EMailTB.Text))
             {
                 if (DataBaseManager.CheckPassword(EMailTB.Text, PasswordTB.Password))
-                    LogIn();
+                {
+                    WrongLabel.Content = "Correct e-mail and password!";
+                    Close();
+                }
                 else
                     WrongLabel.Content = "Wrong password"; // TODO String constants
             }
@@ -46,33 +48,5 @@ namespace I2P_Project.Pages
             Register.Show();
             Close();
         }
-
-        private void LogIn()
-        {
-            SetCurrentUser();
-            UserHomePage HomePage = new UserHomePage();
-            HomePage.Show();
-            Close();
-        }
-
-        private void SetCurrentUser()
-        {
-            int userType = DataBaseManager.GetUserType(EMailTB.Text);
-            switch (userType)
-            {
-                case 0:
-                    SystemDataManager.CurrentUser = new Student(EMailTB.Text);
-                    break;
-                case 1:
-                    SystemDataManager.CurrentUser = new Faculty(EMailTB.Text);
-                    break;
-                case 2:
-                    SystemDataManager.CurrentUser = new Librarian(EMailTB.Text);
-                    break;
-                default:
-                    throw new Exception("Unhandled user type!");
-            }
-        }
-
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace I2P_Project.Classes.UserSystem
+﻿using I2P_Project.DataBases;
+using I2P_Project.Classes.Data_Managers;
+namespace I2P_Project.Classes.UserSystem
 {
 
     class Faculty : Patron
@@ -11,8 +13,10 @@
         public override void CheckOut(int docID)
         {
             CheckedDocs.Add(docID);
-            // TODO
+            DataBaseManager.SetReferAndStartTimer(docID);
         }
+
+        
 
     }
 

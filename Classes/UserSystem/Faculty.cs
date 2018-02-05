@@ -1,5 +1,7 @@
 ﻿using I2P_Project.DataBases;
 using I2P_Project.Classes.Data_Managers;
+using System.Collections.Generic;
+
 namespace I2P_Project.Classes.UserSystem
 {
 
@@ -7,10 +9,11 @@ namespace I2P_Project.Classes.UserSystem
     {
         public Faculty(string eMail)
         {
+            CheckedDocs = new List<int>();
             SetCurrent(eMail);
         }
 
-        public override void CheckOut(int docID)
+        public override string CheckOut(int docID)
         {
             CheckedDocs.Add(docID);
             DataBaseManager.SetReferAndStartTimer(docID);

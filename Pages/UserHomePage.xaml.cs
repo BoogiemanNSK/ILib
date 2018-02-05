@@ -1,4 +1,5 @@
 ﻿using I2P_Project.Classes.Data_Managers;
+using I2P_Project.Classes.UserSystem;
 using I2P_Project.DataBases;
 using System;
 using System.Collections.Generic;
@@ -24,22 +25,34 @@ namespace I2P_Project.Pages
         public UserHomePage()
         {
             InitializeComponent();
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
             WelcomeText.Content = "Welcome, " + SystemDataManager.CurrentUser.Name + "!";
-            foreach (document doc in DataBaseManager.GetAllDocs()) {
-                string line = doc.Title;
+            foreach (document doc in DataBaseManager.GetAllDocs())
+            {
+                string line = doc.Id + "| Availible: " + doc.Count + " | " + doc.Title;
                 DocList.Items.Add(line);
             }
         }
 
-        private void OnCheckOut(object sender, RoutedEventArgs e) {
+        private void OnCheckOut(object sender, RoutedEventArgs e)
+        {
             if (DocList.SelectedItem == null) InfoText.Content = "Select a document you would like to check out";
             else
             {
-                InfoText.Content = "Checked out " + DocList.SelectedItem;
+                Patron currentPatron = (Patron)SystemDataManager.CurrentUser;
+                string s, item = (string)DocList.SelectedItem;
+                s = item.Substring(0, item.IndexOf('|'));
+                int docID = Convert.ToInt32(s);
+                InfoText.Content = currentPatron.CheckOut(docID);
+                UpdateUI();
             }
         }
 
-        private void OnReturn(object sender, RoutedEventArgs e)
+        private void OnMyDocs(object sender, RoutedEventArgs e)
         {
 
         }

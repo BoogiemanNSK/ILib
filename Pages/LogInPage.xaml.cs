@@ -32,19 +32,14 @@ namespace I2P_Project.Pages
             if (DataBaseManager.CheckEmail(EMailTB.Text))
             {
                 if (DataBaseManager.CheckPassword(EMailTB.Text, PasswordTB.Password))
+                {
                     LogIn();
+                }
                 else
                     WrongLabel.Content = "Wrong password"; // TODO String constants
             }
             else
                 WrongLabel.Content = "User not found"; // TODO String constants
-        }
-
-        private void RegisterClick(object sender, RoutedEventArgs e)
-        {
-            RegisterPage Register = new RegisterPage();
-            Register.Show();
-            Close();
         }
 
         private void LogIn()
@@ -74,5 +69,11 @@ namespace I2P_Project.Pages
             }
         }
 
+        private void RegisterClick(object sender, RoutedEventArgs e)
+        {
+            RegisterPage Register = new RegisterPage();
+            Register.Show();
+            Close();
+        }
     }
 }

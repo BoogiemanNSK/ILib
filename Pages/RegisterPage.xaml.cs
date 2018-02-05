@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 namespace I2P_Project.Pages
 {
@@ -30,7 +31,8 @@ namespace I2P_Project.Pages
         {
             // TODO Implement some serial numbers to check librarians
             bool isLibrarian = false;
-            DataBaseManager.RegisterUser
+
+            if (DataBaseManager.RegisterUser
                 (
                     EMailTB.Text,
                     PasswordTB.Text,
@@ -38,7 +40,17 @@ namespace I2P_Project.Pages
                     AdressTB.Text,
                     PhoneNumberTB.Text,
                     isLibrarian
-                );
+                ))
+            {
+                LogInPage LogIn = new LogInPage();
+                LogIn.Show();
+                Close();
+            }
+            else
+            {
+                InfoText.Content = "User with such e-mail already exist!";
+            }
+            
         }
 
         private void OnBackClick(object sender, RoutedEventArgs e)

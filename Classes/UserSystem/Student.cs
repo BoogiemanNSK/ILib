@@ -1,17 +1,27 @@
-﻿namespace I2P_Project.Classes.UserSystem
+﻿using I2P_Project.Classes.Data_Managers;
+using I2P_Project.DataBases;
+using System.Collections.Generic;
+
+namespace I2P_Project.Classes.UserSystem
 {
 
     class Student : Patron
     {
         public Student(string eMail)
         {
+            CheckedDocs = new List<int>();
             SetCurrent(eMail);
         }
         
-        public override void CheckOut(int docID)
+        public override string CheckOut(int docID)
         {
+            document doc = DataBaseManager.GetDoc(docID);
+            if (doc.Count == 0) return "Book is not availible for now, please come back later";
+            if (CheckedDocs.Contains(docID)) return "You already have this book on your account";
+            doc.Count--;
             CheckedDocs.Add(docID);
-            // TODO
+            DataBaseManager.SetReferAndStartTimer(docID);
+            return "Checked out " + doc.Title + " successfully!";
         }
     }
 

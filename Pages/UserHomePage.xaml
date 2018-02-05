@@ -5,17 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="UserHomePage" Height="300" Width="300" Background="AntiqueWhite">
-    <Grid>
+        Title="UserHomePage" Height="640" Width="800" Background="#FF8080FF">
+    <Grid Margin="0,-2,0,2">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="36"/>
+            <RowDefinition Height="8"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="1" Name="WelcomeText" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="180" Background="AntiqueWhite"/>
+        <Label Grid.Row="1" Name="WelcomeText" Height="28" FontSize="16" HorizontalAlignment="Center">Welcome!</Label>
+        <ListBox Grid.Row="3" Name="DocList" Height="400" Width="640"/>
+        <Label Grid.Row="5" Name="InfoText" HorizontalAlignment="Center">Some very important info</Label>
+        <Button Grid.Row="7" Click="OnCheckOut" Height="40" Width="200" HorizontalAlignment="Center">Check Out</Button>
+        <Button Grid.Row="9" Click="OnMyDocs" Height="40" Width="200" HorizontalAlignment="Center">My Books</Button>
 
     </Grid>
 </Window>

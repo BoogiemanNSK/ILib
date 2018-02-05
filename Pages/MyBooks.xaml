@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="MyBooks" Height="640" Width="800" Background="#FF8080FF">
+        Title="MyBooks" Height="640" Width="800" Background="#FF8080FF" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <Grid.RowDefinitions>
@@ -21,8 +21,23 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="1" Height="28" FontSize="16" HorizontalAlignment="Center">My Docs</Label>
-        <ListBox Grid.Row="3" Name="DocList" Height="400" Width="640"/>
+        <Label Grid.Row="1" FontSize="16" HorizontalAlignment="Center" Margin="361,0,360.6,5" Grid.RowSpan="2">My Docs</Label>
+        <DataGrid Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="400" Width="640">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="checkID" Binding="{Binding checkID}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="bookID" Binding="{Binding bookID}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding b_title}" Width="*"/>
+                <DataGridTextColumn Header="Taked" Binding="{Binding c_dateTaked}" Width="*"/>
+                <DataGridTextColumn Header="Deadline" Binding="{Binding c_timeToBack}" Width="*"/>
+                <DataGridTemplateColumn CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Return" Margin="7,2,7,2"  Width="50" Background="#FF4B4B4B" Foreground="White" FontWeight="Bold" ToolTip="Return book" Cursor="Hand"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
         <Label Grid.Row="5" Name="InfoText" HorizontalAlignment="Center">Some very important info</Label>
         <Button Grid.Row="7" Click="OnReturn" Height="40" Width="200" HorizontalAlignment="Center">Return</Button>
         <Button Grid.Row="9" Click="OnBack" Height="40" Width="200" HorizontalAlignment="Center">Back</Button>

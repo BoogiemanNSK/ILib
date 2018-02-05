@@ -35,7 +35,7 @@ namespace I2P_Project.Pages
             if (DataBaseManager.RegisterUser
                 (
                     EMailTB.Text,
-                    PasswordTB.Text,
+                    PasswordTB.Password,
                     NameTB.Text,
                     AdressTB.Text,
                     PhoneNumberTB.Text,

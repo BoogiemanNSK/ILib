@@ -1,6 +1,7 @@
 ﻿using I2P_Project.DataBases;
 using I2P_Project.Classes.Data_Managers;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace I2P_Project.Classes.UserSystem
 {
@@ -15,12 +16,13 @@ namespace I2P_Project.Classes.UserSystem
 
         public override string CheckOut(int docID)
         {
-            document doc = DataBaseManager.GetDoc(docID);
+            documents doc = DataBaseManager.GetDoc(docID);
             if (doc.Count == 0) return "Book is not availible for now, please come back later";
             if (CheckedDocs.Contains(docID)) return "You already have this book on your account";
             doc.Count--;
-            CheckedDocs.Add(docID);
-            DataBaseManager.SetReferAndStartTimer(docID);
+            //CheckedDocs.Add(docID);
+            int user_id = SystemDataManager.CurrentUser.PersonID;
+            DataBaseManager.SetCheckOut(docID, user_id);
             return "Checked out " + doc.Title + " successfully!";
         }
         

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="UserHomePage" Height="640" Width="800" Background="#FF8080FF">
+        Title="UserHomePage" Height="640" Width="800" Background="#FF8080FF" WindowStartupLocation="CenterScreen">
     <Grid Margin="0,-2,0,2">
 
         <Grid.RowDefinitions>

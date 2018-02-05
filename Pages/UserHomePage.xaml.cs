@@ -34,7 +34,8 @@ namespace I2P_Project.Pages
             WelcomeText.Content = "Welcome, " + SystemDataManager.CurrentUser.Name + "!";
             foreach (document doc in DataBaseManager.GetAllDocs())
             {
-                string line = doc.Id + "| Availible: " + doc.Count + " | " + doc.Title;
+                string availibility = doc.Count == 0 ? "Not availible" : "Availible: " + doc.Count;
+                string line = doc.Id + "| " + availibility +  " | " + doc.Title;
                 DocList.Items.Add(line);
             }
         }

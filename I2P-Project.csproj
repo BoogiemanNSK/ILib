@@ -85,10 +85,10 @@
     </Compile>
     <Compile Include="Classes\Data Managers\DataBaseManager.cs" />
     <Compile Include="Classes\Data Managers\SystemDataManager.cs" />
-    <Compile Include="DataBases\LINQtoUserDB.designer.cs">
+    <Compile Include="DataBases\LINQtoDB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LINQtoUserDB.dbml</DependentUpon>
+      <DependentUpon>LINQtoDB.dbml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Documents\Audio.cs" />
     <Compile Include="Classes\Documents\AV.cs" />
@@ -102,10 +102,14 @@
     <Compile Include="Classes\UserSystem\Student.cs" />
     <Compile Include="Classes\UserSystem\User.cs" />
     <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\LogInPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\LogInPage.xaml">
+    <Page Include="Pages\MyBooks.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,6 +128,9 @@
     </Compile>
     <Compile Include="Pages\LogInPage.xaml.cs">
       <DependentUpon>LogInPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MyBooks.xaml.cs">
+      <DependentUpon>MyBooks.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\RegisterPage.xaml.cs">
       <DependentUpon>RegisterPage.xaml</DependentUpon>
@@ -148,13 +155,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="DataBases\LINQtoUserDB.dbml">
+    <None Include="DataBases\LINQtoDB.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>LINQtoUserDB.designer.cs</LastGenOutput>
+      <LastGenOutput>LINQtoDB.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="DataBases\LINQtoUserDB.dbml.layout">
-      <DependentUpon>LINQtoUserDB.dbml</DependentUpon>
+    <None Include="DataBases\LINQtoDB.dbml.layout">
+      <DependentUpon>LINQtoDB.dbml</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -167,7 +174,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 и x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -177,13 +184,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataBases\UserDB.mdf">
+    <Content Include="DataBases\MainDB.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DataBases\UserDB_log.ldf">
+    <Content Include="DataBases\MainDB_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>UserDB.mdf</DependentUpon>
+      <DependentUpon>MainDB.mdf</DependentUpon>
     </Content>
+    <Resource Include="Sprites\back.png" />
     <Resource Include="Sprites\Icon.png" />
   </ItemGroup>
   <ItemGroup Condition="$(VisualStudioVersion) == '15.0'">

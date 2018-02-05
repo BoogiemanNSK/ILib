@@ -75,5 +75,11 @@ namespace I2P_Project.Pages
             Register.Show();
             Close();
         }
+
+        private void TestingClick(object sender, RoutedEventArgs e)
+        {
+            TestingTool Test = new TestingTool();
+            Test.Show();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using I2P_Project.Classes.Data_Managers;
+using I2P_Project.DataBases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,20 @@ namespace I2P_Project.Pages
         {
             InitializeComponent();
             WelcomeText.Text = "Welcome, " + SystemDataManager.CurrentUser.Name + "!";
+            foreach (document doc in DataBaseManager.GetAllDocs())
+            {
+                DocList.Items.Add(doc);
+            }
+        }
+
+        private void OnCheckOut(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnReturn(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

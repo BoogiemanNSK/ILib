@@ -5,17 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="UserHomePage" Height="300" Width="300" Background="AntiqueWhite">
+        Title="UserHomePage" Height="300" Width="300" Background="#FF8080FF">
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="36"/>
+            <RowDefinition Height="16"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="1" Name="WelcomeText" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Width="180" Background="AntiqueWhite"/>
+        <TextBox Grid.Row="1" Name="WelcomeText" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Width="180" Background="#FF8080FF" TextAlignment="Center" FontSize="16"/>
+        <ListBox Grid.Row="3" Name="DocList" Height="128" Width="240"/>
+        <TextBox Grid.Row="5" Name="InfoText" VerticalAlignment="Center" HorizontalAlignment="Center" Width="240" Background="#FF8080FF" TextAlignment="Center"/>
+        <Button Grid.Row="7" Click="OnCheckOut" Height="20" Width="80" Margin="40,0,0,0" HorizontalAlignment="Left">Check Out</Button>
+        <Button Grid.Row="7" Click="OnReturn" Height="20" Width="80" Margin="0,0,40,0" HorizontalAlignment="Right">Return</Button>
 
     </Grid>
 </Window>

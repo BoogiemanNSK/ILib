@@ -85,15 +85,10 @@
     </Compile>
     <Compile Include="Classes\Data Managers\DataBaseManager.cs" />
     <Compile Include="Classes\Data Managers\SystemDataManager.cs" />
-    <Compile Include="DataBases\LINQtoDocumentsDB.designer.cs">
+    <Compile Include="DataBases\LINQtoDB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LINQtoDocumentsDB.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="DataBases\LINQtoUserDB.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LINQtoUserDB.dbml</DependentUpon>
+      <DependentUpon>LINQtoDB.dbml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Documents\Audio.cs" />
     <Compile Include="Classes\Documents\AV.cs" />
@@ -153,21 +148,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="DataBases\LINQtoDocumentsDB.dbml">
+    <None Include="DataBases\LINQtoDB.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>LINQtoDocumentsDB.designer.cs</LastGenOutput>
+      <LastGenOutput>LINQtoDB.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="DataBases\LINQtoDocumentsDB.dbml.layout">
-      <DependentUpon>LINQtoDocumentsDB.dbml</DependentUpon>
-    </None>
-    <None Include="DataBases\LINQtoUserDB.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>LINQtoUserDB.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="DataBases\LINQtoUserDB.dbml.layout">
-      <DependentUpon>LINQtoUserDB.dbml</DependentUpon>
+    <None Include="DataBases\LINQtoDB.dbml.layout">
+      <DependentUpon>LINQtoDB.dbml</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -190,19 +177,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataBases\DocumentsDB.mdf">
+    <Content Include="DataBases\MainDB.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DataBases\DocumentsDB_log.ldf">
+    <Content Include="DataBases\MainDB_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>DocumentsDB.mdf</DependentUpon>
-    </Content>
-    <Content Include="DataBases\UserDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DataBases\UserDB_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>UserDB.mdf</DependentUpon>
+      <DependentUpon>MainDB.mdf</DependentUpon>
     </Content>
     <Resource Include="Sprites\back.png" />
     <Resource Include="Sprites\Icon.png" />

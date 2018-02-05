@@ -1,9 +1,5 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using I2P_Project.DataBases;
 
 namespace I2P_Project.Classes.Documents
@@ -15,30 +11,28 @@ namespace I2P_Project.Classes.Documents
     abstract class Document
     {
         private int _docID;
-        private DocumentsDB _current;
+        private document _current;
         
         protected void setCurrent(int docID)
         {
             _docID = docID;
-            LINQtoDocumentsDBDataContext dDB = new LINQtoDocumentsDBDataContext();
-            var getDoc = (from p in dDB.DocumentsDB
-                          where (p.docID == docID)
+            LINQtoUserDBDataContext dDB = new LINQtoUserDBDataContext();
+            var getDoc = (from p in dDB.documents
+                          where (p.Id == docID)
                           select p);
             _current = getDoc.Single();
         }
-        public string Title { get { return _current.title; } }
+        public string Title { get { return _current.Title; } }
 
-        public string Description { get { return _current.description;  } }
-
-        public int Price {  get { return _current.price;  } }
+        public string Description { get { return _current.Description;  } }
         
-        public bool IsBestseller { get { return _current.isBesteller == 1; } }
+        public bool IsBestseller { get { return _current.IsBestseller; } }
 
-        public DateTime TimeOfCheckOut { get { return _current.timeOfCheckOut;  } }
+        public DateTime TimeOfCheckOut { get { return _current.CheckOutTime;  } }
 
-        public int PersonID { get { return _current.personID;  } }
+        public int PersonID { get { return _current.OwnerID;  } }
         
-        public int DocType {  get { return _current.docType;  } }
+        public int DocType {  get { return _current.DocType;  } }
         
     }
 }

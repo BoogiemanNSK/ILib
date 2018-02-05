@@ -25,9 +25,7 @@ namespace I2P_Project.Classes.Data_Managers
             var test = (from p in db.users
                         where p.email == email
                         select p);
-            if (test.Any())
-                return true;
-            return false;
+            return test.Any();
         }
 
         /// <summary> Checks if a user with given e-mail has given password </summary>
@@ -36,14 +34,14 @@ namespace I2P_Project.Classes.Data_Managers
             var test = (from p in db.users
                         where (p.email == email && p.password == password)
                         select p);
-            if (test.Any())
-                return true;
-            return false;
+            return test.Any();
         }
 
         /// <summary> Registers new user in data base </summary>
-        public static void RegisterUser(string email, string password, string name, string adress, string phone, bool isLibrarian)
+        public static bool RegisterUser(string email, string password, string name, string adress, string phone, bool isLibrarian)
         {
+            if (CheckEmail(email)) return false;
+
             users newUser = new users();
             newUser.email = email;
             newUser.password = password;
@@ -54,6 +52,7 @@ namespace I2P_Project.Classes.Data_Managers
             newUser.icNumber = NextLCNumber();
             db.users.InsertOnSubmit(newUser);
             db.SubmitChanges();
+            return true;
         }
         
         /// <summary>

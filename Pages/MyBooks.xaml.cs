@@ -3,6 +3,7 @@ using I2P_Project.Classes.UserSystem;
 using I2P_Project.DataBases;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class MyBooks : Window
     {
+        ObservableCollection<MyBooksTable> bk_data;
+
         public MyBooks()
         {
             InitializeComponent();
@@ -30,28 +33,30 @@ namespace I2P_Project.Pages
 
         private void UpdateUI()
         {
-            while (DocList.Items.Count > 0) DocList.Items.RemoveAt(0);
-            Patron currentPatron = (Patron)SystemDataManager.CurrentUser;
-            foreach (int docID in currentPatron.CheckedDocs)
-            {
-                document doc = DataBaseManager.GetDoc(docID);
-                string line = doc.Id + "| " + doc.Title;
-                DocList.Items.Add(line);
-            }
+            //while (DocList.Items.Count > 0) DocList.Items.RemoveAt(0);
+            //Patron currentPatron = (Patron)SystemDataManager.CurrentUser;
+            //foreach (int docID in currentPatron.CheckedDocs)
+            //{
+            //    documents doc = DataBaseManager.GetDoc(docID);
+            //    string line = doc.Id + "| " + doc.Title;
+            //    DocList.Items.Add(line);
+            //}            
+            myBooksTable.ItemsSource = DataBaseManager.GetUserBooks();
         }
 
         private void OnReturn(object sender, RoutedEventArgs e)
         {
-            if (DocList.SelectedItem == null) InfoText.Content = "Select a document you would like to return";
-            else
-            {
-                Patron currentPatron = (Patron)SystemDataManager.CurrentUser;
-                string s, item = (string)DocList.SelectedItem;
-                s = item.Substring(0, item.IndexOf('|'));
-                int docID = Convert.ToInt32(s);
-                InfoText.Content = currentPatron.ReturnDoc(docID);
-                UpdateUI();
-            }
+            //if (DocList.SelectedItem == null) InfoText.Content = "Select a document you would like to return";
+            //else
+            //{
+            //    Patron currentPatron = (Patron)SystemDataManager.CurrentUser;
+            //    string s, item = (string)DocList.SelectedItem;
+            //    s = item.Substring(0, item.IndexOf('|'));
+            //    int docID = Convert.ToInt32(s);
+            //    InfoText.Content = currentPatron.ReturnDoc(docID);
+            //    UpdateUI();
+            //}
+
         }
 
         private void OnBack(object sender, RoutedEventArgs e)
@@ -60,5 +65,14 @@ namespace I2P_Project.Pages
             HomePage.Show();
             Close();
         }
+    }
+
+    class MyBooksTable
+    {
+        public int checkID { get; set; }
+        public int bookID { get; set; }
+        public string b_title { get; set; }
+        public DateTime c_dateTaked { get; set; }
+        public DateTime c_timeToBack { get; set; }
     }
 }

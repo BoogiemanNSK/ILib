@@ -11,7 +11,7 @@ namespace I2P_Project.Classes.Documents
     abstract class Document
     {
         private int _docID;
-        private document _current;
+        private documents _current;
         
         protected void setCurrent(int docID)
         {
@@ -28,10 +28,6 @@ namespace I2P_Project.Classes.Documents
         public string Description { get { return _current.Description;  } }
         
         public bool IsBestseller { get { return _current.IsBestseller; } }
-
-        public DateTime TimeOfCheckOut { get { return _current.CheckOutTime;  } }
-
-        public int PersonID { get { return _current.OwnerID;  } }
         
         public int DocType {  get { return _current.DocType;  } }
         

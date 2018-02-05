@@ -13,7 +13,7 @@ namespace I2P_Project.Classes.UserSystem
 
         public string ReturnDoc(int docID)
         {
-            document doc = DataBaseManager.GetDoc(docID);
+            documents doc = DataBaseManager.GetDoc(docID);
             doc.Count++;
             CheckedDocs.Remove(docID);
             // TODO Remove deadline

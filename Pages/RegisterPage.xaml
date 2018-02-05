@@ -26,7 +26,7 @@
         <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center">E-Mail</Label>
         <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="EMailTB"/>
         <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center">Password</Label>
-        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="PasswordTB"/>
+        <PasswordBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="PasswordTB"/>
         <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center">Name</Label>
         <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="NameTB"/>
         <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center">Adress</Label>

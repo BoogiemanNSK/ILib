@@ -109,5 +109,11 @@ namespace I2P_Project.Classes.Data_Managers
             return 100;
         }
 
+
+        public static void ClearDB()
+        {
+            //TODO
+        }
+
     }
 }

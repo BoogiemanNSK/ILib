@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using I2P_Project.Classes.Data_Managers;
+using I2P_Project.DataBases;
+using System.Collections.Generic;
 
 namespace I2P_Project.Classes.UserSystem
 {
@@ -9,10 +11,13 @@ namespace I2P_Project.Classes.UserSystem
 
         public abstract string CheckOut(int docID);
 
-        public void ReturnDoc(int docID)
+        public string ReturnDoc(int docID)
         {
+            document doc = DataBaseManager.GetDoc(docID);
+            doc.Count++;
             CheckedDocs.Remove(docID);
-            // TODO 
+            // TODO Remove deadline
+            return doc.Title + " returned!";
         }
     }
 

@@ -18,11 +18,11 @@ using System.Windows.Shapes;
 namespace I2P_Project.Pages
 {
     /// <summary>
-    /// Interaction logic for UserHomePage.xaml
+    /// Interaction logic for MyBooks.xaml
     /// </summary>
-    public partial class UserHomePage : Window
+    public partial class MyBooks : Window
     {
-        public UserHomePage()
+        public MyBooks()
         {
             InitializeComponent();
             UpdateUI();
@@ -31,32 +31,33 @@ namespace I2P_Project.Pages
         private void UpdateUI()
         {
             while (DocList.Items.Count > 0) DocList.Items.RemoveAt(0);
-            WelcomeText.Content = "Welcome, " + SystemDataManager.CurrentUser.Name + "!";
-            foreach (document doc in DataBaseManager.GetAllDocs())
+            Patron currentPatron = (Patron)SystemDataManager.CurrentUser;
+            foreach (int docID in currentPatron.CheckedDocs)
             {
-                string line = doc.Id + "| Availible: " + doc.Count + " | " + doc.Title;
+                document doc = DataBaseManager.GetDoc(docID);
+                string line = doc.Id + "| " + doc.Title;
                 DocList.Items.Add(line);
             }
         }
 
-        private void OnCheckOut(object sender, RoutedEventArgs e)
+        private void OnReturn(object sender, RoutedEventArgs e)
         {
-            if (DocList.SelectedItem == null) InfoText.Content = "Select a document you would like to check out";
+            if (DocList.SelectedItem == null) InfoText.Content = "Select a document you would like to return";
             else
             {
                 Patron currentPatron = (Patron)SystemDataManager.CurrentUser;
                 string s, item = (string)DocList.SelectedItem;
                 s = item.Substring(0, item.IndexOf('|'));
                 int docID = Convert.ToInt32(s);
-                InfoText.Content = currentPatron.CheckOut(docID);
+                InfoText.Content = currentPatron.ReturnDoc(docID);
                 UpdateUI();
             }
         }
 
-        private void OnMyDocs(object sender, RoutedEventArgs e)
+        private void OnBack(object sender, RoutedEventArgs e)
         {
-            MyBooks MyDocs = new MyBooks();
-            MyDocs.Show();
+            UserHomePage HomePage = new UserHomePage();
+            HomePage.Show();
             Close();
         }
     }

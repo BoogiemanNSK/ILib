@@ -94,6 +94,14 @@ namespace I2P_Project.Classes.Data_Managers
             return test.ToList();
         }
 
+        public static document GetDoc(int docID)
+        {
+            var test = (from p in db.documents
+                        where (p.Id == docID)
+                        select p);
+            return test.Single();
+        }
+
         /// <summary> Increment library card number so that everyone had different Library Card number </summary>
         private static int NextLCNumber()
         {

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
         Title="UserHomePage" Height="600" Width="800" Background="#FF8080FF">
-    <Grid>
+    <Grid Margin="0,-2,0,2">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="8"/>

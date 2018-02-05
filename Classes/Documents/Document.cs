@@ -22,6 +22,7 @@ namespace I2P_Project.Classes.Documents
                           select p);
             _current = getDoc.Single();
         }
+
         public string Title { get { return _current.Title; } }
 
         public string Description { get { return _current.Description;  } }

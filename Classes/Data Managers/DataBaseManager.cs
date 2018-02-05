@@ -71,7 +71,12 @@ namespace I2P_Project.Classes.Data_Managers
                 return test.Single().userType;
             return -1;
         }
-
+        /// <summary>
+        /// Change fields in DB when some user check out docs.
+        /// Start timer for check out and get reference for book
+        /// on it's owner.
+        /// </summary>
+        /// <param name="docID"></param>
         public static void SetReferAndStartTimer(int docID)
         {
             var test = (from p in db.documents

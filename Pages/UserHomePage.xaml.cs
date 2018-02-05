@@ -24,16 +24,19 @@ namespace I2P_Project.Pages
         public UserHomePage()
         {
             InitializeComponent();
-            WelcomeText.Text = "Welcome, " + SystemDataManager.CurrentUser.Name + "!";
-            foreach (document doc in DataBaseManager.GetAllDocs())
-            {
-                DocList.Items.Add(doc);
+            WelcomeText.Content = "Welcome, " + SystemDataManager.CurrentUser.Name + "!";
+            foreach (document doc in DataBaseManager.GetAllDocs()) {
+                string line = doc.Title;
+                DocList.Items.Add(line);
             }
         }
 
-        private void OnCheckOut(object sender, RoutedEventArgs e)
-        {
-
+        private void OnCheckOut(object sender, RoutedEventArgs e) {
+            if (DocList.SelectedItem == null) InfoText.Content = "Select a document you would like to check out";
+            else
+            {
+                InfoText.Content = "Checked out " + DocList.SelectedItem;
+            }
         }
 
         private void OnReturn(object sender, RoutedEventArgs e)

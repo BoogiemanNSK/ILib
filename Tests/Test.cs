@@ -33,5 +33,19 @@ namespace I2P_Project.Tests
 
             return output;
         }
+
+        public string test6()
+        {
+            string output = test1();
+
+            Student st = (Student)SystemDataManager.CurrentUser;
+
+            output += "Student st try to checking out the book b...\n";
+            st.CheckOut(DataBaseManager.GetIDByTitle("b"));
+
+            output += "No changes as well\n";
+
+            return output;
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace I2P_Project.Classes.UserSystem
 
         public abstract string CheckOut(int docID);
 
+        public abstract string CheckOut(string author);
+
         public string ReturnDoc(int docID)
         {
             documents doc = DataBaseManager.GetDoc(docID);

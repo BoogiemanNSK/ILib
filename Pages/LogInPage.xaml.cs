@@ -29,9 +29,9 @@ namespace I2P_Project.Pages
 
         private void LogInClick(object sender, RoutedEventArgs e)
         {
-            if (DataBaseManager.CheckEmail(EMailTB.Text))
+            if (DataBaseManager.CheckLogin(LoginTB.Text))
             {
-                if (DataBaseManager.CheckPassword(EMailTB.Text, PasswordTB.Password))
+                if (DataBaseManager.CheckPassword(LoginTB.Text, PasswordTB.Password))
                 {
                     LogIn();
                 }
@@ -45,24 +45,33 @@ namespace I2P_Project.Pages
         private void LogIn()
         {
             SetCurrentUser();
-            UserHomePage HomePage = new UserHomePage();
-            HomePage.Show();
-            Close();
+            if (SystemDataManager.CurrentUser.IsLibrarian)
+            {
+                LibrarianHomePage LibHomePage = new LibrarianHomePage();
+                LibHomePage.Show();
+                Close();
+            }
+            else
+            {
+                UserHomePage HomePage = new UserHomePage();
+                HomePage.Show();
+                Close();
+            }
         }
 
         private void SetCurrentUser()
         {
-            int userType = DataBaseManager.GetUserType(EMailTB.Text);
+            int userType = DataBaseManager.GetUserType(LoginTB.Text);
             switch (userType)
             {
                 case 0:
-                    SystemDataManager.CurrentUser = new Student(EMailTB.Text);
+                    SystemDataManager.CurrentUser = new Student(LoginTB.Text);
                     break;
                 case 1:
-                    SystemDataManager.CurrentUser = new Faculty(EMailTB.Text);
+                    SystemDataManager.CurrentUser = new Faculty(LoginTB.Text);
                     break;
                 case 2:
-                    SystemDataManager.CurrentUser = new Librarian(EMailTB.Text);
+                    SystemDataManager.CurrentUser = new Librarian(LoginTB.Text);
                     break;
                 default:
                     throw new Exception("Unhandled user type!");

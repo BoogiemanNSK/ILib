@@ -1,6 +1,6 @@
-﻿using I2P_Project.Classes.Documents;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using I2P_Project.Classes.Data_Managers;
 
 namespace I2P_Project.Classes.UserSystem
 {
@@ -22,12 +22,12 @@ namespace I2P_Project.Classes.UserSystem
 
         public void UpgradePatron(int patronID)
         {
-            // TODO
+            DataBaseManager.UpgradeUser(patronID);         
         }
 
         public void DowngradePatron(int patronID)
         {
-            // TODO
+            DataBaseManager.DowngradeUser(patronID);
         }
 
         public void AddDoc(string path)
@@ -50,7 +50,7 @@ namespace I2P_Project.Classes.UserSystem
     public struct OverdueInfo
     {
         Patron OverduedPatron { get; }
-        Document OverdueDocument { get; }
+        
         DateTime CheckOutTime { get; }
     }
 

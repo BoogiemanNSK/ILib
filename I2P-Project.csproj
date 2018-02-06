@@ -90,12 +90,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LINQtoDB.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Documents\Audio.cs" />
-    <Compile Include="Classes\Documents\AV.cs" />
-    <Compile Include="Classes\Documents\Book.cs" />
-    <Compile Include="Classes\Documents\Document.cs" />
-    <Compile Include="Classes\Documents\Journal.cs" />
-    <Compile Include="Classes\Documents\Video.cs" />
     <Compile Include="Classes\UserSystem\Faculty.cs" />
     <Compile Include="Classes\UserSystem\Librarian.cs" />
     <Compile Include="Classes\UserSystem\Patron.cs" />
@@ -130,6 +124,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\UsersManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow.xaml.cs">
@@ -152,6 +150,9 @@
     </Compile>
     <Compile Include="Pages\UserHomePage.xaml.cs">
       <DependentUpon>UserHomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UsersManagementPage.xaml.cs">
+      <DependentUpon>UsersManagementPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

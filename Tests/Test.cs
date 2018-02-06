@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using I2P_Project.Classes.UserSystem;
 using I2P_Project.Classes.Data_Managers;
 namespace I2P_Project.Tests
@@ -159,7 +155,7 @@ namespace I2P_Project.Tests
             return output;
         }
       
-      public string test6()
+        public string test6()
         {
             string output = test1();
 
@@ -173,7 +169,7 @@ namespace I2P_Project.Tests
             return output;
         }
       
-      public string test7()
+        public string test7()
         {
             string output = "Cleared DB...\n";
             DataBaseManager.ClearDB();

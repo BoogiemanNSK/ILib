@@ -46,19 +46,19 @@ namespace I2P_Project.Pages
                     UpdateTables();
                     break;
                 case "2":
-                    //TestOutput.Text += test.test2();
+                    TestOutput.Text += test.test2();
                     UpdateTables();
                     break;
                 case "3":
-                    //TestOutput.Text += test.test3();
+                    TestOutput.Text += test.test3();
                     UpdateTables();
                     break;
                 case "4":
-                    //TestOutput.Text += test.test4();
+                    TestOutput.Text += test.test4();
                     UpdateTables();
                     break;
                 case "5":
-                    //TestOutput.Text += test.test5();
+                    TestOutput.Text += test.test5();
                     UpdateTables();
                     break;
                 case "6":

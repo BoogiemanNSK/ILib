@@ -177,6 +177,36 @@ namespace I2P_Project.Classes.Data_Managers
             return test.Any();
         }
 
+        public static users GetUser(int userID)
+        {
+            var test = (from p in db.users
+                        where (p.id == userID)
+                        select p);
+            if (test.Any())
+            {
+                return test.Single();
+            }
+            return null;
+        }
+
+        public static void UpgradeUser(int userID)
+        {
+            users user = GetUser(userID);
+            if (user.userType < 2)
+            {
+                user.userType++;
+            }
+        }
+
+        public static void DowngradeUser(int userID)
+        {
+            users user = GetUser(userID);
+            if (user.userType > 0)
+            {
+                user.userType--;
+            }
+        }
+
         /// <summary> Increment library card number so that everyone had different Library Card number </summary>
         private static int NextLCNumber()
         {

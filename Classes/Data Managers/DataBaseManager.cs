@@ -76,14 +76,14 @@ namespace I2P_Project.Classes.Data_Managers
                 newDoc.Price = price;
                 newDoc.DocType = docType;
                 newDoc.IsBestseller = isBestseller;
-                newDoc.Count = 0;
+                newDoc.Count = 1;
                 db.documents.InsertOnSubmit(newDoc);
                 db.SubmitChanges();
             }
         }
 
-       
-        
+
+
         /// <summary>
         /// Returns numerator of user type:
         /// 0 - Student

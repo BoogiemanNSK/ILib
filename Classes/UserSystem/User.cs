@@ -6,18 +6,18 @@ namespace I2P_Project.Classes.UserSystem
     /// <summary> User abstract class </summary>
     abstract class User
     {
-        /// <summary> First that we know about user is his e-mail, all ather info is taken from DB using it </summary>
-        private string _eMail;
+        /// <summary> First that we know about user is his login, all ather info is taken from DB using it </summary>
+        private string _login;
         /// <summary> Row from Users table, for access in constant time </summary>
-        private users _current;
+        private user _current;
 
-        /// <summary> Method to find user`s row given an e-mail </summary>
-        protected void SetCurrent(string eMail)
+        /// <summary> Method to find user`s row given an login </summary>
+        protected void SetCurrent(string login)
         {
-            _eMail = eMail;
+            _login = login;
             LINQtoUserDBDataContext uDB = new LINQtoUserDBDataContext();
             var getUser = (from p in uDB.users
-                           where (p.email == eMail)
+                           where (p.login == login)
                            select p);
             _current = getUser.Single();
         }

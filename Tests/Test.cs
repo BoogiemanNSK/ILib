@@ -45,6 +45,9 @@ namespace I2P_Project.Tests
             Student st = (Student)SystemDataManager.CurrentUser;
 
             output += "Student st checking out book by author A...\n";
+
+            DataBaseManager.AddDocToDB("a", "A", 0, 0, false);// otherwise the documents table is empty after clearing
+
             st.CheckOut("A");
 
 

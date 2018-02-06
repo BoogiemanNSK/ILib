@@ -308,8 +308,9 @@ namespace I2P_Project.Classes.Data_Managers
 
         public static void ClearDB()
         {
-
-            //TODO
+            db.ExecuteCommand("DELETE FROM documents");
+            db.ExecuteCommand("DELETE FROM users");
+            db.ExecuteCommand("DELETE FROM checkouts");
         }
 
     }

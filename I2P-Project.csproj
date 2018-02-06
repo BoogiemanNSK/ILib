@@ -101,6 +101,7 @@
     <Compile Include="Classes\UserSystem\Patron.cs" />
     <Compile Include="Classes\UserSystem\Student.cs" />
     <Compile Include="Classes\UserSystem\User.cs" />
+    <Compile Include="Tests\Test.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

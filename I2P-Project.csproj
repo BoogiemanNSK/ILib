@@ -90,12 +90,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LINQtoDB.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Documents\Audio.cs" />
-    <Compile Include="Classes\Documents\AV.cs" />
-    <Compile Include="Classes\Documents\Book.cs" />
-    <Compile Include="Classes\Documents\Document.cs" />
-    <Compile Include="Classes\Documents\Journal.cs" />
-    <Compile Include="Classes\Documents\Video.cs" />
     <Compile Include="Classes\UserSystem\Faculty.cs" />
     <Compile Include="Classes\UserSystem\Librarian.cs" />
     <Compile Include="Classes\UserSystem\Patron.cs" />

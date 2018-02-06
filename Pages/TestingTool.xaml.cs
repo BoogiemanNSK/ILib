@@ -1,4 +1,5 @@
-﻿using System;
+﻿using I2P_Project.Tests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,13 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class TestingTool : Window
     {
+        private Test test;
+
         public TestingTool()
         {
             InitializeComponent();
+            test = new Test();
+
         }
 
         private void OnTest(object sender, RoutedEventArgs e)
@@ -30,7 +35,7 @@ namespace I2P_Project.Pages
             switch (TestNumber.Text)
             {
                 case "1":
-                    
+                    TestOutput.Text += test.test1();
                     break;
                 case "2":
 

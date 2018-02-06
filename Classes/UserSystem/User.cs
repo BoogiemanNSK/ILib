@@ -28,5 +28,6 @@ namespace I2P_Project.Classes.UserSystem
         public string PhoneNumber { get { return _current.phoneNumber; } }
         public int LibraryCardNumber { get { return _current.icNumber; } }
         public int PersonID { get { return _current.id;  } }
+        public bool IsLibrarian { get { return _current.userType == 2; } }
     }
 }

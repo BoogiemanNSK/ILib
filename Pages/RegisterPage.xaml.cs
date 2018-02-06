@@ -27,10 +27,11 @@ namespace I2P_Project.Pages
             InitializeComponent();
         }
 
+        private const string serialNum = "iamlibrarian";
+
         private void OnRegisterClick(object sender, RoutedEventArgs e)
         {
-            // TODO Implement some serial numbers to check librarians
-            bool isLibrarian = false;
+            bool isLibrarian = (SerialNumTB.Text == serialNum);
 
             if (DataBaseManager.RegisterUser
                 (
@@ -48,7 +49,7 @@ namespace I2P_Project.Pages
             }
             else
             {
-                InfoText.Content = "User with such e-mail already exist!";
+                InfoText.Content = "User with such login already exist!";
             }
             
         }

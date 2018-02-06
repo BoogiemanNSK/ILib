@@ -45,9 +45,18 @@ namespace I2P_Project.Pages
         private void LogIn()
         {
             SetCurrentUser();
-            UserHomePage HomePage = new UserHomePage();
-            HomePage.Show();
-            Close();
+            if (SystemDataManager.CurrentUser.IsLibrarian)
+            {
+                LibrarianHomePage LibHomePage = new LibrarianHomePage();
+                LibHomePage.Show();
+                Close();
+            }
+            else
+            {
+                UserHomePage HomePage = new UserHomePage();
+                HomePage.Show();
+                Close();
+            }
         }
 
         private void SetCurrentUser()

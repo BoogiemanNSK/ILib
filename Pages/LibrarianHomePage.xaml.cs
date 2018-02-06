@@ -1,4 +1,5 @@
-﻿using System;
+﻿using I2P_Project.Classes.Data_Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,11 +23,14 @@ namespace I2P_Project.Pages
         public LibrarianHomePage()
         {
             InitializeComponent();
+            WelcomeText.Content = "Welcome, " + SystemDataManager.CurrentUser.Name + "!";
         }
 
         private void UserManagementClick(object sender, RoutedEventArgs e)
         {
-
+            UsersManagementPage UsersManagement = new UsersManagementPage();
+            UsersManagement.Show();
+            Close();
         }
 
         private void DocumentsManagementClick(object sender, RoutedEventArgs e)

@@ -55,6 +55,22 @@ namespace I2P_Project.Classes.Data_Managers
             db.SubmitChanges();
             return true;
         }
+
+        public static void AddDocToDB(string title, string description, int docType, int price, bool isBestseller)
+        {
+            if (CheckDoc(title)) { /* TODO Increment count */ }
+            else
+            {
+                documents newDoc = new documents();
+                newDoc.Title = title;
+                newDoc.Description = description;
+                newDoc.Price = price;
+                newDoc.DocType = docType;
+                newDoc.IsBestseller = isBestseller;
+                newDoc.Count = 0;
+            }
+        }
+
         
         /// <summary>
         /// Returns numerator of user type:
@@ -132,6 +148,18 @@ namespace I2P_Project.Classes.Data_Managers
                         where (p.Id == docID)
                         select p);
             return test.Single();
+        }
+
+        public static int GetIDByTitle(string title)
+        {
+            // TODO
+            return 0;
+        }
+
+        private static bool CheckDoc(string title)
+        {
+            // TODO
+            return false;
         }
 
         /// <summary> Increment library card number so that everyone had different Library Card number </summary>

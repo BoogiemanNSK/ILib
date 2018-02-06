@@ -81,8 +81,6 @@ namespace I2P_Project.Classes.Data_Managers
             }
         }
 
-       
-        
         /// <summary>
         /// Returns numerator of user type:
         /// 0 - Student
@@ -98,6 +96,7 @@ namespace I2P_Project.Classes.Data_Managers
                 return test.Single().userType;
             return -1;
         }
+
         /// <summary>
         /// Change fields in DB when some user check out docs.
         /// Start timer for check out and get reference for book
@@ -183,22 +182,17 @@ namespace I2P_Project.Classes.Data_Managers
             {
                 case 0:
                     return "Book";
-                    break;
                 case 1:
                     return "Journal";
-                    break;
                 case 2:
                     return "Audio";
-                    break;
                 case 3:
                     return "Video";
-                    break;
                 default:
                     throw new Exception("Something went wrong");
             }
         }
-
-
+        
         /*public static ObservableCollection<Pages.UserTable> TestUsersTable()
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
@@ -289,8 +283,17 @@ namespace I2P_Project.Classes.Data_Managers
         /// <summary> Increment library card number so that everyone had different Library Card number </summary>
         private static int NextLCNumber()
         {
-            // TODO Implement query to find largest LC number and return next one
-            return 100;
+            int maxLC = 100;
+            var test = (from p in db.users select p);
+            if (test.Any())
+            {
+                List<users> list = test.ToList();
+                foreach (users user in list)
+                {
+                    if (user.icNumber > maxLC) maxLC = user.icNumber;
+                }
+            }
+            return maxLC;
         }
 
 

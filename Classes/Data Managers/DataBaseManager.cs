@@ -21,30 +21,30 @@ namespace I2P_Project.Classes.Data_Managers
         }
 
         /// <summary> Checks if there exist a user with given e-mail </summary>
-        public static bool CheckEmail(string email)
+        public static bool CheckLogin(string login)
         {
             var test = (from p in db.users
-                        where p.email == email
+                        where p.login == login
                         select p);
             return test.Any();
         }
 
         /// <summary> Checks if a user with given e-mail has given password </summary>
-        public static bool CheckPassword(string email, string password)
+        public static bool CheckPassword(string login, string password)
         {
             var test = (from p in db.users
-                        where (p.email == email && p.password == password)
+                        where (p.login == login && p.password == password)
                         select p);
             return test.Any();
         }
 
         /// <summary> Registers new user in data base </summary>
-        public static bool RegisterUser(string email, string password, string name, string adress, string phone, bool isLibrarian)
+        public static bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
         {
-            if (CheckEmail(email)) return false;
+            if (CheckLogin(login)) return false;
 
-            users newUser = new users();
-            newUser.email = email;
+            user newUser = new user();
+            newUser.login = login;
             newUser.password = password;
             newUser.name = name;
             newUser.address = adress;
@@ -55,6 +55,22 @@ namespace I2P_Project.Classes.Data_Managers
             db.SubmitChanges();
             return true;
         }
+
+        public static void AddDocToDB(string title, string description, int docType, int price, bool isBestseller)
+        {
+            if (CheckDoc(title)) { /* TODO Increment count */ }
+            else
+            {
+                documents newDoc = new documents();
+                newDoc.Title = title;
+                newDoc.Description = description;
+                newDoc.Price = price;
+                newDoc.DocType = docType;
+                newDoc.IsBestseller = isBestseller;
+                newDoc.Count = 0;
+            }
+        }
+
         
         /// <summary>
         /// Returns numerator of user type:
@@ -62,10 +78,10 @@ namespace I2P_Project.Classes.Data_Managers
         /// 1 - Faculty
         /// 2 - Librarian
         /// </summary>
-        public static int GetUserType(string email)
+        public static int GetUserType(string login)
         {
             var test = (from p in db.users
-                        where (p.email == email)
+                        where (p.login == login)
                         select p);
             if (test.Any())
                 return test.Single().userType;
@@ -134,11 +150,29 @@ namespace I2P_Project.Classes.Data_Managers
             return test.Single();
         }
 
+        public static int GetIDByTitle(string title)
+        {
+            // TODO
+            return 0;
+        }
+
+        private static bool CheckDoc(string title)
+        {
+            // TODO
+            return false;
+        }
+
         /// <summary> Increment library card number so that everyone had different Library Card number </summary>
         private static int NextLCNumber()
         {
             // TODO Implement query to find largest LC number and return next one
             return 100;
+        }
+
+
+        public static void ClearDB()
+        {
+            //TODO
         }
 
     }

@@ -2,12 +2,6 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="LINQtoUserDB">
   <DataContextMoniker Name="/LINQtoUserDBDataContext" />
   <nestedChildShapes>
-    <classShape Id="6c2f5fac-b59a-4e49-a252-e415d23da630" absoluteBounds="0.5, 0.5, 2, 2.3478011067708335">
-      <DataClassMoniker Name="/LINQtoUserDBDataContext/users" />
-      <nestedChildShapes>
-        <elementListCompartment Id="6caf024f-f08a-4580-af80-cb5e80cdf805" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="a2dd1b97-da69-4687-b84e-0eb55af48e2f" absoluteBounds="2.75, 0.5, 2, 1.1939925130208333">
       <DataClassMoniker Name="/LINQtoUserDBDataContext/userTypes" />
       <nestedChildShapes>
@@ -24,6 +18,12 @@
       <DataClassMoniker Name="/LINQtoUserDBDataContext/checkouts" />
       <nestedChildShapes>
         <elementListCompartment Id="55a51535-9647-4af5-a5dd-e0e510665819" absoluteBounds="0.51499999999999968, 3.585, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a1f7e0b6-56a6-4f67-85a5-246e2cb0e8a8" absoluteBounds="0.5, 0.5, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/LINQtoUserDBDataContext/user" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5a001a27-a112-4312-8b4b-fee531beb219" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

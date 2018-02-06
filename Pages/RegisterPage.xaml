@@ -23,8 +23,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Label Name="InfoText" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Foreground="Red" HorizontalAlignment="Center"></Label>
-        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center">E-Mail</Label>
-        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="EMailTB"/>
+        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center">Login</Label>
+        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="LoginTB"/>
         <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center">Password</Label>
         <PasswordBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="PasswordTB"/>
         <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center">Name</Label>

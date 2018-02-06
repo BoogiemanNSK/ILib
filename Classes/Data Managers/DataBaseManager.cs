@@ -1,4 +1,5 @@
 ﻿using I2P_Project.DataBases;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace I2P_Project.Classes.Data_Managers
         {
             if (CheckLogin(login)) return false;
 
-            user newUser = new user();
+            users newUser = new users();
             newUser.login = login;
             newUser.password = password;
             newUser.name = name;
@@ -58,7 +59,14 @@ namespace I2P_Project.Classes.Data_Managers
 
         public static void AddDocToDB(string title, string description, int docType, int price, bool isBestseller)
         {
-            if (CheckDoc(title)) { /* TODO Increment count */ }
+            if (CheckDoc(title))
+            {
+                var test = (from p in db.documents
+                            where (p.Title == title)
+                            select p);
+                documents doc = test.Single();
+                doc.Count++;
+            }
             else
             {
                 documents newDoc = new documents();
@@ -68,9 +76,12 @@ namespace I2P_Project.Classes.Data_Managers
                 newDoc.DocType = docType;
                 newDoc.IsBestseller = isBestseller;
                 newDoc.Count = 0;
+                db.documents.InsertOnSubmit(newDoc);
+                db.SubmitChanges();
             }
         }
 
+       
         
         /// <summary>
         /// Returns numerator of user type:
@@ -152,14 +163,18 @@ namespace I2P_Project.Classes.Data_Managers
 
         public static int GetIDByTitle(string title)
         {
-            // TODO
-            return 0;
+            var test = (from p in db.documents
+                        where (p.Title == title)
+                        select p);
+            return test.Single().Id;
         }
 
         private static bool CheckDoc(string title)
         {
-            // TODO
-            return false;
+            var test = (from p in db.documents
+                where (p.Title == title)
+                select p);
+            return test.Any();
         }
 
         /// <summary> Increment library card number so that everyone had different Library Card number </summary>
@@ -172,6 +187,7 @@ namespace I2P_Project.Classes.Data_Managers
 
         public static void ClearDB()
         {
+
             //TODO
         }
 

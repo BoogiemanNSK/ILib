@@ -9,7 +9,7 @@ namespace I2P_Project.Classes.UserSystem
         /// <summary> First that we know about user is his login, all ather info is taken from DB using it </summary>
         private string _login;
         /// <summary> Row from Users table, for access in constant time </summary>
-        private user _current;
+        private users _current;
 
         /// <summary> Method to find user`s row given an login </summary>
         protected void SetCurrent(string login)

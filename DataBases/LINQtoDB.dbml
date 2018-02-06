@@ -28,7 +28,7 @@
     </Type>
   </Table>
   <Table Name="dbo.users" Member="users">
-    <Type Name="user">
+    <Type Name="users">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="userType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />

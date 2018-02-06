@@ -5,24 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="TestingTool" Height="420" Width="600">
+        Title="TestingTool" Height="700" Width="640">
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Name="TestOutput" Grid.Row="1" Grid.Column="1" Height="240" Text="123" Margin="20,20,20,10"/>
-        <Label Grid.Row="2" HorizontalAlignment="Center">Enter test num</Label>
-        <TextBox Name="TestNumber" Width="120" Grid.Row="3" Margin="0,2,0,2"/>
-        <Button Grid.Row="4" Grid.Column="0" Click="OnTest" Height="25" Width="120" HorizontalAlignment="Center" Margin="0,2,0,2">Test</Button>
-        <Button Grid.Row="5" Grid.Column="0" Click="OnExit" Height="25" Width="120" HorizontalAlignment="Center">Exit</Button>
+        <Label Grid.Row="1" HorizontalAlignment="Center">Console</Label>
+        
+        <TextBlock Grid.Row="2" Name="TestOutput" Height="120" Text="123" Margin="20,10,20,10"/>
+        
+        <Label Grid.Row="3" HorizontalAlignment="Center">Users (From librarian view)</Label>
+
+        <DataGrid Grid.Row="4" Name="UserTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="UserID" Binding="{Binding userID}" Width="Auto"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding userName}" Width="Auto"/>
+                <DataGridTextColumn Header="Adress" Binding="{Binding userAdress}" Width="Auto"/>
+                <DataGridTextColumn Header="PhoneNumber" Binding="{Binding userPhoneNumber}" Width="Auto"/>
+                <DataGridTextColumn Header="LCNumber" Binding="{Binding userLCNumber}" Width="Auto"/>
+                <DataGridTextColumn Header="UserType" Binding="{Binding userType}" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Grid.Row="5" HorizontalAlignment="Center">Documents</Label>
+
+        <DataGrid Grid.Row="6" Name="DocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="DocID" Binding="{Binding docID}" Width="Auto"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="Auto"/>
+                <DataGridTextColumn Header="OwnerID" Binding="{Binding docOwnerID}" Width="Auto"/>
+                <DataGridTextColumn Header="Taked" Binding="{Binding dateTaked}" Width="Auto"/>
+                <DataGridTextColumn Header="Deadline" Binding="{Binding timeToBack}" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Grid.Row="7" HorizontalAlignment="Center">Enter test num</Label>
+        
+        <TextBox Grid.Row="8" Name="TestNumber" Width="120" Margin="0,2,0,2"/>
+        
+        <Button Grid.Row="9" Click="OnTest" Height="25" Width="120" HorizontalAlignment="Center" Margin="0,2,0,2">Test</Button>
+        
+        <Button Grid.Row="10" Click="OnExit" Height="25" Width="120" HorizontalAlignment="Center">Exit</Button>
         
     </Grid>
 </Window>

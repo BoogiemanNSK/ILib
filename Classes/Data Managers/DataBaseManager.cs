@@ -234,6 +234,14 @@ namespace I2P_Project.Classes.Data_Managers
             return test.Single();
         }
 
+        public static documents GetDoc(string author)
+        {
+            var test = (from p in db.documents
+                        where (p.Title.ToLower().Contains(author.ToLower()))
+                        select p);
+            return test.Single();
+        }
+
         public static int GetIDByTitle(string title)
         {
             var test = (from p in db.documents

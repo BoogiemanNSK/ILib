@@ -1,5 +1,4 @@
-﻿using I2P_Project.Classes.Documents;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace I2P_Project.Classes.UserSystem
@@ -50,7 +49,7 @@ namespace I2P_Project.Classes.UserSystem
     public struct OverdueInfo
     {
         Patron OverduedPatron { get; }
-        Document OverdueDocument { get; }
+        
         DateTime CheckOutTime { get; }
     }
 

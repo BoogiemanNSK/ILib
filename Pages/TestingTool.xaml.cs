@@ -33,7 +33,7 @@ namespace I2P_Project.Pages
         private void UpdateTables()
         {
             DocsTable.ItemsSource = DataBaseManager.TestDocsTable();
-            //UserTable.ItemsSource = DataBaseManager.TestUsersTable();
+            dg_UserTable.ItemsSource = DataBaseManager.TestUsersTable();
         }
 
         private void OnTest(object sender, RoutedEventArgs e)
@@ -97,9 +97,9 @@ namespace I2P_Project.Pages
     {
         public int userID { get; set; }
         public string userName { get; set; }
-        public string userAdress { get; set; }
+        public string userAddress { get; set; }
         public string userPhoneNumber { get; set; }
-        public int userLCNumber { get; set; }
+        public int userICNumber { get; set; }
         public string userType { get; set; }
     }
 

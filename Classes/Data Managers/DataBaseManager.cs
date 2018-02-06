@@ -177,6 +177,36 @@ namespace I2P_Project.Classes.Data_Managers
             return temp_table;
         }
 
+        public static ObservableCollection<Pages.UserTable> TestUsersTable()
+        {
+            ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
+            var load_users = from u in db.users
+                                 join ut in db.userTypes on u.userType equals ut.typeID
+                                 select new
+                                 {
+                                    u.id,
+                                    u.name,
+                                    u.address,
+                                    u.phoneNumber,
+                                    u.icNumber,
+                                    ut.typeName
+                                 };
+            foreach (var element in load_users)
+            {
+                Pages.UserTable row = new Pages.UserTable
+                {
+                    userID = element.id,
+                    userName = element.name,
+                    userAddress = element.address,
+                    userPhoneNumber = element.phoneNumber,
+                    userICNumber = element.icNumber,
+                    userType = element.typeName
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
         private static string TypeString(int num)
         {
             switch (num)

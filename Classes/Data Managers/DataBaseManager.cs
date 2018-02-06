@@ -18,6 +18,7 @@ namespace I2P_Project.Classes.Data_Managers
         public static void Initialize()
         {
             db = new LINQtoUserDBDataContext();
+            db.SubmitChanges(); // Вот так просто можно это подгрузить
         }
 
         /// <summary> Checks if there exist a user with given e-mail </summary>
@@ -112,7 +113,7 @@ namespace I2P_Project.Classes.Data_Managers
             ObservableCollection<Pages.MyBooksTable> temp_table = new ObservableCollection<Pages.MyBooksTable>();
             var load_user_books = from c in db.checkouts
                                   join b in db.documents on c.bookID equals b.Id
-                                  where c.userID == SystemDataManager.CurrentUser.PersonID
+                                  where c.userID == SystemDataManager.CurrentUser.PersonID && c.isReturned == false
                                   select new
                                   {
                                       c.checkID,

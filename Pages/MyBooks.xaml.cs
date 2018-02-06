@@ -56,7 +56,19 @@ namespace I2P_Project.Pages
             //    InfoText.Content = currentPatron.ReturnDoc(docID);
             //    UpdateUI();
             //}
-
+            if (myBooksTable.SelectedIndex == -1) return;
+            MessageBoxResult result = MessageBox.Show("Are you sure you want return this book?", "Attention", MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    //действия по удалению команды из чемпионата
+                    MyBooksTable mb_row = myBooksTable.SelectedItems[0] as MyBooksTable;
+                    int book_id = mb_row.bookID;
+                    
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
         }
 
         private void OnBack(object sender, RoutedEventArgs e)

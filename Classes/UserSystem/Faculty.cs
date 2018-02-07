@@ -19,7 +19,7 @@ namespace I2P_Project.Classes.UserSystem
             if (doc == null) return "Book is not availible for now, please come back later";
             int user_id = SystemDataManager.CurrentUser.PersonID;
 
-            if (doc.IsBestseller || doc.DocType != 0)
+            if (doc.DocType != 0)
                 DataBaseManager.SetCheckOut(doc.Id, user_id, 2);
             else
                 DataBaseManager.SetCheckOut(doc.Id, user_id, 4);

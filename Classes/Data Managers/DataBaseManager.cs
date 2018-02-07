@@ -19,26 +19,10 @@ namespace I2P_Project.Classes.Data_Managers
         public static void Initialize()
         {
             db = new LINQtoUserDBDataContext();
-            db.SubmitChanges(); // Вот так просто можно это подгрузить
+            db.SubmitChanges(); // DB Preload
         }
 
-        /// <summary> Checks if there exist a user with given e-mail </summary>
-        public static bool CheckLogin(string login)
-        {
-            var test = (from p in db.users
-                        where p.login == login
-                        select p);
-            return test.Any();
-        }
-
-        /// <summary> Checks if a user with given e-mail has given password </summary>
-        public static bool CheckPassword(string login, string password)
-        {
-            var test = (from p in db.users
-                        where (p.login == login && p.password == password)
-                        select p);
-            return test.Any();
-        }
+        #region Input to DB
 
         /// <summary> Registers new user in data base </summary>
         public static bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
@@ -58,44 +42,19 @@ namespace I2P_Project.Classes.Data_Managers
             return true;
         }
 
+        /// <summary> Adding new doc to DB with given parameters </summary>
         public static void AddDocToDB(string title, string description, int docType, int price, bool isBestseller)
         {
-            if (CheckDoc(title))
-            {
-                var test = (from p in db.documents
-                            where (p.Title == title)
-                            select p);
-                documents doc = test.Single();
-                doc.Count++;
-            }
-            else
-            {
-                documents newDoc = new documents();
-                newDoc.Title = title;
-                newDoc.Description = description;
-                newDoc.Price = price;
-                newDoc.DocType = docType;
-                newDoc.IsBestseller = isBestseller;
-                newDoc.Count = 1;
-                db.documents.InsertOnSubmit(newDoc);
-                db.SubmitChanges();
-            }
-        }
-      
-        /// <summary>
-        /// Returns numerator of user type:
-        /// 0 - Student
-        /// 1 - Faculty
-        /// 2 - Librarian
-        /// </summary>
-        public static int GetUserType(string login)
-        {
-            var test = (from p in db.users
-                        where (p.login == login)
-                        select p);
-            if (test.Any())
-                return test.Single().userType;
-            return -1;
+            bool isReference = !CheckReference(title);
+            document newDoc = new document();
+            newDoc.Title = title;
+            newDoc.Description = description;
+            newDoc.Price = price;
+            newDoc.DocType = docType;
+            newDoc.IsReference = isReference;
+            newDoc.IsBestseller = isBestseller;
+            db.documents.InsertOnSubmit(newDoc);
+            db.SubmitChanges();
         }
 
         /// <summary>
@@ -104,7 +63,7 @@ namespace I2P_Project.Classes.Data_Managers
         /// on it's owner.
         /// </summary>
         /// <param name="docID"></param>
-        public static void SetCheckOut(int docID, int user_id)
+        public static void SetCheckOut(int docID, int user_id, int weeks)
         {
             System.DateTime time = System.DateTime.Now;
 
@@ -113,10 +72,14 @@ namespace I2P_Project.Classes.Data_Managers
             chk.bookID = docID;
             chk.isReturned = false;
             chk.dateTaked = time;
-            chk.timeToBack = time.AddDays(10); // user can set the date himself;
+            chk.timeToBack = time.AddDays(weeks * 7);
             db.checkouts.InsertOnSubmit(chk);
             db.SubmitChanges();
         }
+
+        #endregion
+
+        #region Output from DB
 
         public static ObservableCollection<Pages.MyBooksTable> GetUserBooks()
         {
@@ -207,72 +170,105 @@ namespace I2P_Project.Classes.Data_Managers
             return temp_table;
         }
 
-        private static string TypeString(int num)
-        {
-            switch (num)
-            {
-                case 0:
-                    return "Book";
-                case 1:
-                    return "Journal";
-                case 2:
-                    return "Audio";
-                case 3:
-                    return "Video";
-                default:
-                    throw new Exception("Something went wrong");
-            }
-        }
-        
-        /*public static ObservableCollection<Pages.UserTable> TestUsersTable()
-        {
-            ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
-            var load_user_books = from c in db.checkouts
-                                  join b in db.documents on c.bookID equals b.Id
-                                  select new
-                                  {
-                                      c.userID,
-                                      c.bookID,
-                                      b.Title,
-                                      c.dateTaked,
-                                      c.timeToBack
-                                  };
-            foreach (var element in load_user_books)
-            {
-                Pages.UserTable row = new Pages.UserTable
-                {
-                    userID = element.userID
-                    b_title = element.Title,
-                    c_dateTaked = (System.DateTime)element.dateTaked,
-                    c_timeToBack = (System.DateTime)element.timeToBack
-                };
-                temp_table.Add(row);
-            }
-            return temp_table;
-        }*/
-
-        public static List<documents> GetAllDocs()
+        // TODO Replace with Observable collection
+        public static List<document> GetAllDocs()
         {
             var test = (from p in db.documents select p);
             return test.ToList();
         }
 
-        public static documents GetDoc(int docID)
+        #endregion
+
+        #region Existence checking in DB
+
+        /// <summary> Checks if there exist a user with given e-mail </summary>
+        public static bool CheckLogin(string login)
         {
-            var test = (from p in db.documents
-                        where (p.Id == docID)
+            var test = (from p in db.users
+                        where p.login == login
                         select p);
-            return test.Single();
+            return test.Any();
         }
 
-        public static documents GetDoc(string author)
+        /// <summary> Checks if a user with given e-mail has given password </summary>
+        public static bool CheckPassword(string login, string password)
         {
-            var test = (from p in db.documents
-                        where (p.Title.ToLower().Contains(author.ToLower()))
+            var test = (from p in db.users
+                        where (p.login == login && p.password == password)
                         select p);
-            return test.Single();
+            return test.Any();
         }
 
+        /// <summary> Checks if there exist a reference doc with given title </summary>
+        public static bool CheckReference(string title)
+        {
+            var test = (from p in db.documents
+                        where (p.Title == title)
+                        select p);
+            return test.Any();
+        }
+
+        #endregion
+
+        /// <summary> Returns numerator of user type </summary>
+        /// <returns>
+        /// 0 - Student
+        /// 1 - Faculty
+        /// 2 - Librarian
+        /// </returns>
+        public static int GetUserType(string login)
+        {
+            var test = (from p in db.users
+                        where (p.login == login)
+                        select p);
+            if (test.Any())
+                return test.Single().userType;
+            return -1;
+        }
+
+        /// <summary> Returns document object from db searched by ID </summary>
+        public static document GetFreeCopy(int docID)
+        {
+            var test = from b in db.documents
+                       where b.Id == docID && !b.IsReference
+                       select b;
+            if (test.Any()) // Check if any copies of doc exists
+            {
+                foreach (document selected in test.ToArray()) // Checks if any of them are free
+                {
+                    var test2 = from c in db.checkouts
+                                where c.bookID == selected.Id
+                                select c;
+                    if (!test2.Any()) return selected;
+                }
+                return null;
+            }
+            else
+                return null;
+        }
+
+        /// <summary> Returns document object from db searched by author </summary>
+        public static document GetFreeCopy(string author)
+        {
+            var test = from b in db.documents
+                       where b.Title.ToLower().Contains(author.ToLower()) && !b.IsReference
+                       select b;
+            if (test.Any()) // Check if any copies of doc exists
+            {
+                foreach (document selected in test.ToArray()) // Checks if any of them are free
+                {
+                    var test2 = from c in db.checkouts
+                                where c.bookID == selected.Id
+                                select c;
+                    if (!test2.Any()) return selected;
+                }
+                return null;
+            }
+            else
+                return null;
+        }
+
+        /// <summary> Converts document title to its ID </summary>
         public static int GetIDByTitle(string title)
         {
             var test = (from p in db.documents
@@ -281,42 +277,25 @@ namespace I2P_Project.Classes.Data_Managers
             return test.Single().Id;
         }
 
-        private static bool CheckDoc(string title)
-        {
-            var test = (from p in db.documents
-                where (p.Title == title)
-                select p);
-            return test.Any();
-        }
-
-        public static users GetUser(int userID)
+        /// <summary> User becomes faculty if they were student and vice-versa </summary>
+        public static void SwapUserType(int userID)
         {
             var test = (from p in db.users
                         where (p.id == userID)
                         select p);
             if (test.Any())
             {
-                return test.Single();
-            }
-            return null;
-        }
-
-        public static void UpgradeUser(int userID)
-        {
-            users user = GetUser(userID);
-            if (user.userType < 2)
-            {
-                user.userType++;
+                users user = test.Single();
+                user.userType = user.userType == 0 ? 1 : 0;
             }
         }
-
-        public static void DowngradeUser(int userID)
+        
+        /// <summary> Clears DB (for test cases only) </summary>
+        public static void ClearDB()
         {
-            users user = GetUser(userID);
-            if (user.userType > 0)
-            {
-                user.userType--;
-            }
+            db.ExecuteCommand("DELETE FROM documents");
+            db.ExecuteCommand("DELETE FROM users");
+            db.ExecuteCommand("DELETE FROM checkouts");
         }
 
         /// <summary> Increment library card number so that everyone had different Library Card number </summary>
@@ -335,12 +314,21 @@ namespace I2P_Project.Classes.Data_Managers
             return maxLC;
         }
 
-
-        public static void ClearDB()
+        private static string TypeString(int num)
         {
-            db.ExecuteCommand("DELETE FROM documents");
-            db.ExecuteCommand("DELETE FROM users");
-            db.ExecuteCommand("DELETE FROM checkouts");
+            switch (num)
+            {
+                case 0:
+                    return "Book";
+                case 1:
+                    return "Journal";
+                case 2:
+                    return "Audio";
+                case 3:
+                    return "Video";
+                default:
+                    throw new Exception("Something went wrong");
+            }
         }
 
     }

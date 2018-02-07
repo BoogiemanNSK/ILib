@@ -16,26 +16,29 @@ namespace I2P_Project.Classes.UserSystem
 
         public override string CheckOut(int docID)
         {
-            documents doc = DataBaseManager.GetDoc(docID);
-            if (doc.Count == 0) return "Book is not availible for now, please come back later";
-            if (CheckedDocs.Contains(docID)) return "You already have this book on your account";
-            doc.Count--;
-            //CheckedDocs.Add(docID);
+            document doc = DataBaseManager.GetFreeCopy(docID);
+            if (doc == null) return "Book is not availible for now, please come back later";
             int user_id = SystemDataManager.CurrentUser.PersonID;
-            DataBaseManager.SetCheckOut(docID, user_id);
+
+            if (doc.IsBestseller || doc.DocType != 0)
+                DataBaseManager.SetCheckOut(docID, user_id, 2);
+            else
+                DataBaseManager.SetCheckOut(docID, user_id, 4);
+
             return "Checked out " + doc.Title + " successfully!";
         }
 
         public override string CheckOut(string author)
         {
-
-            documents doc = DataBaseManager.GetDoc(author);
-            if (doc.Count == 0) return "Book is not availible for now, please come back later";
-            if (CheckedDocs.Contains(doc.Id)) return "You already have this book on your account";
-            doc.Count--;
-            //CheckedDocs.Add(docID);
+            document doc = DataBaseManager.GetFreeCopy(author);
+            if (doc == null) return "Book is not availible for now, please come back later";
             int user_id = SystemDataManager.CurrentUser.PersonID;
-            DataBaseManager.SetCheckOut(doc.Id, user_id);
+
+            if (doc.IsBestseller || doc.DocType != 0)
+                DataBaseManager.SetCheckOut(doc.Id, user_id, 2);
+            else
+                DataBaseManager.SetCheckOut(doc.Id, user_id, 4);
+
             return "Checked out " + doc.Title + " successfully!";
         }
 

@@ -20,14 +20,9 @@ namespace I2P_Project.Classes.UserSystem
             return ovList;
         }
 
-        public void UpgradePatron(int patronID)
+        public void SwapUserType(int patronID)
         {
-            DataBaseManager.UpgradeUser(patronID);         
-        }
-
-        public void DowngradePatron(int patronID)
-        {
-            DataBaseManager.DowngradeUser(patronID);
+            DataBaseManager.SwapUserType(patronID);         
         }
 
         public void AddDoc(string path)

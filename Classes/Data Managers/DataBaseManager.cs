@@ -274,7 +274,7 @@ namespace I2P_Project.Classes.Data_Managers
             var test = (from p in db.documents
                         where (p.Title == title)
                         select p);
-            return test.Single().Id;
+            return test.First().Id;
         }
 
         public static int GetIDByName(string name)
@@ -282,7 +282,7 @@ namespace I2P_Project.Classes.Data_Managers
             var test = (from p in db.users
                         where (p.name == name)
                         select p);
-            return test.Single().id;
+            return test.First().id;
         }
 
         /// <summary> User becomes faculty if they were student and vice-versa </summary>

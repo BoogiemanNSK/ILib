@@ -178,33 +178,6 @@ namespace I2P_Project.Tests
             return output;
         }
       
-        public string test7()
-        {
-            string output = "Cleared DB...\n";
-            DataBaseManager.ClearDB();
-
-            output += "Registering student 'p1' in the system...\n";
-            DataBaseManager.RegisterUser("p1", "p1", "p1", "p1", "p1", false);
-            output += "Registering student 'p2' in the system...\n";
-            DataBaseManager.RegisterUser("p2", "p2", "p2", "p2", "p2", false);
-            output += "Registering librarian lb in the system...\n";
-            DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
-
-            output += "Logging In as student p1...\n";
-            SystemDataManager.CurrentUser = new Student("p1"); // Log In student p1
-            Student st = (Student)SystemDataManager.CurrentUser;
-
-            output += "Adding reference book b and two copies...\n";
-            DataBaseManager.AddDocToDB("b", "B", 0, 0, false); // Adding Reference book
-            DataBaseManager.AddDocToDB("b", "B", 0, 0, false);
-            DataBaseManager.AddDocToDB("b", "B", 0, 0, false);
-
-            output += "Student st checking out book b...\n";
-            st.CheckOut(DataBaseManager.GetIDByTitle("b"));
-
-            output += "Test passed with no exceptions!\n";
-            return output;
-        }
 
         public string test8()
         {

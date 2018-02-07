@@ -36,10 +36,17 @@
                 <DataGridTextColumn Header="Phone Number" Binding="{Binding userPhoneNumber}" Width="Auto"/>
                 <DataGridTextColumn Header="IC Number" Binding="{Binding userICNumber}" Width="Auto"/>
                 <DataGridTextColumn Header="User Type" Binding="{Binding userType}" Width="Auto"/>
+                <DataGridTemplateColumn Header="User Books" CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Show" Margin="7,2,7,2"  Width="50" Background="#FF4B4B4B" Foreground="White" FontWeight="Bold" ToolTip="Show books" Cursor="Hand" Click="OnShow"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 
-        <Label Grid.Row="5" HorizontalAlignment="Center">Documents</Label>
+        <Button Grid.Row="5" HorizontalAlignment="Center" Click="OnOverall">Documents</Button>
 
         <DataGrid Grid.Row="6" Name="DocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
             <DataGrid.Columns>

@@ -140,6 +140,57 @@ namespace I2P_Project.Classes.Data_Managers
             return temp_table;
         }
 
+        public static ObservableCollection<Pages.DocsTable> TestDocsTableOnlyBooks()
+        {
+            ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
+            var load_user_docs = from b in db.documents
+                                 select new
+                                 {
+                                     b.Title,
+                                     b.DocType
+                                 };
+            foreach (var element in load_user_docs)
+            {
+                Pages.DocsTable row = new Pages.DocsTable
+                {
+                    docTitle = element.Title,
+                    docType = TypeString(element.DocType),
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
+        public static ObservableCollection<Pages.DocsTable> TestDocsTableUsersBooks(int user_id)
+        {
+            ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
+            var load_user_docs = from c in db.checkouts
+                                 join b in db.documents on c.bookID equals b.Id
+                                 where c.userID == user_id
+                                 select new
+                                 {
+                                     c.bookID,
+                                     b.Title,
+                                     b.DocType,
+                                     c.dateTaked,
+                                     c.timeToBack
+                                 };
+            foreach (var element in load_user_docs)
+            {
+                Pages.DocsTable row = new Pages.DocsTable
+                {
+                    docID = element.bookID,
+                    docOwnerID = user_id,
+                    docTitle = element.Title,
+                    docType = TypeString(element.DocType),
+                    dateTaked = (DateTime)element.dateTaked,
+                    timeToBack = element.timeToBack
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
         public static ObservableCollection<Pages.UserTable> TestUsersTable()
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();

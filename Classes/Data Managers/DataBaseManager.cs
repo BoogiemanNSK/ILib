@@ -123,14 +123,15 @@ namespace I2P_Project.Classes.Data_Managers
                                  };
             foreach (var element in load_user_docs)
             {
+                checkouts checkoutInfo = GetOwnerInfo(element.Id);
                 Pages.DocsTable row = new Pages.DocsTable
                 {
                     docID = element.Id,
                     docTitle = element.Title,
                     docType = TypeString(element.DocType),
-                    docOwnerID = GetOwnerID(element.Id),
-                    dateTaked = DateTime.Now,
-                    timeToBack = DateTime.Now,
+                    docOwnerID = checkoutInfo == null ? -1 : checkoutInfo.userID,
+                    dateTaked = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.dateTaked,
+                    timeToBack = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.timeToBack,
                     isReference = element.IsReference
                 };
                 temp_table.Add(row);
@@ -205,13 +206,13 @@ namespace I2P_Project.Classes.Data_Managers
             return test.ToList();
         }
 
-        private static int GetOwnerID(int docID)
+        private static checkouts GetOwnerInfo(int docID)
         {
             var test = from c in db.checkouts
                         where c.bookID == docID
                         select c;
-            if (test.Any()) return test.Single().userID;
-            else return -1;
+            if (test.Any()) return test.Single();
+            else return null;
         }
 
         #endregion

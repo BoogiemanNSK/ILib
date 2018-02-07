@@ -27,12 +27,11 @@ namespace I2P_Project.Pages
         {
             InitializeComponent();
             test = new Test();
-            UpdateTables();
         }
 
         private void UpdateTables()
         {
-            DocsTable.ItemsSource = DataBaseManager.TestDocsTable();
+            DocsTable.ItemsSource = DataBaseManager.TestDocsTableOnlyBooks();
             dg_UserTable.ItemsSource = DataBaseManager.TestUsersTable();
         }
 
@@ -87,6 +86,18 @@ namespace I2P_Project.Pages
             }
         }
 
+        private void OnShow(object sender, RoutedEventArgs e)
+        {
+            UserTable ut_row = dg_UserTable.SelectedItems[0] as UserTable;
+            int user_id = ut_row.userID;
+            DocsTable.ItemsSource = DataBaseManager.TestDocsTableUsersBooks(user_id);
+        }
+
+        private void OnOverall(object sender, RoutedEventArgs e) // Shows books without user
+        {
+            DocsTable.ItemsSource = DataBaseManager.TestDocsTableOnlyBooks(); 
+        }
+
         private void OnExit(object sender, RoutedEventArgs e)
         {
             Close();
@@ -111,5 +122,6 @@ namespace I2P_Project.Pages
         public int docOwnerID { get; set; }
         public DateTime dateTaked { get; set; }
         public DateTime timeToBack { get; set; }
+        public bool isReference { get; set; }
     }
 }

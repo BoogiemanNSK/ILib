@@ -14,7 +14,7 @@ namespace I2P_Project.Classes.UserSystem
             return CheckOut(DataBaseManager.GetTitleByID(docID));
         }
 
-        public abstract string CheckOut(string author);
+        public abstract string CheckOut(string title);
 
         // TODO Всё переделать 
         public string ReturnDoc(int docID)

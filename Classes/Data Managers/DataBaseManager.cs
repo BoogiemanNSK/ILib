@@ -110,14 +110,42 @@ namespace I2P_Project.Classes.Data_Managers
             return temp_table;
         }
 
-        public static ObservableCollection<Pages.DocsTable> TestDocsTable()
+        public static ObservableCollection<Pages.DocsTable> TestDocsTableOnlyBooks()
+        {
+            ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
+            var load_user_docs = from b in db.documents
+                                 select new
+                                 {
+                                     b.Id,
+                                     b.Title,
+                                     b.DocType,
+                                     b.IsReference
+                                 };
+            foreach (var element in load_user_docs)
+            {
+                Pages.DocsTable row = new Pages.DocsTable
+                {
+                    docID = element.Id,
+                    docTitle = element.Title,
+                    docType = TypeString(element.DocType),
+                    docOwnerID = GetOwnerID(element.Id),
+                    dateTaked = DateTime.Now,
+                    timeToBack = DateTime.Now,
+                    isReference = element.IsReference
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
+        public static ObservableCollection<Pages.DocsTable> TestDocsTableUsersBooks(int user_id)
         {
             ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
             var load_user_docs = from c in db.checkouts
                                  join b in db.documents on c.bookID equals b.Id
+                                 where c.userID == user_id
                                  select new
                                  {
-                                     c.userID,
                                      c.bookID,
                                      b.Title,
                                      b.DocType,
@@ -129,10 +157,10 @@ namespace I2P_Project.Classes.Data_Managers
                 Pages.DocsTable row = new Pages.DocsTable
                 {
                     docID = element.bookID,
-                    docOwnerID = element.userID,
+                    docOwnerID = user_id,
                     docTitle = element.Title,
                     docType = TypeString(element.DocType),
-                    dateTaked = (System.DateTime)element.dateTaked,
+                    dateTaked = (DateTime)element.dateTaked,
                     timeToBack = element.timeToBack
                 };
                 temp_table.Add(row);
@@ -175,6 +203,15 @@ namespace I2P_Project.Classes.Data_Managers
         {
             var test = (from p in db.documents select p);
             return test.ToList();
+        }
+
+        private static int GetOwnerID(int docID)
+        {
+            var test = from c in db.checkouts
+                        where c.bookID == docID
+                        select c;
+            if (test.Any()) return test.Single().userID;
+            else return -1;
         }
 
         #endregion

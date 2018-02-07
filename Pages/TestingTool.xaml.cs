@@ -27,12 +27,11 @@ namespace I2P_Project.Pages
         {
             InitializeComponent();
             test = new Test();
-            UpdateTables();
         }
 
         private void UpdateTables()
         {
-            DocsTable.ItemsSource = DataBaseManager.TestDocsTable();
+            DocsTable.ItemsSource = DataBaseManager.TestDocsTableOnlyBooks();
             dg_UserTable.ItemsSource = DataBaseManager.TestUsersTable();
         }
 
@@ -123,5 +122,6 @@ namespace I2P_Project.Pages
         public int docOwnerID { get; set; }
         public DateTime dateTaked { get; set; }
         public DateTime timeToBack { get; set; }
+        public bool isReference { get; set; }
     }
 }

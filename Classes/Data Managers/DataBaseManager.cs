@@ -110,36 +110,6 @@ namespace I2P_Project.Classes.Data_Managers
             return temp_table;
         }
 
-        public static ObservableCollection<Pages.DocsTable> TestDocsTable()
-        {
-            ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
-            var load_user_docs = from c in db.checkouts
-                                 join b in db.documents on c.bookID equals b.Id
-                                 select new
-                                 {
-                                     c.userID,
-                                     c.bookID,
-                                     b.Title,
-                                     b.DocType,
-                                     c.dateTaked,
-                                     c.timeToBack
-                                 };
-            foreach (var element in load_user_docs)
-            {
-                Pages.DocsTable row = new Pages.DocsTable
-                {
-                    docID = element.bookID,
-                    docOwnerID = element.userID,
-                    docTitle = element.Title,
-                    docType = TypeString(element.DocType),
-                    dateTaked = (System.DateTime)element.dateTaked,
-                    timeToBack = element.timeToBack
-                };
-                temp_table.Add(row);
-            }
-            return temp_table;
-        }
-
         public static ObservableCollection<Pages.DocsTable> TestDocsTableOnlyBooks()
         {
             ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
@@ -148,7 +118,8 @@ namespace I2P_Project.Classes.Data_Managers
                                  {
                                      b.Id,
                                      b.Title,
-                                     b.DocType
+                                     b.DocType,
+                                     b.IsReference
                                  };
             foreach (var element in load_user_docs)
             {
@@ -157,9 +128,10 @@ namespace I2P_Project.Classes.Data_Managers
                     docID = element.Id,
                     docTitle = element.Title,
                     docType = TypeString(element.DocType),
-                    docOwnerID = -1,
+                    docOwnerID = GetOwnerID(element.Id),
                     dateTaked = DateTime.Now,
-                    timeToBack = DateTime.Now
+                    timeToBack = DateTime.Now,
+                    isReference = element.IsReference
                 };
                 temp_table.Add(row);
             }
@@ -231,6 +203,15 @@ namespace I2P_Project.Classes.Data_Managers
         {
             var test = (from p in db.documents select p);
             return test.ToList();
+        }
+
+        private static int GetOwnerID(int docID)
+        {
+            var test = from c in db.checkouts
+                        where c.bookID == docID
+                        select c;
+            if (test.Any()) return test.Single().userID;
+            else return -1;
         }
 
         #endregion

@@ -35,7 +35,7 @@ namespace I2P_Project.Classes.Data_Managers
             newUser.name = name;
             newUser.address = adress;
             newUser.phoneNumber = phone;
-            newUser.userType = isLibrarian ? 2 : 1;
+            newUser.userType = isLibrarian ? 2 : 0;
             newUser.icNumber = NextLCNumber();
             db.users.InsertOnSubmit(newUser);
             db.SubmitChanges();
@@ -264,6 +264,14 @@ namespace I2P_Project.Classes.Data_Managers
             return test.Any();
         }
 
+        private static bool DocBelongsToUser(int userID, int docID)
+        {
+            var test = from c in db.checkouts
+                       where (c.bookID == docID & c.userID == userID)
+                       select c;
+            return test.Any();
+        }
+
         #endregion
 
         /// <summary> Returns numerator of user type </summary>
@@ -282,35 +290,17 @@ namespace I2P_Project.Classes.Data_Managers
             return -1;
         }
 
-        /// <summary> Returns document object from db searched by ID </summary>
-        public static document GetFreeCopy(int docID)
-        {
-            var test = from b in db.documents
-                       where b.Id == docID && !b.IsReference
-                       select b;
-            if (test.Any()) // Check if any copies of doc exists
-            {
-                foreach (document selected in test.ToArray()) // Checks if any of them are free
-                {
-                    var test2 = from c in db.checkouts
-                                where c.bookID == selected.Id
-                                select c;
-                    if (!test2.Any()) return selected;
-                }
-                return null;
-            }
-            else
-                return null;
-        }
-
         /// <summary> Returns document object from db searched by author </summary>
-        public static document GetFreeCopy(string author)
+        public static document GetFreeCopy(string title)
         {
             var test = from b in db.documents
-                       where b.Title.ToLower().Contains(author.ToLower()) && !b.IsReference
+                       where b.Title.ToLower().Contains(title.ToLower()) && !b.IsReference
                        select b;
             if (test.Any()) // Check if any copies of doc exists
             {
+                foreach (document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
+                    if (DocBelongsToUser(SystemDataManager.CurrentUser.PersonID, selected.Id))
+                        return null;
                 foreach (document selected in test.ToArray()) // Checks if any of them are free
                 {
                     var test2 = from c in db.checkouts
@@ -324,13 +314,20 @@ namespace I2P_Project.Classes.Data_Managers
                 return null;
         }
 
-        /// <summary> Converts document title to its ID </summary>
-        public static int GetIDByTitle(string title)
+        public static int GetIDByName(string name)
+        {
+            var test = (from p in db.users
+                        where (p.name == name)
+                        select p);
+            return test.First().id;
+        }
+
+        public static string GetTitleByID(int docID)
         {
             var test = (from p in db.documents
-                        where (p.Title == title)
+                        where (p.Id == docID)
                         select p);
-            return test.Single().Id;
+            return test.First().Title;
         }
 
         /// <summary> User becomes faculty if they were student and vice-versa </summary>

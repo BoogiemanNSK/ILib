@@ -26,7 +26,7 @@
 
         <TextBox Grid.Row="2" Name="TestOutput" Height="120" Text="Chose test case..." Margin="20,10,20,10" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsReadOnly="True"/>
         
-        <Label Grid.Row="3" HorizontalAlignment="Center">Users (From librarian view)</Label>
+        <Label Grid.Row="3" HorizontalAlignment="Center">Users</Label>
 
         <DataGrid Grid.Row="4" Name="dg_UserTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
             <DataGrid.Columns>

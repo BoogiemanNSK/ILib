@@ -87,6 +87,18 @@ namespace I2P_Project.Pages
             }
         }
 
+        private void OnShow(object sender, RoutedEventArgs e)
+        {
+            UserTable ut_row = dg_UserTable.SelectedItems[0] as UserTable;
+            int user_id = ut_row.userID;
+            DocsTable.ItemsSource = DataBaseManager.TestDocsTableUsersBooks(user_id);
+        }
+
+        private void OnOverall(object sender, RoutedEventArgs e) // Shows books without user
+        {
+            DocsTable.ItemsSource = DataBaseManager.TestDocsTableOnlyBooks(); 
+        }
+
         private void OnExit(object sender, RoutedEventArgs e)
         {
             Close();

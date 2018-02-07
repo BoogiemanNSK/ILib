@@ -207,7 +207,7 @@ namespace I2P_Project.Tests
 
             SystemDataManager.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SystemDataManager.CurrentUser;
-            lb.SwapUserType(0); //upgrade first student to faculty
+            lb.SwapUserType(DataBaseManager.GetIDByName("f")); // Upgrade first student to faculty
 
             output += "Logging In as student s...\n";
             SystemDataManager.CurrentUser = new Student("s"); // Log In student st
@@ -238,13 +238,13 @@ namespace I2P_Project.Tests
 
             SystemDataManager.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SystemDataManager.CurrentUser;
-            lb.SwapUserType(0); //upgrade first student to faculty
+            lb.SwapUserType(DataBaseManager.GetIDByName("f")); //upgrade first student to faculty
 
             output += "Logging In as student s...\n";
             SystemDataManager.CurrentUser = new Student("s"); // Log In student st
             Student s = (Student)SystemDataManager.CurrentUser;
 
-            output += "Adding reference book b and two copies...\n";
+            output += "Adding reference book b and copy...\n";
             DataBaseManager.AddDocToDB("b", "B", 1, 0, false); // Adding Reference book
             DataBaseManager.AddDocToDB("b", "B", 1, 0, false);
 

@@ -277,6 +277,14 @@ namespace I2P_Project.Classes.Data_Managers
             return test.Single().Id;
         }
 
+        public static int GetIDByName(string name)
+        {
+            var test = (from p in db.users
+                        where (p.name == name)
+                        select p);
+            return test.Single().id;
+        }
+
         /// <summary> User becomes faculty if they were student and vice-versa </summary>
         public static void SwapUserType(int userID)
         {

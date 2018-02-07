@@ -13,10 +13,10 @@ namespace I2P_Project.Classes.UserSystem
 
         public abstract string CheckOut(string author);
 
+        // TODO Всё переделать 
         public string ReturnDoc(int docID)
         {
-            documents doc = DataBaseManager.GetDoc(docID);
-            doc.Count++;
+            document doc = DataBaseManager.GetFreeCopy(docID);
             CheckedDocs.Remove(docID);
             // TODO Remove deadline
             return doc.Title + " returned!";

@@ -20,10 +20,10 @@
         <elementListCompartment Id="5d963cc5-1741-448d-a599-317ef5fa94f3" absoluteBounds="0.51500000000000012, 0.96, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="5deac3df-ebd2-438c-a42a-378123f8c67e" absoluteBounds="5.25, 0.5, 2, 2.1554996744791666">
-      <DataClassMoniker Name="/LINQtoUserDBDataContext/documents" />
+    <classShape Id="64069156-2ea0-46ef-b423-d52c53953554" absoluteBounds="5.125, 0.5, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/LINQtoUserDBDataContext/document" />
       <nestedChildShapes>
-        <elementListCompartment Id="6b6160df-2afe-4263-8441-0687adf66cdc" absoluteBounds="5.265, 0.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="2b4c139a-de3f-482f-bdb1-f04c8dc77e13" absoluteBounds="5.14, 0.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

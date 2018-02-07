@@ -146,6 +146,7 @@ namespace I2P_Project.Classes.Data_Managers
             var load_user_docs = from b in db.documents
                                  select new
                                  {
+                                     b.Id,
                                      b.Title,
                                      b.DocType
                                  };
@@ -153,8 +154,12 @@ namespace I2P_Project.Classes.Data_Managers
             {
                 Pages.DocsTable row = new Pages.DocsTable
                 {
+                    docID = element.Id,
                     docTitle = element.Title,
                     docType = TypeString(element.DocType),
+                    docOwnerID = -1,
+                    dateTaked = DateTime.Now,
+                    timeToBack = DateTime.Now
                 };
                 temp_table.Add(row);
             }

@@ -35,7 +35,7 @@ namespace I2P_Project.Classes.Data_Managers
             newUser.name = name;
             newUser.address = adress;
             newUser.phoneNumber = phone;
-            newUser.userType = isLibrarian ? 2 : 1;
+            newUser.userType = isLibrarian ? 2 : 0;
             newUser.icNumber = NextLCNumber();
             db.users.InsertOnSubmit(newUser);
             db.SubmitChanges();

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="TestingTool" Height="700" Width="640">
+        Title="TestingTool" Height="700" Width="640" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <Grid.RowDefinitions>
@@ -23,19 +23,19 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="1" HorizontalAlignment="Center">Console</Label>
-        
-        <TextBlock Grid.Row="2" Name="TestOutput" Height="120" Text="123" Margin="20,10,20,10"/>
+
+        <TextBox Grid.Row="2" Name="TestOutput" Height="120" Text="Chose test case..." Margin="20,10,20,10" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsReadOnly="True"/>
         
         <Label Grid.Row="3" HorizontalAlignment="Center">Users (From librarian view)</Label>
 
-        <DataGrid Grid.Row="4" Name="UserTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
+        <DataGrid Grid.Row="4" Name="dg_UserTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="UserID" Binding="{Binding userID}" Width="Auto"/>
+                <DataGridTextColumn Header="User ID" Binding="{Binding userID}" Width="Auto"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding userName}" Width="Auto"/>
-                <DataGridTextColumn Header="Adress" Binding="{Binding userAdress}" Width="Auto"/>
-                <DataGridTextColumn Header="PhoneNumber" Binding="{Binding userPhoneNumber}" Width="Auto"/>
-                <DataGridTextColumn Header="LCNumber" Binding="{Binding userLCNumber}" Width="Auto"/>
-                <DataGridTextColumn Header="UserType" Binding="{Binding userType}" Width="Auto"/>
+                <DataGridTextColumn Header="Address" Binding="{Binding userAddress}" Width="Auto"/>
+                <DataGridTextColumn Header="Phone Number" Binding="{Binding userPhoneNumber}" Width="Auto"/>
+                <DataGridTextColumn Header="IC Number" Binding="{Binding userICNumber}" Width="Auto"/>
+                <DataGridTextColumn Header="User Type" Binding="{Binding userType}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -43,19 +43,30 @@
 
         <DataGrid Grid.Row="6" Name="DocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="DocID" Binding="{Binding docID}" Width="Auto"/>
+                <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="Auto"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="Auto"/>
-                <DataGridTextColumn Header="OwnerID" Binding="{Binding docOwnerID}" Width="Auto"/>
+                <DataGridTextColumn Header="Owner ID" Binding="{Binding docOwnerID}" Width="Auto"/>
                 <DataGridTextColumn Header="Taked" Binding="{Binding dateTaked}" Width="Auto"/>
                 <DataGridTextColumn Header="Deadline" Binding="{Binding timeToBack}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <Label Grid.Row="7" HorizontalAlignment="Center">Enter test num</Label>
+        <Label Grid.Row="7" HorizontalAlignment="Center" Content="Select the test case:"/>
         
-        <TextBox Grid.Row="8" Name="TestNumber" Width="120" Margin="0,2,0,2"/>
-        
+        <ComboBox Grid.Row="8" Name="TestNumber" Width="120" Margin="0,2,0,2" IsEditable="True">
+            <ListBoxItem Content="1"/>
+            <ListBoxItem Content="2"/>
+            <ListBoxItem Content="3"/>
+            <ListBoxItem Content="4"/>
+            <ListBoxItem Content="5"/>
+            <ListBoxItem Content="6"/>
+            <ListBoxItem Content="7"/>
+            <ListBoxItem Content="8"/>
+            <ListBoxItem Content="9"/>
+            <ListBoxItem Content="10"/>
+        </ComboBox>
+
         <Button Grid.Row="9" Click="OnTest" Height="25" Width="120" HorizontalAlignment="Center" Margin="0,2,0,2">Test</Button>
         
         <Button Grid.Row="10" Click="OnExit" Height="25" Width="120" HorizontalAlignment="Center">Exit</Button>

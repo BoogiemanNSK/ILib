@@ -33,15 +33,15 @@ namespace I2P_Project.DataBases
     partial void InsertuserTypes(userTypes instance);
     partial void UpdateuserTypes(userTypes instance);
     partial void DeleteuserTypes(userTypes instance);
-    partial void Insertdocuments(documents instance);
-    partial void Updatedocuments(documents instance);
-    partial void Deletedocuments(documents instance);
     partial void Insertcheckouts(checkouts instance);
     partial void Updatecheckouts(checkouts instance);
     partial void Deletecheckouts(checkouts instance);
     partial void Insertusers(users instance);
     partial void Updateusers(users instance);
     partial void Deleteusers(users instance);
+    partial void Insertdocuments(documents instance);
+    partial void Updatedocuments(documents instance);
+    partial void Deletedocuments(documents instance);
     #endregion
 		
 		public LINQtoUserDBDataContext() : 
@@ -82,14 +82,6 @@ namespace I2P_Project.DataBases
 			}
 		}
 		
-		public System.Data.Linq.Table<documents> documents
-		{
-			get
-			{
-				return this.GetTable<documents>();
-			}
-		}
-		
 		public System.Data.Linq.Table<checkouts> checkouts
 		{
 			get
@@ -103,6 +95,14 @@ namespace I2P_Project.DataBases
 			get
 			{
 				return this.GetTable<users>();
+			}
+		}
+		
+		public System.Data.Linq.Table<documents> documents
+		{
+			get
+			{
+				return this.GetTable<documents>();
 			}
 		}
 	}
@@ -168,212 +168,6 @@ namespace I2P_Project.DataBases
 					this._typeName = value;
 					this.SendPropertyChanged("typeName");
 					this.OntypeNameChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.documents")]
-	public partial class documents : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Title;
-		
-		private string _Description;
-		
-		private int _Count;
-		
-		private int _DocType;
-		
-		private bool _IsBestseller;
-		
-		private int _Price;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnTitleChanging(string value);
-    partial void OnTitleChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnCountChanging(int value);
-    partial void OnCountChanged();
-    partial void OnDocTypeChanging(int value);
-    partial void OnDocTypeChanged();
-    partial void OnIsBestsellerChanging(bool value);
-    partial void OnIsBestsellerChanged();
-    partial void OnPriceChanging(int value);
-    partial void OnPriceChanged();
-    #endregion
-		
-		public documents()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Title
-		{
-			get
-			{
-				return this._Title;
-			}
-			set
-			{
-				if ((this._Title != value))
-				{
-					this.OnTitleChanging(value);
-					this.SendPropertyChanging();
-					this._Title = value;
-					this.SendPropertyChanged("Title");
-					this.OnTitleChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Count", DbType="Int NOT NULL")]
-		public int Count
-		{
-			get
-			{
-				return this._Count;
-			}
-			set
-			{
-				if ((this._Count != value))
-				{
-					this.OnCountChanging(value);
-					this.SendPropertyChanging();
-					this._Count = value;
-					this.SendPropertyChanged("Count");
-					this.OnCountChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocType", DbType="Int NOT NULL")]
-		public int DocType
-		{
-			get
-			{
-				return this._DocType;
-			}
-			set
-			{
-				if ((this._DocType != value))
-				{
-					this.OnDocTypeChanging(value);
-					this.SendPropertyChanging();
-					this._DocType = value;
-					this.SendPropertyChanged("DocType");
-					this.OnDocTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsBestseller", DbType="Bit NOT NULL")]
-		public bool IsBestseller
-		{
-			get
-			{
-				return this._IsBestseller;
-			}
-			set
-			{
-				if ((this._IsBestseller != value))
-				{
-					this.OnIsBestsellerChanging(value);
-					this.SendPropertyChanging();
-					this._IsBestseller = value;
-					this.SendPropertyChanged("IsBestseller");
-					this.OnIsBestsellerChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Price", DbType="Int NOT NULL")]
-		public int Price
-		{
-			get
-			{
-				return this._Price;
-			}
-			set
-			{
-				if ((this._Price != value))
-				{
-					this.OnPriceChanging(value);
-					this.SendPropertyChanging();
-					this._Price = value;
-					this.SendPropertyChanged("Price");
-					this.OnPriceChanged();
 				}
 			}
 		}
@@ -786,6 +580,212 @@ namespace I2P_Project.DataBases
 					this._password = value;
 					this.SendPropertyChanged("password");
 					this.OnpasswordChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.documents")]
+	public partial class documents : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Title;
+		
+		private string _Description;
+		
+		private int _Count;
+		
+		private int _DocType;
+		
+		private bool _IsBestseller;
+		
+		private int _Price;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnCountChanging(int value);
+    partial void OnCountChanged();
+    partial void OnDocTypeChanging(int value);
+    partial void OnDocTypeChanged();
+    partial void OnIsBestsellerChanging(bool value);
+    partial void OnIsBestsellerChanged();
+    partial void OnPriceChanging(int value);
+    partial void OnPriceChanged();
+    #endregion
+		
+		public documents()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Count", DbType="Int NOT NULL")]
+		public int Count
+		{
+			get
+			{
+				return this._Count;
+			}
+			set
+			{
+				if ((this._Count != value))
+				{
+					this.OnCountChanging(value);
+					this.SendPropertyChanging();
+					this._Count = value;
+					this.SendPropertyChanged("Count");
+					this.OnCountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocType", DbType="Int NOT NULL")]
+		public int DocType
+		{
+			get
+			{
+				return this._DocType;
+			}
+			set
+			{
+				if ((this._DocType != value))
+				{
+					this.OnDocTypeChanging(value);
+					this.SendPropertyChanging();
+					this._DocType = value;
+					this.SendPropertyChanged("DocType");
+					this.OnDocTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsBestseller", DbType="Bit NOT NULL")]
+		public bool IsBestseller
+		{
+			get
+			{
+				return this._IsBestseller;
+			}
+			set
+			{
+				if ((this._IsBestseller != value))
+				{
+					this.OnIsBestsellerChanging(value);
+					this.SendPropertyChanging();
+					this._IsBestseller = value;
+					this.SendPropertyChanged("IsBestseller");
+					this.OnIsBestsellerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Price", DbType="Int NOT NULL")]
+		public int Price
+		{
+			get
+			{
+				return this._Price;
+			}
+			set
+			{
+				if ((this._Price != value))
+				{
+					this.OnPriceChanging(value);
+					this.SendPropertyChanging();
+					this._Price = value;
+					this.SendPropertyChanged("Price");
+					this.OnPriceChanged();
 				}
 			}
 		}

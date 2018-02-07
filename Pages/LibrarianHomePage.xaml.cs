@@ -28,8 +28,8 @@ namespace I2P_Project.Pages
 
         private void UserManagementClick(object sender, RoutedEventArgs e)
         {
-            UsersManagementPage UsersManagement = new UsersManagementPage();
-            UsersManagement.Show();
+            //UsersManagementPage UsersManagement = new UsersManagementPage();
+            //UsersManagement.Show();
             Close();
         }
 

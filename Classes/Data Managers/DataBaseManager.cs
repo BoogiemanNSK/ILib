@@ -19,6 +19,7 @@ namespace I2P_Project.Classes.Data_Managers
         public static void Initialize()
         {
             db = new LINQtoUserDBDataContext();
+            db.SubmitChanges(); // Вот так просто можно это подгрузить
         }
 
         /// <summary> Checks if there exist a user with given e-mail </summary>
@@ -75,12 +76,12 @@ namespace I2P_Project.Classes.Data_Managers
                 newDoc.Price = price;
                 newDoc.DocType = docType;
                 newDoc.IsBestseller = isBestseller;
-                newDoc.Count = 0;
+                newDoc.Count = 1;
                 db.documents.InsertOnSubmit(newDoc);
                 db.SubmitChanges();
             }
         }
-
+      
         /// <summary>
         /// Returns numerator of user type:
         /// 0 - Student
@@ -122,7 +123,7 @@ namespace I2P_Project.Classes.Data_Managers
             ObservableCollection<Pages.MyBooksTable> temp_table = new ObservableCollection<Pages.MyBooksTable>();
             var load_user_books = from c in db.checkouts
                                   join b in db.documents on c.bookID equals b.Id
-                                  where c.userID == SystemDataManager.CurrentUser.PersonID
+                                  where c.userID == SystemDataManager.CurrentUser.PersonID && c.isReturned == false
                                   select new
                                   {
                                       c.checkID,
@@ -170,6 +171,36 @@ namespace I2P_Project.Classes.Data_Managers
                     docType = TypeString(element.DocType),
                     dateTaked = (System.DateTime)element.dateTaked,
                     timeToBack = element.timeToBack
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
+        public static ObservableCollection<Pages.UserTable> TestUsersTable()
+        {
+            ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
+            var load_users = from u in db.users
+                                 join ut in db.userTypes on u.userType equals ut.typeID
+                                 select new
+                                 {
+                                    u.id,
+                                    u.name,
+                                    u.address,
+                                    u.phoneNumber,
+                                    u.icNumber,
+                                    ut.typeName
+                                 };
+            foreach (var element in load_users)
+            {
+                Pages.UserTable row = new Pages.UserTable
+                {
+                    userID = element.id,
+                    userName = element.name,
+                    userAddress = element.address,
+                    userPhoneNumber = element.phoneNumber,
+                    userICNumber = element.icNumber,
+                    userType = element.typeName
                 };
                 temp_table.Add(row);
             }
@@ -307,8 +338,9 @@ namespace I2P_Project.Classes.Data_Managers
 
         public static void ClearDB()
         {
-
-            //TODO
+            db.ExecuteCommand("DELETE FROM documents");
+            db.ExecuteCommand("DELETE FROM users");
+            db.ExecuteCommand("DELETE FROM checkouts");
         }
 
     }

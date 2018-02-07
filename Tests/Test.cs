@@ -12,6 +12,7 @@ namespace I2P_Project.Tests
 
             output += "Registering student st in the system...\n";
             DataBaseManager.RegisterUser("st", "st", "st", "st", "st", false);
+
             output += "Registering librarian lb in the system...\n";
             DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
@@ -38,6 +39,7 @@ namespace I2P_Project.Tests
 
             output += "Registering student st in the system...\n";
             DataBaseManager.RegisterUser("st", "st", "st", "st", "st", false);
+
             output += "Registering librarian lb in the system...\n";
             DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
@@ -59,8 +61,10 @@ namespace I2P_Project.Tests
 
             output += "Registering student st in the system...\n";
             DataBaseManager.RegisterUser("st", "st", "st", "st", "st", false);
+
             output += "Registering faculty ft in the system...\n";
             DataBaseManager.RegisterUser("ft", "ft", "ft", "ft", "ft", false);
+
             output += "Registering librarian lb in the system...\n";
             DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
@@ -86,8 +90,10 @@ namespace I2P_Project.Tests
 
             output += "Registering student st in the system...\n";
             DataBaseManager.RegisterUser("st", "st", "st", "st", "st", false);
+
             output += "Registering faculty ft in the system...\n";
             DataBaseManager.RegisterUser("ft", "ft", "ft", "ft", "ft", false);
+
             output += "Registering librarian lb in the system...\n";
             DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
@@ -113,10 +119,13 @@ namespace I2P_Project.Tests
 
             output += "Registering student st in the system...\n";
             DataBaseManager.RegisterUser("st", "st", "st", "st", "st", false);
+
             output += "Registering student st1 in the system...\n";
             DataBaseManager.RegisterUser("st1", "st1", "st1", "st1", "st1", false);
+
             output += "Registering student st2 in the system...\n";
             DataBaseManager.RegisterUser("st2", "st2", "st2", "st2", "st2", false);
+
             output += "Registering librarian lb in the system...\n";
             DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             
@@ -157,6 +166,7 @@ namespace I2P_Project.Tests
 
             output += "Registering student st in the system...\n";
             DataBaseManager.RegisterUser("st", "st", "st", "st", "st", false);
+
             output += "Registering librarian lb in the system...\n";
             DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
@@ -171,6 +181,7 @@ namespace I2P_Project.Tests
 
             output += "Student st checking out book b...\n";
             st.CheckOut("b");
+
             output += "Student checking out the book b...\n";
             st.CheckOut("b");
 
@@ -178,6 +189,42 @@ namespace I2P_Project.Tests
             return output;
         }
       
+        public string test7()
+        {
+            string output = "Cleared DB...\n";
+            DataBaseManager.ClearDB();
+
+            output += "Registering student 'p1' in the system...\n";
+            DataBaseManager.RegisterUser("p1", "p1", "p1", "p1", "p1", false);
+
+            output += "Registering student 'p2' in the system...\n";
+            DataBaseManager.RegisterUser("p2", "p2", "p2", "p2", "p2", false);
+
+            output += "Registering librarian lb in the system...\n";
+            DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+
+            output += "Adding reference book b1 and two copies...\n";
+            DataBaseManager.AddDocToDB("b1", "B", 0, 0, false); // Adding Reference book
+            DataBaseManager.AddDocToDB("b1", "B", 0, 0, false);
+            DataBaseManager.AddDocToDB("b1", "B", 0, 0, false);
+
+            output += "Logging In as student p1...\n";
+            SystemDataManager.CurrentUser = new Student("p1"); // Log In student st
+            Student p1 = (Student)SystemDataManager.CurrentUser;
+
+            output += "Student p1 checking out book b1...\n";
+            p1.CheckOut("b");
+
+            output += "Logging In as student p2...\n";
+            SystemDataManager.CurrentUser = new Student("p2"); // Log In student st
+            Student p2 = (Student)SystemDataManager.CurrentUser;
+
+            output += "Student p2 checking out book b1...\n";
+            p2.CheckOut("b1");
+
+            output += "Test passed with no exceptions!\n";
+            return output;
+        }
 
         public string test8()
         {
@@ -186,10 +233,16 @@ namespace I2P_Project.Tests
 
             output += "Registering faculty 'f' in the system...\n";
             DataBaseManager.RegisterUser("f", "f", "f", "f", "f", false);
+
             output += "Registering student 's' in the system...\n";
             DataBaseManager.RegisterUser("s", "s", "s", "s", "s", false);
+
             output += "Registering librarian lb in the system...\n";
             DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+
+            output += "Adding reference book b and two copies...\n";
+            DataBaseManager.AddDocToDB("b", "B", 0, 0, false); // Adding Reference book
+            DataBaseManager.AddDocToDB("b", "B", 0, 0, false);
 
             SystemDataManager.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SystemDataManager.CurrentUser;
@@ -199,12 +252,8 @@ namespace I2P_Project.Tests
             SystemDataManager.CurrentUser = new Student("s"); // Log In student st
             Student s = (Student)SystemDataManager.CurrentUser;
 
-            output += "Adding reference book b and two copies...\n";
-            DataBaseManager.AddDocToDB("b", "B", 0, 0, false); // Adding Reference book
-            DataBaseManager.AddDocToDB("b", "B", 0, 0, false);
-
             output += "Student s checking out book b...\n";
-            s.CheckOut(DataBaseManager.GetIDByTitle("b"));
+            s.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
             return output;
@@ -217,25 +266,27 @@ namespace I2P_Project.Tests
 
             output += "Registering faculty 'f' in the system...\n";
             DataBaseManager.RegisterUser("f", "f", "f", "f", "f", false);
+
             output += "Registering student 's' in the system...\n";
             DataBaseManager.RegisterUser("s", "s", "s", "s", "s", false);
+
             output += "Registering librarian lb in the system...\n";
             DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
+            output += "Adding reference book b and copy...\n";
+            DataBaseManager.AddDocToDB("b", "B", 0, 0, true); // Adding Reference book
+            DataBaseManager.AddDocToDB("b", "B", 0, 0, true);
+
             SystemDataManager.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SystemDataManager.CurrentUser;
-            lb.SwapUserType(DataBaseManager.GetIDByName("f")); //upgrade first student to faculty
+            lb.SwapUserType(DataBaseManager.GetIDByName("f")); // Upgrade first student to faculty
 
             output += "Logging In as student s...\n";
             SystemDataManager.CurrentUser = new Student("s"); // Log In student st
             Student s = (Student)SystemDataManager.CurrentUser;
 
-            output += "Adding reference book b and copy...\n";
-            DataBaseManager.AddDocToDB("b", "B", 1, 0, false); // Adding Reference book
-            DataBaseManager.AddDocToDB("b", "B", 1, 0, false);
-
             output += "Student s checking out book b...\n";
-            s.CheckOut(DataBaseManager.GetIDByTitle("b"));
+            s.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
             return output;
@@ -248,21 +299,22 @@ namespace I2P_Project.Tests
 
             output += "Registering student st in the system...\n";
             DataBaseManager.RegisterUser("st", "st", "st", "st", "st", false);
+
             output += "Registering librarian lb in the system...\n";
             DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+
+            output += "Adding reference books a and b and copy of a...\n";
+            DataBaseManager.AddDocToDB("a", "A", 0, 0, false); // Adding Reference book
+            DataBaseManager.AddDocToDB("a", "A", 0, 0, false);
+            DataBaseManager.AddDocToDB("b", "B", 0, 0, false);
 
             output += "Logging In as student st...\n";
             SystemDataManager.CurrentUser = new Student("st"); // Log In student st
             Student st = (Student)SystemDataManager.CurrentUser;
 
-            output += "Adding reference books A and B...\n";
-            DataBaseManager.AddDocToDB("a", "A", 0, 0, false); // Adding Reference book
-            DataBaseManager.AddDocToDB("a", "A", 0, 0, false);
-            DataBaseManager.AddDocToDB("b", "B", 0, 0, false);
-
-            output += "Student st checking out book b...\n";
-            st.CheckOut(DataBaseManager.GetIDByTitle("a"));
-            st.CheckOut(DataBaseManager.GetIDByTitle("b"));
+            output += "Student st checking out book a abd b...\n";
+            st.CheckOut("a");
+            st.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
             return output;

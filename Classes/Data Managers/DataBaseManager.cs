@@ -35,7 +35,7 @@ namespace I2P_Project.Classes.Data_Managers
             newUser.name = name;
             newUser.address = adress;
             newUser.phoneNumber = phone;
-            newUser.userType = isLibrarian ? 2 : 1;
+            newUser.userType = isLibrarian ? 2 : 0;
             newUser.icNumber = NextLCNumber();
             db.users.InsertOnSubmit(newUser);
             db.SubmitChanges();
@@ -274,7 +274,7 @@ namespace I2P_Project.Classes.Data_Managers
             var test = (from p in db.documents
                         where (p.Title == title)
                         select p);
-            return test.Single().Id;
+            return test.First().Id;
         }
 
         public static int GetIDByName(string name)
@@ -282,7 +282,7 @@ namespace I2P_Project.Classes.Data_Managers
             var test = (from p in db.users
                         where (p.name == name)
                         select p);
-            return test.Single().id;
+            return test.First().id;
         }
 
         /// <summary> User becomes faculty if they were student and vice-versa </summary>

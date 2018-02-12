@@ -1,5 +1,10 @@
 Ilib - A Library Management System
 
+System requirements:
+- Windows 7(max), 8, 8.1, 10
+- .NET Framework 4.7
+- localDB component from SQL Server
+
 For users:
  
 - Go to (Your path)\I2P-Project\bin\Debug\bin\I2P-Project.exe

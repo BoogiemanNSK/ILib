@@ -1,7 +1,9 @@
 Ilib - A Library Management System
 
 For users:
- - To use the system you have to register a new account by submitting info about you and creating password
+ 
+- Go to (Your path)\I2P-Project\bin\Debug\bin\I2P-Project.exe
+- To use the system you have to register a new account by submitting info about you and creating password
  - After creating an account you would be able to log into the system
  - With Ilib LMS you will be able to search through system to find books and media you like and check them out to your account
  - Please, do not overdue documents since other users may also want to use books you took

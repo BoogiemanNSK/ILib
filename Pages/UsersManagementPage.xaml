@@ -5,8 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="UsersManagementPage" Height="300" Width="300">
-    <Grid>
-        
+        Title="UsersManagementPage" Height="640" Width="800" Background="#FF8080FF">
+
+    <Grid Margin="0,1,0,-1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="107*"/>
+            <ColumnDefinition Width="91*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="1" FontSize="16" HorizontalAlignment="Center" Margin="361,0,361,5" Grid.RowSpan="2" Grid.ColumnSpan="2" Content="UserList"/>
+        <DataGrid Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="400" Width="640" Grid.ColumnSpan="2" Margin="76,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="UserID" Binding="{Binding bookID}" Width="*"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding p_name}" Width="*"/>
+                <DataGridTextColumn Header="Fine" Binding="{Binding p_fine}" Width="*"/>
+                <DataGridTextColumn Header="DocList" Binding="{Binding p_DocList}" Width="*"/>
+                <DataGridTemplateColumn CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Return" Margin="7,2,7,2"  Width="50" Background="#FF4B4B4B" Foreground="White" FontWeight="Bold" ToolTip="Return book" Cursor="Hand" Click="OnReturn"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Grid.Row="9" Click="OnAddUser" Width="200" HorizontalAlignment="Right" Margin="0,10,152,120" Content="Add user&#xD;&#xA;&#xA;"/>
+        <Button Grid.Row="9" Click="OnDeleteUser" Width="200" HorizontalAlignment="Center" Margin="130,6,34,124" Content="Modify user&#xD;&#xA;" Grid.Column="1"/>
+        <Button Grid.Row="9" Click="OnModifyUser" Width="200" HorizontalAlignment="Center" Margin="322,10,270,120" Content="Delete user&#xD;&#xA;&#xA;" Grid.ColumnSpan="2"/>
+        <Button Grid.Row="9" Click="OnBack" Height="40" Width="200" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="322,56,270,53">Back</Button>
+
     </Grid>
 </Window>

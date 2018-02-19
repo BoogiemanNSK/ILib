@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="1" FontSize="16" HorizontalAlignment="Center" Margin="361,0,360.6,5" Grid.RowSpan="2" Content="DocList"/>
-        <DataGrid Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="400" Width="640">
+        <DataGrid Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="400" Width="640" SelectionChanged="myBooksTable_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="checkID" Binding="{Binding checkID}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="bookID" Binding="{Binding bookID}" Width="*"/>
@@ -32,18 +32,18 @@
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Return" Margin="7,2,7,2"  Width="50" Background="#FF4B4B4B" Foreground="White" FontWeight="Bold" ToolTip="Return book" Cursor="Hand" Click="OnReturn"/>
+                            <Button Content="Return" Margin="7,2,7,2"  Width="50" Background="#FF4B4B4B" Foreground="White" FontWeight="Bold" ToolTip="Return book" Cursor="Hand"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox Grid.Row="4" HorizontalAlignment="Right" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Width="465" Name="SearchTB" Margin="0,19,251,37" Grid.ColumnSpan="2"/>
-        <Button Grid.Row="4" Click="OnSearch" Width="200" HorizontalAlignment="Right" Margin="0,19,46,10" Content="Search book&#xD;&#xA;&#xA;" Grid.Column="1" Grid.RowSpan="2"/>
-        <Button Grid.Row="6" Click="OnAddBook" Width="200" HorizontalAlignment="Right" Margin="0,5,542,145" Content="Add book&#xD;&#xA;&#xA;" Grid.RowSpan="4"/>
-        <Button Grid.Row="6" Click="OnDeleteUser" Width="200" HorizontalAlignment="Center" Margin="296,5,296,145" Content="Modify book&#xD;&#xA;" Grid.RowSpan="4"/>
-        <Button Grid.Row="6" Click="OnModifyUser" Width="200" HorizontalAlignment="Center" Margin="546,5,46,145" Content="Delete book&#xD;&#xA;&#xA;" Grid.RowSpan="4"/>
-        <Button Grid.Row="9" Click="OnBack" Height="40" Width="200" HorizontalAlignment="Center" Margin="296,24,296,85">Back</Button>
+        <TextBox Grid.Row="4" HorizontalAlignment="Right" Height="26" TextWrapping="Wrap" VerticalAlignment="Center" Width="465" Name="SearchTB" Margin="0,6,251,0" Grid.RowSpan="3"/>
+        <Button Grid.Row="4" Click="OnSearch" Width="200" HorizontalAlignment="Right" Margin="0,6,46,10" Content="Search book&#xD;&#xA;&#xA;"/>
+        <Button Grid.Row="9" Click="OnAddBook" Width="200" HorizontalAlignment="Right" Margin="0,6,551,124" Content="Add book&#xD;&#xA;&#xA;"/>
+        <Button Grid.Row="9" Click="OnModifyBook" Width="200" HorizontalAlignment="Center" Margin="296,6,296,124" Content="Modify book&#xD;&#xA;"/>
+        <Button Grid.Row="9" Click="OnDeleteBook" Width="200" HorizontalAlignment="Center" Margin="546,6,46,124" Content="Delete book&#xA;&#xA;Delete book&#xD;&#xA;Delete book"/>
+        <Button Grid.Row="9" Click="OnBack" Height="40" Width="200" HorizontalAlignment="Center" Margin="296,48,296,61">Back</Button>
 
     </Grid>
 </Window>

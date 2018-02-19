@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using I2P_Project.Pages;
 
 namespace I2P_Project.Pages
 {
@@ -22,6 +23,35 @@ namespace I2P_Project.Pages
         public UsersManagementPage()
         {
             InitializeComponent();
+        }
+
+        private void OnAddUser(object sender, RoutedEventArgs e)
+        {
+            RegisterPage Register = new RegisterPage(false);
+            Register.Show();
+            Close();
+        }
+
+        private void OnSearch(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnModifyUser(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnDeleteUser(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnBack(object sender, RoutedEventArgs e)
+        {
+            LibrarianHomePage librarianHome = new LibrarianHomePage();
+            librarianHome.Show();
+            Close();
         }
     }
 }

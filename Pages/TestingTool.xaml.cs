@@ -40,7 +40,7 @@ namespace I2P_Project.Pages
             TestOutput.Text = "Test " + TestNumber.Text + ":\n";
             switch (TestNumber.Text)
             {
-                case "1":
+                /*case "1":
                     TestOutput.Text += test.test1();
                     UpdateTables();
                     break;
@@ -82,7 +82,7 @@ namespace I2P_Project.Pages
                     break;
                 default:
                     TestOutput.Text += "No such test found";
-                    break;
+                    break;*/
             }
         }
 
@@ -110,7 +110,6 @@ namespace I2P_Project.Pages
         public string userName { get; set; }
         public string userAddress { get; set; }
         public string userPhoneNumber { get; set; }
-        public int userICNumber { get; set; }
         public string userType { get; set; }
     }
 

@@ -1,28 +1,61 @@
 ﻿using I2P_Project.Classes.Data_Managers;
 using I2P_Project.DataBases;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace I2P_Project.Classes.UserSystem
 {
 
     abstract class Patron : User
     {
-        public List<int> CheckedDocs;
+        public Patron(string login) : base(login) {}
 
         public string CheckOut(int docID)
         {
-            return CheckOut(DataBaseManager.GetTitleByID(docID));
+            return CheckOut(GetTitleByID(docID));
         }
 
         public abstract string CheckOut(string title);
 
-        // TODO Всё переделать 
         public string ReturnDoc(int docID)
         {
-            document doc = DataBaseManager.GetFreeCopy(DataBaseManager.GetTitleByID(docID));
-            CheckedDocs.Remove(docID);
-            // TODO Remove deadline
-            return doc.Title + " returned!";
+            // TODO Implement return doc
+            return "Failed to return (not implemented)";
+        }
+
+        /// <summary>
+        /// Change fields in DB when some user check out docs.
+        /// Start timer for check out and get reference for book
+        /// on it's owner.
+        /// </summary>
+        /// <param name="docID"></param>
+        protected void SetCheckOut(int docID, int user_id, int weeks)
+        {
+            System.DateTime time = System.DateTime.Now;
+
+            checkouts chk = new checkouts();
+            chk.userID = user_id;
+            chk.bookID = docID;
+            chk.isReturned = false;
+            chk.dateTaked = time;
+            chk.timeToBack = time.AddDays(weeks * 7);
+            uDB.checkouts.InsertOnSubmit(chk);
+            uDB.SubmitChanges();
+        }
+
+        protected bool DocBelongsToUser(int userID, int docID)
+        {
+            var test = from c in uDB.checkouts
+                       where (c.bookID == docID & c.userID == userID)
+                       select c;
+            return test.Any();
+        }
+
+        private string GetTitleByID(int docID)
+        {
+            var test = (from p in uDB.documents
+                        where (p.Id == docID)
+                        select p);
+            return test.First().Title;
         }
     }
 

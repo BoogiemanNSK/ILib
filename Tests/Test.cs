@@ -5,6 +5,7 @@ namespace I2P_Project.Tests
 {
     class Test
     {
+        /*
         public string test1()
         {
             string output = "Cleared DB...\n";
@@ -319,6 +320,7 @@ namespace I2P_Project.Tests
             output += "Test passed with no exceptions!\n";
             return output;
         }
-
+        */
     }
+    
 }

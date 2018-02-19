@@ -1,28 +1,43 @@
 ﻿using I2P_Project.DataBases;
 using I2P_Project.Classes.Data_Managers;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace I2P_Project.Classes.UserSystem
 {
 
     class Faculty : Patron
     {
-        public Faculty(string eMail)
-        {
-            CheckedDocs = new List<int>();
-            SetCurrent(eMail);
-        }
+        public Faculty(string login) : base(login) {} 
 
         public override string CheckOut(string title)
         {
-            document doc = DataBaseManager.GetFreeCopy(title);
-            if (doc == null) return "Book is not availible for now, please come back later";
+            document doc = null;
+            var test = from b in uDB.documents
+                       where b.Title.ToLower().Contains(title.ToLower()) && !b.IsReference
+                       select b;
+            if (test.Any()) // Check if any copies of doc exists
+            {
+                foreach (document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
+                    if (DocBelongsToUser(SystemDataManager.CurrentUser.PersonID, selected.Id))
+                        return "You already have that book";
+                foreach (document selected in test.ToArray()) // Checks if any of them are free
+                {
+                    var test2 = from c in uDB.checkouts
+                                where c.bookID == selected.Id
+                                select c;
+                    if (!test2.Any()) doc = selected;
+                    else return "There are no free copies of this book for now";
+                }
+            }
+            else
+                return "There are no free copies of this book for now";
+
             int user_id = SystemDataManager.CurrentUser.PersonID;
 
             if (doc.DocType != 0)
-                DataBaseManager.SetCheckOut(doc.Id, user_id, 2);
+                SetCheckOut(doc.Id, user_id, 2);
             else
-                DataBaseManager.SetCheckOut(doc.Id, user_id, 4);
+                SetCheckOut(doc.Id, user_id, 4);
 
             return "Checked out " + doc.Title + " successfully!";
         }

@@ -36,45 +36,9 @@ namespace I2P_Project.Classes.Data_Managers
             newUser.address = adress;
             newUser.phoneNumber = phone;
             newUser.userType = isLibrarian ? 2 : 0;
-            newUser.icNumber = NextLCNumber();
             db.users.InsertOnSubmit(newUser);
             db.SubmitChanges();
             return true;
-        }
-
-        /// <summary> Adding new doc to DB with given parameters </summary>
-        public static void AddDocToDB(string title, string description, int docType, int price, bool isBestseller)
-        {
-            bool isReference = !CheckReference(title);
-            document newDoc = new document();
-            newDoc.Title = title;
-            newDoc.Description = description;
-            newDoc.Price = price;
-            newDoc.DocType = docType;
-            newDoc.IsReference = isReference;
-            newDoc.IsBestseller = isBestseller;
-            db.documents.InsertOnSubmit(newDoc);
-            db.SubmitChanges();
-        }
-
-        /// <summary>
-        /// Change fields in DB when some user check out docs.
-        /// Start timer for check out and get reference for book
-        /// on it's owner.
-        /// </summary>
-        /// <param name="docID"></param>
-        public static void SetCheckOut(int docID, int user_id, int weeks)
-        {
-            System.DateTime time = System.DateTime.Now;
-
-            checkouts chk = new checkouts();
-            chk.userID = user_id;
-            chk.bookID = docID;
-            chk.isReturned = false;
-            chk.dateTaked = time;
-            chk.timeToBack = time.AddDays(weeks * 7);
-            db.checkouts.InsertOnSubmit(chk);
-            db.SubmitChanges();
         }
 
         #endregion
@@ -180,7 +144,6 @@ namespace I2P_Project.Classes.Data_Managers
                                     u.name,
                                     u.address,
                                     u.phoneNumber,
-                                    u.icNumber,
                                     ut.typeName
                                  };
             foreach (var element in load_users)
@@ -191,7 +154,6 @@ namespace I2P_Project.Classes.Data_Managers
                     userName = element.name,
                     userAddress = element.address,
                     userPhoneNumber = element.phoneNumber,
-                    userICNumber = element.icNumber,
                     userType = element.typeName
                 };
                 temp_table.Add(row);
@@ -237,23 +199,6 @@ namespace I2P_Project.Classes.Data_Managers
             return test.Any();
         }
 
-        /// <summary> Checks if there exist a reference doc with given title </summary>
-        public static bool CheckReference(string title)
-        {
-            var test = (from p in db.documents
-                        where (p.Title == title)
-                        select p);
-            return test.Any();
-        }
-
-        private static bool DocBelongsToUser(int userID, int docID)
-        {
-            var test = from c in db.checkouts
-                       where (c.bookID == docID & c.userID == userID)
-                       select c;
-            return test.Any();
-        }
-
         #endregion
 
         /// <summary> Returns numerator of user type </summary>
@@ -271,82 +216,13 @@ namespace I2P_Project.Classes.Data_Managers
                 return test.Single().userType;
             return -1;
         }
-
-        /// <summary> Returns document object from db searched by author </summary>
-        public static document GetFreeCopy(string title)
-        {
-            var test = from b in db.documents
-                       where b.Title.ToLower().Contains(title.ToLower()) && !b.IsReference
-                       select b;
-            if (test.Any()) // Check if any copies of doc exists
-            {
-                foreach (document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
-                    if (DocBelongsToUser(SystemDataManager.CurrentUser.PersonID, selected.Id))
-                        return null;
-                foreach (document selected in test.ToArray()) // Checks if any of them are free
-                {
-                    var test2 = from c in db.checkouts
-                                where c.bookID == selected.Id
-                                select c;
-                    if (!test2.Any()) return selected;
-                }
-                return null;
-            }
-            else
-                return null;
-        }
-
-        public static int GetIDByName(string name)
-        {
-            var test = (from p in db.users
-                        where (p.name == name)
-                        select p);
-            return test.First().id;
-        }
-
-        public static string GetTitleByID(int docID)
-        {
-            var test = (from p in db.documents
-                        where (p.Id == docID)
-                        select p);
-            return test.First().Title;
-        }
-
-        /// <summary> User becomes faculty if they were student and vice-versa </summary>
-        public static void SwapUserType(int userID)
-        {
-            var test = (from p in db.users
-                        where (p.id == userID)
-                        select p);
-            if (test.Any())
-            {
-                users user = test.Single();
-                user.userType = user.userType == 0 ? 1 : 0;
-            }
-        }
-        
+                        
         /// <summary> Clears DB (for test cases only) </summary>
         public static void ClearDB()
         {
             db.ExecuteCommand("DELETE FROM documents");
             db.ExecuteCommand("DELETE FROM users");
             db.ExecuteCommand("DELETE FROM checkouts");
-        }
-
-        /// <summary> Increment library card number so that everyone had different Library Card number </summary>
-        private static int NextLCNumber()
-        {
-            int maxLC = 100;
-            var test = (from p in db.users select p);
-            if (test.Any())
-            {
-                List<users> list = test.ToList();
-                foreach (users user in list)
-                {
-                    if (user.icNumber > maxLC) maxLC = user.icNumber;
-                }
-            }
-            return maxLC;
         }
 
         private static string TypeString(int num)

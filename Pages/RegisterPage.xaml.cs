@@ -22,8 +22,10 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class RegisterPage : Window
     {
-        public RegisterPage()
+        bool register;
+        public RegisterPage(bool b)
         {
+            register = b;
             InitializeComponent();
         }
 
@@ -56,9 +58,18 @@ namespace I2P_Project.Pages
 
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
-            LogInPage LogIn = new LogInPage();
-            LogIn.Show();
-            Close();
+            if (register)
+                {
+                LogInPage LogIn = new LogInPage();
+                LogIn.Show();
+                Close();
+            }
+            else
+            {
+                UsersManagementPage UserManagement = new UsersManagementPage();
+                UserManagement.Show();
+                Close();
+            }
         }
 
     }

@@ -23,5 +23,42 @@ namespace I2P_Project.Pages
         {
             InitializeComponent();
         }
+
+        private void OnAddBook(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void myBooksTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void OnSearch(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnDeleteUser(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnBack(object sender, RoutedEventArgs e)
+        {
+            LibrarianHomePage librarianHome = new LibrarianHomePage();
+            librarianHome.Show();
+            Close();
+        }
+
+        private void OnModifyBook(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnDeleteBook(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

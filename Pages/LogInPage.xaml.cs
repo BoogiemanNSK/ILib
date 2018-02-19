@@ -80,7 +80,7 @@ namespace I2P_Project.Pages
 
         private void RegisterClick(object sender, RoutedEventArgs e)
         {
-            RegisterPage Register = new RegisterPage();
+            RegisterPage Register = new RegisterPage(true);
             Register.Show();
             Close();
         }

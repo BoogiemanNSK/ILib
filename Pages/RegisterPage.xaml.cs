@@ -1,5 +1,4 @@
-﻿using I2P_Project.Classes.Data_Managers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using I2P_Project.Classes;
 
 namespace I2P_Project.Pages
 {
@@ -35,7 +35,7 @@ namespace I2P_Project.Pages
         {
             bool isLibrarian = (SerialNumTB.Text == serialNum);
 
-            if (DataBaseManager.RegisterUser
+            if (SDM.LMS.RegisterUser
                 (
                     LoginTB.Text,
                     PasswordTB.Password,

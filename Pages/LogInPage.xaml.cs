@@ -1,4 +1,4 @@
-﻿using I2P_Project.Classes.Data_Managers;
+﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
 using System;
 using System.Collections.Generic;
@@ -23,15 +23,15 @@ namespace I2P_Project.Pages
     {
         public LogInPage()
         {
-            DataBaseManager.Initialize();
+            SDM.LMS = new Library();
             InitializeComponent();
         }
 
         private void LogInClick(object sender, RoutedEventArgs e)
         {
-            if (DataBaseManager.CheckLogin(LoginTB.Text))
+            if (SDM.LMS.CheckLogin(LoginTB.Text))
             {
-                if (DataBaseManager.CheckPassword(LoginTB.Text, PasswordTB.Password))
+                if (SDM.LMS.CheckPassword(LoginTB.Text, PasswordTB.Password))
                 {
                     LogIn();
                 }
@@ -45,7 +45,7 @@ namespace I2P_Project.Pages
         private void LogIn()
         {
             SetCurrentUser();
-            if (SystemDataManager.CurrentUser.IsLibrarian)
+            if (SDM.CurrentUser.IsLibrarian)
             {
                 LibrarianHomePage LibHomePage = new LibrarianHomePage();
                 LibHomePage.Show();
@@ -61,17 +61,17 @@ namespace I2P_Project.Pages
 
         private void SetCurrentUser()
         {
-            int userType = DataBaseManager.GetUserType(LoginTB.Text);
+            int userType = SDM.LMS.GetUserType(LoginTB.Text);
             switch (userType)
             {
                 case 0:
-                    SystemDataManager.CurrentUser = new Student(LoginTB.Text);
+                    SDM.CurrentUser = new Student(LoginTB.Text);
                     break;
                 case 1:
-                    SystemDataManager.CurrentUser = new Faculty(LoginTB.Text);
+                    SDM.CurrentUser = new Faculty(LoginTB.Text);
                     break;
                 case 2:
-                    SystemDataManager.CurrentUser = new Librarian(LoginTB.Text);
+                    SDM.CurrentUser = new Librarian(LoginTB.Text);
                     break;
                 default:
                     throw new Exception("Unhandled user type!");

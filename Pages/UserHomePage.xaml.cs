@@ -1,4 +1,4 @@
-﻿using I2P_Project.Classes.Data_Managers;
+﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
 using I2P_Project.DataBases;
 using System;
@@ -31,8 +31,8 @@ namespace I2P_Project.Pages
         private void UpdateUI()
         {
             while (DocList.Items.Count > 0) DocList.Items.RemoveAt(0);
-            WelcomeText.Content = "Welcome, " + SystemDataManager.CurrentUser.Name + "!";
-            foreach (document doc in DataBaseManager.GetAllDocs())
+            WelcomeText.Content = "Welcome, " + SDM.CurrentUser.Name + "!";
+            foreach (document doc in SDM.LMS.GetAllDocs())
             {
                 if (!doc.IsReference) {
                     string line = doc.Id + "| " + doc.Title;
@@ -46,7 +46,7 @@ namespace I2P_Project.Pages
             if (DocList.SelectedItem == null) InfoText.Content = "Select a document you would like to check out";
             else
             {
-                Patron currentPatron = (Patron)SystemDataManager.CurrentUser;
+                Patron currentPatron = (Patron)SDM.CurrentUser;
                 string s, item = (string)DocList.SelectedItem;
                 s = item.Substring(0, item.IndexOf('|'));
                 int docID = Convert.ToInt32(s);

@@ -1,4 +1,4 @@
-﻿using I2P_Project.Classes.Data_Managers;
+﻿using I2P_Project.Classes;
 using I2P_Project.Tests;
 using System;
 using System.Collections.Generic;
@@ -31,8 +31,8 @@ namespace I2P_Project.Pages
 
         private void UpdateTables()
         {
-            DocsTable.ItemsSource = DataBaseManager.TestDocsTableOnlyBooks();
-            dg_UserTable.ItemsSource = DataBaseManager.TestUsersTable();
+            DocsTable.ItemsSource = SDM.LMS.TestDocsTableOnlyBooks();
+            dg_UserTable.ItemsSource = SDM.LMS.TestUsersTable();
         }
 
         private void OnTest(object sender, RoutedEventArgs e)
@@ -90,12 +90,12 @@ namespace I2P_Project.Pages
         {
             UserTable ut_row = dg_UserTable.SelectedItems[0] as UserTable;
             int user_id = ut_row.userID;
-            DocsTable.ItemsSource = DataBaseManager.TestDocsTableUsersBooks(user_id);
+            DocsTable.ItemsSource = SDM.LMS.TestDocsTableUsersBooks(user_id);
         }
 
         private void OnOverall(object sender, RoutedEventArgs e) // Shows books without user
         {
-            DocsTable.ItemsSource = DataBaseManager.TestDocsTableOnlyBooks(); 
+            DocsTable.ItemsSource = SDM.LMS.TestDocsTableOnlyBooks(); 
         }
 
         private void OnExit(object sender, RoutedEventArgs e)

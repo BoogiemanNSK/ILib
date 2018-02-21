@@ -1,30 +1,33 @@
-﻿
+﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
-using I2P_Project.Classes.Data_Managers;
+
 namespace I2P_Project.Tests
 {
     class Test
     {
-        /*
         public string test1()
         {
             string output = "Cleared DB...\n";
-            DataBaseManager.ClearDB();
+            SDM.LMS.ClearDB();
 
             output += "Registering student st in the system...\n";
-            DataBaseManager.RegisterUser("st", "st", "st", "st", "st", false);
+            SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
 
             output += "Registering librarian lb in the system...\n";
-            DataBaseManager.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
-            output += "Logging In as student st...\n";
-            SystemDataManager.CurrentUser = new Student("st"); // Log In student st
-            Student st = (Student)SystemDataManager.CurrentUser;
+            output += "Logging In as librarian lb...\n";
+            SDM.CurrentUser = new Student("lb"); // Log In librarian lb
+            Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Adding reference book b and two copies...\n";
-            DataBaseManager.AddDocToDB("b", "B", 0, 0, false); // Adding Reference book
-            DataBaseManager.AddDocToDB("b", "B", 0, 0, false); 
-            DataBaseManager.AddDocToDB("b", "B", 0, 0, false);
+            lb.AddDoc("b", "B", 0, 0, false); // Adding Reference book
+            lb.AddDoc("b", "B", 0, 0, false);
+            lb.AddDoc("b", "B", 0, 0, false);
+
+            output += "Logging In as student st...\n";
+            SDM.CurrentUser = new Student("st"); // Log In student st
+            Student st = (Student)SDM.CurrentUser;
 
             output += "Student st checking out book b...\n";
             st.CheckOut("b");
@@ -33,6 +36,7 @@ namespace I2P_Project.Tests
             return output;
         }
 
+        /*
         public string test2()
         {
             string output = "Cleared DB...\n";
@@ -319,8 +323,7 @@ namespace I2P_Project.Tests
 
             output += "Test passed with no exceptions!\n";
             return output;
-        }
-        */
+        }*/
     }
     
 }

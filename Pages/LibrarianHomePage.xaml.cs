@@ -1,4 +1,4 @@
-﻿using I2P_Project.Classes.Data_Managers;
+﻿using I2P_Project.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace I2P_Project.Pages
         public LibrarianHomePage()
         {
             InitializeComponent();
-            WelcomeText.Content = "Welcome, " + SystemDataManager.CurrentUser.Name + "!";
+            WelcomeText.Content = "Welcome, " + SDM.CurrentUser.Name + "!";
         }
 
         private void UserManagementClick(object sender, RoutedEventArgs e)

@@ -1,5 +1,4 @@
-﻿using I2P_Project.Classes.Data_Managers;
-using I2P_Project.DataBases;
+﻿using I2P_Project.DataBases;
 using System.Linq;
 
 namespace I2P_Project.Classes.UserSystem
@@ -18,7 +17,7 @@ namespace I2P_Project.Classes.UserSystem
             if (test.Any()) // Check if any copies of doc exists
             {
                 foreach (document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
-                    if (DocBelongsToUser(SystemDataManager.CurrentUser.PersonID, selected.Id))
+                    if (DocBelongsToUser(SDM.CurrentUser.PersonID, selected.Id))
                         return "You already have that book";
                 foreach (document selected in test.ToArray()) // Checks if any of them are free
                 {
@@ -32,7 +31,7 @@ namespace I2P_Project.Classes.UserSystem
             else
                 return "There are no free copies of this book for now";
 
-            int user_id = SystemDataManager.CurrentUser.PersonID;
+            int user_id = SDM.CurrentUser.PersonID;
 
             if (doc.IsBestseller || doc.DocType != 0)
                 SetCheckOut(doc.Id, user_id, 2);

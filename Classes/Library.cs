@@ -1,31 +1,27 @@
 ﻿using I2P_Project.DataBases;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace I2P_Project.Classes.Data_Managers
+namespace I2P_Project.Classes
 {
     /// <summary>
-    /// Static class for fast and easy acess to db.
-    /// All required quries are incapsulated in methods to provide information hiding.
+    /// Class for managing library.
+    /// Here are methods that are acessed by the system mostly, not by any users.
     /// </summary>
-    static class DataBaseManager
+    class Library
     {
-        /// <summary> LINQ to database, used for easier interaction </summary>
-        private static LINQtoUserDBDataContext db;
+        private LINQtoUserDBDataContext db;
 
         /// <summary> Initializing DB </summary>
-        public static void Initialize()
+        public void Initialize()
         {
             db = new LINQtoUserDBDataContext();
             db.SubmitChanges(); // DB Preload
         }
 
-        #region Input to DB
-
         /// <summary> Registers new user in data base </summary>
-        public static bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
+        public bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
         {
             if (CheckLogin(login)) return false;
 
@@ -41,16 +37,14 @@ namespace I2P_Project.Classes.Data_Managers
             return true;
         }
 
-        #endregion
+        #region Output for viewing in tables
 
-        #region Output from DB
-
-        public static ObservableCollection<Pages.MyBooksTable> GetUserBooks()
+        public ObservableCollection<Pages.MyBooksTable> GetUserBooks()
         {
             ObservableCollection<Pages.MyBooksTable> temp_table = new ObservableCollection<Pages.MyBooksTable>();
             var load_user_books = from c in db.checkouts
                                   join b in db.documents on c.bookID equals b.Id
-                                  where c.userID == SystemDataManager.CurrentUser.PersonID && c.isReturned == false
+                                  where c.userID == SDM.CurrentUser.PersonID && c.isReturned == false
                                   select new
                                   {
                                       c.checkID,
@@ -67,14 +61,14 @@ namespace I2P_Project.Classes.Data_Managers
                     bookID = element.bookID,
                     b_title = element.Title,
                     c_dateTaked = (System.DateTime)element.dateTaked,
-                    c_timeToBack = (System.DateTime)element.timeToBack                    
+                    c_timeToBack = (System.DateTime)element.timeToBack
                 };
                 temp_table.Add(row);
             }
             return temp_table;
         }
 
-        public static ObservableCollection<Pages.DocsTable> TestDocsTableOnlyBooks()
+        public ObservableCollection<Pages.DocsTable> TestDocsTableOnlyBooks()
         {
             ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
             var load_user_docs = from b in db.documents
@@ -103,7 +97,7 @@ namespace I2P_Project.Classes.Data_Managers
             return temp_table;
         }
 
-        public static ObservableCollection<Pages.DocsTable> TestDocsTableUsersBooks(int user_id)
+        public ObservableCollection<Pages.DocsTable> TestDocsTableUsersBooks(int user_id)
         {
             ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
             var load_user_docs = from c in db.checkouts
@@ -133,19 +127,19 @@ namespace I2P_Project.Classes.Data_Managers
             return temp_table;
         }
 
-        public static ObservableCollection<Pages.UserTable> TestUsersTable()
+        public ObservableCollection<Pages.UserTable> TestUsersTable()
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
             var load_users = from u in db.users
-                                 join ut in db.userTypes on u.userType equals ut.typeID
-                                 select new
-                                 {
-                                    u.id,
-                                    u.name,
-                                    u.address,
-                                    u.phoneNumber,
-                                    ut.typeName
-                                 };
+                             join ut in db.userTypes on u.userType equals ut.typeID
+                             select new
+                             {
+                                 u.id,
+                                 u.name,
+                                 u.address,
+                                 u.phoneNumber,
+                                 ut.typeName
+                             };
             foreach (var element in load_users)
             {
                 Pages.UserTable row = new Pages.UserTable
@@ -162,27 +156,27 @@ namespace I2P_Project.Classes.Data_Managers
         }
 
         // TODO Replace with Observable collection
-        public static List<document> GetAllDocs()
+        /*public List<document> GetAllDocs()
         {
             var test = (from p in db.documents select p);
             return test.ToList();
-        }
+        }*/
 
-        private static checkouts GetOwnerInfo(int docID)
+        private checkouts GetOwnerInfo(int docID)
         {
             var test = from c in db.checkouts
-                        where c.bookID == docID
-                        select c;
+                       where c.bookID == docID
+                       select c;
             if (test.Any()) return test.Single();
             else return null;
         }
 
         #endregion
 
-        #region Existence checking in DB
+        #region Existence checking
 
         /// <summary> Checks if there exist a user with given e-mail </summary>
-        public static bool CheckLogin(string login)
+        public bool CheckLogin(string login)
         {
             var test = (from p in db.users
                         where p.login == login
@@ -191,7 +185,7 @@ namespace I2P_Project.Classes.Data_Managers
         }
 
         /// <summary> Checks if a user with given e-mail has given password </summary>
-        public static bool CheckPassword(string login, string password)
+        public bool CheckPassword(string login, string password)
         {
             var test = (from p in db.users
                         where (p.login == login && p.password == password)
@@ -207,7 +201,7 @@ namespace I2P_Project.Classes.Data_Managers
         /// 1 - Faculty
         /// 2 - Librarian
         /// </returns>
-        public static int GetUserType(string login)
+        public int GetUserType(string login)
         {
             var test = (from p in db.users
                         where (p.login == login)
@@ -216,9 +210,9 @@ namespace I2P_Project.Classes.Data_Managers
                 return test.Single().userType;
             return -1;
         }
-                        
+
         /// <summary> Clears DB (for test cases only) </summary>
-        public static void ClearDB()
+        public void ClearDB()
         {
             db.ExecuteCommand("DELETE FROM documents");
             db.ExecuteCommand("DELETE FROM users");

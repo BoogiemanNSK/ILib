@@ -11,8 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
-using I2P_Project.Classes.Data_Managers;
 
 namespace I2P_Project.Pages
 {
@@ -28,7 +28,7 @@ namespace I2P_Project.Pages
 
         private void OnAddBookClick(object sender, RoutedEventArgs e)
         {
-            Librarian currentUser = (Librarian) SystemDataManager.CurrentUser;
+            Librarian currentUser = (Librarian)SDM.CurrentUser;
             string docType = DocTypeTB.Text.ToLower();
             int dt = 0;
             if (docType.Equals("book"))

@@ -1,4 +1,4 @@
-﻿using I2P_Project.Classes.Data_Managers;
+﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
 using I2P_Project.DataBases;
 using System;
@@ -41,7 +41,7 @@ namespace I2P_Project.Pages
             //    string line = doc.Id + "| " + doc.Title;
             //    DocList.Items.Add(line);
             //}            
-            myBooksTable.ItemsSource = DataBaseManager.GetUserBooks();
+            myBooksTable.ItemsSource = SDM.LMS.GetUserBooks();
         }
 
         private void OnReturn(object sender, RoutedEventArgs e)

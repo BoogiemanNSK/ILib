@@ -23,7 +23,7 @@ namespace I2P_Project.Pages
     {
         public LogInPage()
         {
-            SDM.LMS.Initialize();
+            SDM.LMS = new Library();
             InitializeComponent();
         }
 

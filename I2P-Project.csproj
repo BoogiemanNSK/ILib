@@ -83,8 +83,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Classes\Data Managers\DataBaseManager.cs" />
-    <Compile Include="Classes\Data Managers\SystemDataManager.cs" />
+    <Compile Include="Classes\SDM.cs" />
+    <Compile Include="Classes\Library.cs" />
     <Compile Include="DataBases\LINQtoDB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

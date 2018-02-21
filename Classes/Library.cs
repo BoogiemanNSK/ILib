@@ -14,7 +14,7 @@ namespace I2P_Project.Classes
         private LINQtoUserDBDataContext db;
 
         /// <summary> Initializing DB </summary>
-        public void Initialize()
+        public void LIbrary()
         {
             db = new LINQtoUserDBDataContext();
             db.SubmitChanges(); // DB Preload

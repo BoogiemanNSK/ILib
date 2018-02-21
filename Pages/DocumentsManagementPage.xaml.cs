@@ -26,7 +26,9 @@ namespace I2P_Project.Pages
 
         private void OnAddBook(object sender, RoutedEventArgs e)
         {
-
+            AddBookPage page = new AddBookPage();
+            page.Show();
+            Close();
         }
 
         private void myBooksTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -38,11 +40,7 @@ namespace I2P_Project.Pages
         {
 
         }
-
-        private void OnDeleteUser(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
 
         private void OnBack(object sender, RoutedEventArgs e)
         {

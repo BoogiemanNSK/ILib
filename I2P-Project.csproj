@@ -95,6 +95,9 @@
     <Compile Include="Classes\UserSystem\Patron.cs" />
     <Compile Include="Classes\UserSystem\Student.cs" />
     <Compile Include="Classes\UserSystem\User.cs" />
+    <Compile Include="Pages\AddBookPage.xaml.cs">
+      <DependentUpon>AddBookPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\DocumentsManagementPage.xaml.cs">
       <DependentUpon>DocumentsManagementPage.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,10 @@
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\AddBookPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\DocumentsManagementPage.xaml">
       <SubType>Designer</SubType>

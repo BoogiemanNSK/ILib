@@ -17,7 +17,7 @@ namespace I2P_Project.Classes.UserSystem
         public User(string login)
         {
             _login = login;
-            LINQtoUserDBDataContext uDB = new LINQtoUserDBDataContext();
+            uDB = new LINQtoUserDBDataContext();
             var getUser = (from p in uDB.users
                            where (p.login == login)
                            select p);

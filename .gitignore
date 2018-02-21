@@ -67,7 +67,11 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
-*.mdf
+
+# Files for further inclusion (to avoid merge conflicts)
+DataBases/
+Documentation/
+[Bb]in/
 
 # Chutzpah Test files
 _Chutzpah*

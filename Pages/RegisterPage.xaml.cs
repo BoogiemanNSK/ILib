@@ -45,9 +45,18 @@ namespace I2P_Project.Pages
                     isLibrarian
                 ))
             {
-                LogInPage LogIn = new LogInPage();
-                LogIn.Show();
-                Close();
+                if (register)
+                {
+                    LogInPage LogIn = new LogInPage();
+                    LogIn.Show();
+                    Close();
+                }
+                else
+                {
+                    UsersManagementPage UserManagement = new UsersManagementPage();
+                    UserManagement.Show();
+                    Close();
+                }
             }
             else
             {

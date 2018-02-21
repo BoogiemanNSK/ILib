@@ -1,5 +1,6 @@
 ﻿using I2P_Project.DataBases;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -156,11 +157,11 @@ namespace I2P_Project.Classes
         }
 
         // TODO Replace with Observable collection
-        /*public List<document> GetAllDocs()
+        public List<document> GetAllDocs()
         {
             var test = (from p in db.documents select p);
             return test.ToList();
-        }*/
+        }
 
         private checkouts GetOwnerInfo(int docID)
         {

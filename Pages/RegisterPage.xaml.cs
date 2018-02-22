@@ -22,18 +22,17 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class RegisterPage : Window
     {
-        bool register;
+        private bool _register;
+
         public RegisterPage(bool b)
         {
-            register = b;
+            _register = b;
             InitializeComponent();
         }
 
-        private const string serialNum = "iamlibrarian";
-
         private void OnRegisterClick(object sender, RoutedEventArgs e)
         {
-            bool isLibrarian = (SerialNumTB.Text == serialNum);
+            bool isLibrarian = (SerialNumTB.Text == SDM.Strings.SERIAL_NUMBER);
 
             if (SDM.LMS.RegisterUser
                 (
@@ -45,7 +44,7 @@ namespace I2P_Project.Pages
                     isLibrarian
                 ))
             {
-                if (register)
+                if (_register)
                 {
                     LogInPage LogIn = new LogInPage();
                     LogIn.Show();
@@ -60,14 +59,14 @@ namespace I2P_Project.Pages
             }
             else
             {
-                InfoText.Content = "User with such login already exist!";
+                InfoText.Content = SDM.Strings.USER_EXIST_TEXT;
             }
             
         }
 
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
-            if (register)
+            if (_register)
                 {
                 LogInPage LogIn = new LogInPage();
                 LogIn.Show();

@@ -18,7 +18,7 @@ namespace I2P_Project.Classes.UserSystem
         public string ReturnDoc(int docID)
         {
             // TODO Implement return doc
-            return "Failed to return (not implemented)";
+            return "";
         }
 
         /// <summary>

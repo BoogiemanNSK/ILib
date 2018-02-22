@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="Classes\SDM.cs" />
     <Compile Include="Classes\Library.cs" />
+    <Compile Include="Classes\StringConstants.cs" />
     <Compile Include="DataBases\LINQtoDB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

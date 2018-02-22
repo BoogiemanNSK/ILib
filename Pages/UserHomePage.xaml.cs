@@ -31,7 +31,7 @@ namespace I2P_Project.Pages
         private void UpdateUI()
         {
             while (DocList.Items.Count > 0) DocList.Items.RemoveAt(0);
-            WelcomeText.Content = "Welcome, " + SDM.CurrentUser.Name + "!";
+            WelcomeText.Content = SDM.Strings.WELCOME_TEXT + ", " + SDM.CurrentUser.Name + "!";
             foreach (document doc in SDM.LMS.GetAllDocs())
             {
                 if (!doc.IsReference) {
@@ -43,7 +43,7 @@ namespace I2P_Project.Pages
 
         private void OnCheckOut(object sender, RoutedEventArgs e)
         {
-            if (DocList.SelectedItem == null) InfoText.Content = "Select a document you would like to check out";
+            if (DocList.SelectedItem == null) InfoText.Content = SDM.Strings.SELECT_CHECK_OUT;
             else
             {
                 Patron currentPatron = (Patron)SDM.CurrentUser;

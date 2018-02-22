@@ -32,39 +32,23 @@ namespace I2P_Project.Pages
         }
 
         private void UpdateUI()
-        {
-            //while (DocList.Items.Count > 0) DocList.Items.RemoveAt(0);
-            //Patron currentPatron = (Patron)SystemDataManager.CurrentUser;
-            //foreach (int docID in currentPatron.CheckedDocs)
-            //{
-            //    documents doc = DataBaseManager.GetDoc(docID);
-            //    string line = doc.Id + "| " + doc.Title;
-            //    DocList.Items.Add(line);
-            //}            
+        {        
             myBooksTable.ItemsSource = SDM.LMS.GetUserBooks();
         }
 
         private void OnReturn(object sender, RoutedEventArgs e)
         {
-            //if (DocList.SelectedItem == null) InfoText.Content = "Select a document you would like to return";
-            //else
-            //{
-            //    Patron currentPatron = (Patron)SystemDataManager.CurrentUser;
-            //    string s, item = (string)DocList.SelectedItem;
-            //    s = item.Substring(0, item.IndexOf('|'));
-            //    int docID = Convert.ToInt32(s);
-            //    InfoText.Content = currentPatron.ReturnDoc(docID);
-            //    UpdateUI();
-            //}
             if (myBooksTable.SelectedIndex == -1) return;
-            MessageBoxResult result = MessageBox.Show("Are you sure you want return this book?", "Attention", MessageBoxButton.YesNo);
+
+            MessageBoxResult result = MessageBox.Show(SDM.Strings.RETURN_CONFIRMATION_TEXT,
+                SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
+
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    //действия по удалению команды из чемпионата
                     MyBooksTable mb_row = myBooksTable.SelectedItems[0] as MyBooksTable;
                     int book_id = mb_row.bookID;
-                    
+                    // TODO Removing book
                     break;
                 case MessageBoxResult.No:
                     break;

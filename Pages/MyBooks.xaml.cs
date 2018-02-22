@@ -47,8 +47,10 @@ namespace I2P_Project.Pages
             {
                 case MessageBoxResult.Yes:
                     MyBooksTable mb_row = myBooksTable.SelectedItems[0] as MyBooksTable;
-                    int book_id = mb_row.bookID;
-                    // TODO Removing book
+                    int bookID = mb_row.bookID;
+                    Patron currentPatron = (Patron)SDM.CurrentUser;
+                    InfoText.Content = currentPatron.ReturnDoc(bookID);
+                    UpdateUI();
                     break;
                 case MessageBoxResult.No:
                     break;

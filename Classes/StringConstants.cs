@@ -13,6 +13,7 @@
 
     public string RETURN_CONFIRMATION_TEXT => "Are you sure you want return this book?";
     public string ATTENTION_TEXT => "Attention";
+    public string SUCCESSFUL_RETURN => "Successfuly returned";
 
     public string SERIAL_NUMBER => "iamlibrarian";
     public string USER_EXIST_TEXT => "User with such login already exist!";

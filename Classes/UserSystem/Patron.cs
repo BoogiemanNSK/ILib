@@ -17,8 +17,15 @@ namespace I2P_Project.Classes.UserSystem
 
         public string ReturnDoc(int docID)
         {
-            // TODO Implement return doc
-            return "";
+            var test = from c in uDB.checkouts
+                       where (c.bookID == docID & c.userID == PersonID)
+                       select c;
+            checkouts checkout = test.Single();
+
+            uDB.checkouts.DeleteOnSubmit(checkout);
+            uDB.SubmitChanges();
+
+            return SDM.Strings.SUCCESSFUL_RETURN + " " + GetTitleByID(docID) + "!";
         }
 
         /// <summary>

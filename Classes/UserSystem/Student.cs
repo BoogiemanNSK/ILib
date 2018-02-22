@@ -18,18 +18,18 @@ namespace I2P_Project.Classes.UserSystem
             {
                 foreach (document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
                     if (DocBelongsToUser(SDM.CurrentUser.PersonID, selected.Id))
-                        return "You already have that book";
+                        return SDM.Strings.ALREADY_HAVE_TEXT;
                 foreach (document selected in test.ToArray()) // Checks if any of them are free
                 {
                     var test2 = from c in uDB.checkouts
                                 where c.bookID == selected.Id
                                 select c;
                     if (!test2.Any()) doc = selected;
-                    else return "There are no free copies of this book for now";
+                    else return SDM.Strings.NO_FREE_COPIES_TEXT;
                 }
             }
             else
-                return "There are no free copies of this book for now";
+                return SDM.Strings.NO_FREE_COPIES_TEXT;
 
             int user_id = SDM.CurrentUser.PersonID;
 
@@ -38,7 +38,7 @@ namespace I2P_Project.Classes.UserSystem
             else
                 SetCheckOut(doc.Id, user_id, 3);
 
-            return "Checked out " + doc.Title + " successfully!";
+            return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";
         }
 
     }

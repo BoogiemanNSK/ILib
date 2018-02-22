@@ -40,6 +40,7 @@ namespace I2P_Project.Classes
 
         #region Output for viewing in tables
 
+        /// <summary> Returns a collection of current user docs </summary>
         public ObservableCollection<Pages.MyBooksTable> GetUserBooks()
         {
             ObservableCollection<Pages.MyBooksTable> temp_table = new ObservableCollection<Pages.MyBooksTable>();
@@ -69,6 +70,8 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        // [FOR TEST]
+        /// <summary> Returns a collection of all docs </summary>
         public ObservableCollection<Pages.DocsTable> TestDocsTableOnlyBooks()
         {
             ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
@@ -98,6 +101,8 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        // [FOR TEST]
+        /// <summary> Returns a collection of books of particular user </summary>
         public ObservableCollection<Pages.DocsTable> TestDocsTableUsersBooks(int user_id)
         {
             ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
@@ -128,6 +133,8 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        // [FOR TEST]
+        /// <summary> Returns a collection of all users </summary>
         public ObservableCollection<Pages.UserTable> TestUsersTable()
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
@@ -157,12 +164,14 @@ namespace I2P_Project.Classes
         }
 
         // TODO Replace with Observable collection
+        /// <summary> Returns all non-reference docs </summary>
         public List<document> GetAllDocs()
         {
             var test = (from p in db.documents select p);
             return test.ToList();
         }
 
+        /// <summary> Returns a checkout info of particular document </summary>
         private checkouts GetOwnerInfo(int docID)
         {
             var test = from c in db.checkouts

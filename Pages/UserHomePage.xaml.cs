@@ -17,9 +17,7 @@ using System.Windows.Shapes;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for UserHomePage.xaml
-    /// </summary>
+    /// <summary> Interaction logic for UserHomePage.xaml </summary>
     public partial class UserHomePage : Window
     {
         public UserHomePage()
@@ -28,6 +26,7 @@ namespace I2P_Project.Pages
             UpdateUI();
         }
 
+        /// <summary> Updates table of all docs </summary>
         private void UpdateUI()
         {
             while (DocList.Items.Count > 0) DocList.Items.RemoveAt(0);
@@ -41,6 +40,7 @@ namespace I2P_Project.Pages
             }
         }
 
+        /// <summary> Trying to check out selected doc </summary>
         private void OnCheckOut(object sender, RoutedEventArgs e)
         {
             if (DocList.SelectedItem == null) InfoText.Content = SDM.Strings.SELECT_CHECK_OUT;
@@ -55,6 +55,7 @@ namespace I2P_Project.Pages
             }
         }
 
+        /// <summary> Moves to MyBooks page </summary>
         private void OnMyDocs(object sender, RoutedEventArgs e)
         {
             MyBooks MyDocs = new MyBooks();

@@ -8,13 +8,19 @@ namespace I2P_Project.Classes.UserSystem
     {
         public Patron(string login) : base(login) {}
 
+        /// <summary> Check out by ID </summary>
+        /// <returns> Result of check out as message </returns>
         public string CheckOut(int docID)
         {
             return CheckOut(GetTitleByID(docID));
         }
 
+        /// <summary> Check out by Title </summary>
+        /// <returns> Result of check out as message </returns>
         public abstract string CheckOut(string title);
 
+        /// <summary> Returns a document from a user to the LMS </summary>
+        /// <returns> Result of returning doc as message </returns>
         public string ReturnDoc(int docID)
         {
             var test = from c in uDB.checkouts
@@ -33,13 +39,12 @@ namespace I2P_Project.Classes.UserSystem
         /// Start timer for check out and get reference for book
         /// on it's owner.
         /// </summary>
-        /// <param name="docID"></param>
-        protected void SetCheckOut(int docID, int user_id, int weeks)
+        protected void SetCheckOut(int docID, int weeks)
         {
             System.DateTime time = System.DateTime.Now;
 
             checkouts chk = new checkouts();
-            chk.userID = user_id;
+            chk.userID = PersonID;
             chk.bookID = docID;
             chk.isReturned = false;
             chk.dateTaked = time;
@@ -48,14 +53,16 @@ namespace I2P_Project.Classes.UserSystem
             uDB.SubmitChanges();
         }
 
-        protected bool DocBelongsToUser(int userID, int docID)
+        /// <summary> Checks if current user has book with given ID </summary>
+        protected bool DocBelongsToUser(int docID)
         {
             var test = from c in uDB.checkouts
-                       where (c.bookID == docID & c.userID == userID)
+                       where (c.bookID == docID & c.userID == PersonID)
                        select c;
             return test.Any();
         }
 
+        /// <summary> Return book title from ID </summary>
         private string GetTitleByID(int docID)
         {
             var test = (from p in uDB.documents

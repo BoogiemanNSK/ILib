@@ -8,6 +8,8 @@ namespace I2P_Project.Classes.UserSystem
     {
         public Student(string login) : base(login) {}
 
+        /// <summary> Checks out a book for a current student user </summary>
+        /// <returns> Result of check out as message </returns>
         public override string CheckOut(string title)
         {
             document doc = null;
@@ -17,7 +19,7 @@ namespace I2P_Project.Classes.UserSystem
             if (test.Any()) // Check if any copies of doc exists
             {
                 foreach (document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
-                    if (DocBelongsToUser(SDM.CurrentUser.PersonID, selected.Id))
+                    if (DocBelongsToUser(selected.Id))
                         return SDM.Strings.ALREADY_HAVE_TEXT;
                 foreach (document selected in test.ToArray()) // Checks if any of them are free
                 {
@@ -31,12 +33,10 @@ namespace I2P_Project.Classes.UserSystem
             else
                 return SDM.Strings.NO_FREE_COPIES_TEXT;
 
-            int user_id = SDM.CurrentUser.PersonID;
-
             if (doc.IsBestseller || doc.DocType != 0)
-                SetCheckOut(doc.Id, user_id, 2);
+                SetCheckOut(doc.Id, 2);
             else
-                SetCheckOut(doc.Id, user_id, 3);
+                SetCheckOut(doc.Id, 3);
 
             return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";
         }

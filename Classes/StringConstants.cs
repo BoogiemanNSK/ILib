@@ -1,4 +1,8 @@
-﻿class StringConstants
+﻿/// <summary> 
+/// Class of string constants to avoid harcoding and
+///  (maybe sometime) provide multi-language support 
+/// </summary>
+class StringConstants
 {
 
     public string USER_NOT_FOUND_TEXT => "User not found";

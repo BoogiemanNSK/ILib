@@ -31,11 +31,13 @@ namespace I2P_Project.Pages
             UpdateUI();
         }
 
+        /// <summary> Updates table of user`s docs </summary>
         private void UpdateUI()
         {        
             myBooksTable.ItemsSource = SDM.LMS.GetUserBooks();
         }
 
+        /// <summary> Trying to return document </summary>
         private void OnReturn(object sender, RoutedEventArgs e)
         {
             if (myBooksTable.SelectedIndex == -1) return;
@@ -57,6 +59,7 @@ namespace I2P_Project.Pages
             }
         }
 
+        /// <summary> Move to UserHomePage </summary>
         private void OnBack(object sender, RoutedEventArgs e)
         {
             UserHomePage HomePage = new UserHomePage();

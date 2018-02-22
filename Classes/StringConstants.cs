@@ -18,4 +18,6 @@
     public string SERIAL_NUMBER => "iamlibrarian";
     public string USER_EXIST_TEXT => "User with such login already exist!";
 
+    public string[] DOC_TYPES => new string[] {"Book", "Journal", "Audio", "Video"};
+
 }

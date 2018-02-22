@@ -87,7 +87,7 @@ namespace I2P_Project.Classes
                 {
                     docID = element.Id,
                     docTitle = element.Title,
-                    docType = TypeString(element.DocType),
+                    docType = SDM.Strings.DOC_TYPES[element.DocType],
                     docOwnerID = checkoutInfo == null ? -1 : checkoutInfo.userID,
                     dateTaked = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.dateTaked,
                     timeToBack = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.timeToBack,
@@ -119,7 +119,7 @@ namespace I2P_Project.Classes
                     docID = element.bookID,
                     docOwnerID = user_id,
                     docTitle = element.Title,
-                    docType = TypeString(element.DocType),
+                    docType = SDM.Strings.DOC_TYPES[element.DocType],
                     dateTaked = (DateTime)element.dateTaked,
                     timeToBack = element.timeToBack
                 };
@@ -196,45 +196,12 @@ namespace I2P_Project.Classes
 
         #endregion
 
-        /// <summary> Returns numerator of user type </summary>
-        /// <returns>
-        /// 0 - Student
-        /// 1 - Faculty
-        /// 2 - Librarian
-        /// </returns>
-        public int GetUserType(string login)
-        {
-            var test = (from p in db.users
-                        where (p.login == login)
-                        select p);
-            if (test.Any())
-                return test.Single().userType;
-            return -1;
-        }
-
         /// <summary> Clears DB (for test cases only) </summary>
         public void ClearDB()
         {
             db.ExecuteCommand("DELETE FROM documents");
             db.ExecuteCommand("DELETE FROM users");
             db.ExecuteCommand("DELETE FROM checkouts");
-        }
-
-        private static string TypeString(int num)
-        {
-            switch (num)
-            {
-                case 0:
-                    return "Book";
-                case 1:
-                    return "Journal";
-                case 2:
-                    return "Audio";
-                case 3:
-                    return "Video";
-                default:
-                    throw new Exception("Something went wrong");
-            }
         }
 
     }

@@ -45,7 +45,7 @@ namespace I2P_Project.Pages
         private void LogIn()
         {
             SetCurrentUser();
-            if (SDM.CurrentUser.IsLibrarian)
+            if (SDM.CurrentUser.UserType == 2)
             {
                 LibrarianHomePage LibHomePage = new LibrarianHomePage();
                 LibHomePage.Show();
@@ -61,7 +61,7 @@ namespace I2P_Project.Pages
 
         private void SetCurrentUser()
         {
-            int userType = SDM.LMS.GetUserType(LoginTB.Text);
+            int userType = new Student(LoginTB.Text).UserType;
             switch (userType)
             {
                 case 0:

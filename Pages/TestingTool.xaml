@@ -34,7 +34,6 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding userName}" Width="Auto"/>
                 <DataGridTextColumn Header="Address" Binding="{Binding userAddress}" Width="Auto"/>
                 <DataGridTextColumn Header="Phone Number" Binding="{Binding userPhoneNumber}" Width="Auto"/>
-                <DataGridTextColumn Header="IC Number" Binding="{Binding userICNumber}" Width="Auto"/>
                 <DataGridTextColumn Header="User Type" Binding="{Binding userType}" Width="Auto"/>
                 <DataGridTemplateColumn Header="User Books" CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>

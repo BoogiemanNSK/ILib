@@ -23,7 +23,7 @@ namespace I2P_Project.Pages
     {
         public LogInPage()
         {
-            SDM.LMS = new Library();
+            SDM.InitializeSystem();
             InitializeComponent();
         }
 
@@ -36,16 +36,16 @@ namespace I2P_Project.Pages
                     LogIn();
                 }
                 else
-                    WrongLabel.Content = "Wrong password"; // TODO String constants
+                    WrongLabel.Content = SDM.Strings.WRONG_PASSWORD_TEXT;
             }
             else
-                WrongLabel.Content = "User not found"; // TODO String constants
+                WrongLabel.Content = SDM.Strings.USER_NOT_FOUND_TEXT;
         }
 
         private void LogIn()
         {
             SetCurrentUser();
-            if (SDM.CurrentUser.IsLibrarian)
+            if (SDM.CurrentUser.UserType == 2)
             {
                 LibrarianHomePage LibHomePage = new LibrarianHomePage();
                 LibHomePage.Show();
@@ -61,7 +61,7 @@ namespace I2P_Project.Pages
 
         private void SetCurrentUser()
         {
-            int userType = SDM.LMS.GetUserType(LoginTB.Text);
+            int userType = new Student(LoginTB.Text).UserType;
             switch (userType)
             {
                 case 0:

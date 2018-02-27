@@ -40,6 +40,7 @@ namespace I2P_Project.Classes
 
         #region Output for viewing in tables
 
+        /// <summary> Returns a collection of current user docs </summary>
         public ObservableCollection<Pages.MyBooksTable> GetUserBooks()
         {
             ObservableCollection<Pages.MyBooksTable> temp_table = new ObservableCollection<Pages.MyBooksTable>();
@@ -69,6 +70,8 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        // [FOR TEST]
+        /// <summary> Returns a collection of all docs </summary>
         public ObservableCollection<Pages.DocsTable> TestDocsTableOnlyBooks()
         {
             ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
@@ -87,7 +90,7 @@ namespace I2P_Project.Classes
                 {
                     docID = element.Id,
                     docTitle = element.Title,
-                    docType = TypeString(element.DocType),
+                    docType = SDM.Strings.DOC_TYPES[element.DocType],
                     docOwnerID = checkoutInfo == null ? -1 : checkoutInfo.userID,
                     dateTaked = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.dateTaked,
                     timeToBack = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.timeToBack,
@@ -98,6 +101,8 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        // [FOR TEST]
+        /// <summary> Returns a collection of books of particular user </summary>
         public ObservableCollection<Pages.DocsTable> TestDocsTableUsersBooks(int user_id)
         {
             ObservableCollection<Pages.DocsTable> temp_table = new ObservableCollection<Pages.DocsTable>();
@@ -119,7 +124,7 @@ namespace I2P_Project.Classes
                     docID = element.bookID,
                     docOwnerID = user_id,
                     docTitle = element.Title,
-                    docType = TypeString(element.DocType),
+                    docType = SDM.Strings.DOC_TYPES[element.DocType],
                     dateTaked = (DateTime)element.dateTaked,
                     timeToBack = element.timeToBack
                 };
@@ -128,6 +133,8 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        // [FOR TEST]
+        /// <summary> Returns a collection of all users </summary>
         public ObservableCollection<Pages.UserTable> TestUsersTable()
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
@@ -157,12 +164,14 @@ namespace I2P_Project.Classes
         }
 
         // TODO Replace with Observable collection
+        /// <summary> Returns all non-reference docs </summary>
         public List<document> GetAllDocs()
         {
             var test = (from p in db.documents select p);
             return test.ToList();
         }
 
+        /// <summary> Returns a checkout info of particular document </summary>
         private checkouts GetOwnerInfo(int docID)
         {
             var test = from c in db.checkouts
@@ -196,45 +205,12 @@ namespace I2P_Project.Classes
 
         #endregion
 
-        /// <summary> Returns numerator of user type </summary>
-        /// <returns>
-        /// 0 - Student
-        /// 1 - Faculty
-        /// 2 - Librarian
-        /// </returns>
-        public int GetUserType(string login)
-        {
-            var test = (from p in db.users
-                        where (p.login == login)
-                        select p);
-            if (test.Any())
-                return test.Single().userType;
-            return -1;
-        }
-
         /// <summary> Clears DB (for test cases only) </summary>
         public void ClearDB()
         {
             db.ExecuteCommand("DELETE FROM documents");
             db.ExecuteCommand("DELETE FROM users");
             db.ExecuteCommand("DELETE FROM checkouts");
-        }
-
-        private static string TypeString(int num)
-        {
-            switch (num)
-            {
-                case 0:
-                    return "Book";
-                case 1:
-                    return "Journal";
-                case 2:
-                    return "Audio";
-                case 3:
-                    return "Video";
-                default:
-                    throw new Exception("Something went wrong");
-            }
         }
 
     }

@@ -8,6 +8,8 @@ namespace I2P_Project.Classes.UserSystem
     {
         public Student(string login) : base(login) {}
 
+        /// <summary> Checks out a book for a current student user </summary>
+        /// <returns> Result of check out as message </returns>
         public override string CheckOut(string title)
         {
             document doc = null;
@@ -17,28 +19,26 @@ namespace I2P_Project.Classes.UserSystem
             if (test.Any()) // Check if any copies of doc exists
             {
                 foreach (document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
-                    if (DocBelongsToUser(SDM.CurrentUser.PersonID, selected.Id))
-                        return "You already have that book";
+                    if (DocBelongsToUser(selected.Id))
+                        return SDM.Strings.ALREADY_HAVE_TEXT;
                 foreach (document selected in test.ToArray()) // Checks if any of them are free
                 {
                     var test2 = from c in uDB.checkouts
                                 where c.bookID == selected.Id
                                 select c;
                     if (!test2.Any()) doc = selected;
-                    else return "There are no free copies of this book for now";
+                    else return SDM.Strings.NO_FREE_COPIES_TEXT;
                 }
             }
             else
-                return "There are no free copies of this book for now";
-
-            int user_id = SDM.CurrentUser.PersonID;
+                return SDM.Strings.NO_FREE_COPIES_TEXT;
 
             if (doc.IsBestseller || doc.DocType != 0)
-                SetCheckOut(doc.Id, user_id, 2);
+                SetCheckOut(doc.Id, 2);
             else
-                SetCheckOut(doc.Id, user_id, 3);
+                SetCheckOut(doc.Id, 3);
 
-            return "Checked out " + doc.Title + " successfully!";
+            return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";
         }
 
     }

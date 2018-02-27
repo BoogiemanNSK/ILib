@@ -23,7 +23,7 @@ namespace I2P_Project.Pages
         public LibrarianHomePage()
         {
             InitializeComponent();
-            WelcomeText.Content = "Welcome, " + SDM.CurrentUser.Name + "!";
+            WelcomeText.Content = SDM.Strings.WELCOME_TEXT + ", " + SDM.CurrentUser.Name + "!";
         }
 
         private void UserManagementClick(object sender, RoutedEventArgs e)

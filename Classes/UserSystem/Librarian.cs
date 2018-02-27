@@ -43,6 +43,17 @@ namespace I2P_Project.Classes.UserSystem
             }
         }
 
+        /// <summary> Deletes patron from DB </summary>
+        public void DeleteUser(int patronID)
+        {
+            // TODO for JIObCTEP
+
+            // Query to get row of user with patron ID
+            // Get row from query -> query.Single();
+            // Delete row from db
+            // Submit changes
+        }
+
         /// <summary> Adding new doc to DB with given parameters </summary>
         public void AddDoc(string title, string description, int docType, int price, bool isBestseller)
         {

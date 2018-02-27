@@ -1,4 +1,6 @@
-﻿using System;
+﻿using I2P_Project.Classes;
+using I2P_Project.Tests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,7 @@ namespace I2P_Project.Pages
         public DocumentsManagementPage()
         {
             InitializeComponent();
+            updateTable();
         }
 
         private void OnAddBook(object sender, RoutedEventArgs e)
@@ -29,6 +32,20 @@ namespace I2P_Project.Pages
             AddBookPage page = new AddBookPage();
             page.Show();
             Close();
+        }
+        class DocsTable
+        {
+            public int docID { get; set; }
+            public string docTitle { get; set; }
+            public string docType { get; set; }
+            public int docOwnerID { get; set; }
+            public DateTime dateTaked { get; set; }
+            public DateTime timeToBack { get; set; }
+            public bool isReference { get; set; }
+        }
+        private void updateTable()
+        {
+            DocTable.ItemsSource = SDM.LMS.TestDocsTableOnlyBooks();
         }
 
         private void myBooksTable_SelectionChanged(object sender, SelectionChangedEventArgs e)

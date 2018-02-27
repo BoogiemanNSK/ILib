@@ -21,21 +21,16 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="1" FontSize="16" HorizontalAlignment="Center" Margin="361,0,360.6,5" Grid.RowSpan="2" Content="DocList"/>
-        <DataGrid Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="400" Width="640" SelectionChanged="myBooksTable_SelectionChanged">
+        <Label Grid.Row="1" FontSize="16" HorizontalAlignment="Center" Margin="361,0,360.6,5" Grid.RowSpan="2" Content="DocsTable"/>
+        <DataGrid Name="DocTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="400" Width="800" SelectionChanged="myBooksTable_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="checkID" Binding="{Binding checkID}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="bookID" Binding="{Binding bookID}" Width="*"/>
-                <DataGridTextColumn Header="Title" Binding="{Binding b_title}" Width="*"/>
-                <DataGridTextColumn Header="Taked" Binding="{Binding c_dateTaked}" Width="*"/>
-                <DataGridTextColumn Header="Deadline" Binding="{Binding c_timeToBack}" Width="*"/>
-                <DataGridTemplateColumn CanUserResize="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Return" Margin="7,2,7,2"  Width="50" Background="#FF4B4B4B" Foreground="White" FontWeight="Bold" ToolTip="Return book" Cursor="Hand"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="Auto"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
+                <DataGridTextColumn Header="Is Reference?" Binding="{Binding isReference}" Width="Auto"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="Auto"/>
+                <DataGridTextColumn Header="Owner ID" Binding="{Binding docOwnerID}" Width="Auto"/>
+                <DataGridTextColumn Header="Taked" Binding="{Binding dateTaked}" Width="Auto"/>
+                <DataGridTextColumn Header="Deadline" Binding="{Binding timeToBack}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBox Grid.Row="6" HorizontalAlignment="Right" Height="26" TextWrapping="Wrap" VerticalAlignment="Center" Width="465" Name="SearchTB" Margin="0,0,451,383" Grid.RowSpan="4"/>

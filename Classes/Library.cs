@@ -70,6 +70,13 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        public void DeleteDoc(int docID)
+        {
+            var doc = db.GetTable<document>().OrderByDescending(u => u.Id).FirstOrDefault();
+            db.GetTable<document>().DeleteOnSubmit(doc);
+            db.SubmitChanges();
+        }
+
         // [FOR TEST]
         /// <summary> Returns a collection of all docs </summary>
         public ObservableCollection<Pages.DocsTable> TestDocsTableOnlyBooks()

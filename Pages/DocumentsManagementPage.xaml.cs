@@ -35,13 +35,14 @@ namespace I2P_Project.Pages
         }
         class DocsTable
         {
+            public DateTime dateTaked { get; set; }
             public int docID { get; set; }
+            public int docOwnerID { get; set; }
             public string docTitle { get; set; }
             public string docType { get; set; }
-            public int docOwnerID { get; set; }
-            public DateTime dateTaked { get; set; }
-            public DateTime timeToBack { get; set; }
             public bool isReference { get; set; }
+            public DateTime timeToBack { get; set; }
+
         }
         private void updateTable()
         {
@@ -68,12 +69,24 @@ namespace I2P_Project.Pages
 
         private void OnModifyBook(object sender, RoutedEventArgs e)
         {
-
+            if (DocTable.SelectedIndex != -1 && DocTable.SelectedItems[0] != null)
+            {
+                DocsTable ut_row = DocTable.SelectedItems[0] as DocsTable;
+                int doc_id = ut_row.docID;
+                ModifyBooksPage page;
+            }
+            //TODO: initialize and so on
+            
         }
 
         private void OnDeleteBook(object sender, RoutedEventArgs e)
         {
-
+            if (DocTable.SelectedIndex != -1 && DocTable.SelectedItems[0] != null)
+            {
+                int doc_id = (int) DocTable.CurrentCell.Item;
+                SDM.LMS.DeleteDoc(doc_id);
+                updateTable();
+            }
         }
     }
 }

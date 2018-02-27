@@ -1,0 +1,39 @@
+﻿<Window x:Class="I2P_Project.Pages.ModifyBooksPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Height="320" Width="360" WindowStartupLocation="CenterScreen" Title="Ilib - Register" Background="#FF8080FF">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label Name="InfoText" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Foreground="Red" HorizontalAlignment="Center"></Label>
+        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Title"/>
+        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="TitleTB"/>
+        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Description"/>
+        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="DescriptionTB"/>
+        <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Price"/>
+        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="PriceTB"/>
+        <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="DocType"/>
+        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="DocTypeTB"/>
+        <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="IsBestseller"/>
+        <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="IsBestsellerTB"/>
+        <Button Grid.Row="7" Width="150" Grid.Column="1" Margin="10,10,10,5" Click="OnAddBookClick">Add book</Button>
+        <Button Grid.Row="8" Width="150" Grid.Column="1" Margin="10,5,10,10" Click="OnBackClick">Back</Button>
+    </Grid>
+</Window>

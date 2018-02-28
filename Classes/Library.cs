@@ -94,10 +94,40 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
-        public void DeleteDoc(int docID)
+        internal void RemoveDocument(int doc_id)
         {
-            var doc = db.GetTable<document>().OrderByDescending(u => u.Id).FirstOrDefault();
-            db.GetTable<document>().DeleteOnSubmit(doc);
+            var record_to_remove = (from d in db.documents
+                                    where d.Id == doc_id
+                                    select d).Single<document>();
+            db.documents.DeleteOnSubmit(record_to_remove);
+            db.SubmitChanges();
+        }
+        
+        public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
+            string DocType)
+        {
+            var doc = (from d in db.documents
+                                 where d.Id == doc_id
+                                 select d).Single();
+            doc.Title = Title;
+            doc.Description = Description;
+            doc.Price = Convert.ToInt32(Price);
+            doc.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
+            switch (DocType.ToLower())
+            {
+                case "book":
+                    doc.DocType = 0;
+                    break;
+                case "journal":
+                    doc.DocType = 1;
+                    break;
+                case "AV":
+                    doc.DocType = 2;
+                    break;
+                default:
+                    new Exception();
+                    break;
+            }
             db.SubmitChanges();
         }
 
@@ -202,6 +232,35 @@ namespace I2P_Project.Classes
             return test.ToList();
         }
 
+        
+        public Document GetDoc(int docID)
+        {
+            var test = (from doc in db.documents where doc.Id == docID select doc);
+            Document res = new Document();
+            document d;
+            if (test.Any())
+            {
+                d = test.Single();
+                res.descriptiion = d.Description;
+                res.docTitle = d.Title;
+                res.isBestseller = d.IsBestseller;
+                res.isReference = d.IsReference;
+                switch (d.DocType)
+                {
+                    case 0:
+                        res.docType = "book";
+                        break;
+                    case 1:
+                        res.docType = "journal";
+                        break;
+                    case 2:
+                        res.docType = "AV";
+                        break;
+                }
+            }
+            return res;
+            
+        }
         /// <summary> Returns a checkout info of particular document </summary>
         private checkouts GetOwnerInfo(int docID)
         {
@@ -235,6 +294,35 @@ namespace I2P_Project.Classes
         }
 
         #endregion
+
+        public ObservableCollection<Pages.DocumentsTable> GetDocsTableForLibrarian()
+        {
+            ObservableCollection<Pages.DocumentsTable> temp_table = new ObservableCollection<Pages.DocumentsTable>();
+            var load_user_docs = from b in db.documents
+                                 select new
+                                 {
+                                     b.Id,
+                                     b.Title,
+                                     b.DocType,
+                                     b.IsReference
+                                 };
+            foreach (var element in load_user_docs)
+            {
+                checkouts checkoutInfo = GetOwnerInfo(element.Id);
+                Pages.DocumentsTable row = new Pages.DocumentsTable
+                {
+                    docID = element.Id,
+                    docTitle = element.Title,
+                    docType = SDM.Strings.DOC_TYPES[element.DocType],
+                    docOwnerID = checkoutInfo == null ? -1 : checkoutInfo.userID,
+                    dateTaked = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.dateTaked,
+                    timeToBack = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.timeToBack,
+                    isReference = element.IsReference
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
 
         /// <summary> Clears DB (for test cases only) </summary>
         public void ClearDB()

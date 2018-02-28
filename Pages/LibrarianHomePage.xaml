@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="LibrarianHomePage" Height="360" Width="320" Background="#FF8080FF">
+        Title="LibrarianHomePage" Height="360" Width="320" Background="#FF8080FF" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid Margin="0,-2,0,2">
 

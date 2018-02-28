@@ -33,20 +33,10 @@ namespace I2P_Project.Pages
             page.Show();
             Close();
         }
-        class DocsTable
-        {
-            public DateTime dateTaked { get; set; }
-            public int docID { get; set; }
-            public int docOwnerID { get; set; }
-            public string docTitle { get; set; }
-            public string docType { get; set; }
-            public bool isReference { get; set; }
-            public DateTime timeToBack { get; set; }
-
-        }
+ 
         private void updateTable()
         {
-            DocTable.ItemsSource = SDM.LMS.TestDocsTableOnlyBooks();
+            dgLibrarianDocuments.ItemsSource = SDM.LMS.GetDocsTableForLibrarian();
         }
 
         private void myBooksTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -58,7 +48,7 @@ namespace I2P_Project.Pages
         {
 
         }
-        
+
 
         private void OnBack(object sender, RoutedEventArgs e)
         {
@@ -69,24 +59,50 @@ namespace I2P_Project.Pages
 
         private void OnModifyBook(object sender, RoutedEventArgs e)
         {
-            if (DocTable.SelectedIndex != -1 && DocTable.SelectedItems[0] != null)
+            if (dgLibrarianDocuments.SelectedIndex != -1 && dgLibrarianDocuments.SelectedItems[0] != null)
             {
-                DocsTable ut_row = DocTable.SelectedItems[0] as DocsTable;
+                DocsTable ut_row = dgLibrarianDocuments.SelectedItems[0] as DocsTable;
                 int doc_id = ut_row.docID;
                 //ModifyBooksPage page;
             }
             //TODO: initialize and so on
-            
+
         }
 
         private void OnDeleteBook(object sender, RoutedEventArgs e)
         {
-            if (DocTable.SelectedIndex != -1 && DocTable.SelectedItems[0] != null)
+            MessageBoxResult result = MessageBox.Show("Are you sure to remove this book?", "Attention", MessageBoxButton.YesNo);
+            switch (result)
             {
-                int doc_id = (int) DocTable.CurrentCell.Item;
-                SDM.LMS.DeleteDoc(doc_id);
-                updateTable();
+                case MessageBoxResult.Yes:
+                    try
+                    {
+                        //remove document
+                        DocumentsTable doc_row = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
+                        int doc_id = doc_row.docID;
+                        SDM.LMS.RemoveDocument(doc_id);
+                        updateTable();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("The row is empty", "Error");
+                    }
+                    break;
+                case MessageBoxResult.No:
+                    break;
             }
         }
+    }
+
+    class DocumentsTable
+    {
+        public DateTime dateTaked { get; set; }
+        public int docID { get; set; }
+        public int docOwnerID { get; set; }
+        public string docTitle { get; set; }
+        public string docType { get; set; }
+        public bool isReference { get; set; }
+        public DateTime timeToBack { get; set; }
+
     }
 }

@@ -83,6 +83,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\Document.cs" />
     <Compile Include="Classes\SDM.cs" />
     <Compile Include="Classes\Library.cs" />
     <Compile Include="Classes\StringConstants.cs" />
@@ -102,8 +103,8 @@
     <Compile Include="Pages\DocumentsManagementPage.xaml.cs">
       <DependentUpon>DocumentsManagementPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ModifyBooksPage.xaml.cs">
-      <DependentUpon>ModifyBooksPage.xaml</DependentUpon>
+    <Compile Include="Pages\ModifyDocsPage.xaml.cs">
+      <DependentUpon>ModifyDocsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tests\Test.cs" />
     <Page Include="MainWindow.xaml">
@@ -126,9 +127,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ModifyBooksPage.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Pages\ModifyDocsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\MyBooks.xaml">
       <SubType>Designer</SubType>
@@ -230,10 +231,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>MainDB.mdf</DependentUpon>
     </Content>
+    <Resource Include="Sprites\app_logo.png" />
+    <SplashScreen Include="Sprites\load_screen.png" />
     <Resource Include="Sprites\user_image.jpg" />
-    <Resource Include="Sprites\AnotherIcon.jpg" />
     <Resource Include="Sprites\back.png" />
-    <Resource Include="Sprites\Icon.png" />
   </ItemGroup>
   <ItemGroup Condition="$(VisualStudioVersion) == '15.0'">
     <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=13.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">

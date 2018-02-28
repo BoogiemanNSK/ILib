@@ -70,6 +70,30 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        public ObservableCollection<Pages.LibrarianUserView> LibrarianViewUserTable()
+        {
+            ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
+            var load_users = from p in db.users
+                                  where p.userType != 2
+                                  select new
+                                  {
+                                      p.id,
+                                      p.login
+                                  };
+            foreach (var element in load_users)
+            {
+                Pages.LibrarianUserView row = new Pages.LibrarianUserView
+                {
+                    userID = element.id,
+                    userLogin = element.login,
+                    docsNumber = UserBooksNumber(element.id),
+                    userFine = CountUserFine(element.id)
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
         internal void RemoveDocument(int doc_id)
         {
             var record_to_remove = (from d in db.documents
@@ -78,11 +102,32 @@ namespace I2P_Project.Classes
             db.documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
         }
-
-        public void DeleteDoc(int docID)
+        
+        public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
+            string DocType)
         {
-            var doc = db.GetTable<document>().OrderByDescending(u => u.Id).FirstOrDefault();
-            db.GetTable<document>().DeleteOnSubmit(doc);
+            var doc = (from d in db.documents
+                                 where d.Id == doc_id
+                                 select d).Single();
+            doc.Title = Title;
+            doc.Description = Description;
+            doc.Price = Convert.ToInt32(Price);
+            doc.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
+            switch (DocType.ToLower())
+            {
+                case "book":
+                    doc.DocType = 0;
+                    break;
+                case "journal":
+                    doc.DocType = 1;
+                    break;
+                case "AV":
+                    doc.DocType = 2;
+                    break;
+                default:
+                    new Exception();
+                    break;
+            }
             db.SubmitChanges();
         }
 
@@ -187,6 +232,35 @@ namespace I2P_Project.Classes
             return test.ToList();
         }
 
+        
+        public Document GetDoc(int docID)
+        {
+            var test = (from doc in db.documents where doc.Id == docID select doc);
+            Document res = new Document();
+            document d;
+            if (test.Any())
+            {
+                d = test.Single();
+                res.descriptiion = d.Description;
+                res.docTitle = d.Title;
+                res.isBestseller = d.IsBestseller;
+                res.isReference = d.IsReference;
+                switch (d.DocType)
+                {
+                    case 0:
+                        res.docType = "book";
+                        break;
+                    case 1:
+                        res.docType = "journal";
+                        break;
+                    case 2:
+                        res.docType = "AV";
+                        break;
+                }
+            }
+            return res;
+            
+        }
         /// <summary> Returns a checkout info of particular document </summary>
         private checkouts GetOwnerInfo(int docID)
         {
@@ -256,6 +330,50 @@ namespace I2P_Project.Classes
             db.ExecuteCommand("DELETE FROM documents");
             db.ExecuteCommand("DELETE FROM users");
             db.ExecuteCommand("DELETE FROM checkouts");
+        }
+
+        private int UserBooksNumber(int userID)
+        {
+            var test = from c in db.checkouts
+                       where c.userID == userID
+                       select c;
+            if (test.Any()) return test.Count();
+            else return 0;
+        }
+
+        private int CountUserFine(int userID)
+        {
+            int fine = 0;
+            var test = from c in db.checkouts
+                       where c.userID == userID
+                       select c;
+            if (test.Any())
+            {
+                foreach (checkouts c in test)
+                {
+                    int overduedTime = TimePassedDays(c.timeToBack);
+                    if (overduedTime > 0)
+                    {
+                        int docPrice = DocPrice(c.bookID);
+                        fine += (overduedTime * 50 > docPrice ? docPrice : overduedTime * 50);
+                    }
+                }
+            }
+            return fine;
+        }
+
+        private int TimePassedDays(DateTime from)
+        {
+            TimeSpan t = DateTime.Now.Subtract(from);
+            return (int)t.TotalDays;
+        }
+
+        private int DocPrice(int docID)
+        {
+            var test = from c in db.documents
+                       where c.Id == docID 
+                       select c;
+            return test.Single().Price;
         }
 
     }

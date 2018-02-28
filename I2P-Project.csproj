@@ -231,10 +231,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>MainDB.mdf</DependentUpon>
     </Content>
+    <Resource Include="Sprites\app_logo.png" />
+    <SplashScreen Include="Sprites\load_screen.png" />
     <Resource Include="Sprites\user_image.jpg" />
-    <Resource Include="Sprites\AnotherIcon.jpg" />
     <Resource Include="Sprites\back.png" />
-    <Resource Include="Sprites\Icon.png" />
   </ItemGroup>
   <ItemGroup Condition="$(VisualStudioVersion) == '15.0'">
     <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=13.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">

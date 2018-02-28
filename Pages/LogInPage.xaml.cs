@@ -25,6 +25,7 @@ namespace I2P_Project.Pages
         {
             SDM.InitializeSystem();
             InitializeComponent();
+            animation_id = 0;
         }
 
         private void LogInClick(object sender, RoutedEventArgs e)
@@ -36,10 +37,10 @@ namespace I2P_Project.Pages
                     LogIn();
                 }
                 else
-                    WrongLabel.Content = SDM.Strings.WRONG_PASSWORD_TEXT;
+                    MessageBox.Show(SDM.Strings.WRONG_PASSWORD_TEXT);
             }
             else
-                WrongLabel.Content = SDM.Strings.USER_NOT_FOUND_TEXT;
+                MessageBox.Show(SDM.Strings.USER_NOT_FOUND_TEXT);
         }
 
         private void LogIn()
@@ -89,6 +90,45 @@ namespace I2P_Project.Pages
         {
             TestingTool Test = new TestingTool();
             Test.Show();
+        }
+
+        // Front-end by Valeriy Borisov
+        public int animation_id = 0;
+
+        private void PlayAnimation(string filename)
+        {
+            startupImage.Visibility = Visibility.Hidden;
+            string path = @"Media/" + filename;
+            animationPlayer.Source = new Uri(path, UriKind.Relative);
+            animationPlayer.Play();            
+        }
+
+        private void SelectAnimation()
+        {
+            switch (animation_id)
+            {
+                case 0:
+                    PlayAnimation("user_look_down.mp4");
+                    break;
+                case 1:
+                    PlayAnimation("user_close_eyes.mp4");
+                    break;
+                case 2:
+                    PlayAnimation("user_open_eyes.mp4");
+                    break;
+            }
+        }
+
+        private void LoginTB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SelectAnimation();
+        }
+
+        private void PasswordTB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            animation_id = 1;
+            SelectAnimation();
+            animation_id = 2;
         }
     }
 }

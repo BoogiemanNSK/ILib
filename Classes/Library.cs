@@ -70,6 +70,30 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        public ObservableCollection<Pages.LibrarianUserView> LibrarianViewUserTable()
+        {
+            ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
+            var load_users = from p in db.users
+                                  where p.userType != 2
+                                  select new
+                                  {
+                                      p.id,
+                                      p.login
+                                  };
+            foreach (var element in load_users)
+            {
+                Pages.LibrarianUserView row = new Pages.LibrarianUserView
+                {
+                    userID = element.id,
+                    userLogin = element.login,
+                    docsNumber = UserBooksNumber(element.id),
+                    userFine = CountUserFine(element.id)
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
         internal void RemoveDocument(int doc_id)
         {
             var record_to_remove = (from d in db.documents
@@ -306,6 +330,50 @@ namespace I2P_Project.Classes
             db.ExecuteCommand("DELETE FROM documents");
             db.ExecuteCommand("DELETE FROM users");
             db.ExecuteCommand("DELETE FROM checkouts");
+        }
+
+        private int UserBooksNumber(int userID)
+        {
+            var test = from c in db.checkouts
+                       where c.userID == userID
+                       select c;
+            if (test.Any()) return test.Count();
+            else return 0;
+        }
+
+        private int CountUserFine(int userID)
+        {
+            int fine = 0;
+            var test = from c in db.checkouts
+                       where c.userID == userID
+                       select c;
+            if (test.Any())
+            {
+                foreach (checkouts c in test)
+                {
+                    int overduedTime = TimePassedDays(c.timeToBack);
+                    if (overduedTime > 0)
+                    {
+                        int docPrice = DocPrice(c.bookID);
+                        fine += (overduedTime * 50 > docPrice ? docPrice : overduedTime * 50);
+                    }
+                }
+            }
+            return fine;
+        }
+
+        private int TimePassedDays(DateTime from)
+        {
+            TimeSpan t = DateTime.Now.Subtract(from);
+            return (int)t.TotalDays;
+        }
+
+        private int DocPrice(int docID)
+        {
+            var test = from c in db.documents
+                       where c.Id == docID 
+                       select c;
+            return test.Single().Price;
         }
 
     }

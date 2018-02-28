@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using I2P_Project.Classes;
 using I2P_Project.Pages;
 
 namespace I2P_Project.Pages
@@ -23,6 +24,7 @@ namespace I2P_Project.Pages
         public UsersManagementPage()
         {
             InitializeComponent();
+            UsersTable.ItemsSource = SDM.LMS.LibrarianViewUserTable();
         }
 
         private void OnAddUser(object sender, RoutedEventArgs e)
@@ -32,17 +34,12 @@ namespace I2P_Project.Pages
             Close();
         }
 
-        private void OnSearch(object sender, RoutedEventArgs e)
+        private void OnUserCard(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void OnModifyUser(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void OnDeleteUser(object sender, RoutedEventArgs e)
+        private void OnUserOverdueInfo(object sender, RoutedEventArgs e)
         {
 
         }
@@ -53,5 +50,13 @@ namespace I2P_Project.Pages
             librarianHome.Show();
             Close();
         }
+    }
+
+    class LibrarianUserView
+    {
+        public int userID { get; set; }
+        public string userLogin { get; set; }
+        public int docsNumber { get; set; }
+        public int userFine { get; set; }
     }
 }

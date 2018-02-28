@@ -73,7 +73,23 @@ namespace I2P_Project.Classes
         public void DeleteDoc(int docID)
         {
             var doc = db.GetTable<document>().OrderByDescending(u => u.Id).FirstOrDefault();
-            db.GetTable<document>().DeleteOnSubmit(doc);
+            db.documents.DeleteOnSubmit(doc);
+            db.SubmitChanges();
+        }
+
+        public void ModifyDoc(int docID, string Title, string Description, int Price, int DocType, bool isBestseller)
+        {
+            var query = from doc in db.documents
+                        where doc.Id == docID
+                        select doc;
+            foreach (var doc in query)
+            {
+                doc.Title = Title;
+                doc.Description = Description;
+                doc.Price = Price;
+                doc.DocType = DocType;
+                doc.IsBestseller = isBestseller;
+            }
             db.SubmitChanges();
         }
 

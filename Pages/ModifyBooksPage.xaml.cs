@@ -19,19 +19,20 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class ModifyBooksPage : Window
     {
-        public ModifyBooksPage(string Title, string Description, int Price, int DocType, int isBestseller)
+        public ModifyBooksPage(int docID, string Title, string Description, int Price, int DocType, int isBestseller)
         {
             InitializeComponent();
         }
 
-        private void OnAddBookClick(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
+            DocumentsManagementPage page = new DocumentsManagementPage();
+            page.Show();
+            Close();
+        }
 
+        private void OnModifyBookClick(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

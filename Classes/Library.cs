@@ -78,11 +78,32 @@ namespace I2P_Project.Classes
             db.documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
         }
-
-        public void DeleteDoc(int docID)
+        
+        public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
+            string DocType)
         {
-            var doc = db.GetTable<document>().OrderByDescending(u => u.Id).FirstOrDefault();
-            db.GetTable<document>().DeleteOnSubmit(doc);
+            var doc = (from d in db.documents
+                                 where d.Id == doc_id
+                                 select d).Single();
+            doc.Title = Title;
+            doc.Description = Description;
+            doc.Price = Convert.ToInt32(Price);
+            doc.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
+            switch (DocType.ToLower())
+            {
+                case "book":
+                    doc.DocType = 0;
+                    break;
+                case "journal":
+                    doc.DocType = 1;
+                    break;
+                case "AV":
+                    doc.DocType = 2;
+                    break;
+                default:
+                    new Exception();
+                    break;
+            }
             db.SubmitChanges();
         }
 

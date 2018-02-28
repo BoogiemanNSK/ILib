@@ -19,8 +19,10 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class ModifyBooksPage : Window
     {
+        int doc_id;
         public ModifyBooksPage(int docID)
         {
+            doc_id = docID;
             InitializeComponent();
             Document doc = SDM.LMS.GetDoc(docID);
             TitleTB.AppendText(doc.docTitle);
@@ -30,9 +32,20 @@ namespace I2P_Project.Pages
             DocTypeTB.AppendText(doc.docType);
         }
 
-        private void OnModifyBookClick(object sender, RoutedEventArgs e)
+        private void OnModifyDocClick(object sender, RoutedEventArgs e)
         {
-
+            SDM.LMS.ModifyDoc
+                (
+                    doc_id,
+                    TitleTB.ToString().Substring(TitleTB.ToString().IndexOf(":") + 2),
+                    DescriptionTB.ToString().Substring(DescriptionTB.ToString().IndexOf(":") + 2),
+                    PriceTB.ToString().Substring(PriceTB.ToString().IndexOf(":") + 2),
+                    IsBestsellerTB.ToString().Substring(IsBestsellerTB.ToString().IndexOf(":") + 2),
+                    DocTypeTB.ToString().Substring(DocTypeTB.ToString().IndexOf(":") + 2)
+                );
+            DocumentsManagementPage page = new DocumentsManagementPage();
+            page.Show();
+            Close();
         }
 
         private void OnBackClick(object sender, RoutedEventArgs e)

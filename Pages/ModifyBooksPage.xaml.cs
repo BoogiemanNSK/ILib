@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using I2P_Project.Classes;
 namespace I2P_Project.Pages
 {
     /// <summary>
@@ -19,9 +19,15 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class ModifyBooksPage : Window
     {
-        public ModifyBooksPage(string Title, string Description, int Price, int DocType, int isBestseller)
+        public ModifyBooksPage(int docID)
         {
             InitializeComponent();
+            Document doc = SDM.LMS.GetDoc(docID);
+            TitleTB.AppendText(doc.docTitle);
+            DescriptionTB.AppendText(doc.descriptiion);
+            PriceTB.AppendText("500");
+            IsBestsellerTB.AppendText(doc.isBestseller ? "yes" : "no");
+            DocTypeTB.AppendText(doc.docType);
         }
 
         private void OnModifyBookClick(object sender, RoutedEventArgs e)

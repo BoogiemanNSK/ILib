@@ -187,6 +187,35 @@ namespace I2P_Project.Classes
             return test.ToList();
         }
 
+        
+        public Document GetDoc(int docID)
+        {
+            var test = (from doc in db.documents where doc.Id == docID select doc);
+            Document res = new Document();
+            document d;
+            if (test.Any())
+            {
+                d = test.Single();
+                res.descriptiion = d.Description;
+                res.docTitle = d.Title;
+                res.isBestseller = d.IsBestseller;
+                res.isReference = d.IsReference;
+                switch (d.DocType)
+                {
+                    case 0:
+                        res.docType = "book";
+                        break;
+                    case 1:
+                        res.docType = "journal";
+                        break;
+                    case 2:
+                        res.docType = "AV";
+                        break;
+                }
+            }
+            return res;
+            
+        }
         /// <summary> Returns a checkout info of particular document </summary>
         private checkouts GetOwnerInfo(int docID)
         {

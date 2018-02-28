@@ -61,9 +61,11 @@ namespace I2P_Project.Pages
         {
             if (dgLibrarianDocuments.SelectedIndex != -1 && dgLibrarianDocuments.SelectedItems[0] != null)
             {
-                DocsTable ut_row = dgLibrarianDocuments.SelectedItems[0] as DocsTable;
-                int doc_id = ut_row.docID;
-                //ModifyBooksPage page;
+                DocumentsTable doc_row = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
+                int doc_id = doc_row.docID;
+                ModifyBooksPage page =  new ModifyBooksPage(doc_id);
+                page.Show();
+                Close();
             }
             //TODO: initialize and so on
 

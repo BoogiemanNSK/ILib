@@ -212,6 +212,35 @@ namespace I2P_Project.Classes
 
         #endregion
 
+        public ObservableCollection<Pages.DocumentsTable> GetDocsTableForLibrarian()
+        {
+            ObservableCollection<Pages.DocumentsTable> temp_table = new ObservableCollection<Pages.DocumentsTable>();
+            var load_user_docs = from b in db.documents
+                                 select new
+                                 {
+                                     b.Id,
+                                     b.Title,
+                                     b.DocType,
+                                     b.IsReference
+                                 };
+            foreach (var element in load_user_docs)
+            {
+                checkouts checkoutInfo = GetOwnerInfo(element.Id);
+                Pages.DocumentsTable row = new Pages.DocumentsTable
+                {
+                    docID = element.Id,
+                    docTitle = element.Title,
+                    docType = SDM.Strings.DOC_TYPES[element.DocType],
+                    docOwnerID = checkoutInfo == null ? -1 : checkoutInfo.userID,
+                    dateTaked = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.dateTaked,
+                    timeToBack = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.timeToBack,
+                    isReference = element.IsReference
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
         /// <summary> Clears DB (for test cases only) </summary>
         public void ClearDB()
         {

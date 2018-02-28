@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="1" FontSize="16" HorizontalAlignment="Center" Margin="361,0,360.6,5" Grid.RowSpan="2" Content="DocsTable"/>
-        <DataGrid Name="DocTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="400" Width="800" SelectionChanged="myBooksTable_SelectionChanged">
+        <DataGrid Name="dgLibrarianDocuments" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="400" Width="800" SelectionChanged="myBooksTable_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="Auto"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>

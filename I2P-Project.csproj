@@ -102,6 +102,9 @@
     <Compile Include="Pages\DocumentsManagementPage.xaml.cs">
       <DependentUpon>DocumentsManagementPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ModifyBooksPage.xaml.cs">
+      <DependentUpon>ModifyBooksPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tests\Test.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -120,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\LogInPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ModifyBooksPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

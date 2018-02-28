@@ -70,6 +70,15 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        internal void RemoveDocument(int doc_id)
+        {
+            var record_to_remove = (from d in db.documents
+                                    where d.Id == doc_id
+                                    select d).Single<document>();
+            db.documents.DeleteOnSubmit(record_to_remove);
+            db.SubmitChanges();
+        }
+
         public void DeleteDoc(int docID)
         {
             var doc = db.GetTable<document>().OrderByDescending(u => u.Id).FirstOrDefault();

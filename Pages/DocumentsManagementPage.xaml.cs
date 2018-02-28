@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using I2P_Project.Classes.UserSystem;
 
 namespace I2P_Project.Pages
 {
@@ -79,10 +80,11 @@ namespace I2P_Project.Pages
                 case MessageBoxResult.Yes:
                     try
                     {
+                        Librarian lib = (Librarian)SDM.CurrentUser;
                         //remove document
                         DocumentsTable doc_row = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
                         int doc_id = doc_row.docID;
-                        SDM.LMS.RemoveDocument(doc_id);
+                        lib.DeleteDoc(doc_id);
                         updateTable();
                     }
                     catch

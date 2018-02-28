@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using I2P_Project.Classes;
+using I2P_Project.Classes.UserSystem;
+
 namespace I2P_Project.Pages
 {
     /// <summary>
@@ -34,15 +36,23 @@ namespace I2P_Project.Pages
 
         private void OnModifyDocClick(object sender, RoutedEventArgs e)
         {
-            SDM.LMS.ModifyDoc
-                (
-                    doc_id,
-                    TitleTB.ToString().Substring(TitleTB.ToString().IndexOf(":") + 2),
-                    DescriptionTB.ToString().Substring(DescriptionTB.ToString().IndexOf(":") + 2),
-                    PriceTB.ToString().Substring(PriceTB.ToString().IndexOf(":") + 2),
-                    IsBestsellerTB.ToString().Substring(IsBestsellerTB.ToString().IndexOf(":") + 2),
-                    DocTypeTB.ToString().Substring(DocTypeTB.ToString().IndexOf(":") + 2)
-                );
+            try
+            {
+                Librarian lib = (Librarian)SDM.CurrentUser;
+                lib.ModifyDoc
+                    (
+                        doc_id,
+                        TitleTB.ToString().Substring(TitleTB.ToString().IndexOf(":") + 2),
+                        DescriptionTB.ToString().Substring(DescriptionTB.ToString().IndexOf(":") + 2),
+                        PriceTB.ToString().Substring(PriceTB.ToString().IndexOf(":") + 2),
+                        IsBestsellerTB.ToString().Substring(IsBestsellerTB.ToString().IndexOf(":") + 2),
+                        DocTypeTB.ToString().Substring(DocTypeTB.ToString().IndexOf(":") + 2)
+                    );
+            }
+            catch
+            {
+                MessageBox.Show("The row is empty", "Error");
+            }
             DocumentsManagementPage page = new DocumentsManagementPage();
             page.Show();
             Close();

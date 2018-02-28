@@ -98,9 +98,9 @@ namespace I2P_Project.Pages
         private void PlayAnimation(string filename)
         {
             startupImage.Visibility = Visibility.Hidden;
-            string path = @"Media/" + filename;
+            string path = @"media/" + filename;
             animationPlayer.Source = new Uri(path, UriKind.Relative);
-            animationPlayer.Play();            
+            animationPlayer.Play();
         }
 
         private void SelectAnimation()

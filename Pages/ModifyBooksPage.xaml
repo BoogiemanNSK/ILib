@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Height="320" Width="360" WindowStartupLocation="CenterScreen" Title="Ilib - Register" Background="#FF8080FF">
+        Height="320" Width="360" WindowStartupLocation="CenterScreen" Title="ModifyBooks" Background="#FF8080FF">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
@@ -33,7 +33,7 @@
         <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="DocTypeTB"/>
         <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="IsBestseller"/>
         <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="IsBestsellerTB"/>
-        <Button Grid.Row="7" Width="150" Grid.Column="1" Margin="10,10,10,5" Click="OnAddBookClick">Add book</Button>
+        <Button Grid.Row="7" Width="150" Grid.Column="1" Margin="10,10,10,5" Click="OnModifyBookClick" Content="Modify book"/>
         <Button Grid.Row="8" Width="150" Grid.Column="1" Margin="10,5,10,10" Click="OnBackClick">Back</Button>
     </Grid>
 </Window>

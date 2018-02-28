@@ -24,14 +24,16 @@ namespace I2P_Project.Pages
             InitializeComponent();
         }
 
-        private void OnAddBookClick(object sender, RoutedEventArgs e)
+        private void OnModifyBookClick(object sender, RoutedEventArgs e)
         {
 
         }
 
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
-
+            DocumentsManagementPage page = new DocumentsManagementPage();
+            page.Show();
+            Close();
         }
     }
 }

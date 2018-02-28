@@ -33,7 +33,7 @@ namespace I2P_Project.Pages
             page.Show();
             Close();
         }
-        class DocsTable
+        class TableDocs
         {
             public DateTime dateTaked { get; set; }
             public int docID { get; set; }
@@ -71,9 +71,8 @@ namespace I2P_Project.Pages
         {
             if (DocTable.SelectedIndex != -1 && DocTable.SelectedItems[0] != null)
             {
-                DocsTable ut_row = DocTable.SelectedItems[0] as DocsTable;
-                int doc_id = ut_row.docID;
-                //ModifyBooksPage page;
+                TableDocs ut_row = DocTable.SelectedItems[0] as TableDocs;
+                                     
             }
             //TODO: initialize and so on
             
@@ -83,7 +82,8 @@ namespace I2P_Project.Pages
         {
             if (DocTable.SelectedIndex != -1 && DocTable.SelectedItems[0] != null)
             {
-                int doc_id = (int) DocTable.CurrentCell.Item;
+                TableDocs doc = DocTable.SelectedItem as TableDocs;
+                int doc_id = doc.docID;
                 SDM.LMS.DeleteDoc(doc_id);
                 updateTable();
             }

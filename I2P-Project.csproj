@@ -230,7 +230,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>MainDB.mdf</DependentUpon>
     </Content>
-    <Resource Include="Sprites\user_image.gif" />
+    <Resource Include="Sprites\user_image.jpg" />
     <Resource Include="Sprites\AnotherIcon.jpg" />
     <Resource Include="Sprites\back.png" />
     <Resource Include="Sprites\Icon.png" />

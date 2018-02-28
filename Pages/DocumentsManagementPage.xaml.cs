@@ -73,7 +73,7 @@ namespace I2P_Project.Pages
             {
                 DocsTable ut_row = DocTable.SelectedItems[0] as DocsTable;
                 int doc_id = ut_row.docID;
-                ModifyBooksPage page;
+                //ModifyBooksPage page;
             }
             //TODO: initialize and so on
             

@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project"
         mc:Ignorable="d"
-        Title="Ilib" Height="450" Width="400" Background="#FF5F5F5F">
+        Title="iLib" MinHeight="540" MinWidth="960" Height="540" Width="960" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="menu_Column" Width="auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <ListView x:Name="lst_Menu" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#FF272828" BorderBrush="{x:Null}" Foreground="White" Margin="-2,-2,0,-2">
+            <!--User's menu buttons-->
+            <ListViewItem Content="&#xE10F; Home" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_userHome" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
+            <ListViewItem Content="&#xE14D; Library" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_UserLibrary" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
+            <ListViewItem Content="&#xE1D3; My Books" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_UserMyBooks" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
+
+            <!--Librarian buttons-->
+            <ListViewItem Content="&#xE10F; Home" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_LibrarianHome" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
+            <ListViewItem Content="&#xE136; Users" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_UsersManagement" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
+            <ListViewItem Content="&#xE16F; Documents" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_DocumentsManagement" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
+
+            <!--Common Buttons -->
+            <ListViewItem Content="&#xE115; Settings" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_Settings" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
+        </ListView>
+
+        <Rectangle Grid.Row="0" Fill="#FF078CD3" Grid.ColumnSpan="3"/>
+        <Button Grid.Column="0" x:Name="btn_Menu" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Width="40" Height="40" Content="≡" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="29.333" Click="btn_Menu_Click" Margin="4,-9,0,475.4" Grid.RowSpan="2"/>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Height="36.333" Margin="-17.066,-6.333,0,0">
+            <Button x:Name="btn_Close" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Width="30" Content="&#xE07D;" Click="btnClose_Click" Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="24" Margin="0,5.866,0,0"/>
+        </StackPanel>
+        <Frame x:Name="page_Viewer" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden" Grid.ColumnSpan="2"/>
+
     </Grid>
 </Window>

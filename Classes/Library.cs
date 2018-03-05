@@ -1,5 +1,4 @@
-﻿using I2P_Project.Classes.UserSystem;
-using I2P_Project.DataBase;
+﻿using I2P_Project.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +24,20 @@ namespace I2P_Project.Classes
 
             string connString = path + SDM.Strings.DB_RELATIVE_PATH;
             db = new LMSDataBase(connString);
-            if (!db.DatabaseExists()) db.CreateDatabase();
+
+            if (!db.DatabaseExists())
+            {
+                try
+                {
+                    db.CreateDatabase();
+                }
+                catch
+                {
+                    db.DeleteDatabase();
+                    db.CreateDatabase();
+                }
+            }
+
             db.SubmitChanges(); // DB Preload
         }
 
@@ -80,6 +92,42 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        public ObservableCollection<Pages.OverdueInfoTable> OverdueInfo(int userID)
+        {
+            ObservableCollection<Pages.OverdueInfoTable> temp_table = new ObservableCollection<Pages.OverdueInfoTable>();
+            var load_user_books = from c in db.Checkouts
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  where c.UserID == userID
+                                  select new
+                                  {
+                                      b.Id,
+                                      b.Title,
+                                      b.IsReference,
+                                      b.DocType,
+                                      c.DateTaked,
+                                      c.TimeToBack,
+                                      b.Price
+                                  };
+            foreach (var element in load_user_books)
+            {
+                if (TimePassedDays(element.TimeToBack) > 0)
+                {
+                    Pages.OverdueInfoTable row = new Pages.OverdueInfoTable
+                    {
+                        docID = element.Id,
+                        docTitle = element.Title,
+                        isReference = element.IsReference,
+                        docType = DocTypeString(element.DocType),
+                        dateTaked = (DateTime)element.DateTaked,
+                        timeToBack = element.TimeToBack,
+                        fine = CountedFine(TimePassedDays(element.TimeToBack), element.Price)
+                    };
+                    temp_table.Add(row);
+                }
+            }
+            return temp_table;
+        }
+
         public ObservableCollection<Pages.LibrarianUserView> LibrarianViewUserTable()
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
@@ -106,10 +154,10 @@ namespace I2P_Project.Classes
 
         internal void RemoveUser(int patronID)
         {
-            var record_to_remove = (from d in db.users
-                                    where d.id == patronID
-                                    select d).Single<users>();
-            db.users.DeleteOnSubmit(record_to_remove);
+            var record_to_remove = (from d in db.Users
+                                    where d.Id == patronID
+                                    select d).Single();
+            db.Users.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
         }
 
@@ -351,6 +399,23 @@ namespace I2P_Project.Classes
             db.ExecuteCommand("DELETE FROM checkouts");
         }
 
+        private string DocTypeString(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return "Book";
+                case 1:
+                    return "Journal";
+                case 2:
+                    return "Audio";
+                case 3:
+                    return "Video";
+                default:
+                    throw new Exception("Unknown type index");
+            }
+        }
+
         private int UserBooksNumber(int userID)
         {
             var test = from c in db.Checkouts
@@ -379,6 +444,11 @@ namespace I2P_Project.Classes
                 }
             }
             return fine;
+        }
+
+        private int CountedFine(int daysPassed, int bookPrice)
+        {
+            return (daysPassed * 50 > bookPrice ? bookPrice : daysPassed * 50);
         }
 
         public void UpdateUser(int userId, string userName, string userAdress, string userPhoneNumber, int userType)

@@ -71,12 +71,13 @@ namespace I2P_Project.Classes.UserSystem
 
         public void DeleteDoc(int docID)
         {
-            // TODO
+            SDM.LMS.RemoveDocument(docID);
         }
 
-        public void ModifyDoc(int docID, string newName, string newDescription)
+        public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
+            string DocType)
         {
-            // TODO
+            SDM.LMS.ModifyDoc(doc_id, Title, Description, Price, IsBestseller, DocType);
         }
 
         /// <summary> Checks if there exist a reference doc with given title </summary>

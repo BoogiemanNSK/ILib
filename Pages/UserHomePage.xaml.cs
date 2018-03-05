@@ -1,6 +1,5 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
-using I2P_Project.DataBases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +30,7 @@ namespace I2P_Project.Pages
         {
             while (DocList.Items.Count > 0) DocList.Items.RemoveAt(0);
             WelcomeText.Content = SDM.Strings.WELCOME_TEXT + ", " + SDM.CurrentUser.Name + "!";
-            foreach (document doc in SDM.LMS.GetAllDocs())
+            foreach (DataBase.Document doc in SDM.LMS.GetAllDocs())
             {
                 if (!doc.IsReference) {
                     string line = doc.Id + "| " + doc.Title;

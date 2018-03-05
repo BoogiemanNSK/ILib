@@ -1,4 +1,4 @@
-﻿using I2P_Project.DataBases;
+﻿using I2P_Project.DataBase;
 using System.Linq;
 
 namespace I2P_Project.Classes.UserSystem
@@ -23,12 +23,12 @@ namespace I2P_Project.Classes.UserSystem
         /// <returns> Result of returning doc as message </returns>
         public string ReturnDoc(int docID)
         {
-            var test = from c in uDB.checkouts
-                       where (c.bookID == docID & c.userID == PersonID)
+            var test = from c in uDB.Checkouts
+                       where (c.BookID == docID & c.UserID == PersonID)
                        select c;
-            checkouts checkout = test.Single();
+            Checkouts checkout = test.Single();
 
-            uDB.checkouts.DeleteOnSubmit(checkout);
+            uDB.Checkouts.DeleteOnSubmit(checkout);
             uDB.SubmitChanges();
 
             return SDM.Strings.SUCCESSFUL_RETURN + " " + GetTitleByID(docID) + "!";
@@ -43,21 +43,21 @@ namespace I2P_Project.Classes.UserSystem
         {
             System.DateTime time = System.DateTime.Now;
 
-            checkouts chk = new checkouts();
-            chk.userID = PersonID;
-            chk.bookID = docID;
-            chk.isReturned = false;
-            chk.dateTaked = time;
-            chk.timeToBack = time.AddDays(weeks * 7);
-            uDB.checkouts.InsertOnSubmit(chk);
+            Checkouts chk = new Checkouts();
+            chk.UserID = PersonID;
+            chk.BookID = docID;
+            chk.IsReturned = false;
+            chk.DateTaked = time;
+            chk.TimeToBack = time.AddDays(weeks * 7);
+            uDB.Checkouts.InsertOnSubmit(chk);
             uDB.SubmitChanges();
         }
 
         /// <summary> Checks if current user has book with given ID </summary>
         protected bool DocBelongsToUser(int docID)
         {
-            var test = from c in uDB.checkouts
-                       where (c.bookID == docID & c.userID == PersonID)
+            var test = from c in uDB.Checkouts
+                       where (c.BookID == docID & c.UserID == PersonID)
                        select c;
             return test.Any();
         }
@@ -65,7 +65,7 @@ namespace I2P_Project.Classes.UserSystem
         /// <summary> Return book title from ID </summary>
         private string GetTitleByID(int docID)
         {
-            var test = (from p in uDB.documents
+            var test = (from p in uDB.Documents
                         where (p.Id == docID)
                         select p);
             return test.First().Title;

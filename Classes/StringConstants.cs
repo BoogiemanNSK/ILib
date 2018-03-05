@@ -5,6 +5,9 @@
 class StringConstants
 {
 
+    public string DB_DIRECTORY_NAME => "DataBases";
+    public string DB_RELATIVE_PATH => "\\" + DB_DIRECTORY_NAME + "\\ILibDB.mdf";
+
     public string USER_NOT_FOUND_TEXT => "User not found";
     public string WRONG_PASSWORD_TEXT => "Wrong password";
 

@@ -3,7 +3,7 @@ Ilib - A Library Management System
 System requirements:
  - Windows 7(max), 8, 8.1, 10
  - .NET Framework 4.7
- - localDB component from SQL Server
+ - SQL Express https://go.microsoft.com/fwlink/?LinkID=799012
  
 ###                                     ###
 To start the application go to
@@ -32,7 +32,7 @@ For librarians:
 	c) Adding / deleting / modifying documents
 
 System Developers:
- - Peter Zakharkin  | @DanielFaraday28
- - Anton Krylov     | @kartofaan
- - Valery Borisov   | @valer_xenus
- - Yuriy Sukhorukov | @realnigger
+ - Peter Zakharkin  | Architecture & Logic    | @DanielFaraday28    
+ - Anton Krylov     | Back end                | @kartofaan
+ - Valery Borisov   | Front end & DB          | @valer_xenus
+ - Yuriy Sukhorukov | Testing & documentation | @realnigger

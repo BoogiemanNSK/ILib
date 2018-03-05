@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using I2P_Project.DataBase;
 
 namespace I2P_Project.Classes.UserSystem
 {
@@ -17,32 +16,6 @@ namespace I2P_Project.Classes.UserSystem
             return ovList;
         }
 
-        /// <summary> User becomes faculty if they were student and vice-versa </summary>
-        public void SwapUserType(int patronID)
-        {
-            var test = (from p in uDB.Users
-                        where (p.Id == patronID)
-                        select p);
-            if (test.Any())
-            {
-                Users user = test.Single();
-                user.UserType = (user.UserType == 0 ? 1 : 0);
-            }
-        }
-
-        /// <summary> User becomes faculty if they were student and vice-versa </summary>
-        public void SwapUserType(string patronName)
-        {
-            var test = (from p in uDB.Users
-                        where (p.Name == patronName)
-                        select p);
-            if (test.Any())
-            {
-                Users user = test.Single();
-                user.UserType = (user.UserType == 0 ? 1 : 0);
-            }
-        }
-
         /// <summary> Deletes patron from DB </summary>
         public void DeleteUser(int patronID)
         {
@@ -52,6 +25,11 @@ namespace I2P_Project.Classes.UserSystem
             // Get row from query -> query.Single();
             // Delete row from db
             // Submit changes
+        }
+
+        public void ModifyUser(int patronID, string Name, string Adress, string PhoneNumber, int userType)
+        {
+            SDM.LMS.UpdateUser(patronID, Name, Adress, PhoneNumber, userType);
         }
 
         /// <summary> Adding new doc to DB with given parameters </summary>

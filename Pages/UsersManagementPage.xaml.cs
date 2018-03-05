@@ -36,7 +36,13 @@ namespace I2P_Project.Pages
 
         private void OnUserCard(object sender, RoutedEventArgs e)
         {
-
+            if (UsersTable.SelectedItem != null)
+            {
+                LibrarianUserView selectedUser = UsersTable.SelectedItem as LibrarianUserView;
+                ModifyUserPage modifyUser = new ModifyUserPage(selectedUser.userID);
+                modifyUser.Show();
+                Close();
+            }
         }
 
         private void OnUserOverdueInfo(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using I2P_Project.DataBase;
+﻿using I2P_Project.Classes.UserSystem;
+using I2P_Project.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -369,6 +370,22 @@ namespace I2P_Project.Classes
                 }
             }
             return fine;
+        }
+
+        public void UpdateUser(int userId, string userName, string userAdress, string userPhoneNumber, int userType)
+        {
+            Users user = GetUser(userId);
+            user.Name = userName;
+            user.Address = userAdress;
+            user.PhoneNumber = userPhoneNumber;
+            user.UserType = userType;
+            db.SubmitChanges();
+        }
+
+        public Users GetUser(int userID)
+        {
+            var test = from u in db.Users where u.Id == userID select u;
+            return test.Single();
         }
 
         private int TimePassedDays(DateTime from)

@@ -104,6 +104,15 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        internal void RemoveUser(int patronID)
+        {
+            var record_to_remove = (from d in db.users
+                                    where d.id == patronID
+                                    select d).Single<users>();
+            db.users.DeleteOnSubmit(record_to_remove);
+            db.SubmitChanges();
+        }
+
         internal void RemoveDocument(int doc_id)
         {
             var record_to_remove = (from d in db.Documents
@@ -112,7 +121,7 @@ namespace I2P_Project.Classes
             db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
         }
-        
+
         public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
             string DocType)
         {

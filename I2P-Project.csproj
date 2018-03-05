@@ -105,6 +105,9 @@
     <Compile Include="Pages\ModifyDocsPage.xaml.cs">
       <DependentUpon>ModifyDocsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\PageHome.xaml.cs">
+      <DependentUpon>PageHome.xaml</DependentUpon
+    </Compile>
     <Compile Include="Pages\ModifyUserPage.xaml.cs">
       <DependentUpon>ModifyUserPage.xaml</DependentUpon>
     </Compile>
@@ -142,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MyBooks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PageHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

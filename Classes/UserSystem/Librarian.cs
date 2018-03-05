@@ -19,12 +19,7 @@ namespace I2P_Project.Classes.UserSystem
         /// <summary> Deletes patron from DB </summary>
         public void DeleteUser(int patronID)
         {
-            // TODO for JIObCTEP
-
-            // Query to get row of user with patron ID
-            // Get row from query -> query.Single();
-            // Delete row from db
-            // Submit changes
+            SDM.LMS.RemoveUser(patronID);
         }
 
         public void ModifyUser(int patronID, string Name, string Adress, string PhoneNumber, int userType)

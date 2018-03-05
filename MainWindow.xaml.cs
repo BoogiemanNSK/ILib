@@ -1,4 +1,5 @@
-﻿using System;
+﻿using I2P_Project.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ namespace I2P_Project
             InitializeComponent();
             CloseTaskMenu();
             taskMenu = false;
+            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/PageHome.xaml", UriKind.Relative);
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

@@ -90,16 +90,12 @@
     <Compile Include="Classes\SDM.cs" />
     <Compile Include="Classes\Library.cs" />
     <Compile Include="Classes\StringConstants.cs" />
-    <Compile Include="DataBases\LINQtoDB.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LINQtoDB.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Classes\UserSystem\Faculty.cs" />
     <Compile Include="Classes\UserSystem\Librarian.cs" />
     <Compile Include="Classes\UserSystem\Patron.cs" />
     <Compile Include="Classes\UserSystem\Student.cs" />
     <Compile Include="Classes\UserSystem\User.cs" />
+    <Compile Include="Classes\LMSDataBase.cs" />
     <Compile Include="Pages\AddBookPage.xaml.cs">
       <DependentUpon>AddBookPage.xaml</DependentUpon>
     </Compile>
@@ -201,14 +197,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="DataBases\LINQtoDB.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>LINQtoDB.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="DataBases\LINQtoDB.dbml.layout">
-      <DependentUpon>LINQtoDB.dbml</DependentUpon>
-    </None>
     <Resource Include="Fonts\Panton-Regular.otf" />
     <Resource Include="Fonts\seguisym.ttf" />
     <None Include="packages.config" />
@@ -233,13 +221,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataBases\MainDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DataBases\MainDB_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>MainDB.mdf</DependentUpon>
-    </Content>
     <Resource Include="Sprites\app_logo.png" />
     <SplashScreen Include="Sprites\load_screen.png" />
     <Resource Include="Sprites\user_image.jpg" />

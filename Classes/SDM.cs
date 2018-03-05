@@ -5,10 +5,16 @@ namespace I2P_Project.Classes
     /// <summary> Static class to manage information that is equal for whole system </summary>
     static class SDM
     {
+        private static bool isInitialized = false;
+
         public static void InitializeSystem()
         {
-            LMS = new Library();
-            Strings = new StringConstants();
+            if (!isInitialized)
+            {
+                Strings = new StringConstants();
+                LMS = new Library();
+                isInitialized = true;
+            }
         }
 
         /// <summary> Logged In User </summary>

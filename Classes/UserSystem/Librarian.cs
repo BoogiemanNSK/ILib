@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using I2P_Project.DataBases;
+using I2P_Project.DataBase;
 
 namespace I2P_Project.Classes.UserSystem
 {
@@ -20,26 +20,26 @@ namespace I2P_Project.Classes.UserSystem
         /// <summary> User becomes faculty if they were student and vice-versa </summary>
         public void SwapUserType(int patronID)
         {
-            var test = (from p in uDB.users
-                        where (p.id == patronID)
+            var test = (from p in uDB.Users
+                        where (p.Id == patronID)
                         select p);
             if (test.Any())
             {
-                users user = test.Single();
-                user.userType = user.userType == 0 ? 1 : 0;
+                Users user = test.Single();
+                user.UserType = (user.UserType == 0 ? 1 : 0);
             }
         }
 
         /// <summary> User becomes faculty if they were student and vice-versa </summary>
         public void SwapUserType(string patronName)
         {
-            var test = (from p in uDB.users
-                        where (p.name == patronName)
+            var test = (from p in uDB.Users
+                        where (p.Name == patronName)
                         select p);
             if (test.Any())
             {
-                users user = test.Single();
-                user.userType = user.userType == 0 ? 1 : 0;
+                Users user = test.Single();
+                user.UserType = (user.UserType == 0 ? 1 : 0);
             }
         }
 
@@ -58,14 +58,14 @@ namespace I2P_Project.Classes.UserSystem
         public void AddDoc(string title, string description, int docType, int price, bool isBestseller)
         {
             bool isReference = !CheckReference(title);
-            document newDoc = new document();
+            DataBase.Document newDoc = new DataBase.Document();
             newDoc.Title = title;
             newDoc.Description = description;
             newDoc.Price = price;
             newDoc.DocType = docType;
             newDoc.IsReference = isReference;
             newDoc.IsBestseller = isBestseller;
-            uDB.documents.InsertOnSubmit(newDoc);
+            uDB.Documents.InsertOnSubmit(newDoc);
             uDB.SubmitChanges();
         }
 
@@ -83,7 +83,7 @@ namespace I2P_Project.Classes.UserSystem
         /// <summary> Checks if there exist a reference doc with given title </summary>
         private bool CheckReference(string title)
         {
-            var test = (from p in uDB.documents
+            var test = (from p in uDB.Documents
                         where (p.Title == title)
                         select p);
             return test.Any();

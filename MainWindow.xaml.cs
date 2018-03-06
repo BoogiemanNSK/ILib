@@ -26,14 +26,14 @@ namespace I2P_Project
         public MainWindow()
         {
             InitializeComponent();
-            CloseTaskMenu();
-            taskMenu = false;
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/PageHome.xaml", UriKind.Relative);
+            OnLoadWindow();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            LogInPage sign_in_page =  new LogInPage();
+            sign_in_page.Show();
+            Close();
         }
 
         private void btn_Menu_Click(object sender, RoutedEventArgs e)  // Open/close task menu
@@ -50,7 +50,7 @@ namespace I2P_Project
         }
 
         // UI Methods
-        private void OpenTaskMenu()
+        private void OpenTaskMenu()  // Menu animations
         {
             DoubleAnimation anim_menu = new DoubleAnimation();
             anim_menu.From = 50;
@@ -66,6 +66,32 @@ namespace I2P_Project
             anim_menu.To = 50;
             anim_menu.Duration = TimeSpan.FromSeconds(0.2);
             lst_Menu.BeginAnimation(ListView.WidthProperty, anim_menu);
+        }
+
+        private void OnLoadWindow()
+        {
+            switch (Classes.SDM.CurrentUser.UserType)
+            {
+                case 1:  // Faculty             
+                    li_page_LibrarianHome.Visibility = Visibility.Collapsed;
+                    li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
+                    li_page_UsersManagement.Visibility = Visibility.Collapsed;
+                    break;
+                case 2:  // Librarian
+                    li_page_userHome.Visibility = Visibility.Collapsed;
+                    li_page_UserLibrary.Visibility = Visibility.Collapsed;
+                    li_page_UserMyBooks.Visibility = Visibility.Collapsed;
+                    break;
+            }
+
+            CloseTaskMenu();
+            taskMenu = false;
+            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/PageHome.xaml", UriKind.Relative);
+        }
+
+        private void lst_Menu_SelectionChanged(object sender, SelectionChangedEventArgs e)  // Clear selected index
+        {
+            lst_Menu.SelectedIndex = -1;
         }
     }
 }

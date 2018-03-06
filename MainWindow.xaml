@@ -16,19 +16,40 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <ListView x:Name="lst_Menu" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#FF272828" BorderBrush="{x:Null}" Foreground="White" Margin="-2,-2,0,-2">
+        <ListView x:Name="lst_Menu" Focusable="False" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#FF272828" BorderBrush="{x:Null}" Foreground="White" Margin="-2,-2,0,-2" SelectionChanged="lst_Menu_SelectionChanged">
             <!--User's menu buttons-->
-            <ListViewItem Content="&#xE10F; Home" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_userHome" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
-            <ListViewItem Content="&#xE14D; Library" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_UserLibrary" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
-            <ListViewItem Content="&#xE1D3; My Books" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_UserMyBooks" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
+            <ListViewItem x:Name="li_page_userHome" Height="60" Width="183">
+                <RadioButton x:Name="page_userHome" Content="&#xE10F; Home" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
+                             Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180" Style="{DynamicResource RadioButtonMenuStyle}"/>
+            </ListViewItem>
+            <ListViewItem x:Name="li_page_UserLibrary" Height="60" Width="180">
+                <RadioButton Content="&#xE14D; Library" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
+                             Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180"/>
+            </ListViewItem>
+            <ListViewItem x:Name="li_page_UserMyBooks" Height="60" Width="180">
+                <RadioButton Content="&#xE1D3; My Books" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
+                             Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180"/>
+            </ListViewItem>
 
             <!--Librarian buttons-->
-            <ListViewItem Content="&#xE10F; Home" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_LibrarianHome" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
-            <ListViewItem Content="&#xE136; Users" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_UsersManagement" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
-            <ListViewItem Content="&#xE16F; Documents" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_DocumentsManagement" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
+            <ListViewItem x:Name="li_page_LibrarianHome" Height="60" Width="180">
+                <RadioButton Content="&#xE10F; Home" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
+                             Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180"/>
+            </ListViewItem>
+            <ListViewItem x:Name="li_page_UsersManagement" Height="60" Width="180">
+                <RadioButton Content="&#xE136; Users" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
+                             Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180"/>
+            </ListViewItem>
+            <ListViewItem x:Name="li_page_DocumentsManagement" Height="60" Width="180">
+                <RadioButton Content="&#xE16F; Documents" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
+                             Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180"/>
+            </ListViewItem>
 
-            <!--Common Buttons -->
-            <ListViewItem Content="&#xE115; Settings" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton" x:Name="page_Settings" Height="60" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource MenuButtonStyle}"/>
+            <!--Other Buttons -->
+            <ListViewItem x:Name="li_page_Settings" Height="60" Width="180">
+                <RadioButton Content="&#xE115; Settings" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
+                             Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180"/>
+            </ListViewItem>
         </ListView>
 
         <Rectangle Grid.Row="0" Fill="#FF078CD3" Grid.ColumnSpan="3"/>

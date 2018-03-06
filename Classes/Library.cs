@@ -451,6 +451,15 @@ namespace I2P_Project.Classes
             if (test.Any()) return test.Single();
             else return null;
         }
+      
+        public Pages.UserTable PatronbyName(string name)
+        {
+            var table = SDM.LMS.TestUsersTable();
+
+            var patron = (from p in table where p.userName.Equals(name) select p).FirstOrDefault();
+
+            return patron;
+        }
 
         /// <summary> Counts number of user`s docs from his ID </summary>
         private int GetUserBooksNumber(int userID)

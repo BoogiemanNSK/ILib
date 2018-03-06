@@ -5,8 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="UserCard" Height="300" Width="300">
+        Title="UserCard" Height="310" Width="300">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label Name="UserLogin" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Height="30" HorizontalAlignment="Center" FontSize="15">Login</Label>
+        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" Content="Name"/>
+        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="UserName" TextAlignment="Center" IsEnabled="False" BorderBrush="White">Name</TextBox>
+        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" Content="Adress"/>
+        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="UserAdress" TextAlignment="Center" IsEnabled="False" BorderBrush="White">Adress</TextBox>
+        <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" Content="Phone Number"/>
+        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="UserPhoneNumber" TextAlignment="Center" IsEnabled="False" BorderBrush="White">Phone Number</TextBox>
+        <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" Content="User Type"/>
+        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="UserType" TextAlignment="Center" IsEnabled="False" BorderBrush="White"> User Type </TextBox>
+        <Button Grid.Row="5" Width="150" Height="30" Grid.Column="1" Margin="10,10,10,5" Click="OnModifyUserClick" Content="Modify User"/>
+        <Button Grid.Row="6" Width="150" Height="30" Grid.Column="1" Margin="10,5,10,5" Click="OnDeleteUserClick" Content="Delete User"/>
+        <Button Grid.Row="7" Width="150" Height="30" Grid.Column="1" Margin="10,5,10,10" Click="OnBackClick" Content="Close"/>
     </Grid>
 </Window>

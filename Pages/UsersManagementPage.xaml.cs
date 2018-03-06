@@ -24,6 +24,11 @@ namespace I2P_Project.Pages
         public UsersManagementPage()
         {
             InitializeComponent();
+            UpdateTable();
+        }
+
+        private void UpdateTable()
+        {
             UsersTable.ItemsSource = SDM.LMS.LibrarianViewUserTable();
         }
 
@@ -31,6 +36,7 @@ namespace I2P_Project.Pages
         {
             RegisterPage Register = new RegisterPage(false);
             Register.ShowDialog();
+            UpdateTable();
         }
 
         private void OnUserCard(object sender, RoutedEventArgs e)
@@ -40,6 +46,7 @@ namespace I2P_Project.Pages
                 LibrarianUserView selectedUser = UsersTable.SelectedItem as LibrarianUserView;
                 UserCard modifyUser = new UserCard(selectedUser.userID);
                 modifyUser.ShowDialog();
+                UpdateTable();
             }
         }
 
@@ -52,6 +59,7 @@ namespace I2P_Project.Pages
                 modifyUser.ShowDialog();
             }
         }
+
     }
 
     class LibrarianUserView

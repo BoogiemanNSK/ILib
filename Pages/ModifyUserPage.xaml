@@ -36,6 +36,6 @@
             <TextBlock>Faculty</TextBlock>
         </ComboBox>
         <Button Grid.Row="6" Width="150" Height="30" Grid.Column="1" Margin="10,10,10,5" Click="OnModifyUserClick" Content="Modify user"/>
-        <Button Grid.Row="7" Width="150" Height="30" Grid.Column="1" Margin="10,5,10,10" Click="OnBackClick" Content="Back"/>
+        <Button Grid.Row="7" Width="150" Height="30" Grid.Column="1" Margin="10,5,10,10" Click="OnBackClick" Content="Close"/>
     </Grid>
 </Window>

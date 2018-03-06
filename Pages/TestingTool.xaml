@@ -47,7 +47,7 @@
 
         <Button Grid.Row="5" HorizontalAlignment="Center" Click="OnOverall">All Docs</Button>
 
-        <DataGrid Grid.Row="6" Name="DocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
+        <DataGrid Grid.Row="6" Name="DocumentsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="Auto"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
@@ -81,7 +81,6 @@
             <ListBoxItem Content="17"/>
             <ListBoxItem Content="18"/>
             <ListBoxItem Content="19"/>
-            <ListBoxItem Content="20"/>
         </ComboBox>
 
         <Button Grid.Row="9" Click="OnTest" Height="25" Width="120" HorizontalAlignment="Center" Margin="0,2,0,2">Test</Button>

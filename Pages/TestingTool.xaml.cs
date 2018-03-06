@@ -32,7 +32,7 @@ namespace I2P_Project.Pages
 
         private void UpdateTables()
         {
-            DocsTable.ItemsSource = SDM.LMS.TestDocsTableOnlyBooks();
+            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTableForLibrarian();
             UserTable.ItemsSource = SDM.LMS.TestUsersTable();
         }
 
@@ -93,7 +93,7 @@ namespace I2P_Project.Pages
                     TestOutput.Text += test.test13();
                     UpdateTables();
                     break;
-              /*  case "14":
+                case "14":
                     TestOutput.Text += test.test14();
                     UpdateTables();
                     break;
@@ -105,7 +105,7 @@ namespace I2P_Project.Pages
                     TestOutput.Text += test.test16();
                     UpdateTables();
                     break;
-                case "17":
+               case "17":
                     TestOutput.Text += test.test17();
                     UpdateTables();
                     break;
@@ -117,13 +117,9 @@ namespace I2P_Project.Pages
                     TestOutput.Text += test.test19();
                     UpdateTables();
                     break;
-                case "20":
-                    TestOutput.Text += test.test20();
-                    UpdateTables();
-                    break;
                 default:
                     TestOutput.Text += "No such test found";
-                    break;*/
+                    break;
             }
         }
 
@@ -131,12 +127,12 @@ namespace I2P_Project.Pages
         {
             UserTable ut_row = UserTable.SelectedItems[0] as UserTable;
             int user_id = ut_row.userID;
-            DocsTable.ItemsSource = SDM.LMS.TestDocsTableUsersBooks(user_id);
+            DocumentsTable.ItemsSource = SDM.LMS.TestDocsTableUsersBooks(user_id);
         }
 
         private void OnOverall(object sender, RoutedEventArgs e) // Shows books without user
         {
-            DocsTable.ItemsSource = SDM.LMS.TestDocsTableOnlyBooks(); 
+            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTableForLibrarian(); 
         }
 
         private void OnExit(object sender, RoutedEventArgs e)
@@ -152,16 +148,5 @@ namespace I2P_Project.Pages
         public string userAddress { get; set; }
         public string userPhoneNumber { get; set; }
         public string userType { get; set; }
-    }
-
-    class DocsTable
-    {
-        public int docID { get; set; }
-        public string docTitle { get; set; }
-        public string docType { get; set; }
-        public int docOwnerID { get; set; }
-        public DateTime dateTaked { get; set; }
-        public DateTime timeToBack { get; set; }
-        public bool isReference { get; set; }
     }
 }

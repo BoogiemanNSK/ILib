@@ -30,21 +30,26 @@ namespace I2P_Project.Classes.UserSystem
         /// <summary> Adding new doc to DB with given parameters </summary>
         public void AddDoc(string title, string description, int docType, int price, bool isBestseller)
         {
-            bool isReference = !CheckReference(title);
-            DataBase.Document newDoc = new DataBase.Document();
-            newDoc.Title = title;
-            newDoc.Description = description;
-            newDoc.Price = price;
-            newDoc.DocType = docType;
-            newDoc.IsReference = isReference;
-            newDoc.IsBestseller = isBestseller;
-            uDB.Documents.InsertOnSubmit(newDoc);
-            uDB.SubmitChanges();
+            SDM.LMS.AddDoc(title, description, docType, price, isBestseller);
         }
 
         public void DeleteDoc(int docID)
         {
             SDM.LMS.RemoveDocument(docID);
+        }
+
+        public void DeleteDoc(string Title)
+        {
+            SDM.LMS.RemoveDocument(Title);
+        }
+
+        public Pages.UserTable PatronbyName (string name)
+        {
+            var table = SDM.LMS.TestUsersTable();
+
+            var patron = (from p in table where p.userName.Equals(name) select p).FirstOrDefault();
+
+            return patron;
         }
 
         public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
@@ -53,14 +58,11 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.ModifyDoc(doc_id, Title, Description, Price, IsBestseller, DocType);
         }
 
-        /// <summary> Checks if there exist a reference doc with given title </summary>
-        private bool CheckReference(string title)
+        public bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
         {
-            var test = (from p in uDB.Documents
-                        where (p.Title == title)
-                        select p);
-            return test.Any();
+            return SDM.LMS.RegisterUser(login, password, name, adress, phone, isLibrarian);
         }
+
     }
 
     public struct OverdueInfo

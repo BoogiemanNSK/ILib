@@ -35,7 +35,7 @@ namespace I2P_Project.Pages
             UserName.Text = user.Name;
             UserAdress.Text = user.Address;
             UserPhoneNumber.Text = user.PhoneNumber;
-            UserType.SelectedIndex = user.UserType;
+            UserType.SelectedIndex = user.UserType - 1;
         }
 
         private void OnModifyUserClick(object sender, RoutedEventArgs e)
@@ -51,7 +51,7 @@ namespace I2P_Project.Pages
                         UserName.Text,
                         UserAdress.Text,
                         UserPhoneNumber.Text,
-                        UserType.SelectedIndex
+                        UserType.SelectedIndex + 1
                     );
                 UsersManagementPage page = new UsersManagementPage();
                 page.Show();

@@ -373,13 +373,12 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Obtaining ID of p2 patron...\n";
-            int idP2 = lb.PatronbyName("p2").userID;
+            int idP2 = SDM.LMS.PatronbyName("p2").userID;
 
             output += "Removing b1 & b3 documents and p2 patron...\n";
             lb.DeleteDoc("b1");
             lb.DeleteDoc("b1");
             lb.DeleteUser(idP2);
-
 
             return output;
         }

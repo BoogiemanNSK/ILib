@@ -43,15 +43,6 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.RemoveDocument(Title);
         }
 
-        public Pages.UserTable PatronbyName (string name)
-        {
-            var table = SDM.LMS.TestUsersTable();
-
-            var patron = (from p in table where p.userName.Equals(name) select p).FirstOrDefault();
-
-            return patron;
-        }
-
         public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
             string DocType)
         {
@@ -61,6 +52,18 @@ namespace I2P_Project.Classes.UserSystem
         public bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
         {
             return SDM.LMS.RegisterUser(login, password, name, adress, phone, isLibrarian);
+        }
+
+        public string ShowUserCard (Patron patron)
+        {
+            string output = "";
+            if (patron == null)
+                output = SDM.Strings.USER_DOES_NOT_EXIST_TEXT;
+            else
+            {
+                Pages.UserCard card = new Pages.UserCard(lb.PatronbyName("p2").userID);
+                card.Show();
+            }
         }
 
     }

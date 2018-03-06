@@ -509,6 +509,15 @@ namespace I2P_Project.Classes
             return test.Any();
         }
 
+        public Pages.UserTable PatronbyName(string name)
+        {
+            var table = SDM.LMS.TestUsersTable();
+
+            var patron = (from p in table where p.userName.Equals(name) select p).FirstOrDefault();
+
+            return patron;
+        }
+
         private void GenerateUserTypesDB()
         {
             UserTypes studentType = new UserTypes { TypeName = "Student" };

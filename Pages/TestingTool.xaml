@@ -28,7 +28,7 @@
         
         <Label Grid.Row="3" HorizontalAlignment="Center">Users</Label>
 
-        <DataGrid Grid.Row="4" Name="dg_UserTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
+        <DataGrid Grid.Row="4" Name="UserTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600" Margin="16,0" VerticalAlignment="Top">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="User ID" Binding="{Binding userID}" Width="Auto"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding userName}" Width="Auto"/>

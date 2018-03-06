@@ -35,9 +35,9 @@
         </DataGrid>
         <TextBox Grid.Row="6" HorizontalAlignment="Right" Height="26" TextWrapping="Wrap" VerticalAlignment="Center" Width="465" Name="SearchTB" Margin="0,0,451,383" Grid.RowSpan="4"/>
         <Button Grid.Row="6" Click="OnSearch" Width="200"  HorizontalAlignment="Right" Margin="0,10,183,393" Content="Search book&#xD;&#xA;&#xA;" Grid.RowSpan="4"/>
-        <Button Grid.Row="9" Click="OnAddBook" Width="200" HorizontalAlignment="Right" Margin="0,32,771,287" Content="Add book&#xD;&#xA;&#xA;"/>
-        <Button Grid.Row="9" Click="OnModifyBook" Width="200" HorizontalAlignment="Center" Margin="496,32,496,287" Content="Modify book&#xD;&#xA;"/>
-        <Button Grid.Row="9" Click="OnDeleteBook" Width="200" HorizontalAlignment="Center" Margin="750,32,242,287" Content="Delete book"/>
+        <Button Grid.Row="9" Click="OnAddBook" Width="200" HorizontalAlignment="Right" Margin="0,32,771,287" Content="Add&#xD;&#xA;&#xA;"/>
+        <Button Grid.Row="9" Click="OnModifyBook" Width="200" HorizontalAlignment="Center" Margin="496,32,496,287" Content="Modify&#xD;&#xA;"/>
+        <Button Grid.Row="9" Click="OnDeleteBook" Width="200" HorizontalAlignment="Center" Margin="750,32,242,287" Content="Delete"/>
         <Button Grid.Row="9" Click="OnBack" Height="40" Width="200" HorizontalAlignment="Center" Margin="496,153,496,196">Back</Button>
 
     </Grid>

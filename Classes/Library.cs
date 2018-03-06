@@ -461,6 +461,8 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
+
+
         public Users GetUser(int userID)
         {
             var test = from u in db.Users where u.Id == userID select u;
@@ -479,6 +481,28 @@ namespace I2P_Project.Classes
                        where c.Id == docID 
                        select c;
             return test.Single().Price;
+        }
+
+        public void AddDoc(string title, string description, int docType, int price, bool isBestseller)
+        {
+            bool isReference = !CheckReference(title);
+            DataBase.Document newDoc = new DataBase.Document();
+            newDoc.Title = title;
+            newDoc.Description = description;
+            newDoc.Price = price;
+            newDoc.DocType = docType;
+            newDoc.IsReference = isReference;
+            newDoc.IsBestseller = isBestseller;
+            db.Documents.InsertOnSubmit(newDoc);
+            db.SubmitChanges();
+        }
+
+        private bool CheckReference(string title)
+        {
+            var test = (from p in db.Documents
+                        where (p.Title == title)
+                        select p);
+            return test.Any();
         }
 
     }

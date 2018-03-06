@@ -38,10 +38,33 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.RemoveDocument(docID);
         }
 
+        public Pages.DocumentsTable DocbyTitle(string title)
+        {
+            var table = SDM.LMS.GetDocsTableForLibrarian();
+
+            var doc = (from p in table where p.docTitle.Equals(title) select p).FirstOrDefault();
+
+            return doc;
+        }
+
+        public Pages.UserTable PatronbyName (string name)
+        {
+            var table = SDM.LMS.TestUsersTable();
+
+            var patron = (from p in table where p.userName.Equals(name) select p).FirstOrDefault();
+
+            return patron;
+        }
+
         public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
             string DocType)
         {
             SDM.LMS.ModifyDoc(doc_id, Title, Description, Price, IsBestseller, DocType);
+        }
+
+        public bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
+        {
+            return SDM.LMS.RegisterUser(login, password, name, adress, phone, isLibrarian);
         }
 
     }

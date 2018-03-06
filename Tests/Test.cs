@@ -325,6 +325,79 @@ namespace I2P_Project.Tests
 
         }
 
+        public string test11()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Registering librarian lb in the system...\n";
+            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+
+            output += "Adding reference book b1 and 3 copy of b1...\n";
+            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
+            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
+            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
+            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
+
+            output += "Adding reference book b2 and 2 copy of b1...\n";
+            SDM.LMS.AddDoc("b2", "b2", 0, 0, false);
+            SDM.LMS.AddDoc("b2", "b2", 0, 0, false);
+            SDM.LMS.AddDoc("b2", "b2", 0, 0, false);
+
+            output += "Adding reference book b3 and copy of b1...\n";
+            SDM.LMS.AddDoc("b3", "b3", 0, 0, false);
+            SDM.LMS.AddDoc("b3", "b3", 0, 0, false);
+
+            output += "Logging In as librarian lb...\n";
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            output += "Registering patrons p1, p2, p3";
+            lb.RegisterUser("p1", "p1", "p1", "p1", "p1", false);
+            lb.RegisterUser("p2", "p2", "p2", "p2", "p2", false);
+            lb.RegisterUser("p3", "p3", "p3", "p3", "p3", false);
+
+            return output;
+        }
+
+        public string test12()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Running TC11";
+
+            output += "Logging In as librarian lb...\n";
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            output += "Obtaining IDs of b1 & b3 documents and p2 patron";
+            int idB1 = lb.DocbyTitle("b1").docID;
+            int idB3 = lb.DocbyTitle("b2").docID;
+            int idP2 = lb.PatronbyName("p2").userID;
+
+            output += "Removing b1 & b3 documents and p2 patron";
+            lb.DeleteDoc(idB1);
+            lb.DeleteDoc(idB3);
+            lb.DeleteDoc(idP2);
+
+
+            return output;
+        }
+
+        public string test13()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Running TC11";
+
+            output += "Logging In as librarian lb...\n";
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+
+            return output;
+        }
+
     }
 
 }

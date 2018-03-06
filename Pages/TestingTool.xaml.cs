@@ -81,9 +81,49 @@ namespace I2P_Project.Pages
                     TestOutput.Text += test.test10();
                     UpdateTables();
                     break;
+                case "11":
+                    TestOutput.Text += test.test11();
+                    UpdateTables();
+                    break;
+                case "12":
+                    TestOutput.Text += test.test12();
+                    UpdateTables();
+                    break;
+                case "13":
+                    TestOutput.Text += test.test13();
+                    UpdateTables();
+                    break;
+              /*  case "14":
+                    TestOutput.Text += test.test14();
+                    UpdateTables();
+                    break;
+                case "15":
+                    TestOutput.Text += test.test15();
+                    UpdateTables();
+                    break;
+                case "16":
+                    TestOutput.Text += test.test16();
+                    UpdateTables();
+                    break;
+                case "17":
+                    TestOutput.Text += test.test17();
+                    UpdateTables();
+                    break;
+                case "18":
+                    TestOutput.Text += test.test18();
+                    UpdateTables();
+                    break;
+                case "19":
+                    TestOutput.Text += test.test19();
+                    UpdateTables();
+                    break;
+                case "20":
+                    TestOutput.Text += test.test20();
+                    UpdateTables();
+                    break;
                 default:
                     TestOutput.Text += "No such test found";
-                    break;
+                    break;*/
             }
         }
 

@@ -30,17 +30,7 @@ namespace I2P_Project.Pages
 
         private void LogInClick(object sender, RoutedEventArgs e)
         {
-            if (SDM.LMS.CheckLogin(LoginTB.Text))
-            {
-                if (SDM.LMS.CheckPassword(LoginTB.Text, PasswordTB.Password))
-                {
-                    LogIn();
-                }
-                else
-                    MessageBox.Show(SDM.Strings.WRONG_PASSWORD_TEXT);
-            }
-            else
-                MessageBox.Show(SDM.Strings.USER_NOT_FOUND_TEXT);
+            OnUserLogin();
         }
 
         private void LogIn()
@@ -92,6 +82,21 @@ namespace I2P_Project.Pages
             Test.Show();
         }
 
+        private void OnUserLogin()
+        {
+            if (SDM.LMS.CheckLogin(LoginTB.Text))
+            {
+                if (SDM.LMS.CheckPassword(LoginTB.Text, PasswordTB.Password))
+                {
+                    LogIn();
+                }
+                else
+                    MessageBox.Show(SDM.Strings.WRONG_PASSWORD_TEXT);
+            }
+            else
+                MessageBox.Show(SDM.Strings.USER_NOT_FOUND_TEXT);
+        }
+
         // Front-end by Valeriy Borisov
         public int animation_id = 0;
 
@@ -129,6 +134,14 @@ namespace I2P_Project.Pages
             animation_id = 1;
             SelectAnimation();
             animation_id = 2;
+        }
+
+        private void PasswordTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Key.Enter == e.Key)  // If user pressed Enter, when password box got focus
+            {
+                OnUserLogin();
+            }
         }
     }
 }

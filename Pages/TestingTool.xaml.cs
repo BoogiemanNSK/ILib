@@ -26,13 +26,14 @@ namespace I2P_Project.Pages
         public TestingTool()
         {
             InitializeComponent();
+            UpdateTables();
             test = new Test();
         }
 
         private void UpdateTables()
         {
             DocsTable.ItemsSource = SDM.LMS.TestDocsTableOnlyBooks();
-            dg_UserTable.ItemsSource = SDM.LMS.TestUsersTable();
+            UserTable.ItemsSource = SDM.LMS.TestUsersTable();
         }
 
         private void OnTest(object sender, RoutedEventArgs e)
@@ -40,7 +41,7 @@ namespace I2P_Project.Pages
             TestOutput.Text = "Test " + TestNumber.Text + ":\n";
             switch (TestNumber.Text)
             {
-                /*case "1":
+                case "1":
                     TestOutput.Text += test.test1();
                     UpdateTables();
                     break;
@@ -82,13 +83,13 @@ namespace I2P_Project.Pages
                     break;
                 default:
                     TestOutput.Text += "No such test found";
-                    break;*/
+                    break;
             }
         }
 
         private void OnShow(object sender, RoutedEventArgs e)
         {
-            UserTable ut_row = dg_UserTable.SelectedItems[0] as UserTable;
+            UserTable ut_row = UserTable.SelectedItems[0] as UserTable;
             int user_id = ut_row.userID;
             DocsTable.ItemsSource = SDM.LMS.TestDocsTableUsersBooks(user_id);
         }

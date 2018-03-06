@@ -36,6 +36,14 @@ namespace I2P_Project.Classes
                     db.DeleteDatabase();
                     db.CreateDatabase();
                 }
+
+                UserTypes studentType = new UserTypes { TypeName = "Student" };
+                UserTypes facultyType = new UserTypes { TypeName = "Faculty" };
+                UserTypes librarianType = new UserTypes { TypeName = "Librarian" };
+
+                db.UserTypes.InsertOnSubmit(studentType);
+                db.UserTypes.InsertOnSubmit(facultyType);
+                db.UserTypes.InsertOnSubmit(librarianType);
             }
 
             db.SubmitChanges(); // DB Preload

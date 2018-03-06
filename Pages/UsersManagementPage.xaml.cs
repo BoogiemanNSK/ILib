@@ -38,7 +38,7 @@ namespace I2P_Project.Pages
             if (UsersTable.SelectedItem != null)
             {
                 LibrarianUserView selectedUser = UsersTable.SelectedItem as LibrarianUserView;
-                ModifyUserPage modifyUser = new ModifyUserPage(selectedUser.userID);
+                UserCard modifyUser = new UserCard(selectedUser.userID);
                 modifyUser.ShowDialog();
             }
         }

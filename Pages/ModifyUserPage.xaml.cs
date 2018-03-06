@@ -63,7 +63,8 @@ namespace I2P_Project.Pages
 
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
-            Close();
+            UserCard page = new UserCard(userID);
+            page.ShowDialog();
         }
     }
 }

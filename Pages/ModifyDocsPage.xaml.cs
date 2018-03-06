@@ -26,7 +26,7 @@ namespace I2P_Project.Pages
         {
             doc_id = docID;
             InitializeComponent();
-            Document doc = SDM.LMS.GetDoc(docID);
+            Document doc = SDM.LMS.GetDocByID(docID);
             TitleTB.AppendText(doc.docTitle);
             DescriptionTB.AppendText(doc.descriptiion);
             PriceTB.AppendText("500");

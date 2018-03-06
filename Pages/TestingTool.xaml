@@ -81,7 +81,6 @@
             <ListBoxItem Content="17"/>
             <ListBoxItem Content="18"/>
             <ListBoxItem Content="19"/>
-            <ListBoxItem Content="20"/>
         </ComboBox>
 
         <Button Grid.Row="9" Click="OnTest" Height="25" Width="120" HorizontalAlignment="Center" Margin="0,2,0,2">Test</Button>

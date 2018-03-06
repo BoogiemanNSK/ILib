@@ -54,16 +54,20 @@ namespace I2P_Project.Classes.UserSystem
             return SDM.LMS.RegisterUser(login, password, name, adress, phone, isLibrarian);
         }
 
-        public string ShowUserCard (Patron patron)
+        public string ShowUserCard (string Name)
         {
             string output = "";
+            var patron = SDM.LMS.PatronbyName(Name);
             if (patron == null)
                 output = SDM.Strings.USER_DOES_NOT_EXIST_TEXT;
             else
             {
-                Pages.UserCard card = new Pages.UserCard(lb.PatronbyName("p2").userID);
+                Pages.UserCard card = new Pages.UserCard(patron.userID);
                 card.Show();
+                output += SDM.Strings.USER_CARD_OBTAINING_TEXT;
             }
+
+            return output;
         }
 
     }

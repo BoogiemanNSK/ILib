@@ -53,15 +53,11 @@ namespace I2P_Project.Pages
             {
                 MessageBox.Show("The row is empty", "Error");
             }
-            DocumentsManagementPage page = new DocumentsManagementPage();
-            page.Show();
             Close();
         }
 
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
-            DocumentsManagementPage page = new DocumentsManagementPage();
-            page.Show();
             Close();
         }
     }

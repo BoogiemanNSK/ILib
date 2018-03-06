@@ -1,6 +1,9 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
+using System;
 using System.Linq;
+using System.Threading;
+using System.Windows;
 
 namespace I2P_Project.Tests
 {
@@ -348,6 +351,14 @@ namespace I2P_Project.Tests
             SDM.LMS.AddDoc("b3", "b3", 0, 0, false);
             SDM.LMS.AddDoc("b3", "b3", 0, 0, false);
 
+            output += "Adding reference video and copy of av1...\n";
+            SDM.LMS.AddDoc("av1", "av1", 3, 0, false);
+            SDM.LMS.AddDoc("av1", "av1", 3, 0, false);
+
+            output += "Adding reference video and copy of av2...\n";
+            SDM.LMS.AddDoc("av2", "av2", 3, 0, false);
+            SDM.LMS.AddDoc("av2", "av2", 3, 0, false);
+
             output += "Logging In as librarian lb...\n";
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
@@ -396,19 +407,17 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Creating new window with user card of p1...\n";
-            Pages.UserCard card = new Pages.UserCard(lb.PatronbyName("p1").userID);
-            card.Show();
+            output += lb.ShowUserCard("p1") + "...\n";
 
             output += "Creating new window with user card of p3...\n";
-            Pages.UserCard card2 = new Pages.UserCard(lb.PatronbyName("p3").userID);
-            card2.Show();
+            output += lb.ShowUserCard("p3") + "...\n";
 
             return output;
         }
 
         public string test14()
         {
-            string output = "Cleared DB...\n...\n";
+            string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
 
             output += "Running TC12...\n";
@@ -419,16 +428,183 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Creating new window with user card of p2...\n";
-            Pages.UserCard card = new Pages.UserCard(lb.PatronbyName("p2").userID);
-            card.Show();
+            output += lb.ShowUserCard("p2") + "...\n";
 
             output += "Creating new window with user card of p3...\n";
-            Pages.UserCard card2 = new Pages.UserCard(lb.PatronbyName("p3").userID);
-            card2.Show();
+            output += lb.ShowUserCard("p3") + "...\n";
 
             return output;
         }
 
-    }
+        public string test15()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
 
+            output += "Running TC12...\n";
+
+            test12();
+
+            output += "Checking existence of p2...\n";
+            if (SDM.LMS.CheckLogin("p2"))
+            {
+                SDM.CurrentUser = new Student("p2");
+                Student p2 = (Student)SDM.CurrentUser;
+                p2.CheckOut("b1");
+                output += "Successfully checked...\n";
+            }
+            else
+                output += "There is no such patron p2...\n";
+            return output;
+        }
+
+        public string test16()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Running TC12...\n";
+
+            test12();
+
+            output += "Logging In as p1 patron...\n";
+            SDM.CurrentUser = new Student("p1");
+            Student p1 = (Student)SDM.CurrentUser;
+
+            output += "Checking b1 out by p1 patron...\n";
+            p1.CheckOut("b1");
+
+            output += "Logging In as p3 patron...\n";
+            SDM.CurrentUser = new Student("p3");
+            Student p3 = (Student)SDM.CurrentUser;
+
+            output += "Checking b1 out by p3 patron...\n";
+            p1.CheckOut("b1");
+
+            output += "Logging In as p1 patron...\n";
+            SDM.CurrentUser = new Student("p1");
+            p1 = (Student)SDM.CurrentUser;
+
+            output += "Checking b2 out by p1 patron...\n";
+            p1.CheckOut("b2");
+
+            output += "Logging In as librarian...\n";
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            output += "Creating new window with user card of p1...\n";
+            output += lb.ShowUserCard("p1") + "...\n";
+
+            output += "Creating new window with user card of p3...\n";
+            output += lb.ShowUserCard("p3") + "...\n";
+
+            return output;
+        }
+
+        public string test17()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Running TC11...\n";
+
+            test11();
+
+            output += "Logging In as p1 patron...\n";
+            SDM.CurrentUser = new Student("p1");
+            Student p1 = (Student)SDM.CurrentUser;
+
+            output += " Checking out b1, b2, b3, av1 by p1 patron...\n";
+            p1.CheckOut("b1");
+            p1.CheckOut("b2");
+            p1.CheckOut("b3");
+            p1.CheckOut("av1");
+
+            output += "Logging In as p2 patron...\n";
+            SDM.CurrentUser = new Student("p2");
+            Student p2 = (Student)SDM.CurrentUser;
+
+            output += " Checking out b1, b2, av2 by p2 patron...\n";
+            p2.CheckOut("b1");
+            p2.CheckOut("b2");
+            p2.CheckOut("av2");
+
+            output += "Logging In as librarian...\n";
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            output += "Creating new window with user card of p1...\n";
+            output += lb.ShowUserCard("p1") + "...\n";
+
+            output += "Creating new window with user card of p3...\n";
+            output += lb.ShowUserCard("p3") + "...\n";
+
+            return output;
+
+        }
+
+        public string test18()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Running TC11...\n";
+
+            test11();
+
+            output += "Logging In as p1 patron...\n";
+            SDM.CurrentUser = new Student("p1");
+            Student p1 = (Student)SDM.CurrentUser;
+
+            output += "breaking through space and time to February 2nd 2018...\n";
+            int[] timeCheat = { 09, 02, 2018 };
+            p1.CheckOut("b2", timeCheat);
+
+            output += "Logging In as p2 patron...\n";
+            SDM.CurrentUser = new Student("p2");
+            Student p2 = (Student)SDM.CurrentUser;
+
+            output += "breaking through space and time to February 5th 2018...\n";
+            timeCheat[0] = 05;
+            p2.CheckOut("b1", timeCheat);
+
+            output += "Logging In as p1 patron...\n";
+            SDM.CurrentUser = new Student("p1");
+            p1 = (Student)SDM.CurrentUser;
+
+            output += "breaking through space and time to February 9th 2018...\n";
+            timeCheat[0] = 02;
+            p1.CheckOut("b1", timeCheat);
+
+            output += "Logging In as p2 patron...\n";
+            SDM.CurrentUser = new Student("p2");
+            p2 = (Student)SDM.CurrentUser;
+
+            output += "breaking through space and time to February 17th 2018...\n";
+            timeCheat[0] = 17;
+            p2.CheckOut("av1", timeCheat);
+
+            output += "Logging In as librarian...\n";
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            return output;
+        }
+
+        public string test19()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Running TC11...\n";
+
+            test11();
+
+            output += "Logging In as librarian lb...\n";
+            Librarian lb = (Librarian)SDM.CurrentUser;           
+            Environment.Exit(0);
+
+            return output;
+        }
+    }
 }

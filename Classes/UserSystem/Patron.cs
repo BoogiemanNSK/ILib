@@ -10,14 +10,14 @@ namespace I2P_Project.Classes.UserSystem
 
         /// <summary> Check out by ID </summary>
         /// <returns> Result of check out as message </returns>
-        public string CheckOut(int docID)
+        public string CheckOut(int docID, params int[] DateCheat)
         {
-            return CheckOut(GetTitleByID(docID));
+            return CheckOut(GetTitleByID(docID), DateCheat);
         }
 
         /// <summary> Check out by Title </summary>
         /// <returns> Result of check out as message </returns>
-        public abstract string CheckOut(string title);
+        public abstract string CheckOut(string title, params int[] DateCheat);
 
         /// <summary> Returns a document from a user to the LMS </summary>
         /// <returns> Result of returning doc as message </returns>
@@ -38,10 +38,15 @@ namespace I2P_Project.Classes.UserSystem
         /// Change fields in DB when some user check out docs.
         /// Start timer for check out and get reference for book
         /// on it's owner.
+        /// DateCheat format - dd mm yyyy
         /// </summary>
-        protected void SetCheckOut(int docID, int weeks)
+        protected void SetCheckOut(int docID, int weeks, params int[] DateCheat)
         {
-            System.DateTime time = System.DateTime.Now;
+            System.DateTime time;
+            if (DateCheat.Length == 0)
+                time = System.DateTime.Now;
+            else
+                time = new System.DateTime(DateCheat[2], DateCheat[1], DateCheat[0]);
 
             Checkouts chk = new Checkouts();
             chk.UserID = PersonID;

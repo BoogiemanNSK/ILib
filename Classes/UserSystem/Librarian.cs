@@ -30,21 +30,17 @@ namespace I2P_Project.Classes.UserSystem
         /// <summary> Adding new doc to DB with given parameters </summary>
         public void AddDoc(string title, string description, int docType, int price, bool isBestseller)
         {
-            bool isReference = !CheckReference(title);
-            DataBase.Document newDoc = new DataBase.Document();
-            newDoc.Title = title;
-            newDoc.Description = description;
-            newDoc.Price = price;
-            newDoc.DocType = docType;
-            newDoc.IsReference = isReference;
-            newDoc.IsBestseller = isBestseller;
-            uDB.Documents.InsertOnSubmit(newDoc);
-            uDB.SubmitChanges();
+            SDM.LMS.AddDoc(title, description, docType, price, isBestseller);
         }
 
         public void DeleteDoc(int docID)
         {
             SDM.LMS.RemoveDocument(docID);
+        }
+
+        public void DeleteDoc(string Title)
+        {
+            SDM.LMS.RemoveDocument(Title);
         }
 
         public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
@@ -53,14 +49,27 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.ModifyDoc(doc_id, Title, Description, Price, IsBestseller, DocType);
         }
 
-        /// <summary> Checks if there exist a reference doc with given title </summary>
-        private bool CheckReference(string title)
+        public bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
         {
-            var test = (from p in uDB.Documents
-                        where (p.Title == title)
-                        select p);
-            return test.Any();
+            return SDM.LMS.RegisterUser(login, password, name, adress, phone, isLibrarian);
         }
+
+        public string ShowUserCard (string Name)
+        {
+            string output = "";
+            var patron = SDM.LMS.PatronbyName(Name);
+            if (patron == null)
+                output = SDM.Strings.USER_DOES_NOT_EXIST_TEXT;
+            else
+            {
+                Pages.UserCard card = new Pages.UserCard(patron.userID);
+                card.Show();
+                output += SDM.Strings.USER_CARD_OBTAINING_TEXT;
+            }
+
+            return output;
+        }
+
     }
 
     public struct OverdueInfo

@@ -105,11 +105,17 @@
     <Compile Include="Pages\ModifyDocsPage.xaml.cs">
       <DependentUpon>ModifyDocsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\OverdueInfo.xaml.cs">
+      <DependentUpon>OverdueInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\PageHome.xaml.cs">
-      <DependentUpon>PageHome.xaml</DependentUpon
+      <DependentUpon>PageHome.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ModifyUserPage.xaml.cs">
       <DependentUpon>ModifyUserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserCard.xaml.cs">
+      <DependentUpon>UserCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tests\Test.cs" />
     <Page Include="AppStyles.xaml">
@@ -148,6 +154,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\OverdueInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\PageHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -157,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\TestingTool.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

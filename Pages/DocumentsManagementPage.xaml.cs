@@ -74,7 +74,7 @@ namespace I2P_Project.Pages
 
         private void OnDeleteBook(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure to remove this book?", "Attention", MessageBoxButton.YesNo);
+            MessageBoxResult result = MessageBox.Show("Are you sure to remove this entry?", "Attention", MessageBoxButton.YesNo);
             switch (result)
             {
                 case MessageBoxResult.Yes:

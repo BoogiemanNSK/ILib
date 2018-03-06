@@ -28,7 +28,7 @@
         
         <Label Grid.Row="3" HorizontalAlignment="Center">Users</Label>
 
-        <DataGrid Grid.Row="4" Name="dg_UserTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
+        <DataGrid Grid.Row="4" Name="UserTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600" Margin="16,0" VerticalAlignment="Top">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="User ID" Binding="{Binding userID}" Width="Auto"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding userName}" Width="Auto"/>
@@ -47,7 +47,7 @@
 
         <Button Grid.Row="5" HorizontalAlignment="Center" Click="OnOverall">All Docs</Button>
 
-        <DataGrid Grid.Row="6" Name="DocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
+        <DataGrid Grid.Row="6" Name="DocumentsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="600">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="Auto"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
@@ -61,7 +61,7 @@
 
         <Label Grid.Row="7" HorizontalAlignment="Center" Content="Select the test case:"/>
         
-        <ComboBox Grid.Row="8" Name="TestNumber" Width="120" Margin="0,2,0,2" IsEditable="True">
+        <ComboBox Grid.Row="8" Name="TestNumber" Width="120" Margin="0,2,0,2" IsEditable="True" MaxDropDownHeight="75">
             <ListBoxItem Content="1"/>
             <ListBoxItem Content="2"/>
             <ListBoxItem Content="3"/>
@@ -72,6 +72,15 @@
             <ListBoxItem Content="8"/>
             <ListBoxItem Content="9"/>
             <ListBoxItem Content="10"/>
+            <ListBoxItem Content="11"/>
+            <ListBoxItem Content="12"/>
+            <ListBoxItem Content="13"/>
+            <ListBoxItem Content="14"/>
+            <ListBoxItem Content="15"/>
+            <ListBoxItem Content="16"/>
+            <ListBoxItem Content="17"/>
+            <ListBoxItem Content="18"/>
+            <ListBoxItem Content="19"/>
         </ComboBox>
 
         <Button Grid.Row="9" Click="OnTest" Height="25" Width="120" HorizontalAlignment="Center" Margin="0,2,0,2">Test</Button>

@@ -38,13 +38,9 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.RemoveDocument(docID);
         }
 
-        public Pages.DocumentsTable DocbyTitle(string title)
+        public void DeleteDoc(string Title)
         {
-            var table = SDM.LMS.GetDocsTableForLibrarian();
-
-            var doc = (from p in table where p.docTitle.Equals(title) select p).FirstOrDefault();
-
-            return doc;
+            SDM.LMS.RemoveDocument(Title);
         }
 
         public Pages.UserTable PatronbyName (string name)

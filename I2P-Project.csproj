@@ -114,6 +114,9 @@
     <Compile Include="Pages\ModifyUserPage.xaml.cs">
       <DependentUpon>ModifyUserPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\UserCard.xaml.cs">
+      <DependentUpon>UserCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tests\Test.cs" />
     <Page Include="AppStyles.xaml">
       <SubType>Designer</SubType>
@@ -164,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\TestingTool.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

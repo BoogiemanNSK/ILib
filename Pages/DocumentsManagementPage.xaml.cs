@@ -20,7 +20,7 @@ namespace I2P_Project.Pages
     /// <summary>
     /// Логика взаимодействия для DocumentsManagementPage.xaml
     /// </summary>
-    public partial class DocumentsManagementPage : Window
+    public partial class DocumentsManagementPage : Page
     {
         public DocumentsManagementPage()
         {
@@ -31,8 +31,7 @@ namespace I2P_Project.Pages
         private void OnAddBook(object sender, RoutedEventArgs e)
         {
             AddBookPage page = new AddBookPage();
-            page.Show();
-            Close();
+            page.ShowDialog();
         }
 
         private void updateTable()
@@ -54,8 +53,7 @@ namespace I2P_Project.Pages
         private void OnBack(object sender, RoutedEventArgs e)
         {
             LibrarianHomePage librarianHome = new LibrarianHomePage();
-            librarianHome.Show();
-            Close();
+            librarianHome.ShowDialog();
         }
 
         private void OnModifyBook(object sender, RoutedEventArgs e)
@@ -65,8 +63,7 @@ namespace I2P_Project.Pages
                 DocumentsTable doc_row = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
                 int doc_id = doc_row.docID;
                 ModifyBooksPage page =  new ModifyBooksPage(doc_id);
-                page.Show();
-                Close();
+                page.ShowDialog();
             }
             //TODO: initialize and so on
 

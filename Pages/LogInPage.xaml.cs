@@ -53,7 +53,7 @@ namespace I2P_Project.Pages
                 case 1:
                     SDM.CurrentUser = new Faculty(LoginTB.Text);
                     break;
-                case 2:
+                case 3: //33333Исправить!!!!!!
                     SDM.CurrentUser = new Librarian(LoginTB.Text);
                     break;
                 default:

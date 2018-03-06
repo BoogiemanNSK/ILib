@@ -87,12 +87,20 @@ namespace I2P_Project.Classes
         #region DB Deletion
 
         /// <summary> Deletes registered user from the system </summary>
-        internal void RemoveUser(int patronID)
+        public void RemoveUser(int patronID)
         {
-            var record_to_remove = (from d in db.Users
+            // Deleting user
+            var user_to_remove = (from d in db.Users
                                     where d.Id == patronID
                                     select d).Single();
-            db.Users.DeleteOnSubmit(record_to_remove);
+            db.Users.DeleteOnSubmit(user_to_remove);
+
+            // Deleting user`s checkouts
+            var checkouts_to_remove = (from c in db.Checkouts
+                                       where c.UserID == patronID
+                                       select c);
+            db.Checkouts.DeleteAllOnSubmit(checkouts_to_remove);
+
             db.SubmitChanges();
         }
 

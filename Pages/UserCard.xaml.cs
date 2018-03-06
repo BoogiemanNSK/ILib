@@ -1,5 +1,6 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
+using I2P_Project.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,29 +28,30 @@ namespace I2P_Project.Pages
         {
             InitializeComponent();
             _patronID = patronID;
-            // TODO Show full user info
+            Users user = SDM.LMS.GetUser(patronID);
+            UserLogin.Content = user.Login;
+            UserName.Text = user.Name;
+            UserAdress.Text = user.Address;
+            UserPhoneNumber.Text = user.PhoneNumber;
+            UserType.Text = (user.UserType == 1 ? "Student" : "Faculty");
         }
 
         private void OnModifyUserClick(object sender, RoutedEventArgs e)
         {
             ModifyUserPage modifyUser = new ModifyUserPage(_patronID);
-            modifyUser.Show();
             Close();
+            modifyUser.ShowDialog();
         }
 
         private void OnDeleteUserClick(object sender, RoutedEventArgs e)
         {
+            Close();
             Librarian lib = (Librarian)SDM.CurrentUser;
             lib.DeleteUser(_patronID);
-            UsersManagementPage page = new UsersManagementPage();
-            page.Show();
-            Close();
         }
 
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
-            UsersManagementPage page = new UsersManagementPage();
-            page.Show();
             Close();
         }
     }

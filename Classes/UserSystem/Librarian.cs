@@ -57,7 +57,7 @@ namespace I2P_Project.Classes.UserSystem
         public string ShowUserCard (string Name)
         {
             string output = "";
-            var patron = SDM.LMS.PatronbyName(Name);
+            var patron = SDM.LMS.GetPatronByName(Name);
             if (patron == null)
                 output = SDM.Strings.USER_DOES_NOT_EXIST_TEXT;
             else

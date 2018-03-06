@@ -27,23 +27,8 @@ namespace I2P_Project.Classes
 
             if (!db.DatabaseExists())
             {
-                try
-                {
-                    db.CreateDatabase();
-                }
-                catch
-                {
-                    db.DeleteDatabase();
-                    db.CreateDatabase();
-                }
-
-                UserTypes studentType = new UserTypes { TypeName = "Student" };
-                UserTypes facultyType = new UserTypes { TypeName = "Faculty" };
-                UserTypes librarianType = new UserTypes { TypeName = "Librarian" };
-
-                db.UserTypes.InsertOnSubmit(studentType);
-                db.UserTypes.InsertOnSubmit(facultyType);
-                db.UserTypes.InsertOnSubmit(librarianType);
+                db.CreateDatabase();
+                GenerateUserTypesDB();                
             }
 
             db.SubmitChanges(); // DB Preload
@@ -61,7 +46,7 @@ namespace I2P_Project.Classes
                 Name = name,
                 Address = adress,
                 PhoneNumber = phone,
-                UserType = (isLibrarian ? 2 : 0)
+                UserType = (isLibrarian ? 3 : 1)
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
@@ -140,7 +125,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                                  where p.UserType != 2
+                                  where p.UserType != 3
                                   select new
                                   {
                                       p.Id,
@@ -511,6 +496,17 @@ namespace I2P_Project.Classes
                         where (p.Title == title)
                         select p);
             return test.Any();
+        }
+
+        private void GenerateUserTypesDB()
+        {
+            UserTypes studentType = new UserTypes { TypeName = "Student" };
+            UserTypes facultyType = new UserTypes { TypeName = "Faculty" };
+            UserTypes librarianType = new UserTypes { TypeName = "Librarian" };
+
+            db.UserTypes.InsertOnSubmit(studentType);
+            db.UserTypes.InsertOnSubmit(facultyType);
+            db.UserTypes.InsertOnSubmit(librarianType);
         }
 
     }

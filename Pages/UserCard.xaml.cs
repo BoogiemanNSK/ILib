@@ -1,4 +1,6 @@
-﻿using System;
+﻿using I2P_Project.Classes;
+using I2P_Project.Classes.UserSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,36 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class UserCard : Window
     {
+        private int _patronID;
+
         public UserCard(int patronID)
         {
             InitializeComponent();
+            _patronID = patronID;
+            // TODO Show full user info
+        }
+
+        private void OnModifyUserClick(object sender, RoutedEventArgs e)
+        {
+            ModifyUserPage modifyUser = new ModifyUserPage(_patronID);
+            modifyUser.Show();
+            Close();
+        }
+
+        private void OnDeleteUserClick(object sender, RoutedEventArgs e)
+        {
+            Librarian lib = (Librarian)SDM.CurrentUser;
+            lib.DeleteUser(_patronID);
+            UsersManagementPage page = new UsersManagementPage();
+            page.Show();
+            Close();
+        }
+
+        private void OnBackClick(object sender, RoutedEventArgs e)
+        {
+            UsersManagementPage page = new UsersManagementPage();
+            page.Show();
+            Close();
         }
     }
 }

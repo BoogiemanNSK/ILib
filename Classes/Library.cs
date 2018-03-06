@@ -452,7 +452,8 @@ namespace I2P_Project.Classes
             else return null;
         }
       
-        public Pages.UserTable PatronbyName(string name)
+        /// <summary> Gets patron row in UI table by his name </summary>
+        public Pages.UserTable GetPatronByName(string name)
         {
             var table = SDM.LMS.TestUsersTable();
 

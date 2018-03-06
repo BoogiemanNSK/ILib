@@ -96,12 +96,24 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
-        /// <summary> Deletes registered doc from the system </summary>
+        /// <summary> Deletes registered doc from the system by ID </summary>
         internal void RemoveDocument(int doc_id)
         {
             var record_to_remove = (from d in db.Documents
-                                    where d.Id == doc_id
+                                    where (d.Id == doc_id)
                                     select d).Single();
+            db.Documents.DeleteOnSubmit(record_to_remove);
+            db.SubmitChanges();
+        }
+
+        /// <summary> Deletes registered doc from the system by Title </summary>
+        internal void RemoveDocument(string Title)
+        {
+            var record_to_remove = (from d in db.Documents
+                                    where (d.Title.Equals(Title) && d.IsReference == false)
+                                    select d).FirstOrDefault();
+            if (record_to_remove == null)
+                record_to_remove = (from d in db.Documents where d.Title.Equals(Title) && d.IsReference select d).Single();
             db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
         }

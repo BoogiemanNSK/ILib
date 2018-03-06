@@ -325,6 +325,111 @@ namespace I2P_Project.Tests
 
         }
 
+        public string test11()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Registering librarian lb in the system...\n";
+            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+
+            output += "Adding reference book b1 and 3 copy of b1...\n";
+            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
+            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
+            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
+            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
+
+            output += "Adding reference book b2 and 2 copy of b1...\n";
+            SDM.LMS.AddDoc("b2", "b2", 0, 0, false);
+            SDM.LMS.AddDoc("b2", "b2", 0, 0, false);
+            SDM.LMS.AddDoc("b2", "b2", 0, 0, false);
+
+            output += "Adding reference book b3 and copy of b1...\n";
+            SDM.LMS.AddDoc("b3", "b3", 0, 0, false);
+            SDM.LMS.AddDoc("b3", "b3", 0, 0, false);
+
+            output += "Logging In as librarian lb...\n";
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            output += "Registering patrons p1, p2, p3...\n";
+            lb.RegisterUser("p1", "p1", "p1", "p1", "p1", false);
+            lb.RegisterUser("p2", "p2", "p2", "p2", "p2", false);
+            lb.RegisterUser("p3", "p3", "p3", "p3", "p3", false);
+
+            return output;
+        }
+
+        public string test12()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Running TC11...\n";
+
+            test11();
+
+            output += "Logging In as librarian lb...\n";
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            output += "Obtaining ID of p2 patron...\n";
+            int idP2 = lb.PatronbyName("p2").userID;
+
+            output += "Removing b1 & b3 documents and p2 patron...\n";
+            lb.DeleteDoc("b1");
+            lb.DeleteDoc("b1");
+            lb.DeleteUser(idP2);
+
+
+            return output;
+        }
+
+        public string test13()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Running TC11...\n";
+
+            test11();
+
+            output += "Logging In as librarian lb...\n";
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            output += "Creating new window with user card of p1...\n";
+            Pages.UserCard card = new Pages.UserCard(lb.PatronbyName("p1").userID);
+            card.Show();
+
+            output += "Creating new window with user card of p3...\n";
+            Pages.UserCard card2 = new Pages.UserCard(lb.PatronbyName("p3").userID);
+            card2.Show();
+
+            return output;
+        }
+
+        public string test14()
+        {
+            string output = "Cleared DB...\n...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Running TC12...\n";
+
+            test12();
+
+            output += "Logging In as librarian lb...\n";
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            output += "Creating new window with user card of p2...\n";
+            Pages.UserCard card = new Pages.UserCard(lb.PatronbyName("p2").userID);
+            card.Show();
+
+            output += "Creating new window with user card of p3...\n";
+            Pages.UserCard card2 = new Pages.UserCard(lb.PatronbyName("p3").userID);
+            card2.Show();
+
+            return output;
+        }
+
     }
 
 }

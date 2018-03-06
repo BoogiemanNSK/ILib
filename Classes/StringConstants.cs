@@ -27,6 +27,7 @@ class StringConstants
     public string USER_DOES_NOT_EXIST_TEXT => "User with such login does not exist!";
 
     public string USER_CARD_OBTAINING_TEXT => "User card successfully obtained!";
+    public string OVERDUE_INFO_TEXT => "Ocerdue info successfully obtained!";
 
     public string[] DOC_TYPES => new string[] {"Book", "Journal", "Audio", "Video"};
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using I2P_Project.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace I2P_Project.Pages
         public PageHome()
         {
             InitializeComponent();
+            string hi_str = String.Format("Hi, {0}!", SDM.CurrentUser.Name);
+            lbl_hi.Content = hi_str;
         }
     }
 }

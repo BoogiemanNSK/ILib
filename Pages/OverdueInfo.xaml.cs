@@ -29,8 +29,6 @@ namespace I2P_Project.Pages
 
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
-            UsersManagementPage page = new UsersManagementPage();
-            page.Show();
             Close();
         }
     }

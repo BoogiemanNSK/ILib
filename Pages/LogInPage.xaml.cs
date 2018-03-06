@@ -26,6 +26,7 @@ namespace I2P_Project.Pages
             SDM.InitializeSystem();
             InitializeComponent();
             animation_id = 0;
+            LoadAnimations();
         }
 
         private void LogInClick(object sender, RoutedEventArgs e)
@@ -36,18 +37,9 @@ namespace I2P_Project.Pages
         private void LogIn()
         {
             SetCurrentUser();
-            if (SDM.CurrentUser.UserType == 3)
-            {
-                LibrarianHomePage LibHomePage = new LibrarianHomePage();
-                LibHomePage.Show();
-                Close();
-            }
-            else
-            {
-                UserHomePage HomePage = new UserHomePage();
-                HomePage.Show();
-                Close();
-            }
+            MainWindow mw = new MainWindow();
+            mw.Show();
+            Close();
         }
 
         private void SetCurrentUser()
@@ -55,13 +47,13 @@ namespace I2P_Project.Pages
             int userType = new Student(LoginTB.Text).UserType;
             switch (userType)
             {
-                case 1:
+                case 0:
                     SDM.CurrentUser = new Student(LoginTB.Text);
                     break;
-                case 2:
+                case 1:
                     SDM.CurrentUser = new Faculty(LoginTB.Text);
                     break;
-                case 3:
+                case 3: //33333Исправить!!!!!!
                     SDM.CurrentUser = new Librarian(LoginTB.Text);
                     break;
                 default:
@@ -100,26 +92,41 @@ namespace I2P_Project.Pages
         // Front-end by Valeriy Borisov
         public int animation_id = 0;
 
-        private void PlayAnimation(string filename)
+        private void LoadAnimations()
         {
-            startupImage.Visibility = Visibility.Hidden;
-            string path = @"media/" + filename;
-            animationPlayer.Source = new Uri(path, UriKind.Relative);
+            animationPlayer.Source = new Uri(@"media/user_look_down.mp4", UriKind.Relative);
             animationPlayer.Play();
+
+            animationPlayer_2.Source = new Uri(@"media/user_close_eyes.mp4", UriKind.Relative);
+            animationPlayer_2.Play();
+
+            animationPlayer_3.Source = new Uri(@"media/user_open_eyes.mp4", UriKind.Relative);
+            animationPlayer_3.Play();
         }
 
         private void SelectAnimation()
         {
-            switch (animation_id)
+            switch (animation_id)  // Attempt to optimize animations
             {
                 case 0:
-                    PlayAnimation("user_look_down.mp4");
+                    animationPlayer.Position -= TimeSpan.FromSeconds(10);
+                    startupImage.Visibility = Visibility.Hidden;
+                    animationPlayer.Visibility = Visibility.Visible;
+                    //animationPlayer.Play();
                     break;
                 case 1:
-                    PlayAnimation("user_close_eyes.mp4");
+
+                    animationPlayer_2.Position -= TimeSpan.FromSeconds(10);
+                    animationPlayer.Visibility = Visibility.Hidden;
+                    animationPlayer_3.Visibility = Visibility.Hidden;
+                    animationPlayer_2.Visibility = Visibility.Visible;
+                    //animationPlayer_2.Play();
                     break;
                 case 2:
-                    PlayAnimation("user_open_eyes.mp4");
+                    animationPlayer_3.Position -= TimeSpan.FromSeconds(10);
+                    animationPlayer_2.Visibility = Visibility.Hidden;
+                    animationPlayer_3.Visibility = Visibility.Visible;
+                    //animationPlayer_3.Play();
                     break;
             }
         }

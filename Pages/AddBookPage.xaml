@@ -30,9 +30,16 @@
         <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Price"/>
         <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="PriceTB"/>
         <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="DocType"/>
-        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="DocTypeTB"/>
+        <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="DocType">
+            <TextBlock>Book</TextBlock>
+            <TextBlock>Journal</TextBlock>
+            <TextBlock>AV</TextBlock>
+        </ComboBox>
         <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="IsBestseller"/>
-        <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="IsBestsellerTB"/>
+        <ComboBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="IsBestseller">
+            <TextBlock>No</TextBlock>
+            <TextBlock>Yes</TextBlock>
+        </ComboBox>
         <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"># of copies</Label>
         <TextBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="CopiesTB"/>
         <Button Grid.Row="7" Width="150" Grid.Column="1" Margin="10,10,10,5" Click="OnAddBookClick">Add book</Button>

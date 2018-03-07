@@ -452,6 +452,10 @@
     {
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
         private int _Id;
+        private string _Autors;
+        private string _Publisher;
+        private string _Edition;
+        private int _PublishYear;
         private string _Title;
         private string _Description;
         private int _DocType;
@@ -467,6 +471,16 @@
         partial void OnIdChanged();
         partial void OnTitleChanging(string value);
         partial void OnTitleChanged();
+        partial void OnAutorsChanging(string value);
+        partial void OnAutorsChanged();
+        partial void OnPublisherChanging(string value);
+        partial void OnPublisherChanged();
+        partial void OnPublishYearChanging(int value);
+        partial void OnPublishYearChanged();
+    
+        partial void OnEditionChanging(string value);
+        partial void OnEditionChanged();
+
         partial void OnDescriptionChanging(string value);
         partial void OnDescriptionChanged();
         partial void OnDocTypeChanging(int value);
@@ -501,7 +515,24 @@
             }
         }
 
-        [Column(Storage = "_Title", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
+        [Column(Storage = "_Autors", DbType = "NVarChar(MAX) NULL")]
+        public string Autors
+        {
+            get => _Autors;
+            set
+            {
+                if ((_Autors != value))
+                {
+                    OnAutorsChanging(value);
+                    SendPropertyChanging();
+                    _Autors = value;
+                    SendPropertyChanged("Title");
+                    OnAutorsChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_Title", DbType = "NVarChar(MAX) NULL")]
         public string Title
         {
             get => _Title;
@@ -518,8 +549,62 @@
             }
         }
 
-        [Column(Storage = "_Description", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
-        public string Description
+
+        [Column(Storage = "_Publisher", DbType = "NVarChar(MAX) NULL")]
+        public string Publisher
+        {
+            get => _Publisher;
+            set
+            {
+                if ((_Publisher != value))
+                {
+                    OnPublisherChanging(value);
+                    SendPropertyChanging();
+                    _Publisher = value;
+                    SendPropertyChanged("Title");
+                    OnPublisherChanged();
+                }
+            }
+        }
+
+
+        [Column(Storage = "_Edition", DbType = "NVarChar(MAX) NULL")]
+        public string Edition
+        {
+            get => _Edition;
+            set
+            {
+                if ((_Edition != value))
+                {
+                    OnEditionChanging(value);
+                    SendPropertyChanging();
+                    _Edition = value;
+                    SendPropertyChanged("Edition");
+                    OnTitleChanged();
+                }
+            }
+        }
+
+
+        [Column(Storage = "_PublishYear", DbType = "Int NOT NULL DEFAULT 0")]
+        public int PublishYear
+        {
+            get => _PublishYear;
+            set
+            {
+                if ((_PublishYear != value))
+                {
+                    OnPublishYearChanging(value);
+                    SendPropertyChanging();
+                    _PublishYear = value;
+                    SendPropertyChanged("PublishYear");
+                    OnPublishYearChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_Description", DbType = "NVarChar(MAX) NULL")]
+        public string Description   
         {
             get => _Description;
             set
@@ -569,7 +654,7 @@
             }
         }
 
-        [Column(Storage = "_IsBestseller", DbType = "Bit NOT NULL")]
+        [Column(Storage = "_IsBestseller", DbType = "Bit")]
         public bool IsBestseller
         {
             get => _IsBestseller;

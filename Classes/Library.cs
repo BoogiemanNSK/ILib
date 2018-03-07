@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 
 namespace I2P_Project.Classes
@@ -25,14 +26,16 @@ namespace I2P_Project.Classes
             string connString = path + SDM.Strings.DB_RELATIVE_PATH;
             db = new LMSDataBase(connString);
 
-            if (!db.DatabaseExists())
+            if (!File.Exists(connString))
             {
                 db.CreateDatabase();
-                GenerateUserTypesDB();                
+                GenerateUserTypesDB();
+                GenerateTestDB();
             }
 
             db.SubmitChanges(); // DB Preload
         }
+        
 
         #region DB Addition
 
@@ -70,6 +73,39 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
+        public void AddBook(string title, string Autors, string Publisher, int PublishYear, string Edition, string description, int docType, int price, bool isBestseller)
+        {
+            bool isReference = !CheckReference(title);
+            DataBase.Document newDoc = new DataBase.Document();
+            newDoc.Title = title;
+            newDoc.Autors = Autors;
+            newDoc.Publisher = Publisher;
+            newDoc.PublishYear = PublishYear;
+            newDoc.Edition = Edition;
+            newDoc.Description = description;
+            newDoc.Price = price;
+            newDoc.DocType = 0;
+            newDoc.IsReference = isReference;
+            newDoc.IsBestseller = isBestseller;
+            db.Documents.InsertOnSubmit(newDoc);
+            db.SubmitChanges();
+        }
+
+        public void AddAV(string title, string Autors,string description, int price)
+        {
+            DataBase.Document newDoc = new DataBase.Document();
+            newDoc.Title = title;
+            newDoc.Autors = Autors;
+            newDoc.Description = description;
+            newDoc.Price = price;
+            newDoc.DocType = 2;
+            newDoc.IsReference = false;
+            newDoc.IsBestseller = false;
+            db.Documents.InsertOnSubmit(newDoc);
+            db.SubmitChanges();
+        }
+
+        
         /// <summary> Generates database of user types association </summary>
         private void GenerateUserTypesDB()
         {
@@ -80,6 +116,53 @@ namespace I2P_Project.Classes
             db.UserTypes.InsertOnSubmit(studentType);
             db.UserTypes.InsertOnSubmit(facultyType);
             db.UserTypes.InsertOnSubmit(librarianType);
+        }
+        /// <summary>
+        /// First generate for show functionality
+        /// </summary>
+        private void GenerateTestDB()
+        {
+            //Not referense books
+            for (int i = 0; i < 2; i++)
+            {
+                AddBook
+                    (
+                        "Introduction to Algorithms",
+                        "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
+                        "MIT Press",
+                        2009,
+                        "Third Edition",
+                        "Alghorithm techniques and design",
+                        0,
+                        1800,
+                        false
+                    );
+                AddBook
+                    (
+                        "Design Patterns: Elements of Reusable Object-Oriented Software",
+                        "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
+                        "Addison-Wesley Professional",
+                        2003,
+                        "First Edition",
+                        "Programm patterns, how to programm well w/o headache",
+                        0,
+                        2000,
+                        true
+                    );
+            }
+            //Reference book
+            AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P", 
+                "Addison-Wesley Longman Publishing Co., Inc.", 1995,
+                "Second edition", "How to do everything and live better", 
+                0, 800,false);
+            AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
+            AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
+            RegisterUser("p1", "p1", "Sergey Afonso", "Via Margutta, 3", "30001", false);
+            RegisterUser("p2", "p2", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
+            RegisterUser("p3", "p3", "Elvira Espindola", "Via del Corso, 22", "30003", false);
+            //Special for me
+            RegisterUser("zhychek1@yandex.ru", "lolcore", "Toha", "1-312", "+79648350370", true);
+            
         }
 
         #endregion
@@ -105,13 +188,23 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Deletes registered doc from the system by ID </summary>
-        internal void RemoveDocument(int doc_id)
+        internal bool RemoveDocument(int doc_id)
         {
             var record_to_remove = (from d in db.Documents
                                     where (d.Id == doc_id)
                                     select d).Single();
+            if (record_to_remove.IsReference)
+            {
+                var check_copy = (from d in db.Documents
+                                  where (d.Id != record_to_remove.Id && d.Title.Equals(record_to_remove.Title))
+                                  select d);
+                if (check_copy.Any())
+                    return false;
+            }
             db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
+            return true;
+
         }
 
         /// <summary> Deletes registered doc from the system by Title </summary>
@@ -144,26 +237,33 @@ namespace I2P_Project.Classes
             var doc = (from d in db.Documents
                        where d.Id == doc_id
                        select d).Single();
-            doc.Title = Title;
-            doc.Description = Description;
-            doc.Price = Convert.ToInt32(Price);
-            doc.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
-            switch (DocType.ToLower())
+            var copy = (from d in db.Documents
+                        where d.Title == doc.Title
+                        select d);
+
+            foreach (DataBase.Document docs in copy)
             {
-                case "book":
-                    doc.DocType = 0;
-                    break;
-                case "journal":
-                    doc.DocType = 1;
-                    break;
-                case "AV":
-                    doc.DocType = 2;
-                    break;
-                default:
-                    new Exception();
-                    break;
+                docs.Title = Title;
+                docs.Description = Description;
+                docs.Price = Convert.ToInt32(Price);
+                docs.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
+                switch (DocType.ToLower())
+                {
+                    case "book":
+                        doc.DocType = 0;
+                        break;
+                    case "journal":
+                        doc.DocType = 1;
+                        break;
+                    case "AV":
+                        doc.DocType = 2;
+                        break;
+                    default:
+                        new Exception();
+                        break;
+                }
+                db.SubmitChanges();
             }
-            db.SubmitChanges();
         }
 
         /// <summary> Updates user info </summary>

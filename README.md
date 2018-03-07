@@ -11,6 +11,23 @@ To start the application go to
     and run I2P-Project.exe
 ###                                     ###
 
+/\/\/\/\/\/\/\/\/\ IF APP CRASHES /\/\/\/\/\/\/\/\/\
+
+ Make sure your SQL Server service is running.
+ 
+ If that was not the problem, try these steps:
+ 1) Kill all SQL Server processess with Task Manager
+ 2) Delete DataBases folder (inside folder with .exe)
+ 3) Delete all files in
+ 	C://Users/{Your User}/AppData/Local/Microsoft/Microsoft SQL Server Data/SQLEXPRESS
+ 4) Start SQL Server (you can use SQL Configuration Manager installed bu SQL Express)
+ 5) Try launching the app again
+ 
+ AppData folder may be hidden, in that case, turn on showing hidden folders:
+ 	https://support.microsoft.com/en-us/help/14201/windows-show-hidden-files
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
 For users:
  - To use the system you have to register a new account by submitting info about you and creating password
  - After creating an account you would be able to log into the system

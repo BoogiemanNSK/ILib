@@ -693,11 +693,18 @@ namespace I2P_Project.Classes
             return test.Count()==n;
         }
 
-        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType)
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdue)
         {
             Users user = GetUser(Name);
+            List<OverdueInfo> checkover = GetOverdue(Name);
+
             return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
-                && user.UserType == UserType;
+                && user.UserType == UserType && EqualOverdue(overdue, checkover);
+        }
+
+        private bool EqualOverdue(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
+        {
+            return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
         }
 
         #endregion

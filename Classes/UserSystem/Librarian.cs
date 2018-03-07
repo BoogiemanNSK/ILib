@@ -64,7 +64,23 @@ namespace I2P_Project.Classes.UserSystem
             {
                 Pages.UserCard card = new Pages.UserCard(patron.userID);
                 card.Show();
-                output += SDM.Strings.USER_CARD_OBTAINING_TEXT;
+                output = SDM.Strings.USER_CARD_OBTAINING_TEXT;
+            }
+
+            return output;
+        }
+
+        public string ShowOverdue(string Name)
+        {
+            string output = "";
+            var patron = SDM.LMS.PatronbyName(Name);
+            if (patron == null)
+                output = SDM.Strings.USER_DOES_NOT_EXIST_TEXT;
+            else
+            {
+                Pages.OverdueInfo doc = new Pages.OverdueInfo(patron.userID);
+                doc.Show();
+                output = SDM.Strings.OVERDUE_INFO_TEXT;
             }
 
             return output;

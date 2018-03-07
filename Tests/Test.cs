@@ -588,6 +588,12 @@ namespace I2P_Project.Tests
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
 
+            output += "Creating new window with overdue info of p1...\n";
+            lb.ShowOverdue("p1");
+
+            output += "Creating new window with overdue info of p2...\n";
+            lb.ShowOverdue("p2");
+
             return output;
         }
 

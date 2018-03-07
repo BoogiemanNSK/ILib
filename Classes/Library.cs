@@ -282,7 +282,7 @@ namespace I2P_Project.Classes
         public void UpgradeUser(string Name)
         {
             Users user = GetUser(Name);
-            if (user.UserType < 1) user.UserType++;
+            if (user.UserType < 2) user.UserType++;
             db.SubmitChanges();
         }
 
@@ -583,7 +583,30 @@ namespace I2P_Project.Classes
 
         
         
-        public List<OverdueInfo> GetOverdue(string Name)
+        public List<CheckedOut> GetCheckout(string Name)
+        {
+            Users user = GetUser(Name);
+            int userID = user.Id;
+            List<CheckedOut> res = new List<CheckedOut>();
+            var load_user_books = from c in db.Checkouts
+                                  where c.UserID == userID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                CheckedOut pair = new CheckedOut();
+                pair.CheckOutTime = element.TimeToBack.Day;
+                pair.DocumentCheckedOut = element.Title;
+                res.Insert(0, pair);
+            }
+            return res;
+        }
+
+        public List<OverdueInfo> GetOverdues(string Name)
         {
             Users user = GetUser(Name);
             int userID = user.Id;
@@ -598,10 +621,11 @@ namespace I2P_Project.Classes
                                   };
             foreach (var element in load_user_books)
             {
+                int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
                 OverdueInfo pair = new OverdueInfo();
-                pair.CheckOutTime = element.TimeToBack;
-                pair.DocumentCheckedOut = element.Title;
-                res.Insert(0, pair);
+                pair.overdue = passedDays;
+                pair.DocumentChekedOut = element.Title;
+                res.Add(pair);
             }
             return res;
         }
@@ -693,18 +717,32 @@ namespace I2P_Project.Classes
             return test.Count()==n;
         }
 
-        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdue)
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
         {
             Users user = GetUser(Name);
-            List<OverdueInfo> checkover = GetOverdue(Name);
+            List<CheckedOut> checkover = GetCheckout(Name);
 
             return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
-                && user.UserType == UserType && EqualOverdue(overdue, checkover);
+                && user.UserType == UserType && EqualCheckouts(checkout, checkover);
         }
 
-        private bool EqualOverdue(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues)
+        {
+            Users user = GetUser(Name);
+            List<OverdueInfo> checkoverdues = GetOverdues(Name);
+
+            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
+                && user.UserType == UserType && EqualOverdues(overdues, checkoverdues);
+        }
+
+        private bool EqualOverdues(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
         {
             return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
+        }
+        
+        private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
+        {
+            return new HashSet<CheckedOut>(checkedOuts).SetEquals(neededInfo);
         }
 
         #endregion

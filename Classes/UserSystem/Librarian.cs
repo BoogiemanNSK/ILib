@@ -9,9 +9,9 @@ namespace I2P_Project.Classes.UserSystem
     {
         public Librarian(string login) : base(login) {}
 
-        public List<OverdueInfo> CheckOverdue(string Name)
+        public List<CheckedOut> CheckCheckouts(string Name)
         {
-            return SDM.LMS.GetOverdue(Name);            
+            return SDM.LMS.GetCheckout(Name);            
         }
 
         public void UpgradeUser(string Name)
@@ -91,10 +91,16 @@ namespace I2P_Project.Classes.UserSystem
 
     }
 
-    public struct OverdueInfo
+    public struct CheckedOut
     {
         public string DocumentCheckedOut { get; set; }   
         public int CheckOutTime { get; set; }
+    }
+
+    public struct OverdueInfo
+    {
+        public string DocumentChekedOut { get; set; }
+        public int overdue { get; set; }
     }
 
 }

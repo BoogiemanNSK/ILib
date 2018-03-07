@@ -372,13 +372,14 @@ namespace I2P_Project.Tests
             output += "Adding reference book Design Patterns: Elements of Reusable Object-Oriented Software and 2 copy of Introduction to Algorithms...\n";
             for (int i = 0; i < 2; i++)
             {
-                SDM.LMS.AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P",
-               "Addison-Wesley Longman Publishing Co., Inc.", 1995,
-               "Second edition", "How to do everything and live better",
-               0, 800, false);
                 SDM.LMS.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
                 SDM.LMS.AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
             }
+            //reference book
+            SDM.LMS.AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P",
+           "Addison-Wesley Longman Publishing Co., Inc.", 1995,
+           "Second edition", "How to do everything and live better",
+           0, 800, false);
             output += "Adding reference book The Mythical Man-month and copy of Introduction to Algorithms...\n";
             output += "Adding reference video and copy of Null References: The Billion Dollar Mistake...\n";
             output += "Adding reference video and copy of Information Entropy...\n";
@@ -388,6 +389,7 @@ namespace I2P_Project.Tests
 
             output += "Registering patrons Sergey Afonso, Nadia Teixeira, Elvira Espindola...\n";
             lb.RegisterUser("Sergey Afonso", "Sergey Afonso", "Sergey Afonso", "Via Margutta, 3", "30001", false);
+            lb.UpgradeUser("Sergey Afonso");
             lb.RegisterUser("Nadia Teixeira", "Nadia Teixeira", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
             lb.RegisterUser("Elvira Espindola", "Elvira Espindola", "Elvira Espindola", "Via del Corso, 22", "30003", false);
             //Assertions for auto-tests
@@ -399,7 +401,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("Design Patterns: Elements of Reusable Object-Oriented Software"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("Design Patterns: Elements of Reusable Object-Oriented Software", 3));
                 Debug.Assert(SDM.LMS.DocExists("The Mythical Man-month"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 2));
+                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month",1));
                 Debug.Assert(SDM.LMS.DocExists("Null References: The Billion Dollar Mistake"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("Null References: The Billion Dollar Mistake", 2));
                 Debug.Assert(SDM.LMS.DocExists("Information Entropy"));
@@ -437,7 +439,7 @@ namespace I2P_Project.Tests
             {
                 Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("Introduction to Algorithms", 4 - 1));
-                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 2 - 1));
+                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 0));
             }
             catch
             {
@@ -466,9 +468,9 @@ namespace I2P_Project.Tests
             //Assertions for auto-tests
             try
             {
-                List<OverdueInfo> overdueInfo = new List<OverdueInfo>();
-                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1,overdueInfo));
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0,overdueInfo));
+                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2,CheckedOutInfo));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1,CheckedOutInfo));
             }
             catch
             {
@@ -496,9 +498,9 @@ namespace I2P_Project.Tests
             output += lb.ShowUserCard("Elvira Espindola") + "...\n";
             try
             {
-                List<OverdueInfo> overdueInfo = new List<OverdueInfo>();
+                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
                 Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0,overdueInfo));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1,CheckedOutInfo));
             }
             catch
             {
@@ -578,16 +580,18 @@ namespace I2P_Project.Tests
             output += lb.ShowUserCard("Elvira Espindola") + "...\n";
             try
             {
-                List<OverdueInfo> overdueInfo = new List<OverdueInfo>();
-                OverdueInfo temp = new OverdueInfo();
+                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
+                CheckedOut temp = new CheckedOut();
                 Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
-                temp.DocumentCheckedOut = "The Mythical Man-month";
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0,overdueInfo));
+                temp.CheckOutTime = DateTime.Now.AddDays(21).Day;
+                temp.DocumentCheckedOut = "Introduction to Algorithms";
+                CheckedOutInfo.Add(temp);
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1,CheckedOutInfo));
+                CheckedOutInfo = new List<CheckedOut>();
                 temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
                 temp.DocumentCheckedOut = "Introduction to Algorithms";
-                overdueInfo.Insert(0, temp);
-                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1, overdueInfo));
+                CheckedOutInfo.Insert(0, temp);
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
                
             }
             catch
@@ -634,7 +638,40 @@ namespace I2P_Project.Tests
 
             output += "Creating new window with user card of Elvira Espindola...\n";
             output += lb.ShowUserCard("Elvira Espindola") + "...\n";
+            try
+            {
+                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
+                CheckedOut temp = new CheckedOut();
+                temp.CheckOutTime = DateTime.Now.AddDays(21).Day;
+                temp.DocumentCheckedOut = "Introduction to Algorithms";
+                CheckedOutInfo.Add(temp);
+                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
+                temp.DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
+                CheckedOutInfo.Add(temp);
+                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
+                temp.DocumentCheckedOut = "Null References: The Billion Dollar Mistake";
+                CheckedOutInfo.Add(temp);
 
+                Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 1, CheckedOutInfo));
+
+                CheckedOutInfo = new List<CheckedOut>();
+                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
+                temp.DocumentCheckedOut = "Introduction to Algorithms";
+                CheckedOutInfo.Add(temp);
+                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
+                temp.DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
+                CheckedOutInfo.Add(temp);
+                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
+                temp.DocumentCheckedOut = "Null References: The Billion Dollar Mistake";
+                CheckedOutInfo.Add(temp);
+
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
+
+            }
+            catch
+            {
+                return "Test17 not passed";
+            }
             return output;
 
         }
@@ -689,7 +726,42 @@ namespace I2P_Project.Tests
 
             output += "Creating new window with overdue info of Nadia Teixeira...\n";
             lb.ShowOverdue("Nadia Teixeira");
+            try
+            {
+                List<OverdueInfo> overdueInfos = new List<OverdueInfo>();
+                OverdueInfo temp = new OverdueInfo();
+                DateTime time = new DateTime(2018,02,09);
+                DateTime assumingTime = new DateTime(2018, 03, 05);
 
+                temp.overdue = (int)DateTime.Now.Subtract(time).TotalDays;
+                temp.DocumentChekedOut = "Introduction to Algorithms";
+                overdueInfos.Add(temp);
+                time = new DateTime(2018, 02, 02);
+                temp.overdue = (int)assumingTime.Subtract(time).TotalDays;
+                temp.DocumentChekedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
+                overdueInfos.Add(temp);
+
+                Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 1, overdueInfos));
+
+                overdueInfos = new List<OverdueInfo>();
+                temp = new OverdueInfo();
+                time = new DateTime(2018, 02, 17);
+
+                temp.overdue = (int)assumingTime.Subtract(time).TotalDays;
+                temp.DocumentChekedOut ="Null References: The Billion Dollar Mistake";
+                overdueInfos.Add(temp);
+                time = new DateTime(2018, 02, 05);
+                temp.overdue = (int)assumingTime.Subtract(time).TotalDays;
+                temp.DocumentChekedOut = "Introduction to Algorithms";
+                overdueInfos.Add(temp);
+
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, overdueInfos));
+
+            }
+            catch
+            {
+                return "Test18 not passed";
+            }
             return output;
         }
 

@@ -5,13 +5,16 @@ System requirements:
  - .NET Framework 4.7
  - SQL Express https://go.microsoft.com/fwlink/?LinkID=799012
  
+************************************************
+ 
 ###                                     ###
 To start the application go to
   [Project path]\I2P-Project\bin\Debug\bin\
     and run I2P-Project.exe
 ###                                     ###
 
-**************** IF APP CRASHES ****************
+************************************************
+*==============* IF APP CRASHES *==============*
 
  Make sure your SQL Server service is running.
  
@@ -40,6 +43,8 @@ For users:
 	d) AV materials and journals can only be checked out for 2 weeks for everyone
  - Please be advised that for overduing docs you have to pay the fine, specified by system
 
+************************************************
+
 For librarians:
  - To use the system as librarian you have to register AND fill serial number field at registration page
  - Serial number can be obtained from system developers
@@ -47,6 +52,8 @@ For librarians:
 	a) Check overdued documents
 	b) Manage patrons
 	c) Adding / deleting / modifying documents
+	
+************************************************
 
 System Developers:
  - Peter Zakharkin  | Architecture & Logic    | @DanielFaraday28    

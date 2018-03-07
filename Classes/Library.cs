@@ -1,4 +1,5 @@
-﻿using I2P_Project.DataBase;
+﻿using I2P_Project.Classes.UserSystem;
+using I2P_Project.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,9 +20,9 @@ namespace I2P_Project.Classes
         public Library()
         {
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string path = (System.IO.Path.GetDirectoryName(executable));
+            string path = (Path.GetDirectoryName(executable));
 
-            System.IO.Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
+            Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
 
             string connString = path + SDM.Strings.DB_RELATIVE_PATH;
             db = new LMSDataBase(connString);
@@ -117,6 +118,7 @@ namespace I2P_Project.Classes
             db.UserTypes.InsertOnSubmit(facultyType);
             db.UserTypes.InsertOnSubmit(librarianType);
         }
+
         /// <summary>
         /// First generate for show functionality
         /// </summary>
@@ -274,6 +276,13 @@ namespace I2P_Project.Classes
             user.Address = userAdress;
             user.PhoneNumber = userPhoneNumber;
             user.UserType = userType;
+            db.SubmitChanges();
+        }
+
+        public void UpgradeUser(string Name)
+        {
+            Users user = GetUser(Name);
+            if (user.UserType < 1) user.UserType++;
             db.SubmitChanges();
         }
 
@@ -553,20 +562,15 @@ namespace I2P_Project.Classes
                 res.docTitle = d.Title;
                 res.isBestseller = d.IsBestseller;
                 res.isReference = d.IsReference;
-                switch (d.DocType)
-                {
-                    case 0:
-                        res.docType = "book";
-                        break;
-                    case 1:
-                        res.docType = "journal";
-                        break;
-                    case 2:
-                        res.docType = "AV";
-                        break;
-                }
+                res.docType = DocTypeString(d.DocType);
             }
             return res;
+        }
+
+        public Users GetUser(string Name)
+        {
+            var test = from u in db.Users where u.Name == Name select u;
+            return test.Single();
         }
 
         /// <summary> Returns user row from given ID </summary>
@@ -576,6 +580,30 @@ namespace I2P_Project.Classes
             return test.Single();
         }
 
+        
+        
+        public List<OverdueInfo> GetOverdue(string Name)
+        {
+            Users user = GetUser(Name);
+            int userID = user.Id;
+            List<OverdueInfo> res = new List<OverdueInfo>();
+            var load_user_books = from c in db.Checkouts
+                                  where c.UserID == userID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                OverdueInfo pair = new OverdueInfo();
+                pair.CheckOutTime = element.TimeToBack.Day;
+                pair.DocumentCheckedOut = element.Title;
+                res.Insert(0, pair);
+            }
+            return res;
+        }
         /// <summary> Returns a checkout info of particular document </summary>
         private Checkouts GetOwnerInfo(int docID)
         {
@@ -639,6 +667,46 @@ namespace I2P_Project.Classes
 
         #endregion
 
+        #region DB Testers
+        public bool DocExists(string Title)
+        {
+            var test = from d in db.Documents
+                       where d.Title.Equals(Title)
+                       select d;
+            return test.Any();
+        }
+
+        public bool UserExists(string Name)
+        {
+            var test = from u in db.Users
+                       where u.Name.Equals(Name)
+                       select u;
+            return test.Any();
+        }
+
+        public bool AmountOfDocs(string Title, int n)
+        {
+            var test = from d in db.Documents
+                       where d.Title.Equals(Title)
+                       select d;
+            return test.Count()==n;
+        }
+
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdue)
+        {
+            Users user = GetUser(Name);
+            List<OverdueInfo> checkover = GetOverdue(Name);
+
+            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
+                && user.UserType == UserType && EqualOverdue(overdue, checkover);
+        }
+
+        private bool EqualOverdue(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
+        {
+            return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
+        }
+
+        #endregion
         // TODO Replace with Observable collection
         /// <summary> Returns all non-reference docs </summary>
         public List<DataBase.Document> GetAllDocs()

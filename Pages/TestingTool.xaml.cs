@@ -42,79 +42,79 @@ namespace I2P_Project.Pages
             switch (TestNumber.Text)
             {
                 case "1":
-                    TestOutput.Text += test.test1();
+                    TestOutput.Text += test.test1(false);
                     UpdateTables();
                     break;
                 case "2":
-                    TestOutput.Text += test.test2();
+                    TestOutput.Text += test.test2(false);
                     UpdateTables();
                     break;
                 case "3":
-                    TestOutput.Text += test.test3();
+                    TestOutput.Text += test.test3(false);
                     UpdateTables();
                     break;
                 case "4":
-                    TestOutput.Text += test.test4();
+                    TestOutput.Text += test.test4(false);
                     UpdateTables();
                     break;
                 case "5":
-                    TestOutput.Text += test.test5();
+                    TestOutput.Text += test.test5(false);
                     UpdateTables();
                     break;
                 case "6":
-                    TestOutput.Text += test.test6();
+                    TestOutput.Text += test.test6(false);
                     UpdateTables();
                     break;
                 case "7":
-                    TestOutput.Text += test.test7();
+                    TestOutput.Text += test.test7(false);
                     UpdateTables();
                     break;
                 case "8":
-                    TestOutput.Text += test.test8();
+                    TestOutput.Text += test.test8(false);
                     UpdateTables();
                     break;
                 case "9":
-                    TestOutput.Text += test.test9();
+                    TestOutput.Text += test.test9(false);
                     UpdateTables();
                     break;
                 case "10":
-                    TestOutput.Text += test.test10();
+                    TestOutput.Text += test.test10(false);
                     UpdateTables();
                     break;
                 case "11":
-                    TestOutput.Text += test.test11();
+                    TestOutput.Text += test.test11(false);
                     UpdateTables();
                     break;
                 case "12":
-                    TestOutput.Text += test.test12();
+                    TestOutput.Text += test.test12(false);
                     UpdateTables();
                     break;
                 case "13":
-                    TestOutput.Text += test.test13();
+                    TestOutput.Text += test.test13(false);
                     UpdateTables();
                     break;
                 case "14":
-                    TestOutput.Text += test.test14();
+                    TestOutput.Text += test.test14(false);
                     UpdateTables();
                     break;
                 case "15":
-                    TestOutput.Text += test.test15();
+                    TestOutput.Text += test.test15(false);
                     UpdateTables();
                     break;
                 case "16":
-                    TestOutput.Text += test.test16();
+                    TestOutput.Text += test.test16(false);
                     UpdateTables();
                     break;
                case "17":
-                    TestOutput.Text += test.test17();
+                    TestOutput.Text += test.test17(false);
                     UpdateTables();
                     break;
                 case "18":
-                    TestOutput.Text += test.test18();
+                    TestOutput.Text += test.test18(false);
                     UpdateTables();
                     break;
                 case "19":
-                    TestOutput.Text += test.test19();
+                    TestOutput.Text += test.test19(false);
                     UpdateTables();
                     break;
                 default:

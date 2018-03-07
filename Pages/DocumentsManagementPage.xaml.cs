@@ -30,11 +30,11 @@ namespace I2P_Project.Pages
 
         private void OnAddBook(object sender, RoutedEventArgs e)
         {
-            AddBookPage page = new AddBookPage();
+            AddBookPage page = new AddBookPage(this);
             page.ShowDialog();
         }
 
-        private void updateTable()
+        public void updateTable()
         {
             dgLibrarianDocuments.ItemsSource = SDM.LMS.GetDocsTableForLibrarian();
         }
@@ -62,11 +62,10 @@ namespace I2P_Project.Pages
             {
                 DocumentsTable doc_row = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
                 int doc_id = doc_row.docID;
-                ModifyBooksPage page =  new ModifyBooksPage(doc_id);
+                ModifyBooksPage page =  new ModifyBooksPage(doc_id, this);
                 page.ShowDialog();
+                
             }
-            //TODO: initialize and so on
-
         }
 
         private void OnDeleteBook(object sender, RoutedEventArgs e)
@@ -81,12 +80,14 @@ namespace I2P_Project.Pages
                         //remove document
                         DocumentsTable doc_row = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
                         int doc_id = doc_row.docID;
-                        lib.DeleteDoc(doc_id);
-                        updateTable();
+                        if (!lib.DeleteDoc(doc_id))
+                            MessageBox.Show("It's not possible to delete referense book, when copies exists");
+                        else
+                            updateTable();
                     }
-                    catch
+                    catch (Exception exc)
                     {
-                        MessageBox.Show("The row is empty", "Error");
+                        MessageBox.Show(exc.ToString(), "Error");
                     }
                     break;
                 case MessageBoxResult.No:

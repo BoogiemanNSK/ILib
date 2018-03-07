@@ -22,7 +22,8 @@ namespace I2P_Project.Pages
     public partial class ModifyBooksPage : Window
     {
         int doc_id;
-        public ModifyBooksPage(int docID)
+        DocumentsManagementPage prevPage;
+        public ModifyBooksPage(int docID, DocumentsManagementPage page)
         {
             doc_id = docID;
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace I2P_Project.Pages
             PriceTB.AppendText("500");
             IsBestsellerTB.AppendText(doc.isBestseller ? "yes" : "no");
             DocTypeTB.AppendText(doc.docType);
+            prevPage = page;
         }
 
         private void OnModifyDocClick(object sender, RoutedEventArgs e)
@@ -48,11 +50,13 @@ namespace I2P_Project.Pages
                         IsBestsellerTB.ToString().Substring(IsBestsellerTB.ToString().IndexOf(":") + 2),
                         DocTypeTB.ToString().Substring(DocTypeTB.ToString().IndexOf(":") + 2)
                     );
+               
             }
             catch
             {
                 MessageBox.Show("The row is empty", "Error");
             }
+            prevPage.updateTable();
             Close();
         }
 

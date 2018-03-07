@@ -11,7 +11,7 @@ To start the application go to
     and run I2P-Project.exe
 ###                                     ###
 
-/\/\/\/\/\/\/\/\/\ IF APP CRASHES /\/\/\/\/\/\/\/\/\
+**************** IF APP CRASHES ****************
 
  Make sure your SQL Server service is running.
  
@@ -26,7 +26,7 @@ To start the application go to
  AppData folder may be hidden, in that case, turn on showing hidden folders:
  	https://support.microsoft.com/en-us/help/14201/windows-show-hidden-files
 
-\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+************************************************
 
 For users:
  - To use the system you have to register a new account by submitting info about you and creating password

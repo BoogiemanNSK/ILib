@@ -329,7 +329,6 @@ namespace I2P_Project.Tests
             return output;
 
         }
-
         public string test11()
         {
             string output = "Cleared DB...\n";
@@ -401,7 +400,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("Design Patterns: Elements of Reusable Object-Oriented Software"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("Design Patterns: Elements of Reusable Object-Oriented Software", 3));
                 Debug.Assert(SDM.LMS.DocExists("The Mythical Man-month"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month",1));
+                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 1));
                 Debug.Assert(SDM.LMS.DocExists("Null References: The Billion Dollar Mistake"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("Null References: The Billion Dollar Mistake", 2));
                 Debug.Assert(SDM.LMS.DocExists("Information Entropy"));
@@ -461,16 +460,16 @@ namespace I2P_Project.Tests
 
             lb.UpgradeUser("Sergey Afonso");
             output += "Creating new window with user card of Sergey Afonso...\n";
-            output += lb.ShowUserCard("Sergey Afonso") + "...\n";
+           // output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 
             output += "Creating new window with user card of Elvira Espindola...\n";
-            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
+            //output += lb.ShowUserCard("Elvira Espindola") + "...\n";
             //Assertions for auto-tests
             try
             {
                 List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
-                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2,CheckedOutInfo));
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1,CheckedOutInfo));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1, CheckedOutInfo));
             }
             catch
             {
@@ -492,15 +491,15 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Creating new window with user card of Nadia Teixeira...\n";
-            output += lb.ShowUserCard("Nadia Teixeira") + "...\n";
+            //output += lb.ShowUserCard("Nadia Teixeira") + "...\n";
 
             output += "Creating new window with user card of Elvira Espindola...\n";
-            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
+            //output += lb.ShowUserCard("Elvira Espindola") + "...\n";
             try
             {
                 List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
                 Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1,CheckedOutInfo));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1, CheckedOutInfo));
             }
             catch
             {
@@ -516,7 +515,7 @@ namespace I2P_Project.Tests
 
             output += "Running TC12...\n";
 
-            test11();
+            test12();
 
             output += "Checking existence of Nadia Teixeira...\n";
             if (SDM.LMS.CheckLogin("Nadia Teixeira"))
@@ -531,7 +530,7 @@ namespace I2P_Project.Tests
             try
             {
                 Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-             }
+            }
             catch
             {
                 return "Test15 not passed";
@@ -546,11 +545,11 @@ namespace I2P_Project.Tests
 
             output += "Running TC12...\n";
 
-            test15();
+            test11();
 
             output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Student("Sergey Afonso");
-            Student p1 = (Student)SDM.CurrentUser;
+            SDM.CurrentUser = new Faculty("Sergey Afonso");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
 
             output += "Checking Introduction to Algorithms out by Sergey Afonso patron...\n";
             p1.CheckOut("Introduction to Algorithms");
@@ -563,8 +562,8 @@ namespace I2P_Project.Tests
             p3.CheckOut("Introduction to Algorithms");
 
             output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Student("Sergey Afonso");
-            p1 = (Student)SDM.CurrentUser;
+            SDM.CurrentUser = new Faculty("Sergey Afonso");
+            p1 = (Faculty)SDM.CurrentUser;
 
             output += "Checking Design Patterns: Elements of Reusable Object-Oriented Software out by Sergey Afonso patron...\n";
             p1.CheckOut("Design Patterns: Elements of Reusable Object-Oriented Software");
@@ -574,10 +573,10 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Creating new window with user card of Sergey Afonso...\n";
-            output += lb.ShowUserCard("Sergey Afonso") + "...\n";
+            //output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 
             output += "Creating new window with user card of Elvira Espindola...\n";
-            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
+            //output += lb.ShowUserCard("Elvira Espindola") + "...\n";
             try
             {
                 List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
@@ -590,6 +589,9 @@ namespace I2P_Project.Tests
                 temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
                 temp.DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
                 CheckedOutInfo.Insert(0, temp);
+                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
+                temp.DocumentCheckedOut = "Introduction to Algorithms";
+                CheckedOutInfo.Add(temp);
                 Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
 
             }
@@ -610,8 +612,8 @@ namespace I2P_Project.Tests
             test11();
 
             output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Student("Sergey Afonso");
-            Student p1 = (Student)SDM.CurrentUser;
+            SDM.CurrentUser = new Faculty("Sergey Afonso");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
 
             output += " Checking out Introduction to Algorithms, Design Patterns: Elements of Reusable Object-Oriented Software, The Mythical Man-month, Null References: The Billion Dollar Mistake by Sergey Afonso patron...\n";
             p1.CheckOut("Introduction to Algorithms");
@@ -633,10 +635,10 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Creating new window with user card of Sergey Afonso...\n";
-            output += lb.ShowUserCard("Sergey Afonso") + "...\n";
+            // output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 
             output += "Creating new window with user card of Elvira Espindola...\n";
-            output += lb.ShowUserCard("Nadia Teixeira") + "...\n";
+            //  output += lb.ShowUserCard("Nadia Teixeira") + "...\n";
             try
             {
                 List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
@@ -661,7 +663,7 @@ namespace I2P_Project.Tests
                 temp.DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
                 CheckedOutInfo.Add(temp);
                 temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
-                temp.DocumentCheckedOut = "Information Entropy";
+                temp.DocumentCheckedOut = "Null References: The Billion Dollar Mistake";
                 CheckedOutInfo.Add(temp);
 
                 Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
@@ -685,8 +687,8 @@ namespace I2P_Project.Tests
             test11();
 
             output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Student("Sergey Afonso");
-            Student p1 = (Student)SDM.CurrentUser;
+            SDM.CurrentUser = new Faculty("Sergey Afonso");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
 
             output += "breaking through space and time to February 2nd 2018...\n";
             int[] timeCheat = { 09, 02, 2018 };
@@ -701,8 +703,8 @@ namespace I2P_Project.Tests
             p2.CheckOut("Introduction to Algorithms", timeCheat);
 
             output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Student("Sergey Afonso");
-            p1 = (Student)SDM.CurrentUser;
+            SDM.CurrentUser = new Faculty("Sergey Afonso");
+            p1 = (Faculty)SDM.CurrentUser;
 
             output += "breaking through space and time to February 9th 2018...\n";
             timeCheat[0] = 02;
@@ -721,36 +723,31 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Creating new window with overdue info of Sergey Afonso...\n";
-            lb.ShowOverdue("Sergey Afonso");
+            //lb.ShowOverdue("Sergey Afonso");
 
             output += "Creating new window with overdue info of Nadia Teixeira...\n";
-            lb.ShowOverdue("Nadia Teixeira");
+            //lb.ShowOverdue("Nadia Teixeira");
             try
             {
                 List<OverdueInfo> overdueInfos = new List<OverdueInfo>();
                 OverdueInfo temp = new OverdueInfo();
-                DateTime time = new DateTime(2018,02,09);
+                DateTime timetoback = new DateTime(2018, 02, 05).AddDays(21);
                 DateTime assumingTime = new DateTime(2018, 03, 05);
 
-                temp.overdue = (int)DateTime.Now.Subtract(time).TotalDays;
+                temp.overdue = (int)DateTime.Now.Subtract(timetoback).TotalDays;
                 temp.DocumentChekedOut = "Introduction to Algorithms";
                 overdueInfos.Add(temp);
-                time = new DateTime(2018, 02, 02);
-                temp.overdue = (int)assumingTime.Subtract(time).TotalDays;
-                temp.DocumentChekedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
+                timetoback = new DateTime(2018, 02, 17).AddDays(14);
+                temp.overdue = (int)DateTime.Now.Subtract(timetoback).TotalDays;
+                temp.DocumentChekedOut = "Null References: The Billion Dollar Mistake";
                 overdueInfos.Add(temp);
 
                 Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 1, overdueInfos));
 
                 overdueInfos = new List<OverdueInfo>();
                 temp = new OverdueInfo();
-                time = new DateTime(2018, 02, 17);
-
-                temp.overdue = (int)assumingTime.Subtract(time).TotalDays;
-                temp.DocumentChekedOut ="Null References: The Billion Dollar Mistake";
-                overdueInfos.Add(temp);
-                time = new DateTime(2018, 02, 05);
-                temp.overdue = (int)assumingTime.Subtract(time).TotalDays;
+                timetoback = new DateTime(2018, 02, 02).AddDays(28);
+                temp.overdue = (int)DateTime.Now.Subtract(timetoback).TotalDays;
                 temp.DocumentChekedOut = "Introduction to Algorithms";
                 overdueInfos.Add(temp);
 

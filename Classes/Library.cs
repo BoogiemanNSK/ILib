@@ -622,10 +622,13 @@ namespace I2P_Project.Classes
             foreach (var element in load_user_books)
             {
                 int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
-                OverdueInfo pair = new OverdueInfo();
-                pair.overdue = passedDays;
-                pair.DocumentChekedOut = element.Title;
-                res.Add(pair);
+                if (passedDays > 0)
+                { 
+                    OverdueInfo pair = new OverdueInfo();
+                    pair.overdue = passedDays;
+                    pair.DocumentChekedOut = element.Title;
+                    res.Add(pair);
+                }
             }
             return res;
         }

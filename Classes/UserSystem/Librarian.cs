@@ -94,7 +94,7 @@ namespace I2P_Project.Classes.UserSystem
     public struct OverdueInfo
     {
         public string DocumentCheckedOut { get; set; }   
-        public DateTime CheckOutTime { get; set; }
+        public int CheckOutTime { get; set; }
     }
 
 }

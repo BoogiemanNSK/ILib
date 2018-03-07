@@ -5,7 +5,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
-
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 namespace I2P_Project.Tests
 {
     class Test
@@ -465,8 +466,9 @@ namespace I2P_Project.Tests
             //Assertions for auto-tests
             try
             {
-                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1));
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0));
+                List<OverdueInfo> overdueInfo = new List<OverdueInfo>();
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1,overdueInfo));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0,overdueInfo));
             }
             catch
             {
@@ -494,8 +496,9 @@ namespace I2P_Project.Tests
             output += lb.ShowUserCard("Elvira Espindola") + "...\n";
             try
             {
+                List<OverdueInfo> overdueInfo = new List<OverdueInfo>();
                 Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0,overdueInfo));
             }
             catch
             {
@@ -573,7 +576,24 @@ namespace I2P_Project.Tests
 
             output += "Creating new window with user card of Elvira Espindola...\n";
             output += lb.ShowUserCard("Elvira Espindola") + "...\n";
-
+            try
+            {
+                List<OverdueInfo> overdueInfo = new List<OverdueInfo>();
+                OverdueInfo temp = new OverdueInfo();
+                Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
+                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
+                temp.DocumentCheckedOut = "The Mythical Man-month";
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0,overdueInfo));
+                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
+                temp.DocumentCheckedOut = "Introduction to Algorithms";
+                overdueInfo.Insert(0, temp);
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1, overdueInfo));
+               
+            }
+            catch
+            {
+                return "Test16 not passed";
+            }
             return output;
         }
 

@@ -19,19 +19,24 @@ namespace I2P_Project.Pages
     /// <summary>
     /// Interaction logic for UsersManagementPage.xaml
     /// </summary>
-    public partial class UsersManagementPage : Window
+    public partial class UsersManagementPage : Page
     {
         public UsersManagementPage()
         {
             InitializeComponent();
+            UpdateTable();
+        }
+
+        private void UpdateTable()
+        {
             UsersTable.ItemsSource = SDM.LMS.LibrarianViewUserTable();
         }
 
         private void OnAddUser(object sender, RoutedEventArgs e)
         {
             RegisterPage Register = new RegisterPage(false);
-            Register.Show();
-            Close();
+            Register.ShowDialog();
+            UpdateTable();
         }
 
         private void OnUserCard(object sender, RoutedEventArgs e)
@@ -39,9 +44,9 @@ namespace I2P_Project.Pages
             if (UsersTable.SelectedItem != null)
             {
                 LibrarianUserView selectedUser = UsersTable.SelectedItem as LibrarianUserView;
-                ModifyUserPage modifyUser = new ModifyUserPage(selectedUser.userID);
-                modifyUser.Show();
-                Close();
+                UserCard modifyUser = new UserCard(selectedUser.userID);
+                modifyUser.ShowDialog();
+                UpdateTable();
             }
         }
 
@@ -51,17 +56,10 @@ namespace I2P_Project.Pages
             {
                 LibrarianUserView selectedUser = UsersTable.SelectedItem as LibrarianUserView;
                 OverdueInfo modifyUser = new OverdueInfo(selectedUser.userID);
-                modifyUser.Show();
-                Close();
+                modifyUser.ShowDialog();
             }
         }
 
-        private void OnBack(object sender, RoutedEventArgs e)
-        {
-            LibrarianHomePage librarianHome = new LibrarianHomePage();
-            librarianHome.Show();
-            Close();
-        }
     }
 
     class LibrarianUserView

@@ -87,12 +87,20 @@ namespace I2P_Project.Classes
         #region DB Deletion
 
         /// <summary> Deletes registered user from the system </summary>
-        internal void RemoveUser(int patronID)
+        public void RemoveUser(int patronID)
         {
-            var record_to_remove = (from d in db.Users
+            // Deleting user
+            var user_to_remove = (from d in db.Users
                                     where d.Id == patronID
                                     select d).Single();
-            db.Users.DeleteOnSubmit(record_to_remove);
+            db.Users.DeleteOnSubmit(user_to_remove);
+
+            // Deleting user`s checkouts
+            var checkouts_to_remove = (from c in db.Checkouts
+                                       where c.UserID == patronID
+                                       select c);
+            db.Checkouts.DeleteAllOnSubmit(checkouts_to_remove);
+
             db.SubmitChanges();
         }
 
@@ -371,6 +379,32 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        public ObservableCollection<Pages.UserDocsTable> GetUserDocsFromLibrarian(int patronID)
+        {
+            ObservableCollection<Pages.UserDocsTable> temp_table = new ObservableCollection<Pages.UserDocsTable>();
+            var load_user_books = from c in db.Checkouts where c.UserID == patronID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      b.DocType,
+                                      c.DateTaked,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                Pages.UserDocsTable row = new Pages.UserDocsTable
+                {
+                    DocTitle = element.Title,
+                    DocType = DocTypeString(element.DocType),
+                    DateTaked = (DateTime)element.DateTaked,
+                    DeadLine = element.TimeToBack
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
         #endregion
 
         #region DB Existence Check
@@ -452,7 +486,8 @@ namespace I2P_Project.Classes
             else return null;
         }
       
-        public Pages.UserTable PatronbyName(string name)
+        /// <summary> Gets patron row in UI table by his name </summary>
+        public Pages.UserTable GetPatronByName(string name)
         {
             var table = SDM.LMS.TestUsersTable();
 

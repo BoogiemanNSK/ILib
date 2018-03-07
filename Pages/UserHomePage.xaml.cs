@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace I2P_Project.Pages
 {
     /// <summary> Interaction logic for UserHomePage.xaml </summary>
-    public partial class UserHomePage : Window
+    public partial class UserHomePage : Page
     {
         public UserHomePage()
         {
@@ -29,7 +29,6 @@ namespace I2P_Project.Pages
         private void UpdateUI()
         {
             while (DocList.Items.Count > 0) DocList.Items.RemoveAt(0);
-            WelcomeText.Content = SDM.Strings.WELCOME_TEXT + ", " + SDM.CurrentUser.Name + "!";
             foreach (DataBase.Document doc in SDM.LMS.GetAllDocs())
             {
                 if (!doc.IsReference) {
@@ -42,24 +41,16 @@ namespace I2P_Project.Pages
         /// <summary> Trying to check out selected doc </summary>
         private void OnCheckOut(object sender, RoutedEventArgs e)
         {
-            if (DocList.SelectedItem == null) InfoText.Content = SDM.Strings.SELECT_CHECK_OUT;
+            if (DocList.SelectedItem == null) MessageBox.Show(SDM.Strings.SELECT_CHECK_OUT);
             else
             {
                 Patron currentPatron = (Patron)SDM.CurrentUser;
                 string s, item = (string)DocList.SelectedItem;
                 s = item.Substring(0, item.IndexOf('|'));
                 int docID = Convert.ToInt32(s);
-                InfoText.Content = currentPatron.CheckOut(docID);
+                MessageBox.Show(currentPatron.CheckOut(docID));
                 UpdateUI();
             }
-        }
-
-        /// <summary> Moves to MyBooks page </summary>
-        private void OnMyDocs(object sender, RoutedEventArgs e)
-        {
-            MyBooks MyDocs = new MyBooks();
-            MyDocs.Show();
-            Close();
         }
     }
 }

@@ -1,28 +1,35 @@
-﻿<Window x:Class="I2P_Project.Pages.DocumentsManagementPage"
+﻿<Page x:Class="I2P_Project.Pages.DocumentsManagementPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="DocumentsManagementPage" Height="900" Width="1200" Background="#FF8080FF">
+        d:DesignHeight="480" d:DesignWidth="905"
+        Title="DocumentsManagementPage">
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="8"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="4"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
             <RowDefinition />
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="20"/>           
+        </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="1" FontSize="16" HorizontalAlignment="Center" Margin="361,0,360.6,5" Grid.RowSpan="2" Content="DocsTable"/>
-        <DataGrid Name="dgLibrarianDocuments" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="400" Width="800" SelectionChanged="myBooksTable_SelectionChanged">
+        <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Center" Content="DocsTable"/>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5,5,5,5" VerticalAlignment="Center" Width="250" Name="SearchTB"/>
+            <Button Click="OnSearch" Width="100" Margin="5,5,5,5" HorizontalAlignment="Right" Content="Search book&#xD;&#xA;&#xA;" />
+        </StackPanel>
+        
+        <DataGrid Grid.Row="3" Grid.Column="1" Name="dgLibrarianDocuments" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" SelectionChanged="myBooksTable_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="Auto"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
@@ -33,12 +40,11 @@
                 <DataGridTextColumn Header="Deadline" Binding="{Binding timeToBack}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox Grid.Row="6" HorizontalAlignment="Right" Height="26" TextWrapping="Wrap" VerticalAlignment="Center" Width="465" Name="SearchTB" Margin="0,0,451,383" Grid.RowSpan="4"/>
-        <Button Grid.Row="6" Click="OnSearch" Width="200"  HorizontalAlignment="Right" Margin="0,10,183,393" Content="Search book&#xD;&#xA;&#xA;" Grid.RowSpan="4"/>
-        <Button Grid.Row="9" Click="OnAddBook" Width="200" HorizontalAlignment="Right" Margin="0,32,771,287" Content="Add&#xD;&#xA;&#xA;"/>
-        <Button Grid.Row="9" Click="OnModifyBook" Width="200" HorizontalAlignment="Center" Margin="496,32,496,287" Content="Modify&#xD;&#xA;"/>
-        <Button Grid.Row="9" Click="OnDeleteBook" Width="200" HorizontalAlignment="Center" Margin="750,32,242,287" Content="Delete"/>
-        <Button Grid.Row="9" Click="OnBack" Height="40" Width="200" HorizontalAlignment="Center" Margin="496,153,496,196">Back</Button>
 
+        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Click="OnAddBook" Width="200" Content="Add" Margin="5,5,5,5"/>
+            <Button Click="OnModifyBook" Width="200" Content="Modify" Margin="5,5,5,5"/>
+            <Button Click="OnDeleteBook" Width="200" Content="Delete" Margin="5,5,5,5"/>
+        </StackPanel>
     </Grid>
-</Window>
+</Page>

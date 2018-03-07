@@ -28,15 +28,11 @@ namespace I2P_Project.Pages
 
         private void UserManagementClick(object sender, RoutedEventArgs e)
         {
-            UsersManagementPage UsersManagement = new UsersManagementPage();
-            UsersManagement.Show();
             Close();
         }
 
         private void DocumentsManagementClick(object sender, RoutedEventArgs e)
         {
-            DocumentsManagementPage DocManagement = new DocumentsManagementPage();
-            DocManagement.Show();
             Close();
         }
     }

@@ -52,8 +52,6 @@ namespace I2P_Project.Pages
                 }
                 else
                 {
-                    UsersManagementPage UserManagement = new UsersManagementPage();
-                    UserManagement.Show();
                     Close();
                 }
             }
@@ -74,8 +72,6 @@ namespace I2P_Project.Pages
             }
             else
             {
-                UsersManagementPage UserManagement = new UsersManagementPage();
-                UserManagement.Show();
                 Close();
             }
         }

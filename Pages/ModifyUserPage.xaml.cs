@@ -53,9 +53,9 @@ namespace I2P_Project.Pages
                         UserPhoneNumber.Text,
                         UserType.SelectedIndex + 1
                     );
-                UsersManagementPage page = new UsersManagementPage();
-                page.Show();
+                UserCard page = new UserCard(userID);
                 Close();
+                page.ShowDialog();
             }
             catch
             {
@@ -65,9 +65,9 @@ namespace I2P_Project.Pages
 
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
-            UsersManagementPage page = new UsersManagementPage();
-            page.Show();
+            UserCard page = new UserCard(userID);
             Close();
+            page.ShowDialog();
         }
     }
 }

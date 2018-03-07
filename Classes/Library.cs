@@ -98,7 +98,7 @@ namespace I2P_Project.Classes
             newDoc.Autors = Autors;
             newDoc.Description = description;
             newDoc.Price = price;
-            newDoc.DocType = 0;
+            newDoc.DocType = 2;
             newDoc.IsReference = false;
             newDoc.IsBestseller = false;
             db.Documents.InsertOnSubmit(newDoc);
@@ -188,13 +188,23 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Deletes registered doc from the system by ID </summary>
-        internal void RemoveDocument(int doc_id)
+        internal bool RemoveDocument(int doc_id)
         {
             var record_to_remove = (from d in db.Documents
                                     where (d.Id == doc_id)
                                     select d).Single();
+            if (record_to_remove.IsReference)
+            {
+                var check_copy = (from d in db.Documents
+                                  where (d.Id == doc_id && d.Title.Equals(record_to_remove.Title))
+                                  select d);
+                if (check_copy.Any())
+                    return false;
+            }
             db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
+            return true;
+
         }
 
         /// <summary> Deletes registered doc from the system by Title </summary>
@@ -227,26 +237,33 @@ namespace I2P_Project.Classes
             var doc = (from d in db.Documents
                        where d.Id == doc_id
                        select d).Single();
-            doc.Title = Title;
-            doc.Description = Description;
-            doc.Price = Convert.ToInt32(Price);
-            doc.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
-            switch (DocType.ToLower())
+            var copy = (from d in db.Documents
+                        where d.Title == doc.Title
+                        select d);
+
+            foreach (DataBase.Document docs in copy)
             {
-                case "book":
-                    doc.DocType = 0;
-                    break;
-                case "journal":
-                    doc.DocType = 1;
-                    break;
-                case "AV":
-                    doc.DocType = 2;
-                    break;
-                default:
-                    new Exception();
-                    break;
+                docs.Title = Title;
+                docs.Description = Description;
+                docs.Price = Convert.ToInt32(Price);
+                docs.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
+                switch (DocType.ToLower())
+                {
+                    case "book":
+                        doc.DocType = 0;
+                        break;
+                    case "journal":
+                        doc.DocType = 1;
+                        break;
+                    case "AV":
+                        doc.DocType = 2;
+                        break;
+                    default:
+                        new Exception();
+                        break;
+                }
+                db.SubmitChanges();
             }
-            db.SubmitChanges();
         }
 
         /// <summary> Updates user info </summary>

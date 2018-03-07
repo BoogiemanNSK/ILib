@@ -515,7 +515,7 @@
             }
         }
 
-        [Column(Storage = "_Autors", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
+        [Column(Storage = "_Autors", DbType = "NVarChar(MAX) NULL")]
         public string Autors
         {
             get => _Autors;
@@ -532,7 +532,7 @@
             }
         }
 
-        [Column(Storage = "_Title", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
+        [Column(Storage = "_Title", DbType = "NVarChar(MAX) NULL")]
         public string Title
         {
             get => _Title;
@@ -550,7 +550,7 @@
         }
 
 
-        [Column(Storage = "_Publisher", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
+        [Column(Storage = "_Publisher", DbType = "NVarChar(MAX) NULL")]
         public string Publisher
         {
             get => _Publisher;
@@ -568,7 +568,7 @@
         }
 
 
-        [Column(Storage = "_Edition", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
+        [Column(Storage = "_Edition", DbType = "NVarChar(MAX) NULL")]
         public string Edition
         {
             get => _Edition;
@@ -586,7 +586,7 @@
         }
 
 
-        [Column(Storage = "_PublishYear", DbType = "Int")]
+        [Column(Storage = "_PublishYear", DbType = "Int NOT NULL DEFAULT 0")]
         public int PublishYear
         {
             get => _PublishYear;
@@ -603,8 +603,8 @@
             }
         }
 
-        [Column(Storage = "_Description", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
-        public string Description
+        [Column(Storage = "_Description", DbType = "NVarChar(MAX) NULL")]
+        public string Description   
         {
             get => _Description;
             set
@@ -654,7 +654,7 @@
             }
         }
 
-        [Column(Storage = "_IsBestseller", DbType = "Bit NOT NULL")]
+        [Column(Storage = "_IsBestseller", DbType = "Bit")]
         public bool IsBestseller
         {
             get => _IsBestseller;

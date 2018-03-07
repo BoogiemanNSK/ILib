@@ -21,8 +21,10 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class AddBookPage : Window
     {
-        public AddBookPage()
+        DocumentsManagementPage previousPage;
+        public AddBookPage(DocumentsManagementPage page)
         {
+            previousPage = page;
             InitializeComponent();
         }
 
@@ -68,6 +70,8 @@ namespace I2P_Project.Pages
             {
                 MessageBox.Show("The row is empty", "Error");
             }
+
+            previousPage.updateTable();
             Close();
         }
 

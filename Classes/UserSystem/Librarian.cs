@@ -9,11 +9,14 @@ namespace I2P_Project.Classes.UserSystem
     {
         public Librarian(string login) : base(login) {}
 
-        public List<OverdueInfo> CheckOverdue()
+        public List<OverdueInfo> CheckOverdue(string Name)
         {
-            List<OverdueInfo> ovList = new List<OverdueInfo>();
-            // TODO
-            return ovList;
+            return SDM.LMS.GetOverdue(Name);            
+        }
+
+        public void UpgradeUser(string Name)
+        {
+            SDM.LMS.UpgradeUser(Name);
         }
 
         /// <summary> Deletes patron from DB </summary>
@@ -90,8 +93,8 @@ namespace I2P_Project.Classes.UserSystem
 
     public struct OverdueInfo
     {
-        Patron OverduedPatron { get; }   
-        DateTime CheckOutTime { get; }
+        public string DocumentCheckedOut { get; set; }   
+        public DateTime CheckOutTime { get; set; }
     }
 
 }

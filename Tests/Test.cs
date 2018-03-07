@@ -1,6 +1,7 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -336,46 +337,86 @@ namespace I2P_Project.Tests
             output += "Registering librarian lb in the system...\n";
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
-            output += "Adding reference book b1 and 3 copy of b1...\n";
-            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
-            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
-            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
-            SDM.LMS.AddDoc("b1", "b1", 0, 0, false);
-
-            output += "Adding reference book b2 and 2 copy of b1...\n";
-            SDM.LMS.AddDoc("b2", "b2", 0, 0, false);
-            SDM.LMS.AddDoc("b2", "b2", 0, 0, false);
-            SDM.LMS.AddDoc("b2", "b2", 0, 0, false);
-
-            output += "Adding reference book b3 and copy of b1...\n";
-            SDM.LMS.AddDoc("b3", "b3", 0, 0, false);
-            SDM.LMS.AddDoc("b3", "b3", 0, 0, false);
-
-            output += "Adding reference video and copy of av1...\n";
-            SDM.LMS.AddDoc("av1", "av1", 3, 0, false);
-            SDM.LMS.AddDoc("av1", "av1", 3, 0, false);
-
-            output += "Adding reference video and copy of av2...\n";
-            SDM.LMS.AddDoc("av2", "av2", 3, 0, false);
-            SDM.LMS.AddDoc("av2", "av2", 3, 0, false);
-
+            output += "Adding reference book Introduction to Algorithms and 3 copy of Introduction to Algorithms...\n";
+            for (int i = 0; i < 4; i++)
+            {
+                SDM.LMS.AddBook
+                    (
+                        "Introduction to Algorithms",
+                        "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
+                        "MIT Press",
+                        2009,
+                        "Third Edition",
+                        "Alghorithm techniques and design",
+                        0,
+                        1800,
+                        false
+                    );
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                SDM.LMS.AddBook
+                   (
+                       "Design Patterns: Elements of Reusable Object-Oriented Software",
+                       "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
+                       "Addison-Wesley Professional",
+                       2003,
+                       "First Edition",
+                       "Programm patterns, how to programm well w/o headache",
+                       0,
+                       2000,
+                       true
+                   );
+            }
+            output += "Adding reference book Design Patterns: Elements of Reusable Object-Oriented Software and 2 copy of Introduction to Algorithms...\n";
+            for (int i = 0; i < 2; i++)
+            {
+                SDM.LMS.AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P",
+               "Addison-Wesley Longman Publishing Co., Inc.", 1995,
+               "Second edition", "How to do everything and live better",
+               0, 800, false);
+                SDM.LMS.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
+                SDM.LMS.AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
+            }
+            output += "Adding reference book The Mythical Man-month and copy of Introduction to Algorithms...\n";
+            output += "Adding reference video and copy of Null References: The Billion Dollar Mistake...\n";
+            output += "Adding reference video and copy of Information Entropy...\n";
             output += "Logging In as librarian lb...\n";
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            output += "Registering patrons p1, p2, p3...\n";
-            lb.RegisterUser("p1", "p1", "p1", "p1", "p1", false);
-            lb.RegisterUser("p2", "p2", "p2", "p2", "p2", false);
-            lb.RegisterUser("p3", "p3", "p3", "p3", "p3", false);
-
+            output += "Registering patrons Sergey Afonso, Nadia Teixeira, Elvira Espindola...\n";
+            lb.RegisterUser("Sergey Afonso", "Sergey Afonso", "Sergey Afonso", "Via Margutta, 3", "30001", false);
+            lb.RegisterUser("Nadia Teixeira", "Nadia Teixeira", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
+            lb.RegisterUser("Elvira Espindola", "Elvira Espindola", "Elvira Espindola", "Via del Corso, 22", "30003", false);
+            //Assertions for auto-tests
+            try
+            {
+                Debug.Assert(SDM.LMS.DocExists("Introduction to Algorithms"));
+                //included reference book
+                Debug.Assert(SDM.LMS.AmountOfDocs("Introduction to Algorithms", 4));
+                Debug.Assert(SDM.LMS.DocExists("Design Patterns: Elements of Reusable Object-Oriented Software"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("Design Patterns: Elements of Reusable Object-Oriented Software", 3));
+                Debug.Assert(SDM.LMS.DocExists("The Mythical Man-month"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 2));
+                Debug.Assert(SDM.LMS.DocExists("Null References: The Billion Dollar Mistake"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("Null References: The Billion Dollar Mistake", 2));
+                Debug.Assert(SDM.LMS.DocExists("Information Entropy"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("Information Entropy", 2));
+                Debug.Assert(SDM.LMS.CheckLogin("Sergey Afonso"));
+                Debug.Assert(SDM.LMS.CheckLogin("Nadia Teixeira"));
+                Debug.Assert(SDM.LMS.CheckLogin("Elvira Espindola"));
+            }
+            catch
+            {
+                return "Test11 not passed";
+            }
             return output;
         }
 
         public string test12()
         {
-            string output = "Cleared DB...\n";
-            SDM.LMS.ClearDB();
-
+            string output = "";
             output += "Running TC11...\n";
 
             test11();
@@ -383,21 +424,30 @@ namespace I2P_Project.Tests
             output += "Logging In as librarian lb...\n";
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            output += "Obtaining ID of p2 patron...\n";
-            int idP2 = SDM.LMS.GetPatronByName("p2").userID;
+            output += "Obtaining ID of Nadia Teixeira patron...\n";
+            int idp2 = SDM.LMS.GetPatronByName("Nadia Teixeira").userID;
 
-            output += "Removing b1 & b3 documents and p2 patron...\n";
-            lb.DeleteDoc("b1");
-            lb.DeleteDoc("b1");
-            lb.DeleteUser(idP2);
-
+            output += "Removing Introduction to Algorithms & The Mythical Man-month documents and Nadia Teixeira patron...\n";
+            lb.DeleteDoc("Introduction to Algorithms");
+            lb.DeleteDoc("The Mythical Man-month");
+            lb.DeleteUser(idp2);
+            //Assertions for auto-tests
+            try
+            {
+                Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("Introduction to Algorithms", 4 - 1));
+                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 2 - 1));
+            }
+            catch
+            {
+                return "Test12 not passed";
+            }
             return output;
         }
 
         public string test13()
         {
             string output = "Cleared DB...\n";
-            SDM.LMS.ClearDB();
 
             output += "Running TC11...\n";
 
@@ -406,12 +456,22 @@ namespace I2P_Project.Tests
             output += "Logging In as librarian lb...\n";
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            output += "Creating new window with user card of p1...\n";
-            output += lb.ShowUserCard("p1") + "...\n";
+            lb.UpgradeUser("Sergey Afonso");
+            output += "Creating new window with user card of Sergey Afonso...\n";
+            output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 
-            output += "Creating new window with user card of p3...\n";
-            output += lb.ShowUserCard("p3") + "...\n";
-
+            output += "Creating new window with user card of Elvira Espindola...\n";
+            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
+            //Assertions for auto-tests
+            try
+            {
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0));
+            }
+            catch
+            {
+                return "Test13 not passed";
+            }
             return output;
         }
 
@@ -427,12 +487,20 @@ namespace I2P_Project.Tests
             output += "Logging In as librarian lb...\n";
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            output += "Creating new window with user card of p2...\n";
-            output += lb.ShowUserCard("p2") + "...\n";
+            output += "Creating new window with user card of Nadia Teixeira...\n";
+            output += lb.ShowUserCard("Nadia Teixeira") + "...\n";
 
-            output += "Creating new window with user card of p3...\n";
-            output += lb.ShowUserCard("p3") + "...\n";
-
+            output += "Creating new window with user card of Elvira Espindola...\n";
+            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
+            try
+            {
+                Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0));
+            }
+            catch
+            {
+                return "Test14 not passed";
+            }
             return output;
         }
 
@@ -445,16 +513,24 @@ namespace I2P_Project.Tests
 
             test12();
 
-            output += "Checking existence of p2...\n";
-            if (SDM.LMS.CheckLogin("p2"))
+            output += "Checking existence of Nadia Teixeira...\n";
+            if (SDM.LMS.CheckLogin("Nadia Teixeira"))
             {
-                SDM.CurrentUser = new Student("p2");
+                SDM.CurrentUser = new Student("Nadia Teixeira");
                 Student p2 = (Student)SDM.CurrentUser;
-                p2.CheckOut("b1");
+                p2.CheckOut("Introduction to Algorithms");
                 output += "Successfully checked...\n";
             }
             else
-                output += "There is no such patron p2...\n";
+                output += "There is no such patron Nadia Teixeira...\n";
+            try
+            {
+                Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
+             }
+            catch
+            {
+                return "Test15 not passed";
+            }
             return output;
         }
 
@@ -467,36 +543,36 @@ namespace I2P_Project.Tests
 
             test12();
 
-            output += "Logging In as p1 patron...\n";
-            SDM.CurrentUser = new Student("p1");
+            output += "Logging In as Sergey Afonso patron...\n";
+            SDM.CurrentUser = new Student("Sergey Afonso");
             Student p1 = (Student)SDM.CurrentUser;
 
-            output += "Checking b1 out by p1 patron...\n";
-            p1.CheckOut("b1");
+            output += "Checking Introduction to Algorithms out by Sergey Afonso patron...\n";
+            p1.CheckOut("Introduction to Algorithms");
 
-            output += "Logging In as p3 patron...\n";
-            SDM.CurrentUser = new Student("p3");
+            output += "Logging In as Elvira Espindola patron...\n";
+            SDM.CurrentUser = new Student("Elvira Espindola");
             Student p3 = (Student)SDM.CurrentUser;
 
-            output += "Checking b1 out by p3 patron...\n";
-            p1.CheckOut("b1");
+            output += "Checking Introduction to Algorithms out by Elvira Espindola patron...\n";
+            p1.CheckOut("Introduction to Algorithms");
 
-            output += "Logging In as p1 patron...\n";
-            SDM.CurrentUser = new Student("p1");
+            output += "Logging In as Sergey Afonso patron...\n";
+            SDM.CurrentUser = new Student("Sergey Afonso");
             p1 = (Student)SDM.CurrentUser;
 
-            output += "Checking b2 out by p1 patron...\n";
-            p1.CheckOut("b2");
+            output += "Checking Design Patterns: Elements of Reusable Object-Oriented Software out by Sergey Afonso patron...\n";
+            p1.CheckOut("Design Patterns: Elements of Reusable Object-Oriented Software");
 
             output += "Logging In as librarian...\n";
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            output += "Creating new window with user card of p1...\n";
-            output += lb.ShowUserCard("p1") + "...\n";
+            output += "Creating new window with user card of Sergey Afonso...\n";
+            output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 
-            output += "Creating new window with user card of p3...\n";
-            output += lb.ShowUserCard("p3") + "...\n";
+            output += "Creating new window with user card of Elvira Espindola...\n";
+            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
 
             return output;
         }
@@ -510,34 +586,34 @@ namespace I2P_Project.Tests
 
             test11();
 
-            output += "Logging In as p1 patron...\n";
-            SDM.CurrentUser = new Student("p1");
+            output += "Logging In as Sergey Afonso patron...\n";
+            SDM.CurrentUser = new Student("Sergey Afonso");
             Student p1 = (Student)SDM.CurrentUser;
 
-            output += " Checking out b1, b2, b3, av1 by p1 patron...\n";
-            p1.CheckOut("b1");
-            p1.CheckOut("b2");
-            p1.CheckOut("b3");
-            p1.CheckOut("av1");
+            output += " Checking out Introduction to Algorithms, Design Patterns: Elements of Reusable Object-Oriented Software, The Mythical Man-month, Null References: The Billion Dollar Mistake by Sergey Afonso patron...\n";
+            p1.CheckOut("Introduction to Algorithms");
+            p1.CheckOut("Design Patterns: Elements of Reusable Object-Oriented Software");
+            p1.CheckOut("The Mythical Man-month");
+            p1.CheckOut("Null References: The Billion Dollar Mistake");
 
-            output += "Logging In as p2 patron...\n";
-            SDM.CurrentUser = new Student("p2");
+            output += "Logging In as Nadia Teixeira patron...\n";
+            SDM.CurrentUser = new Student("Nadia Teixeira");
             Student p2 = (Student)SDM.CurrentUser;
 
-            output += " Checking out b1, b2, av2 by p2 patron...\n";
-            p2.CheckOut("b1");
-            p2.CheckOut("b2");
-            p2.CheckOut("av2");
+            output += " Checking out Introduction to Algorithms, Design Patterns: Elements of Reusable Object-Oriented Software, Information Entropy...\n";
+            p2.CheckOut("Introduction to Algorithms");
+            p2.CheckOut("Design Patterns: Elements of Reusable Object-Oriented Software");
+            p2.CheckOut("Information Entropy");
 
             output += "Logging In as librarian...\n";
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            output += "Creating new window with user card of p1...\n";
-            output += lb.ShowUserCard("p1") + "...\n";
+            output += "Creating new window with user card of Sergey Afonso...\n";
+            output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 
-            output += "Creating new window with user card of p3...\n";
-            output += lb.ShowUserCard("p3") + "...\n";
+            output += "Creating new window with user card of Elvira Espindola...\n";
+            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
 
             return output;
 
@@ -552,47 +628,47 @@ namespace I2P_Project.Tests
 
             test11();
 
-            output += "Logging In as p1 patron...\n";
-            SDM.CurrentUser = new Student("p1");
+            output += "Logging In as Sergey Afonso patron...\n";
+            SDM.CurrentUser = new Student("Sergey Afonso");
             Student p1 = (Student)SDM.CurrentUser;
 
             output += "breaking through space and time to February 2nd 2018...\n";
             int[] timeCheat = { 09, 02, 2018 };
-            p1.CheckOut("b2", timeCheat);
+            p1.CheckOut("Design Patterns: Elements of Reusable Object-Oriented Software", timeCheat);
 
-            output += "Logging In as p2 patron...\n";
-            SDM.CurrentUser = new Student("p2");
+            output += "Logging In as Nadia Teixeira patron...\n";
+            SDM.CurrentUser = new Student("Nadia Teixeira");
             Student p2 = (Student)SDM.CurrentUser;
 
             output += "breaking through space and time to February 5th 2018...\n";
             timeCheat[0] = 05;
-            p2.CheckOut("b1", timeCheat);
+            p2.CheckOut("Introduction to Algorithms", timeCheat);
 
-            output += "Logging In as p1 patron...\n";
-            SDM.CurrentUser = new Student("p1");
+            output += "Logging In as Sergey Afonso patron...\n";
+            SDM.CurrentUser = new Student("Sergey Afonso");
             p1 = (Student)SDM.CurrentUser;
 
             output += "breaking through space and time to February 9th 2018...\n";
             timeCheat[0] = 02;
-            p1.CheckOut("b1", timeCheat);
+            p1.CheckOut("Introduction to Algorithms", timeCheat);
 
-            output += "Logging In as p2 patron...\n";
-            SDM.CurrentUser = new Student("p2");
+            output += "Logging In as Nadia Teixeira patron...\n";
+            SDM.CurrentUser = new Student("Nadia Teixeira");
             p2 = (Student)SDM.CurrentUser;
 
             output += "breaking through space and time to February 17th 2018...\n";
             timeCheat[0] = 17;
-            p2.CheckOut("av1", timeCheat);
+            p2.CheckOut("Null References: The Billion Dollar Mistake", timeCheat);
 
             output += "Logging In as librarian...\n";
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            output += "Creating new window with overdue info of p1...\n";
-            lb.ShowOverdue("p1");
+            output += "Creating new window with overdue info of Sergey Afonso...\n";
+            lb.ShowOverdue("Sergey Afonso");
 
-            output += "Creating new window with overdue info of p2...\n";
-            lb.ShowOverdue("p2");
+            output += "Creating new window with overdue info of Nadia Teixeira...\n";
+            lb.ShowOverdue("Nadia Teixeira");
 
             return output;
         }
@@ -607,7 +683,7 @@ namespace I2P_Project.Tests
             test11();
 
             output += "Logging In as librarian lb...\n";
-            Librarian lb = (Librarian)SDM.CurrentUser;           
+            Librarian lb = (Librarian)SDM.CurrentUser;
             Environment.Exit(0);
 
             return output;

@@ -11,6 +11,7 @@ namespace I2P_Project.Tests
 {
     class Test
     {
+
         public string test1()
         {
             string output = "Cleared DB...\n";
@@ -39,6 +40,23 @@ namespace I2P_Project.Tests
             st.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
+
+            try
+            {
+                Debug.Assert(SDM.LMS.UserExists("lb"));
+                Debug.Assert(SDM.LMS.UserExists("st"));
+                Debug.Assert(SDM.LMS.DocExists("b"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("b", 3));
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+
+                output = "Test1 OK";
+            }
+            catch
+            {
+                output = "Test1 FAIL";
+            }
+
+
             return output;
         }
 
@@ -62,6 +80,21 @@ namespace I2P_Project.Tests
             st.CheckOut("A");
 
             output += "Test passed with no exceptions!\n";
+
+            try
+            {
+                Debug.Assert(SDM.LMS.UserExists("lb"));
+                Debug.Assert(SDM.LMS.UserExists("st"));
+                Debug.Assert(!SDM.LMS.DocExists("A"));
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 0);
+
+                output = "Test2 OK";
+            }
+            catch
+            {
+                output = "Test2 FAIL";
+            }
+
             return output;
         }
 
@@ -91,6 +124,24 @@ namespace I2P_Project.Tests
             ft.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
+
+            try
+            {
+                Debug.Assert(SDM.LMS.UserExists("lb"));
+                Debug.Assert(SDM.LMS.UserExists("ft"));
+                Debug.Assert(SDM.LMS.DocExists("b"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 4);
+
+                output = "Test3 OK";
+
+            }
+            catch
+            {
+                output = "Test3 FAIL";
+            }
+
             return output;
         }
 
@@ -102,24 +153,42 @@ namespace I2P_Project.Tests
             output += "Registering student st in the system...\n";
             SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
 
-            output += "Registering faculty ft in the system...\n";
+            output += "Registering student st in the system...\n";
             SDM.LMS.RegisterUser("ft", "ft", "ft", "ft", "ft", false);
 
             output += "Registering librarian lb in the system...\n";
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
-            output += "Logging In as faculty ft...\n";
-            SDM.CurrentUser = new Faculty("ft"); // Log In student st
-            Faculty ft = (Faculty)SDM.CurrentUser;
+            output += "Logging In as student st...\n";
+            SDM.CurrentUser = new Student("st"); // Log In student st
+            Student st = (Student)SDM.CurrentUser;
 
             output += "Adding reference book b and copy...\n";
             SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
             SDM.LMS.AddDoc("b", "B", 0, 0, true);
 
-            output += "Faculty ft checking out book b...\n";
-            ft.CheckOut("b");
+            output += "Studebt st checking out book b...\n";
+            st.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
+
+            try
+            {
+                Debug.Assert(SDM.LMS.UserExists("lb"));
+                Debug.Assert(SDM.LMS.UserExists("st"));
+                Debug.Assert(SDM.LMS.DocExists("b"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 2);
+
+                output = "Test4 OK";
+
+            }
+            catch
+            {
+                output = "Test4 FAIL";
+            }
+
             return output;
         }
 
@@ -141,30 +210,57 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference book A and two copies...\n";
-            SDM.LMS.AddDoc("A", "a", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("A", "a", 0, 0, false);
-            SDM.LMS.AddDoc("A", "a", 0, 0, false);
+            SDM.LMS.AddDoc("a", "a", 0, 0, false); // Adding Reference book
+            SDM.LMS.AddDoc("a", "a", 0, 0, false);
+            SDM.LMS.AddDoc("a", "a", 0, 0, false);
 
             output += "Logging In as student st...\n";
             SDM.CurrentUser = new Student("st"); // Log In student st
             Student st = (Student)SDM.CurrentUser;
 
             output += "Student st checking out book A...\n";
-            st.CheckOut("A");
+            st.CheckOut("a");
 
             output += "Logging In as student st1...\n";
             SDM.CurrentUser = new Student("st1"); // Log In student st1
             Student st1 = (Student)SDM.CurrentUser;
 
             output += "Student st1 checking out book A...\n";
-            st1.CheckOut("A");
+            st1.CheckOut("a");
 
             output += "Logging In as student st2...\n";
             SDM.CurrentUser = new Student("st2"); // Log In student st2
             Student st2 = (Student)SDM.CurrentUser;
 
             output += "Student st2 checking out book A...\n";
-            st2.CheckOut("A");
+            st2.CheckOut("a");
+
+            try
+            {
+                Debug.Assert(SDM.LMS.UserExists("lb"));
+                Debug.Assert(SDM.LMS.UserExists("st"));
+                Debug.Assert(SDM.LMS.UserExists("st1"));
+                Debug.Assert(SDM.LMS.UserExists("st2"));
+                Debug.Assert(SDM.LMS.DocExists("a"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("a", 3));
+
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 0);
+
+                SDM.CurrentUser = new Student("st1");
+                //   st1 = (Student)SDM.CurrentUser;
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+
+                SDM.CurrentUser = new Student("st");
+                st = (Student)SDM.CurrentUser;
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+
+                output = "Test5 OK";
+
+            }
+            catch
+            {
+                output = "Test5 FAIL";
+            }
 
             output += "Test passed with no exceptions!\n";
             return output;
@@ -197,6 +293,22 @@ namespace I2P_Project.Tests
             st.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
+            try
+            {
+                Debug.Assert(SDM.LMS.UserExists("lb"));
+                Debug.Assert(SDM.LMS.UserExists("st"));
+                Debug.Assert(SDM.LMS.DocExists("b"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("b", 3));
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+
+                output = "Test6 OK";
+
+            }
+            catch
+            {
+                output = "Test6 FAIL";
+            }
+
             return output;
         }
 
@@ -224,7 +336,7 @@ namespace I2P_Project.Tests
             Student p1 = (Student)SDM.CurrentUser;
 
             output += "Student p1 checking out book b1...\n";
-            p1.CheckOut("b");
+            p1.CheckOut("b1");
 
             output += "Logging In as student p2...\n";
             SDM.CurrentUser = new Student("p2"); // Log In student st
@@ -234,6 +346,28 @@ namespace I2P_Project.Tests
             p2.CheckOut("b1");
 
             output += "Test passed with no exceptions!\n";
+            try
+            {
+                Debug.Assert(SDM.LMS.UserExists("lb"));
+                Debug.Assert(SDM.LMS.UserExists("p1"));
+                Debug.Assert(SDM.LMS.UserExists("p2"));
+                Debug.Assert(SDM.LMS.DocExists("b1"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("b1", 3));
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+
+                SDM.CurrentUser = new Student("p1"); // Log In student st
+                p1 = (Student)SDM.CurrentUser;
+
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+
+                output = "Test7 OK";
+
+            }
+            catch
+            {
+                output = "Test7 FAIL";
+            }
+
             return output;
         }
 
@@ -266,6 +400,25 @@ namespace I2P_Project.Tests
             s.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
+
+            try
+            {
+                Debug.Assert(SDM.LMS.UserExists("lb"));
+                Debug.Assert(SDM.LMS.UserExists("f"));
+                Debug.Assert(SDM.LMS.UserExists("s"));
+                Debug.Assert(SDM.LMS.DocExists("b"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 3);
+
+                output = "Test8 OK";
+
+            }
+            catch
+            {
+                output = "Test8 FAIL";
+            }
+
             return output;
         }
 
@@ -298,6 +451,25 @@ namespace I2P_Project.Tests
             s.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
+
+            try
+            {
+                Debug.Assert(SDM.LMS.UserExists("lb"));
+                Debug.Assert(SDM.LMS.UserExists("f"));
+                Debug.Assert(SDM.LMS.UserExists("s"));
+                Debug.Assert(SDM.LMS.DocExists("b"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 2);
+
+                output = "Test9 OK";
+
+            }
+            catch
+            {
+                output = "Test9 FAIL";
+            }
+
             return output;
         }
 
@@ -326,6 +498,22 @@ namespace I2P_Project.Tests
             st.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
+            try
+            {
+                Debug.Assert(SDM.LMS.UserExists("lb"));
+                Debug.Assert(SDM.LMS.UserExists("st"));
+                Debug.Assert(SDM.LMS.DocExists("b"));
+                Debug.Assert(SDM.LMS.DocExists("a"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("a", 2));
+                Debug.Assert(SDM.LMS.AmountOfDocs("b", 1));
+                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
+
+            }
+            catch
+            {
+                output = "Test10 FAIL";
+            }
+
             return output;
 
         }
@@ -460,7 +648,7 @@ namespace I2P_Project.Tests
 
             lb.UpgradeUser("Sergey Afonso");
             output += "Creating new window with user card of Sergey Afonso...\n";
-           // output += lb.ShowUserCard("Sergey Afonso") + "...\n";
+            // output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 
             output += "Creating new window with user card of Elvira Espindola...\n";
             //output += lb.ShowUserCard("Elvira Espindola") + "...\n";

@@ -1,33 +1,29 @@
-﻿<Window x:Class="I2P_Project.Pages.UsersManagementPage"
+﻿<Page x:Class="I2P_Project.Pages.UsersManagementPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="UsersManagementPage" Height="640" Width="800" Background="#FF8080FF">
+        d:DesignHeight="480" d:DesignWidth="905"
+        Title="UsersManagementPage">
 
-    <Grid Margin="0,1,0,-1">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="107*"/>
-            <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="8"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="4"/>
-            <RowDefinition />
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+            
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="1" FontSize="16" HorizontalAlignment="Center" Margin="361,0,361,5" Grid.RowSpan="2" Grid.ColumnSpan="2" Content="UserList"/>
-        <DataGrid Name="UsersTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="400" Width="640" Grid.ColumnSpan="2" Margin="76,0">
+        <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Center" Content="UserList"/>
+        <DataGrid Grid.Row="2" Grid.Column="1" Name="UsersTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="User ID" Binding="{Binding userID}" Width="*"/>
                 <DataGridTextColumn Header="Login" Binding="{Binding userLogin}" Width="*"/>
@@ -35,11 +31,10 @@
                 <DataGridTextColumn Header="Fine" Binding="{Binding userFine}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-
-        <Button Grid.Row="8" Click="OnAddUser" Margin="76,0,152,120" Content="Add user&#xD;&#xA;&#xA;" Grid.RowSpan="2"/>
-        <Button Grid.Row="8" Click="OnUserOverdueInfo" Width="158" HorizontalAlignment="Center" Margin="130,0,76,120" Content="Overdue Info&#xD;&#xA;" Grid.Column="1" Grid.RowSpan="2"/>
-        <Button Grid.Row="8" Click="OnUserCard" Width="200" HorizontalAlignment="Center" Margin="322,0,270,120" Content="User Card&#xD;&#xA;&#xA;" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-        <Button Grid.Row="9" Click="OnBack" Height="40" Width="200" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="322,56,270,53">Back</Button>
-
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnAddUser" Width="150" Content="Add user&#xD;&#xA;&#xA;"/>
+            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnUserOverdueInfo" Width="150" Content="Overdue Info&#xD;&#xA;"/>
+            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnUserCard" Width="150" Content="User Card&#xD;&#xA;&#xA;"/>
+        </StackPanel>
     </Grid>
-</Window>
+</Page>

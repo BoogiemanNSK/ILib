@@ -9,7 +9,7 @@ namespace I2P_Project.Classes.UserSystem
 
         /// <summary> Checks out a book for a current student user </summary>
         /// <returns> Result of check out as message </returns>
-        public override string CheckOut(string title)
+        public override string CheckOut(string title, params int[] DateCheat)
         {
             DataBase.Document doc = null;
             var test = from b in uDB.Documents
@@ -33,9 +33,9 @@ namespace I2P_Project.Classes.UserSystem
                 return SDM.Strings.NO_FREE_COPIES_TEXT;
 
             if (doc.IsBestseller || doc.DocType != 0)
-                SetCheckOut(doc.Id, 2);
+                SetCheckOut(doc.Id, 2, DateCheat);
             else
-                SetCheckOut(doc.Id, 3);
+                SetCheckOut(doc.Id, 3, DateCheat);
 
             return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";
         }

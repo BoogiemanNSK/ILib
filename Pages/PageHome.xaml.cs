@@ -11,29 +11,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace I2P_Project.Pages
 {
     /// <summary>
-    /// Interaction logic for LibrarianHomePage.xaml
+    /// Логика взаимодействия для PageHome.xaml
     /// </summary>
-    public partial class LibrarianHomePage : Window
+    public partial class PageHome : Page
     {
-        public LibrarianHomePage()
+        public PageHome()
         {
             InitializeComponent();
-            WelcomeText.Content = SDM.Strings.WELCOME_TEXT + ", " + SDM.CurrentUser.Name + "!";
-        }
-
-        private void UserManagementClick(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void DocumentsManagementClick(object sender, RoutedEventArgs e)
-        {
-            Close();
+            string hi_str = String.Format("Hi, {0}!", SDM.CurrentUser.Name);
+            lbl_hi.Content = hi_str;
         }
     }
 }

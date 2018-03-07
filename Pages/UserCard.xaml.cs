@@ -28,12 +28,15 @@ namespace I2P_Project.Pages
         {
             InitializeComponent();
             _patronID = patronID;
+
             Users user = SDM.LMS.GetUser(patronID);
             UserLogin.Content = user.Login;
             UserName.Text = user.Name;
             UserAdress.Text = user.Address;
             UserPhoneNumber.Text = user.PhoneNumber;
             UserType.Text = (user.UserType == 1 ? "Student" : "Faculty");
+
+            UserDocsTable.ItemsSource = SDM.LMS.GetUserDocsFromLibrarian(patronID);
         }
 
         private void OnModifyUserClick(object sender, RoutedEventArgs e)
@@ -54,5 +57,13 @@ namespace I2P_Project.Pages
         {
             Close();
         }
+    }
+
+    class UserDocsTable
+    {
+        public string DocTitle { get; set; }
+        public string DocType { get; set; }
+        public DateTime DateTaked { get; set; }
+        public DateTime DeadLine { get; set; }
     }
 }

@@ -19,9 +19,9 @@ namespace I2P_Project.Classes
         public Library()
         {
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string path = (System.IO.Path.GetDirectoryName(executable));
+            string path = (Path.GetDirectoryName(executable));
 
-            System.IO.Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
+            Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
 
             string connString = path + SDM.Strings.DB_RELATIVE_PATH;
             db = new LMSDataBase(connString);
@@ -117,6 +117,7 @@ namespace I2P_Project.Classes
             db.UserTypes.InsertOnSubmit(facultyType);
             db.UserTypes.InsertOnSubmit(librarianType);
         }
+
         /// <summary>
         /// First generate for show functionality
         /// </summary>

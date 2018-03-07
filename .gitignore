@@ -260,3 +260,5 @@ __pycache__/
 *.pyc
 *.dll
 *.config
+*.dll
+*.dll

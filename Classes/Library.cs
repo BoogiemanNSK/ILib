@@ -196,7 +196,7 @@ namespace I2P_Project.Classes
             if (record_to_remove.IsReference)
             {
                 var check_copy = (from d in db.Documents
-                                  where (d.Id == doc_id && d.Title.Equals(record_to_remove.Title))
+                                  where (d.Id != record_to_remove.Id && d.Title.Equals(record_to_remove.Title))
                                   select d);
                 if (check_copy.Any())
                     return false;

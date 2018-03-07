@@ -33,27 +33,9 @@ namespace I2P_Project.Pages
             try
             {
                 Librarian currentUser = (Librarian)SDM.CurrentUser;
-                string docType = DocTypeTB.Text.ToLower();
-                int dt = 0;
-                if (docType.Equals("book"))
-                {
-                    dt = 0;
-                }
-                else if (docType.Equals("journal"))
-                {
-                    dt = 1;
-                }
-                else
-                {
-                    dt = 2; //AV
-                }
+                int dt = DocType.SelectedIndex;
                 int price = Convert.ToInt32(PriceTB.Text);
-                string isBestseller = IsBestsellerTB.Text.ToLower();
-                bool ib = false;
-                if (isBestseller.Equals("yes"))
-                {
-                    ib = true;
-                }
+                bool ib = IsBestseller.SelectedIndex == 0;
                 int n = Convert.ToInt32(CopiesTB.Text);
                 for (int i = 0; i < n; i++)
                 {

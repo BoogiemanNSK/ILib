@@ -1,7 +1,9 @@
-﻿using I2P_Project.DataBase;
+﻿using I2P_Project.Classes.UserSystem;
+using I2P_Project.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 
 namespace I2P_Project.Classes
@@ -18,21 +20,23 @@ namespace I2P_Project.Classes
         public Library()
         {
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string path = (System.IO.Path.GetDirectoryName(executable));
+            string path = (Path.GetDirectoryName(executable));
 
-            System.IO.Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
+            Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
 
             string connString = path + SDM.Strings.DB_RELATIVE_PATH;
             db = new LMSDataBase(connString);
 
-            if (!db.DatabaseExists())
+            if (!File.Exists(connString))
             {
                 db.CreateDatabase();
-                GenerateUserTypesDB();                
+                GenerateUserTypesDB();
+                GenerateTestDB();
             }
 
             db.SubmitChanges(); // DB Preload
         }
+        
 
         #region DB Addition
 
@@ -70,6 +74,39 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
+        public void AddBook(string title, string Autors, string Publisher, int PublishYear, string Edition, string description, int docType, int price, bool isBestseller)
+        {
+            bool isReference = !CheckReference(title);
+            DataBase.Document newDoc = new DataBase.Document();
+            newDoc.Title = title;
+            newDoc.Autors = Autors;
+            newDoc.Publisher = Publisher;
+            newDoc.PublishYear = PublishYear;
+            newDoc.Edition = Edition;
+            newDoc.Description = description;
+            newDoc.Price = price;
+            newDoc.DocType = 0;
+            newDoc.IsReference = isReference;
+            newDoc.IsBestseller = isBestseller;
+            db.Documents.InsertOnSubmit(newDoc);
+            db.SubmitChanges();
+        }
+
+        public void AddAV(string title, string Autors,string description, int price)
+        {
+            DataBase.Document newDoc = new DataBase.Document();
+            newDoc.Title = title;
+            newDoc.Autors = Autors;
+            newDoc.Description = description;
+            newDoc.Price = price;
+            newDoc.DocType = 2;
+            newDoc.IsReference = false;
+            newDoc.IsBestseller = false;
+            db.Documents.InsertOnSubmit(newDoc);
+            db.SubmitChanges();
+        }
+
+        
         /// <summary> Generates database of user types association </summary>
         private void GenerateUserTypesDB()
         {
@@ -82,28 +119,94 @@ namespace I2P_Project.Classes
             db.UserTypes.InsertOnSubmit(librarianType);
         }
 
+        /// <summary>
+        /// First generate for show functionality
+        /// </summary>
+        private void GenerateTestDB()
+        {
+            //Not referense books
+            for (int i = 0; i < 2; i++)
+            {
+                AddBook
+                    (
+                        "Introduction to Algorithms",
+                        "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
+                        "MIT Press",
+                        2009,
+                        "Third Edition",
+                        "Alghorithm techniques and design",
+                        0,
+                        1800,
+                        false
+                    );
+                AddBook
+                    (
+                        "Design Patterns: Elements of Reusable Object-Oriented Software",
+                        "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
+                        "Addison-Wesley Professional",
+                        2003,
+                        "First Edition",
+                        "Programm patterns, how to programm well w/o headache",
+                        0,
+                        2000,
+                        true
+                    );
+            }
+            //Reference book
+            AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P", 
+                "Addison-Wesley Longman Publishing Co., Inc.", 1995,
+                "Second edition", "How to do everything and live better", 
+                0, 800,false);
+            AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
+            AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
+            RegisterUser("p1", "p1", "Sergey Afonso", "Via Margutta, 3", "30001", false);
+            RegisterUser("p2", "p2", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
+            RegisterUser("p3", "p3", "Elvira Espindola", "Via del Corso, 22", "30003", false);
+            //Special for me
+            RegisterUser("zhychek1@yandex.ru", "lolcore", "Toha", "1-312", "+79648350370", true);
+            
+        }
+
         #endregion
 
         #region DB Deletion
 
         /// <summary> Deletes registered user from the system </summary>
-        internal void RemoveUser(int patronID)
+        public void RemoveUser(int patronID)
         {
-            var record_to_remove = (from d in db.Users
+            // Deleting user
+            var user_to_remove = (from d in db.Users
                                     where d.Id == patronID
                                     select d).Single();
-            db.Users.DeleteOnSubmit(record_to_remove);
+            db.Users.DeleteOnSubmit(user_to_remove);
+
+            // Deleting user`s checkouts
+            var checkouts_to_remove = (from c in db.Checkouts
+                                       where c.UserID == patronID
+                                       select c);
+            db.Checkouts.DeleteAllOnSubmit(checkouts_to_remove);
+
             db.SubmitChanges();
         }
 
         /// <summary> Deletes registered doc from the system by ID </summary>
-        internal void RemoveDocument(int doc_id)
+        internal bool RemoveDocument(int doc_id)
         {
             var record_to_remove = (from d in db.Documents
                                     where (d.Id == doc_id)
                                     select d).Single();
+            if (record_to_remove.IsReference)
+            {
+                var check_copy = (from d in db.Documents
+                                  where (d.Id != record_to_remove.Id && d.Title.Equals(record_to_remove.Title))
+                                  select d);
+                if (check_copy.Any())
+                    return false;
+            }
             db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
+            return true;
+
         }
 
         /// <summary> Deletes registered doc from the system by Title </summary>
@@ -136,26 +239,33 @@ namespace I2P_Project.Classes
             var doc = (from d in db.Documents
                        where d.Id == doc_id
                        select d).Single();
-            doc.Title = Title;
-            doc.Description = Description;
-            doc.Price = Convert.ToInt32(Price);
-            doc.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
-            switch (DocType.ToLower())
+            var copy = (from d in db.Documents
+                        where d.Title == doc.Title
+                        select d);
+
+            foreach (DataBase.Document docs in copy)
             {
-                case "book":
-                    doc.DocType = 0;
-                    break;
-                case "journal":
-                    doc.DocType = 1;
-                    break;
-                case "AV":
-                    doc.DocType = 2;
-                    break;
-                default:
-                    new Exception();
-                    break;
+                docs.Title = Title;
+                docs.Description = Description;
+                docs.Price = Convert.ToInt32(Price);
+                docs.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
+                switch (DocType.ToLower())
+                {
+                    case "book":
+                        doc.DocType = 0;
+                        break;
+                    case "journal":
+                        doc.DocType = 1;
+                        break;
+                    case "AV":
+                        doc.DocType = 2;
+                        break;
+                    default:
+                        new Exception();
+                        break;
+                }
+                db.SubmitChanges();
             }
-            db.SubmitChanges();
         }
 
         /// <summary> Updates user info </summary>
@@ -166,6 +276,13 @@ namespace I2P_Project.Classes
             user.Address = userAdress;
             user.PhoneNumber = userPhoneNumber;
             user.UserType = userType;
+            db.SubmitChanges();
+        }
+
+        public void UpgradeUser(string Name)
+        {
+            Users user = GetUser(Name);
+            if (user.UserType < 2) user.UserType++;
             db.SubmitChanges();
         }
 
@@ -371,6 +488,32 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        public ObservableCollection<Pages.UserDocsTable> GetUserDocsFromLibrarian(int patronID)
+        {
+            ObservableCollection<Pages.UserDocsTable> temp_table = new ObservableCollection<Pages.UserDocsTable>();
+            var load_user_books = from c in db.Checkouts where c.UserID == patronID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      b.DocType,
+                                      c.DateTaked,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                Pages.UserDocsTable row = new Pages.UserDocsTable
+                {
+                    DocTitle = element.Title,
+                    DocType = DocTypeString(element.DocType),
+                    DateTaked = (DateTime)element.DateTaked,
+                    DeadLine = element.TimeToBack
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
         #endregion
 
         #region DB Existence Check
@@ -419,20 +562,16 @@ namespace I2P_Project.Classes
                 res.docTitle = d.Title;
                 res.isBestseller = d.IsBestseller;
                 res.isReference = d.IsReference;
-                switch (d.DocType)
-                {
-                    case 0:
-                        res.docType = "book";
-                        break;
-                    case 1:
-                        res.docType = "journal";
-                        break;
-                    case 2:
-                        res.docType = "AV";
-                        break;
-                }
+                res.docType = DocTypeString(d.DocType);
             }
             return res;
+        }
+        
+
+        public Users GetUser(string Name)
+        {
+            var test = from u in db.Users where u.Name == Name select u;
+            return test.Single();
         }
 
         /// <summary> Returns user row from given ID </summary>
@@ -442,6 +581,57 @@ namespace I2P_Project.Classes
             return test.Single();
         }
 
+        
+        
+        public List<CheckedOut> GetCheckout(string Name)
+        {
+            Users user = GetUser(Name);
+            int userID = user.Id;
+            List<CheckedOut> res = new List<CheckedOut>();
+            var load_user_books = from c in db.Checkouts
+                                  where c.UserID == userID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                CheckedOut pair = new CheckedOut();
+                pair.CheckOutTime = element.TimeToBack.Day;
+                pair.DocumentCheckedOut = element.Title;
+                res.Insert(0, pair);
+            }
+            return res;
+        }
+
+        public List<OverdueInfo> GetOverdues(string Name)
+        {
+            Users user = GetUser(Name);
+            int userID = user.Id;
+            List<OverdueInfo> res = new List<OverdueInfo>();
+            var load_user_books = from c in db.Checkouts
+                                  where c.UserID == userID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
+                if (passedDays > 0)
+                { 
+                    OverdueInfo pair = new OverdueInfo();
+                    pair.overdue = passedDays;
+                    pair.DocumentChekedOut = element.Title;
+                    res.Add(pair);
+                }
+            }
+            return res;
+        }
         /// <summary> Returns a checkout info of particular document </summary>
         private Checkouts GetOwnerInfo(int docID)
         {
@@ -452,7 +642,8 @@ namespace I2P_Project.Classes
             else return null;
         }
       
-        public Pages.UserTable PatronbyName(string name)
+        /// <summary> Gets patron row in UI table by his name </summary>
+        public Pages.UserTable GetPatronByName(string name)
         {
             var table = SDM.LMS.TestUsersTable();
 
@@ -504,6 +695,60 @@ namespace I2P_Project.Classes
 
         #endregion
 
+        #region DB Testers
+        public bool DocExists(string Title)
+        {
+            var test = from d in db.Documents
+                       where d.Title.Equals(Title)
+                       select d;
+            return test.Any();
+        }
+
+        public bool UserExists(string Name)
+        {
+            var test = from u in db.Users
+                       where u.Name.Equals(Name)
+                       select u;
+            return test.Any();
+        }
+
+        public bool AmountOfDocs(string Title, int n)
+        {
+            var test = from d in db.Documents
+                       where d.Title.Equals(Title)
+                       select d;
+            return test.Count()==n;
+        }
+
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
+        {
+            Users user = GetUser(Name);
+            List<CheckedOut> checkover = GetCheckout(Name);
+
+            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
+                && user.UserType == UserType && EqualCheckouts(checkout, checkover);
+        }
+
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues)
+        {
+            Users user = GetUser(Name);
+            List<OverdueInfo> checkoverdues = GetOverdues(Name);
+
+            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
+                && user.UserType == UserType && EqualOverdues(overdues, checkoverdues);
+        }
+
+        private bool EqualOverdues(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
+        {
+            return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
+        }
+        
+        private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
+        {
+            return new HashSet<CheckedOut>(checkedOuts).SetEquals(neededInfo);
+        }
+
+        #endregion
         // TODO Replace with Observable collection
         /// <summary> Returns all non-reference docs </summary>
         public List<DataBase.Document> GetAllDocs()

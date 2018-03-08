@@ -9,11 +9,14 @@ namespace I2P_Project.Classes.UserSystem
     {
         public Librarian(string login) : base(login) {}
 
-        public List<OverdueInfo> CheckOverdue()
+        public List<CheckedOut> CheckCheckouts(string Name)
         {
-            List<OverdueInfo> ovList = new List<OverdueInfo>();
-            // TODO
-            return ovList;
+            return SDM.LMS.GetCheckout(Name);            
+        }
+
+        public void UpgradeUser(string Name)
+        {
+            SDM.LMS.UpgradeUser(Name);
         }
 
         /// <summary> Deletes patron from DB </summary>
@@ -33,9 +36,9 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.AddDoc(title, description, docType, price, isBestseller);
         }
 
-        public void DeleteDoc(int docID)
+        public bool DeleteDoc(int docID)
         {
-            SDM.LMS.RemoveDocument(docID);
+            return SDM.LMS.RemoveDocument(docID);
         }
 
         public void DeleteDoc(string Title)
@@ -57,14 +60,30 @@ namespace I2P_Project.Classes.UserSystem
         public string ShowUserCard (string Name)
         {
             string output = "";
-            var patron = SDM.LMS.PatronbyName(Name);
+            var patron = SDM.LMS.GetPatronByName(Name);
             if (patron == null)
                 output = SDM.Strings.USER_DOES_NOT_EXIST_TEXT;
             else
             {
                 Pages.UserCard card = new Pages.UserCard(patron.userID);
                 card.Show();
-                output += SDM.Strings.USER_CARD_OBTAINING_TEXT;
+                output = SDM.Strings.USER_CARD_OBTAINING_TEXT;
+            }
+
+            return output;
+        }
+
+        public string ShowOverdue(string Name)
+        {
+            string output = "";
+            var patron = SDM.LMS.GetPatronByName(Name);
+            if (patron == null)
+                output = SDM.Strings.USER_DOES_NOT_EXIST_TEXT;
+            else
+            {
+                Pages.OverdueInfo doc = new Pages.OverdueInfo(patron.userID);
+                doc.Show();
+                output = SDM.Strings.OVERDUE_INFO_TEXT;
             }
 
             return output;
@@ -72,10 +91,16 @@ namespace I2P_Project.Classes.UserSystem
 
     }
 
+    public struct CheckedOut
+    {
+        public string DocumentCheckedOut { get; set; }   
+        public int CheckOutTime { get; set; }
+    }
+
     public struct OverdueInfo
     {
-        Patron OverduedPatron { get; }   
-        DateTime CheckOutTime { get; }
+        public string DocumentChekedOut { get; set; }
+        public int overdue { get; set; }
     }
 
 }

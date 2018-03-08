@@ -1,4 +1,4 @@
-﻿<Window x:Class="I2P_Project.Pages.AddBookPage"
+﻿<Window x:Class="I2P_Project.Pages.ModifyBooksPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -30,19 +30,10 @@
         <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Price"/>
         <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="PriceTB"/>
         <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="DocType"/>
-        <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="DocType">
-            <TextBlock>Book</TextBlock>
-            <TextBlock>Journal</TextBlock>
-            <TextBlock>AV</TextBlock>
-        </ComboBox>
+        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="DocTypeTB"/>
         <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="IsBestseller"/>
-        <ComboBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="IsBestseller">
-            <TextBlock>No</TextBlock>
-            <TextBlock>Yes</TextBlock>
-        </ComboBox>
-        <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"># of copies</Label>
-        <TextBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="CopiesTB"/>
-        <Button Grid.Row="7" Width="150" Grid.Column="1" Margin="10,10,10,5" Click="OnAddBookClick">Add book</Button>
+        <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="IsBestsellerTB"/>
+        <Button Grid.Row="7" Width="150" Grid.Column="1" Margin="10,10,10,5" Click="OnModifyBookClick">Modify book</Button>
         <Button Grid.Row="8" Width="150" Grid.Column="1" Margin="10,5,10,10" Click="OnBackClick">Back</Button>
     </Grid>
 </Window>

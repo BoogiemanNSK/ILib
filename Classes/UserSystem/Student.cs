@@ -26,8 +26,8 @@ namespace I2P_Project.Classes.UserSystem
                                 where c.BookID == selected.Id
                                 select c;
                     if (!test2.Any()) doc = selected;
-                    else return SDM.Strings.NO_FREE_COPIES_TEXT;
                 }
+                if (doc==null) return SDM.Strings.NO_FREE_COPIES_TEXT;
             }
             else
                 return SDM.Strings.NO_FREE_COPIES_TEXT;
@@ -38,7 +38,7 @@ namespace I2P_Project.Classes.UserSystem
                 SetCheckOut(doc.Id, 3, DateCheat);
 
             return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";
-        }
+            }
 
     }
 

@@ -1,6 +1,5 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
-using I2P_Project.DataBases;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,9 +20,8 @@ namespace I2P_Project.Pages
     /// <summary>
     /// Interaction logic for MyBooks.xaml
     /// </summary>
-    public partial class MyBooks : Window
+    public partial class MyBooks : Page
     {
-        ObservableCollection<MyBooksTable> bk_data;
 
         public MyBooks()
         {
@@ -51,20 +49,12 @@ namespace I2P_Project.Pages
                     MyBooksTable mb_row = myBooksTable.SelectedItems[0] as MyBooksTable;
                     int bookID = mb_row.bookID;
                     Patron currentPatron = (Patron)SDM.CurrentUser;
-                    InfoText.Content = currentPatron.ReturnDoc(bookID);
+                    MessageBox.Show(currentPatron.ReturnDoc(bookID));
                     UpdateUI();
                     break;
                 case MessageBoxResult.No:
                     break;
             }
-        }
-
-        /// <summary> Move to UserHomePage </summary>
-        private void OnBack(object sender, RoutedEventArgs e)
-        {
-            UserHomePage HomePage = new UserHomePage();
-            HomePage.Show();
-            Close();
         }
     }
 

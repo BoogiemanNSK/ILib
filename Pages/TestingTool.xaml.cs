@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -26,13 +25,14 @@ namespace I2P_Project.Pages
         public TestingTool()
         {
             InitializeComponent();
+            UpdateTables();
             test = new Test();
         }
 
         private void UpdateTables()
         {
-            DocsTable.ItemsSource = SDM.LMS.TestDocsTableOnlyBooks();
-            dg_UserTable.ItemsSource = SDM.LMS.TestUsersTable();
+            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTableForLibrarian();
+            UserTable.ItemsSource = SDM.LMS.TestUsersTable();
         }
 
         private void OnTest(object sender, RoutedEventArgs e)
@@ -40,7 +40,35 @@ namespace I2P_Project.Pages
             TestOutput.Text = "Test " + TestNumber.Text + ":\n";
             switch (TestNumber.Text)
             {
-                /*case "1":
+                case "Test all":
+                    try
+                    {
+                        test.test1();
+                        test.test2();
+                        test.test3();
+                        test.test4();
+                        test.test5();
+                        test.test6();
+                        test.test7();
+                        test.test8();
+                        test.test9();
+                        test.test10();
+                        test.test11();
+                        test.test12();
+                        test.test13();
+                        test.test14();
+                        test.test15();
+                        test.test16();
+                        test.test17();
+                        test.test18();
+                        TestOutput.Text += "Tests are passed, restart system for test 19";
+                    } catch
+                    {
+                        TestOutput.Text += "Tests not passed";
+                    }
+                    UpdateTables();
+                    break;
+                case "1":
                     TestOutput.Text += test.test1();
                     UpdateTables();
                     break;
@@ -80,22 +108,58 @@ namespace I2P_Project.Pages
                     TestOutput.Text += test.test10();
                     UpdateTables();
                     break;
+                case "11":
+                    TestOutput.Text += test.test11();
+                    UpdateTables();
+                    break;
+                case "12":
+                    TestOutput.Text += test.test12();
+                    UpdateTables();
+                    break;
+                case "13":
+                    TestOutput.Text += test.test13();
+                    UpdateTables();
+                    break;
+                case "14":
+                    TestOutput.Text += test.test14();
+                    UpdateTables();
+                    break;
+                case "15":
+                    TestOutput.Text += test.test15();
+                    UpdateTables();
+                    break;
+                case "16":
+                    TestOutput.Text += test.test16();
+                    UpdateTables();
+                    break;
+               case "17":
+                    TestOutput.Text += test.test17();
+                    UpdateTables();
+                    break;
+                case "18":
+                    TestOutput.Text += test.test18();
+                    UpdateTables();
+                    break;
+                case "19":
+                    TestOutput.Text += test.test19();
+                    UpdateTables();
+                    break;
                 default:
                     TestOutput.Text += "No such test found";
-                    break;*/
+                    break;
             }
         }
 
         private void OnShow(object sender, RoutedEventArgs e)
         {
-            UserTable ut_row = dg_UserTable.SelectedItems[0] as UserTable;
+            UserTable ut_row = UserTable.SelectedItems[0] as UserTable;
             int user_id = ut_row.userID;
-            DocsTable.ItemsSource = SDM.LMS.TestDocsTableUsersBooks(user_id);
+            DocumentsTable.ItemsSource = SDM.LMS.TestDocsTableUsersBooks(user_id);
         }
 
         private void OnOverall(object sender, RoutedEventArgs e) // Shows books without user
         {
-            DocsTable.ItemsSource = SDM.LMS.TestDocsTableOnlyBooks(); 
+            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTableForLibrarian(); 
         }
 
         private void OnExit(object sender, RoutedEventArgs e)
@@ -111,16 +175,5 @@ namespace I2P_Project.Pages
         public string userAddress { get; set; }
         public string userPhoneNumber { get; set; }
         public string userType { get; set; }
-    }
-
-    class DocsTable
-    {
-        public int docID { get; set; }
-        public string docTitle { get; set; }
-        public string docType { get; set; }
-        public int docOwnerID { get; set; }
-        public DateTime dateTaked { get; set; }
-        public DateTime timeToBack { get; set; }
-        public bool isReference { get; set; }
     }
 }

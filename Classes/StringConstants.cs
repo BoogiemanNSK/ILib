@@ -5,6 +5,9 @@
 class StringConstants
 {
 
+    public string DB_DIRECTORY_NAME => "DataBases";
+    public string DB_RELATIVE_PATH => "\\" + DB_DIRECTORY_NAME + "\\ILibDB.mdf";
+
     public string USER_NOT_FOUND_TEXT => "User not found";
     public string WRONG_PASSWORD_TEXT => "Wrong password";
 
@@ -21,6 +24,10 @@ class StringConstants
 
     public string SERIAL_NUMBER => "iamlibrarian";
     public string USER_EXIST_TEXT => "User with such login already exist!";
+    public string USER_DOES_NOT_EXIST_TEXT => "User with such login does not exist!";
+
+    public string USER_CARD_OBTAINING_TEXT => "User card successfully obtained!";
+    public string OVERDUE_INFO_TEXT => "Ocerdue info successfully obtained!";
 
     public string[] DOC_TYPES => new string[] {"Book", "Journal", "Audio", "Video"};
 

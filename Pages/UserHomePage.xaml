@@ -1,31 +1,31 @@
-﻿<Window x:Class="I2P_Project.Pages.UserHomePage"
+﻿<Page x:Class="I2P_Project.Pages.UserHomePage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="UserHomePage" Height="640" Width="800" Background="#FF8080FF" WindowStartupLocation="CenterScreen">
+        d:DesignHeight="480" d:DesignWidth="905"
+        Title="UserHomePage">
     <Grid Margin="0,-2,0,2">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="8"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="4"/>
-            <RowDefinition />
+            <RowDefinition Height="Auto" MinHeight="350.72"/>
+            <RowDefinition Height="0*" />
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="1" Name="WelcomeText" Height="28" FontSize="16" HorizontalAlignment="Center">Welcome!</Label>
-        <ListBox Grid.Row="3" Name="DocList" Height="400" Width="640"/>
-        <Label Grid.Row="5" Name="InfoText" HorizontalAlignment="Center">Some very important info</Label>
-        <Button Grid.Row="7" Click="OnCheckOut" Height="40" Width="200" HorizontalAlignment="Center">Check Out</Button>
-        <Button Grid.Row="9" Click="OnMyDocs" Height="40" Width="200" HorizontalAlignment="Center">My Books</Button>
-
+        <Label Grid.Row="1" Grid.Column="1" FontSize="16" Content="Library" HorizontalAlignment="Center"/>
+        <ListBox Grid.Row="2" Grid.Column="1" Name="DocList" MinHeight="250" MinWidth="640" />
+        <Button Grid.Column="1" Grid.Row="4" Click="OnCheckOut" Content="Check out" HorizontalAlignment="Center" Width="150" Margin="0,5,0,5"/>
     </Grid>
-</Window>
+</Page>

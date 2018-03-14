@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="iLibDB" Class="LMSDataBase1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ilibserver.database.windows.net;Initial Catalog=iLibDB;Persist Security Info=True;User ID=iLibAdmin" SettingsObjectName="I2P_Project.Properties.Settings" SettingsPropertyName="iLibDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.checkouts" Member="checkouts">
+    <Type Name="checkouts">
+      <Column Name="CheckId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BookID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateTaked" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TimeToBack" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsReturned" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsRenewed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.userTypes" Member="userTypes">
+    <Type Name="userTypes">
+      <Column Name="TypeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TypeName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.docTypes" Member="docTypes">
+    <Type Name="docTypes">
+      <Column Name="TypeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TypeName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.documents" Member="documents">
+    <Type Name="documents">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Autors" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Publisher" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Edition" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PublishYear" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DocType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsBestseller" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsReference" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.users" Member="users">
+    <Type Name="users">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Login" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

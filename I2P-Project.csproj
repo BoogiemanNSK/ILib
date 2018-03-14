@@ -87,12 +87,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\Document.cs" />
-    <Compile Include="Classes\LMSDataBase.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LMSDataBase.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\LMSDataBase_Old.cs" />
+    <Compile Include="Classes\LMSDataBase.cs" />
     <Compile Include="Classes\SDM.cs" />
     <Compile Include="Classes\Library.cs" />
     <Compile Include="Classes\StringConstants.cs" />
@@ -225,14 +220,6 @@
     </EmbeddedResource>
     <Resource Include="Fonts\Panton-Regular.otf" />
     <Resource Include="Fonts\seguisym.ttf" />
-    <None Include="Classes\LMSDataBase.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>LMSDataBase.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Classes\LMSDataBase.dbml.layout">
-      <DependentUpon>LMSDataBase.dbml</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

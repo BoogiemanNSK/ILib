@@ -24,6 +24,9 @@
         partial void Insertdocument(Document instance);
         partial void Updatedocument(Document instance);
         partial void Deletedocument(Document instance);
+        partial void InsertdocTypes(DocTypes instance);
+        partial void UpdatedocTypes(DocTypes instance);
+        partial void DeletedocTypes(DocTypes instance);
         #endregion
 
         public LMSDataBase(string connection) :
@@ -36,6 +39,7 @@
         public Table<Checkouts> Checkouts => GetTable<Checkouts>();
         public Table<Users> Users => GetTable<Users>();
         public Table<Document> Documents => GetTable<Document>();
+        public Table<DocTypes> DocTypes => GetTable<DocTypes>();
         public static MappingSource MappingSource { get => mappingSource; set => mappingSource = value; }
     }
 

@@ -60,8 +60,9 @@
         </DataGrid>
 
         <Label Grid.Row="7" HorizontalAlignment="Center" Content="Select the test case:"/>
-        
+
         <ComboBox Grid.Row="8" Name="TestNumber" Width="120" Margin="0,2,0,2" IsEditable="True" MaxDropDownHeight="75">
+            <ListBoxItem Content="Test all"/>
             <ListBoxItem Content="1"/>
             <ListBoxItem Content="2"/>
             <ListBoxItem Content="3"/>

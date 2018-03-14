@@ -1,4 +1,5 @@
-﻿using I2P_Project.DataBase;
+﻿using I2P_Project.Classes.UserSystem;
+using I2P_Project.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -278,6 +279,13 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
+        public void UpgradeUser(string Name)
+        {
+            Users user = GetUser(Name);
+            if (user.UserType < 2) user.UserType++;
+            db.SubmitChanges();
+        }
+
         #endregion
 
         #region DB Output
@@ -554,20 +562,16 @@ namespace I2P_Project.Classes
                 res.docTitle = d.Title;
                 res.isBestseller = d.IsBestseller;
                 res.isReference = d.IsReference;
-                switch (d.DocType)
-                {
-                    case 0:
-                        res.docType = "book";
-                        break;
-                    case 1:
-                        res.docType = "journal";
-                        break;
-                    case 2:
-                        res.docType = "AV";
-                        break;
-                }
+                res.docType = DocTypeString(d.DocType);
             }
             return res;
+        }
+        
+
+        public Users GetUser(string Name)
+        {
+            var test = from u in db.Users where u.Name == Name select u;
+            return test.Single();
         }
 
         /// <summary> Returns user row from given ID </summary>
@@ -577,6 +581,57 @@ namespace I2P_Project.Classes
             return test.Single();
         }
 
+        
+        
+        public List<CheckedOut> GetCheckout(string Name)
+        {
+            Users user = GetUser(Name);
+            int userID = user.Id;
+            List<CheckedOut> res = new List<CheckedOut>();
+            var load_user_books = from c in db.Checkouts
+                                  where c.UserID == userID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                CheckedOut pair = new CheckedOut();
+                pair.CheckOutTime = element.TimeToBack.Day;
+                pair.DocumentCheckedOut = element.Title;
+                res.Insert(0, pair);
+            }
+            return res;
+        }
+
+        public List<OverdueInfo> GetOverdues(string Name)
+        {
+            Users user = GetUser(Name);
+            int userID = user.Id;
+            List<OverdueInfo> res = new List<OverdueInfo>();
+            var load_user_books = from c in db.Checkouts
+                                  where c.UserID == userID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
+                if (passedDays > 0)
+                { 
+                    OverdueInfo pair = new OverdueInfo();
+                    pair.overdue = passedDays;
+                    pair.DocumentChekedOut = element.Title;
+                    res.Add(pair);
+                }
+            }
+            return res;
+        }
         /// <summary> Returns a checkout info of particular document </summary>
         private Checkouts GetOwnerInfo(int docID)
         {
@@ -640,6 +695,60 @@ namespace I2P_Project.Classes
 
         #endregion
 
+        #region DB Testers
+        public bool DocExists(string Title)
+        {
+            var test = from d in db.Documents
+                       where d.Title.Equals(Title)
+                       select d;
+            return test.Any();
+        }
+
+        public bool UserExists(string Name)
+        {
+            var test = from u in db.Users
+                       where u.Name.Equals(Name)
+                       select u;
+            return test.Any();
+        }
+
+        public bool AmountOfDocs(string Title, int n)
+        {
+            var test = from d in db.Documents
+                       where d.Title.Equals(Title)
+                       select d;
+            return test.Count()==n;
+        }
+
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
+        {
+            Users user = GetUser(Name);
+            List<CheckedOut> checkover = GetCheckout(Name);
+
+            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
+                && user.UserType == UserType && EqualCheckouts(checkout, checkover);
+        }
+
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues)
+        {
+            Users user = GetUser(Name);
+            List<OverdueInfo> checkoverdues = GetOverdues(Name);
+
+            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
+                && user.UserType == UserType && EqualOverdues(overdues, checkoverdues);
+        }
+
+        private bool EqualOverdues(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
+        {
+            return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
+        }
+        
+        private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
+        {
+            return new HashSet<CheckedOut>(checkedOuts).SetEquals(neededInfo);
+        }
+
+        #endregion
         // TODO Replace with Observable collection
         /// <summary> Returns all non-reference docs </summary>
         public List<DataBase.Document> GetAllDocs()

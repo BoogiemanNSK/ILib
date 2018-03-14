@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -41,6 +40,34 @@ namespace I2P_Project.Pages
             TestOutput.Text = "Test " + TestNumber.Text + ":\n";
             switch (TestNumber.Text)
             {
+                case "Test all":
+                    try
+                    {
+                        test.test1();
+                        test.test2();
+                        test.test3();
+                        test.test4();
+                        test.test5();
+                        test.test6();
+                        test.test7();
+                        test.test8();
+                        test.test9();
+                        test.test10();
+                        test.test11();
+                        test.test12();
+                        test.test13();
+                        test.test14();
+                        test.test15();
+                        test.test16();
+                        test.test17();
+                        test.test18();
+                        TestOutput.Text += "Tests are passed, restart system for test 19";
+                    } catch
+                    {
+                        TestOutput.Text += "Tests not passed";
+                    }
+                    UpdateTables();
+                    break;
                 case "1":
                     TestOutput.Text += test.test1();
                     UpdateTables();

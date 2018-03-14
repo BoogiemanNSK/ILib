@@ -17,11 +17,8 @@ namespace I2P_Project.Classes.UserSystem
         public User(string login)
         {
             _login = login;
-
-            string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string path = (System.IO.Path.GetDirectoryName(executable));
-            string connString = path + SDM.Strings.DB_RELATIVE_PATH;
-            uDB = new LMSDataBase(connString);
+            uDB = new LMSDataBase(SDM.Strings.CONNECTION_STRING);
+            SDM.LMS.ConnectToDB(uDB);
 
             var getUser = (from p in uDB.Users
                            where (p.Login == login)

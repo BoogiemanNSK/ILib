@@ -4,7 +4,18 @@
 /// </summary>
 class StringConstants
 {
+    public string CONNECTION_STRING => "Server=tcp:ilibserver.database.windows.net,1433;" +
+                                       "Initial Catalog=iLibDB;" +
+                                       "Persist Security Info=False;" +
+                                       "User ID=iLibAdmin;" +
+                                       "Password=Faraday28;" +
+                                       "MultipleActiveResultSets=False;" +
+                                       "Encrypt=True;" +
+                                       "TrustServerCertificate=False;" +
+                                       "Connection Timeout=30;";
 
+    public string DOC_ALREADY_RENEWED => "You already renew this book";
+    public string DOC_IN_QUEUE => "This book is in queue";
     public string DB_DIRECTORY_NAME => "DataBases";
     public string DB_RELATIVE_PATH => "\\" + DB_DIRECTORY_NAME + "\\ILibDB.mdf";
 

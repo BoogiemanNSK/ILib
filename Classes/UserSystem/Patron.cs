@@ -17,8 +17,27 @@ namespace I2P_Project.Classes.UserSystem
 
         /// <summary> Check out by Title </summary>
         /// <returns> Result of check out as message </returns>
+
         public abstract string CheckOut(string title, params int[] DateCheat);
 
+        public string RenewDoc(int docID)
+        {
+            Library lb = new Library();
+            var doc = (from b in uDB.Checkouts
+                       where b.BookID == docID
+                       select b).Single();
+            /* if (doc.IsRenewed)
+                 return SDM.Strings.DOC_ALREADY_RENEWED;
+             else if (lb.InQueue)
+                 return SDM.Strings.DOC_IN_QUEUE;
+             else
+             {
+                 doc.TimeToBack = doc.TimeToBack.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
+                 uDB.SubmitChanges();
+             }
+             */
+            throw new System.NotImplementedException();
+        }
         /// <summary> Returns a document from a user to the LMS </summary>
         /// <returns> Result of returning doc as message </returns>
         public string ReturnDoc(int docID)
@@ -33,6 +52,8 @@ namespace I2P_Project.Classes.UserSystem
 
             return SDM.Strings.SUCCESSFUL_RETURN + " " + GetTitleByID(docID) + "!";
         }
+
+        
 
         /// <summary>
         /// Change fields in DB when some user check out docs.

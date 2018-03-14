@@ -18,25 +18,40 @@ namespace I2P_Project.Classes
 
         /// <summary> Initializing DB </summary>
         public Library()
-        {
-            string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string path = (Path.GetDirectoryName(executable));
-
-            Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
-
-            string connString = path + SDM.Strings.DB_RELATIVE_PATH;
-            db = new LMSDataBase(connString);
-
-            if (!File.Exists(connString))
-            {
-                db.CreateDatabase();
-                GenerateUserTypesDB();
-                GenerateTestDB();
-            }
-
-            db.SubmitChanges(); // DB Preload
+        {            
+            db = new LMSDataBase(SDM.Strings.CONNECTION_STRING);
+            ConnectToDB(db);
         }
         
+        /// <summary> Connecting to Data Base </summary>
+        /// <param name="db"></param>
+        public void ConnectToDB(LMSDataBase db)
+        {
+            // Trying to connect to Azure cloud database
+            try
+            {
+                db.SubmitChanges();
+            }
+            // If connection failed, establishing a local DB
+            catch
+            {
+                string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                string path = (Path.GetDirectoryName(executable));
+                string connString = path + SDM.Strings.DB_RELATIVE_PATH;
+
+                db = new LMSDataBase(connString);
+            
+                Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
+                if (!File.Exists(connString))
+                {
+                    db.CreateDatabase();
+                    GenerateUserTypesDB();
+                    GenerateTestDB();
+                }
+
+                db.SubmitChanges();
+            }
+        }
 
         #region DB Addition
 
@@ -749,6 +764,7 @@ namespace I2P_Project.Classes
         }
 
         #endregion
+
         // TODO Replace with Observable collection
         /// <summary> Returns all non-reference docs </summary>
         public List<DataBase.Document> GetAllDocs()

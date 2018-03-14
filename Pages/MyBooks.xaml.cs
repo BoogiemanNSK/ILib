@@ -56,6 +56,27 @@ namespace I2P_Project.Pages
                     break;
             }
         }
+
+        private void OnRenew(object sender, RoutedEventArgs e)
+        {
+            if (myBooksTable.SelectedIndex == -1) return;
+
+            MessageBoxResult result = MessageBox.Show(SDM.Strings.RETURN_CONFIRMATION_TEXT,
+                SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    MyBooksTable mb_row = myBooksTable.SelectedItems[0] as MyBooksTable;
+                    int bookID = mb_row.bookID;
+                    var currentPatron = (Patron)SDM.CurrentUser;
+                    MessageBox.Show(currentPatron.RenewDoc(bookID));
+                    UpdateUI();
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
+        }
     }
 
     class MyBooksTable

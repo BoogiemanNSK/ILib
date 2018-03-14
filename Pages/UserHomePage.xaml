@@ -12,9 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="8"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto" MinHeight="350.72"/>
-            <RowDefinition Height="0*" />
-            <RowDefinition Height="40"/>
+            <RowDefinition />
             <RowDefinition Height="40"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
@@ -25,7 +23,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="1" Grid.Column="1" FontSize="16" Content="Library" HorizontalAlignment="Center"/>
-        <ListBox Grid.Row="2" Grid.Column="1" Name="DocList" MinHeight="250" MinWidth="640" />
-        <Button Grid.Column="1" Grid.Row="4" Click="OnCheckOut" Content="Check out" HorizontalAlignment="Center" Width="150" Margin="0,5,0,5"/>
+        <ListBox Grid.Row="2" Grid.Column="1" Name="DocList"/>
+        <Button Grid.Column="1" Grid.Row="3" Click="OnCheckOut" Content="Check out" HorizontalAlignment="Center" Width="150" Margin="0,5,0,5"/>
     </Grid>
 </Page>

@@ -34,6 +34,7 @@ namespace I2P_Project
             LogInPage sign_in_page =  new LogInPage();
             sign_in_page.Show();
             Close();
+            //page_Viewer.NavigationService.GoBack(); // Return to previous page
         }
 
         private void btn_Menu_Click(object sender, RoutedEventArgs e)  // Open/close task menu

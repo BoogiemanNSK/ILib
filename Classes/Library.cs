@@ -18,20 +18,20 @@ namespace I2P_Project.Classes
         /// <summary> Initializing DB </summary>
         public Library()
         {
-            string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string path = (Path.GetDirectoryName(executable));
+            /*string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string path = (Path.GetDirectoryName(executable));*/
 
             Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
 
-            string connString = path + SDM.Strings.DB_RELATIVE_PATH;
+            string connString = "Server=tcp:ilibserver.database.windows.net,1433;Initial Catalog=iLibDB;Persist Security Info=False;User ID=iLibAdmin;Password=Faraday28;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             db = new LMSDataBase(connString);
 
-            if (!File.Exists(connString))
+            /*if (!File.Exists(connString))
             {
                 db.CreateDatabase();
                 GenerateUserTypesDB();
                 GenerateTestDB();
-            }
+            }*/
 
             db.SubmitChanges(); // DB Preload
         }

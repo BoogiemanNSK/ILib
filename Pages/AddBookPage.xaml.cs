@@ -26,6 +26,7 @@ namespace I2P_Project.Pages
         {
             previousPage = page;
             InitializeComponent();
+            OnLoad();
         }
 
         private void OnAddBookClick(object sender, RoutedEventArgs e)
@@ -33,7 +34,7 @@ namespace I2P_Project.Pages
             try
             {
                 Librarian currentUser = (Librarian)SDM.CurrentUser;
-                int dt = DocType.SelectedIndex;
+                int dt = cmb_DocType.SelectedIndex;
                 int price = Convert.ToInt32(PriceTB.Text);
                 bool ib = IsBestseller.SelectedIndex == 0;
                 int n = Convert.ToInt32(CopiesTB.Text);
@@ -60,6 +61,12 @@ namespace I2P_Project.Pages
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void OnLoad()
+        {
+            // Fill the ComboBox
+            cmb_DocType.ItemsSource = SDM.LMS.GetDocTypes();
         }
     }
 }

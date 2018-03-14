@@ -21,8 +21,9 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="My documents" Grid.Column="1" Grid.Row="1" FontSize="16" HorizontalAlignment="Center"/>
-        <DataGrid Grid.Column="1" Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold">
+        <Label Content="My documents" Grid.Column="1" Grid.Row="1" FontSize="16" HorizontalAlignment="Center" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
+        <DataGrid Grid.Column="1" Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="2" AutoGenerateColumns="False"
+                  IsReadOnly="True" FontWeight="Bold" FontFamily="/I2P-Project;component/Fonts/#Panton">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="checkID" Binding="{Binding checkID}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="bookID" Binding="{Binding bookID}" Visibility="Hidden"/>
@@ -32,13 +33,18 @@
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Return" Margin="7,2,7,2"  Width="50" Background="#FF4B4B4B" Foreground="White" FontWeight="Bold" ToolTip="Return book" Cursor="Hand" Click="OnReturn"/>
+                            <Button Content="Return" Margin="7,2,7,2"  Width="50" FontWeight="Bold" ToolTip="Return book" Cursor="Hand" Click="OnReturn"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Renew" Margin="7,2,7,2"  Width="50" FontWeight="Bold" Cursor="Hand" Click="OnRenew"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Column="1" Grid.Row="3" Click="OnReturn" Width="150" HorizontalAlignment="Center" Margin="0,5,0,5">Return</Button>
-        <Button Grid.Column="1" Grid.Row="4" Click="OnRenew" Width="150" HorizontalAlignment="Center" Margin="0,5,0,5">Renew</Button>
     </Grid>
 </Page>

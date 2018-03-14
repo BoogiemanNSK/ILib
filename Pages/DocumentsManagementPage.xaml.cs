@@ -49,13 +49,6 @@ namespace I2P_Project.Pages
 
         }
 
-
-        private void OnBack(object sender, RoutedEventArgs e)
-        {
-            LibrarianHomePage librarianHome = new LibrarianHomePage();
-            librarianHome.ShowDialog();
-        }
-
         private void OnModifyBook(object sender, RoutedEventArgs e)
         {
             if (dgLibrarianDocuments.SelectedIndex != -1 && dgLibrarianDocuments.SelectedItems[0] != null)

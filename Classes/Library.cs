@@ -67,7 +67,7 @@ namespace I2P_Project.Classes
                 Name = name,
                 Address = adress,
                 PhoneNumber = phone,
-                UserType = (isLibrarian ? 3 : 1)
+                UserType = (isLibrarian ? 2 : 1)
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
@@ -527,6 +527,22 @@ namespace I2P_Project.Classes
                 temp_table.Add(row);
             }
             return temp_table;
+        }
+
+        public List<System.Windows.Controls.TextBlock> GetDocTypes()
+        {
+            var get_type = from dt in db.DocTypes
+                           select dt;
+            List<System.Windows.Controls.TextBlock> lst_types = new List<System.Windows.Controls.TextBlock>();            
+
+            foreach (var el in get_type)
+            {
+                System.Windows.Controls.TextBlock temp_txt_b = new System.Windows.Controls.TextBlock();
+                temp_txt_b.Text = el.TypeName;
+                lst_types.Add(temp_txt_b);
+            }
+
+            return lst_types;
         }
 
         #endregion

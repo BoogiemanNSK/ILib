@@ -26,11 +26,7 @@
 
         <Label FontSize="20" Content="Add" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
         <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Document Type" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
-        <ComboBox Grid.Row="1" Grid.Column="2" Name="DocType" SelectedIndex="0" FontFamily="/I2P-Project;component/Fonts/#Panton" Margin="5,5,5,5">
-            <TextBlock>Book</TextBlock>
-            <TextBlock>Journal</TextBlock>
-            <TextBlock>AV</TextBlock>
-        </ComboBox>
+        <ComboBox Grid.Row="1" Grid.Column="2" Name="cmb_DocType" SelectedIndex="0" FontFamily="/I2P-Project;component/Fonts/#Panton" Margin="5,5,5,5"/>
         <Label Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Title" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
         <TextBox Grid.Row="2" Grid.Column="2" TextWrapping="Wrap" Name="TitleTB" FontFamily="/I2P-Project;component/Fonts/#Panton" Margin="5,5,5,5"/>
         <Label Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Description" FontFamily="/I2P-Project;component/Fonts/#Panton"/>

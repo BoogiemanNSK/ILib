@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="UserCard" Height="500" Width="500">
+        Title="UserCard" Height="500" Width="500" FontFamily="/I2P-Project;component/Fonts/#Panton">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>

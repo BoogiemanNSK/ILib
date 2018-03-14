@@ -26,6 +26,7 @@ namespace I2P_Project.Pages
         {
             previousPage = page;
             InitializeComponent();
+            OnLoad();
         }
 
         private void OnAddBookClick(object sender, RoutedEventArgs e)
@@ -60,6 +61,12 @@ namespace I2P_Project.Pages
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void OnLoad()
+        {
+            // Fill the ComboBox
+            // DocType
         }
     }
 }

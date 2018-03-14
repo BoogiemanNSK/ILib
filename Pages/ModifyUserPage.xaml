@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Height="320" Width="360" WindowStartupLocation="CenterScreen" Title="ModifyUser" Background="#FF8080FF">
+        Height="320" Width="360" WindowStartupLocation="CenterScreen" Title="ModifyUser" Background="#FF8080FF" FontFamily="/I2P-Project;component/Fonts/#Panton">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>

@@ -529,6 +529,11 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        /* public List<System.Windows.Controls.TextBlock> GetDocTypes()
+        {
+            var get_type
+        } */
+
         #endregion
 
         #region DB Existence Check

@@ -83,7 +83,7 @@ namespace I2P_Project
                     li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
                     li_page_UsersManagement.Visibility = Visibility.Collapsed;
                     break;
-                case 3:  // Librarian     //3333333Исправить!!!!!!
+                case 2:  // Librarian
                     li_page_userHome.Visibility = Visibility.Collapsed;
                     li_page_UserLibrary.Visibility = Visibility.Collapsed;
                     li_page_UserMyBooks.Visibility = Visibility.Collapsed;

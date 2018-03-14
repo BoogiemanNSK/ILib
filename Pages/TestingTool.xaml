@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="TestingTool" Height="700" Width="640" WindowStartupLocation="CenterScreen">
+        Title="TestingTool" Height="700" Width="640" WindowStartupLocation="CenterScreen" FontFamily="/I2P-Project;component/Fonts/#Panton">
     <Grid>
 
         <Grid.RowDefinitions>

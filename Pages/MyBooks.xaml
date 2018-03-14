@@ -13,9 +13,7 @@
             <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition />
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -23,7 +21,7 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="1" Grid.Row="1" FontSize="16" HorizontalAlignment="Center">My Docs</Label>
+        <Label Content="My documents" Grid.Column="1" Grid.Row="1" FontSize="16" HorizontalAlignment="Center"/>
         <DataGrid Grid.Column="1" Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="checkID" Binding="{Binding checkID}" Visibility="Hidden"/>

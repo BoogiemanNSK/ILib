@@ -17,11 +17,8 @@ namespace I2P_Project.Classes.UserSystem
         public User(string login)
         {
             _login = login;
-
-            /*string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string path = (System.IO.Path.GetDirectoryName(executable));*/
-            string connString = "Server=tcp:ilibserver.database.windows.net,1433;Initial Catalog=iLibDB;Persist Security Info=False;User ID=iLibAdmin;Password=Faraday28;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            uDB = new LMSDataBase(connString);
+            uDB = new LMSDataBase(SDM.Strings.CONNECTION_STRING);
+            SDM.LMS.ConnectToDB(uDB);
 
             var getUser = (from p in uDB.Users
                            where (p.Login == login)

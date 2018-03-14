@@ -115,6 +115,82 @@
         }
     }
 
+    [Table(Name = "dbo.docTypes")]
+    public partial class DocTypes : INotifyPropertyChanging, INotifyPropertyChanged
+    {
+        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+        private int _typeID;
+        private string _typeName;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
+        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnCreated();
+        partial void OntypeIDChanging(int value);
+        partial void OntypeIDChanged();
+        partial void OntypeNameChanging(string value);
+        partial void OntypeNameChanged();
+        #endregion
+
+        public DocTypes()
+        {
+            OnCreated();
+        }
+
+        [Column(Storage = "_typeID", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int TypeID
+        {
+            get => _typeID;
+            set
+            {
+                if ((_typeID != value))
+                {
+                    OntypeIDChanging(value);
+                    SendPropertyChanging();
+                    _typeID = value;
+                    SendPropertyChanged("typeID");
+                    OntypeIDChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_typeName", DbType = "VarChar(20) NOT NULL", CanBeNull = false)]
+        public string TypeName
+        {
+            get => _typeName;
+            set
+            {
+                if ((_typeName != value))
+                {
+                    OntypeNameChanging(value);
+                    SendPropertyChanging();
+                    _typeName = value;
+                    SendPropertyChanged("typeName");
+                    OntypeNameChanged();
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void SendPropertyChanging()
+        {
+            if ((PropertyChanging != null))
+            {
+                PropertyChanging(this, emptyChangingEventArgs);
+            }
+        }
+
+        protected virtual void SendPropertyChanged(String propertyName)
+        {
+            if ((PropertyChanged != null))
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+
     [Table(Name = "dbo.checkouts")]
     public partial class Checkouts : INotifyPropertyChanging, INotifyPropertyChanged
     {
@@ -125,6 +201,7 @@
         private DateTime? _dateTaked;
         private DateTime _timeToBack;
         private bool _isReturned;
+        private bool _isRenewed;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -142,6 +219,8 @@
         partial void OntimeToBackChanged();
         partial void OnisReturnedChanging(bool value);
         partial void OnisReturnedChanged();
+        partial void OnisRenewedChanged();
+        partial void OnisRenewedChanging(bool value);
         #endregion
 
         public Checkouts()
@@ -247,6 +326,23 @@
                     _isReturned = value;
                     SendPropertyChanged("isReturned");
                     OnisReturnedChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_isRenewed", DbType = "Bit NOT NULL")]
+        public bool IsRenewed
+        {
+            get => _isRenewed;
+            set
+            {
+                if ((_isRenewed != value))
+                {
+                    OnisRenewedChanging(value);
+                    SendPropertyChanging();
+                    _isRenewed = value;
+                    SendPropertyChanged("isRenewed");
+                    OnisRenewedChanged();
                 }
             }
         }

@@ -867,13 +867,7 @@ namespace I2P_Project.Tests
 
         public string test18()
         {
-            string output = "Cleared DB...\n";
-            SDM.LMS.ClearDB();
-
-            output += "Running TC11...\n";
-
-            test11();
-
+            string output = "";
             output += "Logging In as Sergey Afonso patron...\n";
             SDM.CurrentUser = new Faculty("Sergey Afonso");
             Faculty p1 = (Faculty)SDM.CurrentUser;

@@ -100,6 +100,7 @@ namespace I2P_Project.Classes.UserSystem
     public struct OverdueInfo
     {
         public string DocumentChekedOut { get; set; }
+        public int DocID { get; set; }
         public int overdue { get; set; }
     }
 

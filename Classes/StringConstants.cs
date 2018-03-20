@@ -13,7 +13,9 @@ class StringConstants
                                        "Encrypt=True;" +
                                        "TrustServerCertificate=False;" +
                                        "Connection Timeout=30;";
-
+    public string USER_HAVE_FINE => "You have fine, paid please";
+    public string FINE_CONFIRMATION_TEXT => "Are you sure you want paid fine?";
+    public string SUCCESSFUL_PAID => "Successfuly paid";
     public string DOC_ALREADY_RENEWED => "You already renew this book";
     public string DOC_IN_QUEUE => "This book is in queue";
     public string DB_DIRECTORY_NAME => "DataBases";

@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="UserCard" Height="500" Width="500" FontFamily="/I2P-Project;component/Fonts/#Panton">
+        Title="UserCard" Height="500" Width="500" FontFamily="/I2P-Project;component/Fonts/#Panton" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="20"/>
             <ColumnDefinition />
+            <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -52,7 +53,5 @@
         
         <Button Grid.Row="7" Width="150" Height="30" Grid.Column="1" Margin="0,10,100,5" Click="OnModifyUserClick" Content="Modify User"/>
         <Button Grid.Row="8" Width="150" Height="30" Grid.Column="1" Margin="0,5,100,5" Click="OnDeleteUserClick" Content="Delete User"/>
-        <Button Grid.Row="9" Width="150" Height="30" Grid.Column="1" Margin="0,5,100,10" Click="OnBackClick" Content="Close"/>
-        
     </Grid>
 </Window>

@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using XamlAnimatedGif;
 
 namespace I2P_Project.Pages
 {
@@ -26,7 +27,6 @@ namespace I2P_Project.Pages
             SDM.InitializeSystem();
             InitializeComponent();
             animation_id = 0;
-            LoadAnimations();
         }
 
         private void LogInClick(object sender, RoutedEventArgs e)
@@ -37,7 +37,7 @@ namespace I2P_Project.Pages
         private void LogIn()
         {
             SetCurrentUser();
-            MainWindow mw = new MainWindow();
+            MainWindow mw = new MainWindow();            
             mw.Show();
             Close();
         }
@@ -80,7 +80,10 @@ namespace I2P_Project.Pages
             {
                 if (SDM.LMS.CheckPassword(LoginTB.Text, PasswordTB.Password))
                 {
+                    ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+                    pm.BeginWaiting(); // Starts Loading Flow
                     LogIn();
+                    pm.EndWaiting(); // Ends loading flow
                 }
                 else
                     MessageBox.Show(SDM.Strings.WRONG_PASSWORD_TEXT);
@@ -91,42 +94,18 @@ namespace I2P_Project.Pages
 
         // Front-end by Valeriy Borisov
         public int animation_id = 0;
-
-        private void LoadAnimations()
-        {
-            animationPlayer.Source = new Uri(@"media/user_look_down.mp4", UriKind.Relative);
-            animationPlayer.Play();
-
-            animationPlayer_2.Source = new Uri(@"media/user_close_eyes.mp4", UriKind.Relative);
-            animationPlayer_2.Play();
-
-            animationPlayer_3.Source = new Uri(@"media/user_open_eyes.mp4", UriKind.Relative);
-            animationPlayer_3.Play();
-        }
-
         private void SelectAnimation()
         {
-            switch (animation_id)  // Attempt to optimize animations
+            switch (animation_id)
             {
                 case 0:
-                    animationPlayer.Position -= TimeSpan.FromSeconds(10);
-                    startupImage.Visibility = Visibility.Hidden;
-                    animationPlayer.Visibility = Visibility.Visible;
-                    //animationPlayer.Play();
+                    AnimationBehavior.SetSourceUri(img_anim, new Uri("/Sprites/Anim/user_look_down.gif", UriKind.Relative));
                     break;
                 case 1:
-
-                    animationPlayer_2.Position -= TimeSpan.FromSeconds(10);
-                    animationPlayer.Visibility = Visibility.Hidden;
-                    animationPlayer_3.Visibility = Visibility.Hidden;
-                    animationPlayer_2.Visibility = Visibility.Visible;
-                    //animationPlayer_2.Play();
+                    AnimationBehavior.SetSourceUri(img_anim, new Uri("/Sprites/Anim/user_close_eyes.gif", UriKind.Relative));
                     break;
                 case 2:
-                    animationPlayer_3.Position -= TimeSpan.FromSeconds(10);
-                    animationPlayer_2.Visibility = Visibility.Hidden;
-                    animationPlayer_3.Visibility = Visibility.Visible;
-                    //animationPlayer_3.Play();
+                    AnimationBehavior.SetSourceUri(img_anim, new Uri("/Sprites/Anim/user_open_eyes.gif", UriKind.Relative));
                     break;
             }
         }

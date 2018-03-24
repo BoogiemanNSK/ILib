@@ -36,7 +36,10 @@ namespace I2P_Project.Pages
 
         public void updateTable()
         {
+            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+            pm.BeginWaiting(); // Starts Loading Flow
             dgLibrarianDocuments.ItemsSource = SDM.LMS.GetDocsTableForLibrarian();
+            pm.EndWaiting();
         }
 
         private void myBooksTable_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using I2P_Project.Pages;
+﻿using I2P_Project.Classes;
+using I2P_Project.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,7 @@ namespace I2P_Project
         {
             switch (Classes.SDM.CurrentUser.UserType)
             {
-                case 0:  // Student ?             
+                case 0:  // Student          
                     li_page_LibrarianHome.Visibility = Visibility.Collapsed;
                     li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
                     li_page_UsersManagement.Visibility = Visibility.Collapsed;
@@ -92,7 +93,7 @@ namespace I2P_Project
 
             CloseTaskMenu();
             taskMenu = false;
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/PageHome.xaml", UriKind.Relative);
+            ChangePage("PageHome.xaml");
         }
 
         private void lst_Menu_SelectionChanged(object sender, SelectionChangedEventArgs e)  // Clear selected index
@@ -103,33 +104,39 @@ namespace I2P_Project
         private void page_userHome_Click(object sender, RoutedEventArgs e) // Faculty open Library Window
         {
             //CloseTaskMenu();
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/PageHome.xaml", UriKind.Relative);
+            ChangePage("PageHome.xaml");
         }
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)  // Faculty open Library page
         {
             //CloseTaskMenu();
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/UserHomePage.xaml", UriKind.Relative);
+            ChangePage("UserHomePage.xaml");
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e) // Faculty open my books page
         {
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/MyBooks.xaml", UriKind.Relative);
+            ChangePage("MyBooks.xaml");
         }
 
         private void RadioButton_Click_1(object sender, RoutedEventArgs e)  // Librarian open Home page
         {
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/PageHome.xaml", UriKind.Relative);
+            ChangePage("PageHome.xaml");
         }
 
         private void RadioButton_Click_2(object sender, RoutedEventArgs e)  // Librarian open Users Management page
         {
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/UsersManagementPage.xaml", UriKind.Relative);
+            ChangePage("UsersManagementPage.xaml");
         }
 
         private void RadioButton_Click_3(object sender, RoutedEventArgs e)
         {
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/DocumentsManagementPage.xaml", UriKind.Relative);
+            ChangePage("DocumentsManagementPage.xaml");
+        }
+
+        private void ChangePage(string page_name)  // Changes page on page viewer
+        {
+            string link = "/I2P-Project;component/Pages/" + page_name;
+            page_Viewer.Source = new Uri(link, UriKind.Relative);
         }
     }
 }

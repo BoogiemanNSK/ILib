@@ -32,6 +32,14 @@ namespace I2P_Project.Pages
 
         private void OnRegisterClick(object sender, RoutedEventArgs e)
         {
+            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+            pm.BeginWaiting(); // Starts Loading Flow
+            RegisterUser();
+            pm.EndWaiting();
+        }
+
+        private void RegisterUser()
+        {
             bool isLibrarian = (SerialNumTB.Text == SDM.Strings.SERIAL_NUMBER);
 
             if (SDM.LMS.RegisterUser
@@ -59,7 +67,6 @@ namespace I2P_Project.Pages
             {
                 InfoText.Content = SDM.Strings.USER_EXIST_TEXT;
             }
-            
         }
 
         private void OnBackClick(object sender, RoutedEventArgs e)

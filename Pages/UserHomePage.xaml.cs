@@ -28,29 +28,43 @@ namespace I2P_Project.Pages
         /// <summary> Updates table of all docs </summary>
         private void UpdateUI()
         {
-            while (DocList.Items.Count > 0) DocList.Items.RemoveAt(0);
-            foreach (DataBase.Document doc in SDM.LMS.GetAllDocs())
-            {
-                if (!doc.IsReference) {
-                    string line = doc.Id + "| " + doc.Title;
-                    DocList.Items.Add(line);
-                }
-            }
+            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+            pm.BeginWaiting(); // Starts Loading Flow
+            docTable.ItemsSource = SDM.LMS.GetAllDocs();
+            pm.EndWaiting();
         }
 
         /// <summary> Trying to check out selected doc </summary>
         private void OnCheckOut(object sender, RoutedEventArgs e)
         {
-            if (DocList.SelectedItem == null) MessageBox.Show(SDM.Strings.SELECT_CHECK_OUT);
-            else
+            if (docTable.SelectedIndex == -1) return;
+
+            MessageBoxResult result = MessageBox.Show(SDM.Strings.CHECK_OUT_CONFIRMATION_TEXT,
+                SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
+
+            switch (result)
             {
-                Patron currentPatron = (Patron)SDM.CurrentUser;
-                string s, item = (string)DocList.SelectedItem;
-                s = item.Substring(0, item.IndexOf('|'));
-                int docID = Convert.ToInt32(s);
-                MessageBox.Show(currentPatron.CheckOut(docID));
-                UpdateUI();
+                case MessageBoxResult.Yes:
+                    LibraryTable lb_row = docTable.SelectedItems[0] as LibraryTable;
+                    int bookID = lb_row.bookID;
+                    Patron currentPatron = (Patron)SDM.CurrentUser;
+                    MessageBox.Show(currentPatron.CheckOut(bookID));
+                    UpdateUI();
+                    break;
+                case MessageBoxResult.No:
+                    break;
             }
         }
+    }
+
+    class LibraryTable
+    {
+        public int bookID { get; set; }
+        public string book_image { get; set; }
+        public string title { get; set; }
+        public string author { get; set; }
+        public string publisher { get; set; }
+        public int publish_year { get; set; }
+        public int price { get; set; }
     }
 }

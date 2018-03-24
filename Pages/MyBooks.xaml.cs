@@ -31,8 +31,11 @@ namespace I2P_Project.Pages
 
         /// <summary> Updates table of user`s docs </summary>
         private void UpdateUI()
-        {        
+        {
+            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+            pm.BeginWaiting(); // Starts Loading Flow
             myBooksTable.ItemsSource = SDM.LMS.GetUserBooks();
+            pm.EndWaiting();
         }
 
         /// <summary> Trying to return document </summary>

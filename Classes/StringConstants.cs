@@ -28,8 +28,9 @@ class StringConstants
 
     public string WELCOME_TEXT => "Welcome";
     public string SELECT_CHECK_OUT => "Select a document you would like to check out";
+    public string CHECK_OUT_CONFIRMATION_TEXT => "Are you sure you want to check out this book?";
 
-    public string RETURN_CONFIRMATION_TEXT => "Are you sure you want return this book?";
+    public string RETURN_CONFIRMATION_TEXT => "Are you sure you want to return this book?";
     public string ATTENTION_TEXT => "Attention";
     public string SUCCESSFUL_RETURN => "Successfuly returned";
 

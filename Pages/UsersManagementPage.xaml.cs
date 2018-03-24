@@ -29,7 +29,10 @@ namespace I2P_Project.Pages
 
         private void UpdateTable()
         {
+            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+            pm.BeginWaiting(); // Starts Loading Flow
             UsersTable.ItemsSource = SDM.LMS.LibrarianViewUserTable();
+            pm.EndWaiting();
         }
 
         private void OnAddUser(object sender, RoutedEventArgs e)

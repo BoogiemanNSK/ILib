@@ -783,10 +783,36 @@ namespace I2P_Project.Classes
 
         // TODO Replace with Observable collection
         /// <summary> Returns all non-reference docs </summary>
-        public List<DataBase.Document> GetAllDocs()
+        public ObservableCollection<Pages.LibraryTable> GetAllDocs() // сюда можно засунуть вывод по userType
         {
             var test = (from p in db.Documents select p);
-            return test.ToList();
+            ObservableCollection<Pages.LibraryTable> temp_table = new ObservableCollection<Pages.LibraryTable>();
+            var load_user_books = from d in db.Documents
+                                  where (!d.IsReference) && (!d.IsBestseller)
+                                  select new
+                                  {
+                                      d.Id,
+                                      d.Title,
+                                      d.Autors,
+                                      d.Publisher,
+                                      d.PublishYear,
+                                      d.Price
+                                  };
+            foreach (var element in load_user_books)
+            {
+                Pages.LibraryTable row = new Pages.LibraryTable
+                {
+                    bookID = element.Id,
+                    book_image = Directory.GetCurrentDirectory() + @"\media\source_images\book_default.png",
+                    title = element.Title,
+                    author = element.Autors,
+                    publisher = element.Publisher,
+                    publish_year = element.PublishYear,
+                    price = element.Price
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
         }
 
         private string DocTypeString(int index)

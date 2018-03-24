@@ -22,10 +22,7 @@
         </Grid.RowDefinitions>
 
         <Label Content="iLib" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontFamily="/I2P-Project;component/Fonts/#Panton" Foreground="#FF078CD1"/>
-        <MediaElement Grid.Row="1" x:Name="animationPlayer" LoadedBehavior="Manual" Height="119" Width="119"/>
-        <MediaElement Grid.Row="1" x:Name="animationPlayer_2" LoadedBehavior="Manual" Height="119" Width="119"/>
-        <MediaElement Grid.Row="1" x:Name="animationPlayer_3" LoadedBehavior="Manual" Height="119" Width="119"/>
-        <Image Grid.Row="1" Height="120" Width="120" x:Name="startupImage" Source="/I2P-Project;component/Sprites/user_image.jpg"/>
+        <Image Grid.Row="1" Height="120" Width="120" x:Name="img_anim" Source="/I2P-Project;component/Sprites/user_image.jpg"/>
         <Label x:Uid="lp_Login" Content="Login" FontSize="16" Grid.Row="2" VerticalAlignment="Center" Foreground="#FF078CD3" HorizontalAlignment="Center" FontFamily="/I2P-Project;component/Fonts/#Panton" Height="30" Width="180"/>
         <TextBox VerticalContentAlignment="Center" FontSize="14" Grid.Row="3" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="LoginTB" GotFocus="LoginTB_GotFocus" Height="30" BorderBrush="#FF078CD3" FontFamily="/I2P-Project;component/Fonts/#Panton" BorderThickness="2" FontWeight="Bold"/>
         <Label x:Uid="lp_password" Content="Password" FontSize="16" Grid.Row="4" VerticalAlignment="Center" Foreground="#FF078CD1" HorizontalAlignment="Center" FontFamily="/I2P-Project;component/Fonts/#Panton" Width="180"/>

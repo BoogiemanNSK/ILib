@@ -48,7 +48,10 @@ namespace I2P_Project.Classes
         {
             this.window = new WaitWindow();
             this.window.Closed += new EventHandler(waitingWindow_Closed);
-            this.window.ShowDialog(); // Fix "Поток находился в процессе прерывания"
+            try
+            {
+                this.window.ShowDialog(); // Fix "Поток находился в процессе прерывания"
+            } catch { }
         }
 
         private void waitingWindow_Closed(object sender, EventArgs e)  // When WaitWindow is closed, flow shutdowns

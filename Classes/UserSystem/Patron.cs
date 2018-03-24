@@ -1,4 +1,5 @@
 ﻿using I2P_Project.DataBase;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace I2P_Project.Classes.UserSystem
@@ -23,19 +24,25 @@ namespace I2P_Project.Classes.UserSystem
         public string RenewDoc(int docID)
         {
             Library lb = new Library();
+            Patron patron = (Patron)SDM.CurrentUser;
             var doc = (from b in uDB.Checkouts
                        where b.BookID == docID
                        select b).Single();
-            /* if (doc.IsRenewed)
-                 return SDM.Strings.DOC_ALREADY_RENEWED;
-             else if (lb.InQueue)
-                 return SDM.Strings.DOC_IN_QUEUE;
-             else
-             {
-                 doc.TimeToBack = doc.TimeToBack.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
+            if (doc.IsRenewed)
+                return SDM.Strings.DOC_ALREADY_RENEWED;
+            /* else if (lb.InQueue(docID))
+                 return SDM.Strings.DOC_IN_QUEUE;*/
+            /*else if (lb.checkFine(patron.Name)
+            {
+                return SDM.Strings.USER_HAVE_FINE;
+            }*/
+            else
+            {
+                 doc.TimeToBack = System.DateTime.Now.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
+                 doc.DateTaked = System.DateTime.Now;
                  uDB.SubmitChanges();
-             }
-             */
+            }
+             
             throw new System.NotImplementedException();
         }
         /// <summary> Returns a document from a user to the LMS </summary>

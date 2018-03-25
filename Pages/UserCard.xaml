@@ -15,34 +15,53 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition />
             <RowDefinition Height="Auto"/>
             <RowDefinition />
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        
-        <Label Name="UserLogin" Grid.Row="0" Grid.Column="1" Margin="0, 0, 100, 0" VerticalAlignment="Center" Height="30" HorizontalAlignment="Center" FontSize="15">Login</Label>
-        
-        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" Content="Name"/>
-        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="UserName" TextAlignment="Center" IsEnabled="False" BorderBrush="White">Name</TextBox>
-        
-        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" Content="Adress"/>
-        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="UserAdress" TextAlignment="Center" IsEnabled="False" BorderBrush="White">Adress</TextBox>
-        
-        <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" Content="Phone Number"/>
-        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="UserPhoneNumber" TextAlignment="Center" IsEnabled="False" BorderBrush="White">Phone Number</TextBox>
-        
-        <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" Content="User Type"/>
-        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="UserType" TextAlignment="Center" IsEnabled="False" BorderBrush="White"> User Type </TextBox>
 
-        <Label Grid.Row="5" Grid.Column="1" Margin="0, 0, 100, 0" VerticalAlignment="Center" Height="30" HorizontalAlignment="Center" FontSize="15">User Docs</Label>
+        <Label Name="UserLogin" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Height="30" HorizontalAlignment="Center"
+               FontSize="15" Content="Login"/>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="145"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Foreground="Black" Content="Name" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"
+                   FontWeight="Bold"/>
+            <TextBox Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="14"
+                     Name="UserName" TextAlignment="Center" IsEnabled="False" BorderBrush="White" Text="Name"/>
+
+            <Label Grid.Column="0" Grid.Row="1" Foreground="Black" Content="Adress" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"
+                   FontWeight="Bold"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Name="UserAdress" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="14"
+                     TextAlignment="Center" IsEnabled="False" BorderBrush="White" Text="Address" />
+
+            <Label Grid.Column="0" Grid.Row="2" Foreground="Black" Content="Phone Number" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"
+                   FontWeight="Bold"/>
+            <TextBox Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="14"
+                     Name="UserPhoneNumber" TextAlignment="Center" IsEnabled="False" BorderBrush="White" Text="Phone number" />
+
+            <Label Grid.Column="0" Grid.Row="3" Foreground="Black" Content="User Type" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"
+                   FontWeight="Bold"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Name="UserType" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="14"
+                     TextAlignment="Center" IsEnabled="False" BorderBrush="White" Text="User type" />
+        </Grid>
         
-        <DataGrid Grid.Row="6" Grid.ColumnSpan="2" Name="UserDocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="420">
+        <Label Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Height="30" HorizontalAlignment="Center" FontSize="15"
+               Content="User documents"/>
+
+        <DataGrid Grid.Row="4" Grid.Column="1" Name="UserDocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False"
+                  IsReadOnly="True" FontWeight="Bold">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding DocTitle}" Width="Auto"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding DocType}" Width="Auto"/>
@@ -50,8 +69,11 @@
                 <DataGridTextColumn Header="Deadline" Binding="{Binding DeadLine}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <Button Grid.Row="7" Width="150" Height="30" Grid.Column="1" Margin="0,10,100,5" Click="OnModifyUserClick" Content="Modify User"/>
-        <Button Grid.Row="8" Width="150" Height="30" Grid.Column="1" Margin="0,5,100,5" Click="OnDeleteUserClick" Content="Delete User"/>
+        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Grid.Row="7" Width="150" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnModifyUserClick" Content="Modify"
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+            <Button Grid.Row="8" Width="150" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnDeleteUserClick" Content="Delete"
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+        </StackPanel>
     </Grid>
 </Window>

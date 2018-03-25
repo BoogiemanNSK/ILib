@@ -41,7 +41,9 @@
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Check out" Margin="7,2,7,2"  Width="70" Height="30" FontWeight="Bold" ToolTip="Order book" Cursor="Hand" Click="OnCheckOut"/>
+                            <Button Content="Check out" Margin="7,2,7,2"  Width="70" Height="30" FontWeight="Bold" ToolTip="Order book" Cursor="Hand"
+                                    Click="OnCheckOut" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontSize="14"
+                                    Style="{DynamicResource ButtonStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

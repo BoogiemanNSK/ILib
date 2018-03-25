@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Height="460" Width="300" MaxHeight="460" MaxWidth="300" MinHeight="460" MinWidth="300"
-        WindowStartupLocation="CenterScreen" Title="iLib - Log In" Background="White" WindowStyle="SingleBorderWindow" x:Uid="Login_page_caption" ResizeMode="NoResize">
+        WindowStartupLocation="CenterScreen" Title="iLib - Log In" Background="White" WindowStyle="SingleBorderWindow" x:Uid="Login_page_caption"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -23,12 +24,23 @@
 
         <Label Content="iLib" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontFamily="/I2P-Project;component/Fonts/#Panton" Foreground="#FF078CD1"/>
         <Image Grid.Row="1" Height="120" Width="120" x:Name="img_anim" Source="/I2P-Project;component/Sprites/user_image.jpg"/>
-        <Label x:Uid="lp_Login" Content="Login" FontSize="16" Grid.Row="2" VerticalAlignment="Center" Foreground="#FF078CD3" HorizontalAlignment="Center" FontFamily="/I2P-Project;component/Fonts/#Panton" Height="30" Width="180"/>
-        <TextBox VerticalContentAlignment="Center" FontSize="14" Grid.Row="3" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="LoginTB" GotFocus="LoginTB_GotFocus" Height="30" BorderBrush="#FF078CD3" FontFamily="/I2P-Project;component/Fonts/#Panton" BorderThickness="2" FontWeight="Bold"/>
-        <Label x:Uid="lp_password" Content="Password" FontSize="16" Grid.Row="4" VerticalAlignment="Center" Foreground="#FF078CD1" HorizontalAlignment="Center" FontFamily="/I2P-Project;component/Fonts/#Panton" Width="180"/>
-        <PasswordBox VerticalContentAlignment="Center" Height="30" FontSize="14" Grid.Row="5" HorizontalAlignment="Center" Width="180" Name="PasswordTB" GotFocus="PasswordTB_GotFocus" BorderBrush="#FF078CD3" BorderThickness="2" ClipToBounds="True" KeyDown="PasswordTB_KeyDown"/>
-        <Button x:Uid="lp_btn_logIn" Content="Log In" Grid.Row="7" Width="125" Height="27" HorizontalAlignment="Center" Click="LogInClick" FontFamily="/I2P-Project;component/Fonts/#Panton" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14"/>
-        <Button x:Uid="lp_btn_Register" Content="Sign Up" Grid.Row="8" Width="125" Height="27" HorizontalAlignment="Center" Click="RegisterClick" FontFamily="/I2P-Project;component/Fonts/#Panton" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14"/>
-        <Button x:Uid="lp_btn_TestingTool" Content="Testing Tool" Grid.Row="9" Width="125" Height="27" HorizontalAlignment="Center" Click="TestingClick" FontFamily="/I2P-Project;component/Fonts/#Panton" Background="White" BorderBrush="#FF078CD1" Foreground="#FF078CD1" FontWeight="Bold" FontSize="14" BorderThickness="2"/>
+        <Label x:Uid="lp_Login" Content="Login" FontSize="16" Grid.Row="2" VerticalAlignment="Center" Foreground="#FF078CD3" HorizontalAlignment="Center"
+               FontFamily="/I2P-Project;component/Fonts/#Panton" Height="30" Width="180"/>
+        <TextBox VerticalContentAlignment="Center" FontSize="14" Grid.Row="3" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"
+                 Width="180" Name="LoginTB" GotFocus="LoginTB_GotFocus" Height="30" BorderBrush="#FF078CD3" FontFamily="/I2P-Project;component/Fonts/#Panton"
+                 BorderThickness="2" FontWeight="Bold"/>
+        <Label x:Uid="lp_password" Content="Password" FontSize="16" Grid.Row="4" VerticalAlignment="Center" Foreground="#FF078CD1" HorizontalAlignment="Center"
+               FontFamily="/I2P-Project;component/Fonts/#Panton" Width="180"/>
+        <PasswordBox VerticalContentAlignment="Center" Height="30" FontSize="14" Grid.Row="5" HorizontalAlignment="Center" Width="180" Name="PasswordTB"
+                     GotFocus="PasswordTB_GotFocus" BorderBrush="#FF078CD3" BorderThickness="2" ClipToBounds="True" KeyDown="PasswordTB_KeyDown"/>
+        <Button x:Uid="lp_btn_logIn" Content="Log In" Grid.Row="7" Width="125" Height="27" HorizontalAlignment="Center" Click="LogInClick"
+                FontFamily="/I2P-Project;component/Fonts/#Panton" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold"
+                FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+        <Button x:Uid="lp_btn_Register" Content="Sign Up" Grid.Row="8" Width="125" Height="27" HorizontalAlignment="Center" Click="RegisterClick"
+                FontFamily="/I2P-Project;component/Fonts/#Panton" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold"
+                FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+        <Button x:Uid="lp_btn_TestingTool" Content="Testing Tool" Grid.Row="9" Width="125" Height="27" HorizontalAlignment="Center" Click="TestingClick"
+                FontFamily="/I2P-Project;component/Fonts/#Panton" Background="White" BorderBrush="#FF078CD1" Foreground="#FF078CD1" FontWeight="Bold"
+                FontSize="14" BorderThickness="2"/>
     </Grid>
 </Window>

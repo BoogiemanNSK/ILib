@@ -32,9 +32,12 @@
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnAddUser" Width="150" Content="Add user&#xD;&#xA;&#xA;"/>
-            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnUserOverdueInfo" Width="150" Content="Overdue Info&#xD;&#xA;"/>
-            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnUserCard" Width="150" Content="User Card&#xD;&#xA;&#xA;"/>
+            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnAddUser" Width="150" Content="Add user" Background="#FF078CD1"
+                    BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14"/>
+            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnUserOverdueInfo" Width="150" Content="Overdue Info" Background="#FF078CD1"
+                    BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14"/>
+            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnUserCard" Width="150" Content="User Card" Background="#FF078CD1"
+                    BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14"/>
         </StackPanel>
     </Grid>
 </Page>

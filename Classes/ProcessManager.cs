@@ -50,7 +50,7 @@ namespace I2P_Project.Classes
             this.window.Closed += new EventHandler(waitingWindow_Closed);
             try
             {
-                this.window.ShowDialog(); // Fix "Поток находился в процессе прерывания"
+                this.window.ShowDialog(); // Fix "Поток находился в процессе прерывания" если выпадет исключение, пишите в чат.
             } catch { }
         }
 

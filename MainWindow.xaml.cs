@@ -58,7 +58,7 @@ namespace I2P_Project
             anim_menu.From = 50;
             anim_menu.To = 180;
             anim_menu.Duration = TimeSpan.FromSeconds(0.2);
-            lst_Menu.BeginAnimation(ListView.WidthProperty, anim_menu);
+            lst_Menu.BeginAnimation(WidthProperty, anim_menu);
         }
 
         private void CloseTaskMenu()
@@ -67,7 +67,7 @@ namespace I2P_Project
             anim_menu.From = 180;
             anim_menu.To = 50;
             anim_menu.Duration = TimeSpan.FromSeconds(0.2);
-            lst_Menu.BeginAnimation(ListView.WidthProperty, anim_menu);
+            lst_Menu.BeginAnimation(WidthProperty, anim_menu);
         }
 
         private void OnLoadWindow()
@@ -96,40 +96,39 @@ namespace I2P_Project
             ChangePage("PageHome.xaml");
         }
 
-        private void lst_Menu_SelectionChanged(object sender, SelectionChangedEventArgs e)  // Clear selected index
-        {
-            lst_Menu.SelectedIndex = -1;
-        }
-
         private void page_userHome_Click(object sender, RoutedEventArgs e) // Faculty open Library Window
         {
-            //CloseTaskMenu();
+            CloseMenuAfterClick();
             ChangePage("PageHome.xaml");
         }
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)  // Faculty open Library page
         {
-            //CloseTaskMenu();
+            CloseMenuAfterClick();
             ChangePage("UserHomePage.xaml");
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e) // Faculty open my books page
         {
+            CloseMenuAfterClick();
             ChangePage("MyBooks.xaml");
         }
 
         private void RadioButton_Click_1(object sender, RoutedEventArgs e)  // Librarian open Home page
         {
+            CloseMenuAfterClick();
             ChangePage("PageHome.xaml");
         }
 
         private void RadioButton_Click_2(object sender, RoutedEventArgs e)  // Librarian open Users Management page
         {
+            CloseMenuAfterClick();
             ChangePage("UsersManagementPage.xaml");
         }
 
         private void RadioButton_Click_3(object sender, RoutedEventArgs e)
         {
+            CloseMenuAfterClick();
             ChangePage("DocumentsManagementPage.xaml");
         }
 
@@ -137,6 +136,15 @@ namespace I2P_Project
         {
             string link = "/I2P-Project;component/Pages/" + page_name;
             page_Viewer.Source = new Uri(link, UriKind.Relative);
+        }
+
+        private void CloseMenuAfterClick()  // Closes task menu after click on menu button
+        {
+            if (taskMenu)
+            {
+                CloseTaskMenu();
+                taskMenu = !taskMenu;
+            }
         }
     }
 }

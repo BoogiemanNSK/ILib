@@ -45,7 +45,7 @@
         </StackPanel>
 
         <Rectangle Grid.Row="0" Fill="#FF078CD3" Grid.ColumnSpan="2" Margin="-2,0,0,0"/>
-        <Button Grid.Column="0" x:Name="btn_Menu" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Width="49.2" Height="43.2" Content="≡"
+        <Button Grid.Column="0" x:Name="btn_Menu" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Width="49.2" Height="42.783" Content="≡"
                 HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="32"
                 Click="btn_Menu_Click" Margin="0,-13.2,0,0" Style="{DynamicResource ButtonStyle}"/>
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Height="29.863" Margin="0,0,0,0.137">

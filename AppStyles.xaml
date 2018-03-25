@@ -55,19 +55,18 @@
                                 </TransformGroup>
                             </ContentPresenter.RenderTransform>
                         </ContentPresenter>
+                        <Rectangle x:Name="indicator" Grid.ColumnSpan="2" Fill="#FF272828" HorizontalAlignment="Left" Height="Auto" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="6.217"/>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="HasContent" Value="true">
-                            <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
-                            <Setter Property="Padding" Value="4,-1,0,0"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
+                        <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="templateRoot" Value="#FF3C3C3C"/>
+                            <Setter Property="Fill" TargetName="indicator" Value="#FF3C3C3C"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false"/>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Background" Value="White"/>
                             <Setter Property="Background" TargetName="templateRoot" Value="#FF545454"/>
+                            <Setter Property="Fill" TargetName="indicator" Value="#FF545454"/>
                             <Setter Property="RenderTransform" TargetName="contentPresenter">
                                 <Setter.Value>
                                     <TransformGroup>
@@ -82,8 +81,11 @@
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Background" TargetName="templateRoot" Value="#FF073D5A"/>
                             <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="Fill" TargetName="indicator" Value="#FF078CD3"/>
                         </Trigger>
-                        <Trigger Property="IsChecked" Value="{x:Null}"/>
+                        <Trigger Property="IsChecked" Value="{x:Null}">
+                            <Setter Property="Fill" TargetName="indicator" Value="#FF272828"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -126,13 +128,22 @@
                         <Trigger Property="IsDefaulted" Value="true">
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="#FF078CD3"/>
-                            <Setter Property="Background" TargetName="border" Value="#FF74CCFF"/>
-                        </Trigger>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation To="#FF74CCFF" Duration="0:0:0.3" Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation To="#FF078CD3" Duration="0:0:0.3" Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Background" TargetName="border" Value="#FF185D8E"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="#FF195D8C"/>
                             <Setter Property="RenderTransform" TargetName="contentPresenter">
                                 <Setter.Value>
                                     <TransformGroup>

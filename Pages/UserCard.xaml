@@ -71,9 +71,9 @@
         </DataGrid>
         <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Grid.Row="7" Width="150" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnModifyUserClick" Content="Modify"
-                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14"/>
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
             <Button Grid.Row="8" Width="150" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnDeleteUserClick" Content="Delete"
-                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14"/>
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
         </StackPanel>
     </Grid>
 </Window>

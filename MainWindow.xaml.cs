@@ -72,22 +72,25 @@ namespace I2P_Project
 
         private void OnLoadWindow()
         {
-            switch (Classes.SDM.CurrentUser.UserType)
+            switch (SDM.CurrentUser.UserType)
             {
                 case 0:  // Student          
                     li_page_LibrarianHome.Visibility = Visibility.Collapsed;
                     li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
                     li_page_UsersManagement.Visibility = Visibility.Collapsed;
+                    li_page_userHome.IsChecked = true;
                     break;
                 case 1:  // Faculty             
                     li_page_LibrarianHome.Visibility = Visibility.Collapsed;
                     li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
                     li_page_UsersManagement.Visibility = Visibility.Collapsed;
+                    li_page_userHome.IsChecked = true;
                     break;
                 case 2:  // Librarian
                     li_page_userHome.Visibility = Visibility.Collapsed;
                     li_page_UserLibrary.Visibility = Visibility.Collapsed;
                     li_page_UserMyBooks.Visibility = Visibility.Collapsed;
+                    li_page_LibrarianHome.IsChecked = true;
                     break;
             }
 
@@ -96,37 +99,37 @@ namespace I2P_Project
             ChangePage("PageHome.xaml");
         }
 
-        private void page_userHome_Click(object sender, RoutedEventArgs e) // Faculty open Library Window
+        private void Page_userHome_Click(object sender, RoutedEventArgs e) // Faculty open Library Window
         {
             CloseMenuAfterClick();
             ChangePage("PageHome.xaml");
         }
 
-        private void RadioButton_Click(object sender, RoutedEventArgs e)  // Faculty open Library page
+        private void Page_userLibrary_Click(object sender, RoutedEventArgs e)  // Faculty open Library page
         {
             CloseMenuAfterClick();
             ChangePage("UserHomePage.xaml");
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e) // Faculty open my books page
+        private void Page_userMyBooks_Click(object sender, RoutedEventArgs e) // Faculty open my books page
         {
             CloseMenuAfterClick();
             ChangePage("MyBooks.xaml");
         }
 
-        private void RadioButton_Click_1(object sender, RoutedEventArgs e)  // Librarian open Home page
+        private void Page_librarianHome_Click(object sender, RoutedEventArgs e)  // Librarian open Home page
         {
             CloseMenuAfterClick();
             ChangePage("PageHome.xaml");
         }
 
-        private void RadioButton_Click_2(object sender, RoutedEventArgs e)  // Librarian open Users Management page
+        private void Page_librarianUsersManagement_Click(object sender, RoutedEventArgs e)  // Librarian open Users Management page
         {
             CloseMenuAfterClick();
             ChangePage("UsersManagementPage.xaml");
         }
 
-        private void RadioButton_Click_3(object sender, RoutedEventArgs e)
+        private void Page_librarianDocumentsManagement_Click(object sender, RoutedEventArgs e)  // Librarian open Documents Management page
         {
             CloseMenuAfterClick();
             ChangePage("DocumentsManagementPage.xaml");
@@ -145,6 +148,11 @@ namespace I2P_Project
                 CloseTaskMenu();
                 taskMenu = !taskMenu;
             }
+        }
+
+        private void btn_Notifications_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("ToDo! Notification system");
         }
     }
 }

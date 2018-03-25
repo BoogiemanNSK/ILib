@@ -27,7 +27,7 @@
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5,5,5,5" VerticalAlignment="Center" Width="250" Name="SearchTB"/>
             <Button Click="OnSearch" Width="100" Margin="5,5,5,5" HorizontalAlignment="Right" Content="Search book&#xD;&#xA;&#xA;" 
-                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14"/>
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
         </StackPanel>
         
         <DataGrid Grid.Row="3" Grid.Column="1" Name="dgLibrarianDocuments" CanUserAddRows="false" CanUserDeleteRows="False"
@@ -45,7 +45,7 @@
                         <DataTemplate>
                             <Button Content="Modify" Margin="7,2,7,2"  Width="70" Height="30" FontWeight="Bold" ToolTip="Edit document data"
                                     Cursor="Hand" Click="OnModifyBook" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
-                                    FontSize="14"/>
+                                    FontSize="14" Style="{DynamicResource ButtonStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -54,7 +54,7 @@
                         <DataTemplate>
                             <Button Content="Delete" Margin="7,2,7,2"  Width="70" Height="30" FontWeight="Bold" ToolTip="Delete document"
                                     Cursor="Hand" Click="OnModifyBook" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
-                                    FontSize="14"/>
+                                    FontSize="14" Style="{DynamicResource ButtonStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -63,7 +63,7 @@
 
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Click="OnAddBook" Width="200" Content="Add" Margin="5,5,5,5" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
-                    FontWeight="Bold" FontSize="14"/>
+                    FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
         </StackPanel>
     </Grid>
 </Page>

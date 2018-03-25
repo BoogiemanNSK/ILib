@@ -60,6 +60,12 @@ namespace I2P_Project.Classes
         {
             if (CheckLogin(login)) return false;
 
+            using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
+            {
+                Cryptography cpt = new Cryptography();
+                password = cpt.GetHash(md5_hash, password);  // hashing password string by MD5
+            }
+
             Users newUser = new Users
             {
                 Login = login,
@@ -561,6 +567,12 @@ namespace I2P_Project.Classes
         /// <summary> Checks if a user with given e-mail has given password </summary>
         public bool CheckPassword(string login, string password)
         {
+            using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
+            {
+                Cryptography cpt = new Cryptography();
+                password = cpt.GetHash(md5_hash, password);  // hashing password string by MD5
+            }
+
             var test = (from p in db.Users
                         where (p.Login == login && p.Password == password)
                         select p);

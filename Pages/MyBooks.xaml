@@ -34,7 +34,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Return" Margin="7,2,7,2"  Width="50" FontWeight="Bold" ToolTip="Return book" Cursor="Hand" Click="OnReturn"
-                                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontSize="14"/>
+                                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -42,7 +42,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Renew" Margin="7,2,7,2"  Width="50" FontWeight="Bold" Cursor="Hand" Click="OnRenew" Background="#FF078CD1"
-                                    BorderBrush="{x:Null}" Foreground="White" FontSize="14"/>
+                                    BorderBrush="{x:Null}" Foreground="White" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

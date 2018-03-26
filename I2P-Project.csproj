@@ -99,6 +99,7 @@
     <Compile Include="Classes\UserSystem\Patron.cs" />
     <Compile Include="Classes\UserSystem\Student.cs" />
     <Compile Include="Classes\UserSystem\User.cs" />
+    <Compile Include="Classes\UserSystem\VisitingProfessor.cs" />
     <Compile Include="Pages\AddBookPage.xaml.cs">
       <DependentUpon>AddBookPage.xaml</DependentUpon>
     </Compile>

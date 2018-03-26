@@ -18,7 +18,6 @@ namespace I2P_Project.Classes.UserSystem
 
         /// <summary> Check out by Title </summary>
         /// <returns> Result of check out as message </returns>
-
         public abstract string CheckOut(string title, params int[] DateCheat);
 
         public string RenewDoc(int docID)
@@ -45,6 +44,7 @@ namespace I2P_Project.Classes.UserSystem
              
             throw new System.NotImplementedException();
         }
+
         /// <summary> Returns a document from a user to the LMS </summary>
         /// <returns> Result of returning doc as message </returns>
         public string ReturnDoc(int docID)
@@ -59,8 +59,47 @@ namespace I2P_Project.Classes.UserSystem
 
             return SDM.Strings.SUCCESSFUL_RETURN + " " + GetTitleByID(docID) + "!";
         }
-
         
+        protected string CheckAvailibility(string title)
+        {
+            var test = from b in uDB.Documents
+                       where b.Title.ToLower().Contains(title.ToLower()) && !b.IsReference
+                       select b;
+
+            if (test.Any()) // Check if any copies of doc exists
+            {
+                foreach (DataBase.Document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
+                    if (DocBelongsToUser(selected.Id))
+                        return SDM.Strings.ALREADY_HAVE_TEXT;
+                foreach (DataBase.Document selected in test.ToArray()) // Checks if any of them are free
+                {
+                    var test2 = from c in uDB.Checkouts
+                                where c.BookID == selected.Id
+                                select c;
+                    if (!test2.Any()) return "";
+                }
+                return SDM.Strings.NO_FREE_COPIES_TEXT;
+            }
+            else
+                return SDM.Strings.NO_FREE_COPIES_TEXT;
+        }
+
+        protected DataBase.Document GetDocumentForCheckOut(string title)
+        {
+            var test = from b in uDB.Documents
+                       where b.Title.ToLower().Contains(title.ToLower()) && !b.IsReference
+                       select b;
+
+            foreach (DataBase.Document selected in test.ToArray())
+            {
+                var test2 = from c in uDB.Checkouts
+                            where c.BookID == selected.Id
+                            select c;
+                if (!test2.Any()) return selected;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Change fields in DB when some user check out docs.

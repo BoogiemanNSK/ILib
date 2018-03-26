@@ -374,7 +374,7 @@ namespace I2P_Project.Classes
                         docID = element.Id,
                         docTitle = element.Title,
                         isReference = element.IsReference,
-                        docType = DocTypeString(element.DocType),
+                        docType = SDM.Strings.DOC_TYPES[element.DocType],
                         dateTaked = (DateTime)element.DateTaked,
                         timeToBack = element.TimeToBack,
                         fine = (passedDays * 50 > element.Price ?
@@ -526,9 +526,42 @@ namespace I2P_Project.Classes
                 Pages.UserDocsTable row = new Pages.UserDocsTable
                 {
                     DocTitle = element.Title,
-                    DocType = DocTypeString(element.DocType),
+                    DocType = SDM.Strings.DOC_TYPES[element.DocType],
                     DateTaked = (DateTime)element.DateTaked,
                     DeadLine = element.TimeToBack
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
+        /// <summary> Returns all non-reference docs </summary>
+        public ObservableCollection<Pages.LibraryTable> GetAllDocs() // сюда можно засунуть вывод по userType
+        {
+            var test = (from p in db.Documents select p);
+            ObservableCollection<Pages.LibraryTable> temp_table = new ObservableCollection<Pages.LibraryTable>();
+            var load_user_books = from d in db.Documents
+                                  where (!d.IsReference) && (!d.IsBestseller)
+                                  select new
+                                  {
+                                      d.Id,
+                                      d.Title,
+                                      d.Autors,
+                                      d.Publisher,
+                                      d.PublishYear,
+                                      d.Price
+                                  };
+            foreach (var element in load_user_books)
+            {
+                Pages.LibraryTable row = new Pages.LibraryTable
+                {
+                    bookID = element.Id,
+                    book_image = Directory.GetCurrentDirectory() + @"\media\source_images\book_default.png",
+                    title = element.Title,
+                    author = element.Autors,
+                    publisher = element.Publisher,
+                    publish_year = element.PublishYear,
+                    price = element.Price
                 };
                 temp_table.Add(row);
             }
@@ -605,7 +638,7 @@ namespace I2P_Project.Classes
                 res.docTitle = d.Title;
                 res.isBestseller = d.IsBestseller;
                 res.isReference = d.IsReference;
-                res.docType = DocTypeString(d.DocType);
+                res.docType = SDM.Strings.DOC_TYPES[d.DocType];
             }
             return res;
         }
@@ -792,57 +825,6 @@ namespace I2P_Project.Classes
         }
 
         #endregion
-
-        // TODO Replace with Observable collection
-        /// <summary> Returns all non-reference docs </summary>
-        public ObservableCollection<Pages.LibraryTable> GetAllDocs() // сюда можно засунуть вывод по userType
-        {
-            var test = (from p in db.Documents select p);
-            ObservableCollection<Pages.LibraryTable> temp_table = new ObservableCollection<Pages.LibraryTable>();
-            var load_user_books = from d in db.Documents
-                                  where (!d.IsReference) && (!d.IsBestseller)
-                                  select new
-                                  {
-                                      d.Id,
-                                      d.Title,
-                                      d.Autors,
-                                      d.Publisher,
-                                      d.PublishYear,
-                                      d.Price
-                                  };
-            foreach (var element in load_user_books)
-            {
-                Pages.LibraryTable row = new Pages.LibraryTable
-                {
-                    bookID = element.Id,
-                    book_image = Directory.GetCurrentDirectory() + @"\media\source_images\book_default.png",
-                    title = element.Title,
-                    author = element.Autors,
-                    publisher = element.Publisher,
-                    publish_year = element.PublishYear,
-                    price = element.Price
-                };
-                temp_table.Add(row);
-            }
-            return temp_table;
-        }
-
-        private string DocTypeString(int index)
-        {
-            switch (index)
-            {
-                case 0:
-                    return "Book";
-                case 1:
-                    return "Journal";
-                case 2:
-                    return "Audio";
-                case 3:
-                    return "Video";
-                default:
-                    throw new Exception("Unknown type index");
-            }
-        }
 
     }
 }

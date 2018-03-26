@@ -43,6 +43,7 @@ class StringConstants
     public string USER_CARD_OBTAINING_TEXT => "User card successfully obtained!";
     public string OVERDUE_INFO_TEXT => "Ocerdue info successfully obtained!";
 
+    public string[] USER_TYPES => new string[] { "Student", "Instructor", "TA", "Professor", "Visiting Professor" };
     public string[] DOC_TYPES => new string[] {"Book", "Journal", "Audio", "Video"};
 
 }

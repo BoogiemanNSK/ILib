@@ -394,7 +394,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                                  where p.UserType != 3
+                                  where p.UserType != 2
                                   select new
                                   {
                                       p.Id,

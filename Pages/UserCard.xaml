@@ -36,22 +36,22 @@
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
 
-            <Label Grid.Column="0" Grid.Row="0" Foreground="Black" Content="Name" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"
+            <Label Grid.Column="0" Grid.Row="0" Foreground="Black" Content="Name" VerticalAlignment="Center" FontSize="14"
                    FontWeight="Bold"/>
             <TextBox Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="14"
                      Name="UserName" TextAlignment="Center" IsEnabled="False" BorderBrush="White" Text="Name"/>
 
-            <Label Grid.Column="0" Grid.Row="1" Foreground="Black" Content="Adress" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"
+            <Label Grid.Column="0" Grid.Row="1" Foreground="Black" Content="Adress" VerticalAlignment="Center" FontSize="14"
                    FontWeight="Bold"/>
             <TextBox Grid.Column="1" Grid.Row="1" Name="UserAdress" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="14"
                      TextAlignment="Center" IsEnabled="False" BorderBrush="White" Text="Address" />
 
-            <Label Grid.Column="0" Grid.Row="2" Foreground="Black" Content="Phone Number" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"
+            <Label Grid.Column="0" Grid.Row="2" Foreground="Black" Content="Phone Number" VerticalAlignment="Center" FontSize="14"
                    FontWeight="Bold"/>
             <TextBox Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="14"
                      Name="UserPhoneNumber" TextAlignment="Center" IsEnabled="False" BorderBrush="White" Text="Phone number" />
 
-            <Label Grid.Column="0" Grid.Row="3" Foreground="Black" Content="User Type" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"
+            <Label Grid.Column="0" Grid.Row="3" Foreground="Black" Content="User Type" VerticalAlignment="Center" FontSize="14"
                    FontWeight="Bold"/>
             <TextBox Grid.Column="1" Grid.Row="3" Name="UserType" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="14"
                      TextAlignment="Center" IsEnabled="False" BorderBrush="White" Text="User type" />

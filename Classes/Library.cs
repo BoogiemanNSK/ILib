@@ -15,7 +15,9 @@ namespace I2P_Project.Classes
     class Library
     {
         private LMSDataBase db;
-
+        
+        //Map from docID to it's Priority queue for docs
+        private Dictionary<int, PriorityQueue<int>> queueMap;
         /// <summary> Initializing DB </summary>
         public Library()
         {            
@@ -23,6 +25,31 @@ namespace I2P_Project.Classes
             ConnectToDB(db);
         }
         
+        public void PushInPQ (int docID, int personID)
+        {
+            var test = from doc in queueMap
+                       where doc.Key == docID
+                       select doc.Value;
+            if (test.Any())
+                test.Single().Push(personID, CheckPriority(personID));
+            else
+            {
+                PriorityQueue<int> newPQ = new PriorityQueue<int>();
+                newPQ.Push(personID, CheckPriority(personID));
+                queueMap.Add(docID, newPQ);
+            }
+        }
+
+        public bool ExistQueueForDoc(int docID)
+        {
+            return queueMap.ContainsKey(docID);
+        }
+
+        private int CheckPriority(int personID)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary> Connecting to Data Base </summary>
         /// <param name="db"></param>
         public void ConnectToDB(LMSDataBase db)
@@ -739,7 +766,7 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Counts overall user`s fine for overdued books </summary>
-        private int GetUserFine(int userID)
+        public int GetUserFine(int userID)
         {
             int fine = 0;
             var test = from c in db.Checkouts

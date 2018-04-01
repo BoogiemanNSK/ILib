@@ -38,10 +38,10 @@ namespace I2P_Project.Classes.UserSystem
             {
                  doc.TimeToBack = System.DateTime.Now.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
                  doc.DateTaked = System.DateTime.Now;
+                 doc.IsRenewed = true;
                  uDB.SubmitChanges();
+                 return SDM.Strings.SUCCESSFUL_RENEW;
             }
-             
-            throw new System.NotImplementedException();
         }
 
         /// <summary> Returns a document from a user to the LMS </summary>

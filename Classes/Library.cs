@@ -17,7 +17,8 @@ namespace I2P_Project.Classes
         private LMSDataBase db;
         
         //Map from docID to it's Priority queue for docs
-        private Dictionary<int, PriorityQueue<int>> queueMap;
+        private Dictionary<int, PriorityQueue<int>> queueMap =
+            new Dictionary<int, PriorityQueue<int>>();
         /// <summary> Initializing DB </summary>
         public Library()
         {            

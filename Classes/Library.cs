@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 
 namespace I2P_Project.Classes
 {
@@ -789,6 +791,26 @@ namespace I2P_Project.Classes
         private int CheckPriority(int personID)
         {
             throw new NotImplementedException();
+        }
+
+        public bool SendNotificationToUser(string To, string Title, string Text)
+        {
+            //try {
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                smtp.EnableSsl = true;
+                smtp.Credentials = new NetworkCredential(SDM.Strings.MAIL_SERVER_LOGIN, SDM.Strings.MAIL_SERVER_PASSWORD);
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                MailMessage msg = new MailMessage(SDM.Strings.MAIL_SERVER_LOGIN + "@gmail.com", To);
+                msg.Subject = Title;
+                msg.Body = Text;
+
+                smtp.Send(msg);
+                return true;
+            /*}
+            catch {
+                return false;
+            }*/
         }
 
         #endregion

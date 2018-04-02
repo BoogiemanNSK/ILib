@@ -14,6 +14,9 @@ class StringConstants {
                                        "TrustServerCertificate=False;" +
                                        "Connection Timeout=30;";
 
+    public string MAIL_SERVER_LOGIN => "ilib.mail2018";
+    public string MAIL_SERVER_PASSWORD => "Faraday28";
+
     public string SUCCESSFUL_RENEW => "Successfuly renewed";
 
     public string USER_HAVE_FINE => "You have fine, paid please";

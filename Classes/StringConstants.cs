@@ -14,6 +14,8 @@ class StringConstants {
                                        "TrustServerCertificate=False;" +
                                        "Connection Timeout=30;";
 
+    public string SUCCESSFUL_RENEW => "Successfuly renewed";
+
     public string USER_HAVE_FINE => "You have fine, paid please";
     public string FINE_CONFIRMATION_TEXT => "Are you sure you want paid fine?";
     public string SUCCESSFUL_PAID => "Successfuly paid";

@@ -16,6 +16,9 @@
 
             doc = GetDocumentForCheckOut(title);
 
+            if (doc.IsReference)
+                SDM.LMS.PushInPQ(doc.Id, SDM.CurrentUser.PersonID);
+            
             if (doc.IsBestseller || doc.DocType != 0)
                 SetCheckOut(doc.Id, 2, DateCheat);
             else

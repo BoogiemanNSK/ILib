@@ -22,27 +22,26 @@ namespace I2P_Project.Classes.UserSystem
 
         public string RenewDoc(int docID)
         {
-            Library lb = new Library();
             Patron patron = (Patron)SDM.CurrentUser;
             var doc = (from b in uDB.Checkouts
                        where b.BookID == docID
                        select b).Single();
             if (doc.IsRenewed)
                 return SDM.Strings.DOC_ALREADY_RENEWED;
-            /* else if (lb.InQueue(docID))
-                 return SDM.Strings.DOC_IN_QUEUE;*/
-            /*else if (lb.checkFine(patron.Name)
+            else if (SDM.LMS.ExistQueueForDoc(docID))
+                 return SDM.Strings.DOC_IN_QUEUE;
+            else if (SDM.LMS.GetUserFine(patron.PersonID)>0)
             {
                 return SDM.Strings.USER_HAVE_FINE;
-            }*/
+            }
             else
             {
                  doc.TimeToBack = System.DateTime.Now.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
                  doc.DateTaked = System.DateTime.Now;
+                 doc.IsRenewed = true;
                  uDB.SubmitChanges();
+                 return SDM.Strings.SUCCESSFUL_RENEW;
             }
-             
-            throw new System.NotImplementedException();
         }
 
         /// <summary> Returns a document from a user to the LMS </summary>

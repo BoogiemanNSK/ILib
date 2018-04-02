@@ -16,6 +16,9 @@
 
             doc = GetDocumentForCheckOut(title);
 
+            if (doc.IsReference)
+                SDM.LMS.PushInPQ(doc.Id, SDM.CurrentUser.PersonID);
+            
             SetCheckOut(doc.Id, 1, DateCheat);
 
             return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";

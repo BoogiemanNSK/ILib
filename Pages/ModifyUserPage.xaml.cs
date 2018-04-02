@@ -29,6 +29,7 @@ namespace I2P_Project.Pages
         {
             userID = ID;
             InitializeComponent();
+            UserType.ItemsSource = SDM.Strings.USER_TYPES.Take(SDM.Strings.USER_TYPES.Length - 1);
 
             Users user = SDM.LMS.GetUser(ID);
             UserLogin.Content = user.Login;

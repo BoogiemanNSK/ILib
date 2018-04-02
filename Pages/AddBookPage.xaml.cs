@@ -26,7 +26,7 @@ namespace I2P_Project.Pages
         {
             previousPage = page;
             InitializeComponent();
-            OnLoad();
+            cmb_DocType.ItemsSource = SDM.Strings.DOC_TYPES;
         }
 
         private void OnAddBookClick(object sender, RoutedEventArgs e)
@@ -61,12 +61,6 @@ namespace I2P_Project.Pages
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void OnLoad()
-        {
-            // Fill the ComboBox
-            cmb_DocType.ItemsSource = SDM.Strings.DOC_TYPES;
         }
     }
 }

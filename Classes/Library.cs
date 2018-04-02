@@ -72,7 +72,7 @@ namespace I2P_Project.Classes
                 Name = name,
                 Address = adress,
                 PhoneNumber = phone,
-                UserType = (isLibrarian ? 2 : 1)
+                UserType = (isLibrarian ? 5 : 0) // TODO Замнить на enum
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
@@ -241,10 +241,10 @@ namespace I2P_Project.Classes
         #region DB Updating
 
         /// <summary> Updates document info </summary>
-        public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller, string DocType)
+        public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
         {
             var doc = (from d in db.Documents
-                       where d.Id == doc_id
+                       where d.Id == DocID
                        select d).Single();
             var copy = (from d in db.Documents
                         where d.Title == doc.Title
@@ -255,24 +255,8 @@ namespace I2P_Project.Classes
                 docs.Title = Title;
                 docs.Description = Description;
                 docs.Price = Convert.ToInt32(Price);
-
-                // TODO Серьезно? Заменить на численные значения
-                docs.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
-                switch (DocType.ToLower())
-                {
-                    case "book":
-                        doc.DocType = 0;
-                        break;
-                    case "journal":
-                        doc.DocType = 1;
-                        break;
-                    case "AV":
-                        doc.DocType = 2;
-                        break;
-                    default:
-                        new Exception();
-                        break;
-                }
+                docs.IsBestseller = IsBestseller;
+                docs.DocType = DocType;
                 db.SubmitChanges();
             }
         }
@@ -592,22 +576,10 @@ namespace I2P_Project.Classes
         /// <summary> Returns document object from given ID </summary>
         public Document GetDocByID(int docID)
         {
-            var test = (from doc in db.Documents where doc.Id == docID select doc);
-            Document res = new Document();
-            DataBase.Document d;
-            if (test.Any())
-            {
-                d = test.Single();
-                res.descriptiion = d.Description;
-                res.docTitle = d.Title;
-                res.isBestseller = d.IsBestseller;
-                res.isReference = d.IsReference;
-                res.docType = SDM.Strings.DOC_TYPES[d.DocType];
-            }
-            return res;
+            var test = from doc in db.Documents where doc.Id == docID select doc;
+            return test.Single();
         }
         
-
         public Users GetUser(string Name)
         {
             var test = from u in db.Users where u.Name == Name select u;

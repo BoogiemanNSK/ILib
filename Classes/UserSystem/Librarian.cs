@@ -41,10 +41,10 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.RemoveDocument(Title);
         }
 
-        public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
-            string DocType)
+        public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller,
+            int DocType)
         {
-            SDM.LMS.ModifyDoc(doc_id, Title, Description, Price, IsBestseller, DocType);
+            SDM.LMS.ModifyDoc(DocID, Title, Description, Price, IsBestseller, DocType);
         }
 
         public bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)

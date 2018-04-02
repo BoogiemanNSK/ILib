@@ -30,9 +30,9 @@
         <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Price"/>
         <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="PriceTB"/>
         <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="DocType"/>
-        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="DocTypeTB"/>
+        <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="DocType"/>
         <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="IsBestseller"/>
-        <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="IsBestsellerTB"/>
+        <CheckBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Height="20" Width="20" Name="IsBestseller"/>
         <Button Grid.Row="7" Width="150" Grid.Column="1" Margin="10,10,10,5" Click="OnModifyDocClick" Content="Modify doc"/>
         <Button Grid.Row="8" Width="150" Grid.Column="1" Margin="10,5,10,10" Click="OnBackClick">Back</Button>
     </Grid>

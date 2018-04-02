@@ -25,7 +25,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Foreground="Black" FontSize="22" HorizontalAlignment="Center" Content="Sign Up"/>
+        <Label Name="Title"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Foreground="Black" FontSize="22" HorizontalAlignment="Center" Content="Sign Up"/>
 
         <Label Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Login" FontSize="16" />
         <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Name="LoginTB"

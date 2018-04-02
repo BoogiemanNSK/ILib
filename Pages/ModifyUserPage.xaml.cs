@@ -29,13 +29,14 @@ namespace I2P_Project.Pages
         {
             userID = ID;
             InitializeComponent();
+            UserType.ItemsSource = SDM.Strings.USER_TYPES.Take(SDM.Strings.USER_TYPES.Length - 1);
 
             Users user = SDM.LMS.GetUser(ID);
             UserLogin.Content = user.Login;
             UserName.Text = user.Name;
             UserAdress.Text = user.Address;
             UserPhoneNumber.Text = user.PhoneNumber;
-            UserType.SelectedIndex = user.UserType - 1;
+            UserType.SelectedIndex = user.UserType;
         }
 
         private void OnModifyUserClick(object sender, RoutedEventArgs e)
@@ -51,7 +52,7 @@ namespace I2P_Project.Pages
                         UserName.Text,
                         UserAdress.Text,
                         UserPhoneNumber.Text,
-                        UserType.SelectedIndex + 1
+                        UserType.SelectedIndex
                     );
                 UserCard page = new UserCard(userID);
                 Close();

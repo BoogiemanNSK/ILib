@@ -12,9 +12,6 @@
 
         #region Extensibility Method Definitions
         partial void OnCreated();
-        partial void InsertuserTypes(UserTypes instance);
-        partial void UpdateuserTypes(UserTypes instance);
-        partial void DeleteuserTypes(UserTypes instance);
         partial void Insertcheckouts(Checkouts instance);
         partial void Updatecheckouts(Checkouts instance);
         partial void Deletecheckouts(Checkouts instance);
@@ -24,9 +21,6 @@
         partial void Insertdocument(Document instance);
         partial void Updatedocument(Document instance);
         partial void Deletedocument(Document instance);
-        partial void InsertdocTypes(DocTypes instance);
-        partial void UpdatedocTypes(DocTypes instance);
-        partial void DeletedocTypes(DocTypes instance);
         #endregion
 
         public LMSDataBase(string connection) :
@@ -34,165 +28,11 @@
         {
             OnCreated();
         }
-
-        public Table<UserTypes> UserTypes => GetTable<UserTypes>();
+        
         public Table<Checkouts> Checkouts => GetTable<Checkouts>();
         public Table<Users> Users => GetTable<Users>();
         public Table<Document> Documents => GetTable<Document>();
-        public Table<DocTypes> DocTypes => GetTable<DocTypes>();
         public static MappingSource MappingSource { get => mappingSource; set => mappingSource = value; }
-    }
-
-    [Table(Name = "dbo.userTypes")]
-    public partial class UserTypes : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-        private int _typeID;
-        private string _typeName;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OntypeIDChanging(int value);
-        partial void OntypeIDChanged();
-        partial void OntypeNameChanging(string value);
-        partial void OntypeNameChanged();
-        #endregion
-
-        public UserTypes()
-        {
-            OnCreated();
-        }
-
-        [Column(Storage = "_typeID", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int TypeID
-        {
-            get => _typeID;
-            set
-            {
-                if ((_typeID != value))
-                {
-                    OntypeIDChanging(value);
-                    SendPropertyChanging();
-                    _typeID = value;
-                    SendPropertyChanged("typeID");
-                    OntypeIDChanged();
-                }
-            }
-        }
-
-        [Column(Storage = "_typeName", DbType = "VarChar(20) NOT NULL", CanBeNull = false)]
-        public string TypeName
-        {
-            get => _typeName;
-            set
-            {
-                if ((_typeName != value))
-                {
-                    OntypeNameChanging(value);
-                    SendPropertyChanging();
-                    _typeName = value;
-                    SendPropertyChanged("typeName");
-                    OntypeNameChanged();
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((PropertyChanging != null))
-            {
-                PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((PropertyChanged != null))
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [Table(Name = "dbo.docTypes")]
-    public partial class DocTypes : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-        private int _typeID;
-        private string _typeName;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OntypeIDChanging(int value);
-        partial void OntypeIDChanged();
-        partial void OntypeNameChanging(string value);
-        partial void OntypeNameChanged();
-        #endregion
-
-        public DocTypes()
-        {
-            OnCreated();
-        }
-
-        [Column(Storage = "_typeID", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int TypeID
-        {
-            get => _typeID;
-            set
-            {
-                if ((_typeID != value))
-                {
-                    OntypeIDChanging(value);
-                    SendPropertyChanging();
-                    _typeID = value;
-                    SendPropertyChanged("typeID");
-                    OntypeIDChanged();
-                }
-            }
-        }
-
-        [Column(Storage = "_typeName", DbType = "VarChar(20) NOT NULL", CanBeNull = false)]
-        public string TypeName
-        {
-            get => _typeName;
-            set
-            {
-                if ((_typeName != value))
-                {
-                    OntypeNameChanging(value);
-                    SendPropertyChanging();
-                    _typeName = value;
-                    SendPropertyChanged("typeName");
-                    OntypeNameChanged();
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((PropertyChanging != null))
-            {
-                PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((PropertyChanged != null))
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 
     [Table(Name = "dbo.checkouts")]

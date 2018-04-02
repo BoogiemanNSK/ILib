@@ -74,19 +74,17 @@ namespace I2P_Project
         {
             switch (SDM.CurrentUser.UserType)
             {
-                case 0:  // Student          
+                case 0: // Student
+                case 1: // Instructor
+                case 2: // TA
+                case 3: // Proffesor
+                case 4: // Visiting proffesor
                     li_page_LibrarianHome.Visibility = Visibility.Collapsed;
                     li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
                     li_page_UsersManagement.Visibility = Visibility.Collapsed;
                     li_page_userHome.IsChecked = true;
                     break;
-                case 1:  // Faculty             
-                    li_page_LibrarianHome.Visibility = Visibility.Collapsed;
-                    li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
-                    li_page_UsersManagement.Visibility = Visibility.Collapsed;
-                    li_page_userHome.IsChecked = true;
-                    break;
-                case 2:  // Librarian
+                case 5:  // Librarian
                     li_page_userHome.Visibility = Visibility.Collapsed;
                     li_page_UserLibrary.Visibility = Visibility.Collapsed;
                     li_page_UserMyBooks.Visibility = Visibility.Collapsed;

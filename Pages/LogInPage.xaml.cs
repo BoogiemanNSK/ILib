@@ -42,6 +42,7 @@ namespace I2P_Project.Pages
             Close();
         }
 
+        // TODO Заменить на enum
         private void SetCurrentUser()
         {
             int userType = new Student(LoginTB.Text).UserType;
@@ -51,9 +52,14 @@ namespace I2P_Project.Pages
                     SDM.CurrentUser = new Student(LoginTB.Text);
                     break;
                 case 1:
+                case 2:
+                case 3:
                     SDM.CurrentUser = new Faculty(LoginTB.Text);
                     break;
-                case 2:
+                case 4:
+                    SDM.CurrentUser = new VisitingProfessor(LoginTB.Text);
+                    break;
+                case 5:
                     SDM.CurrentUser = new Librarian(LoginTB.Text);
                     break;
                 default:

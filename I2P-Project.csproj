@@ -87,7 +87,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\Cryptography.cs" />
-    <Compile Include="Classes\Document.cs" />
     <Compile Include="Classes\LMSDataBase.cs" />
     <Compile Include="Classes\PriorityQueue.cs" />
     <Compile Include="Classes\ProcessManager.cs" />

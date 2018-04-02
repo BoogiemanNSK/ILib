@@ -66,7 +66,7 @@ namespace I2P_Project.Pages
         private void OnLoad()
         {
             // Fill the ComboBox
-            cmb_DocType.ItemsSource = SDM.LMS.GetDocTypes();
+            cmb_DocType.ItemsSource = SDM.Strings.DOC_TYPES;
         }
     }
 }

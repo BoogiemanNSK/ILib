@@ -14,11 +14,6 @@ namespace I2P_Project.Classes.UserSystem
             return SDM.LMS.GetCheckout(Name);            
         }
 
-        public void UpgradeUser(string Name)
-        {
-            SDM.LMS.UpgradeUser(Name);
-        }
-
         /// <summary> Deletes patron from DB </summary>
         public void DeleteUser(int patronID)
         {

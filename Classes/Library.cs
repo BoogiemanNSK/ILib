@@ -45,7 +45,6 @@ namespace I2P_Project.Classes
                 if (!File.Exists(connString))
                 {
                     db.CreateDatabase();
-                    GenerateUserTypesDB();
                     GenerateTestDB();
                 }
 
@@ -125,19 +124,6 @@ namespace I2P_Project.Classes
             newDoc.IsBestseller = false;
             db.Documents.InsertOnSubmit(newDoc);
             db.SubmitChanges();
-        }
-
-        
-        /// <summary> Generates database of user types association </summary>
-        private void GenerateUserTypesDB()
-        {
-            UserTypes studentType = new UserTypes { TypeName = "Student" };
-            UserTypes facultyType = new UserTypes { TypeName = "Faculty" };
-            UserTypes librarianType = new UserTypes { TypeName = "Librarian" };
-
-            db.UserTypes.InsertOnSubmit(studentType);
-            db.UserTypes.InsertOnSubmit(facultyType);
-            db.UserTypes.InsertOnSubmit(librarianType);
         }
 
         /// <summary>
@@ -269,6 +255,8 @@ namespace I2P_Project.Classes
                 docs.Title = Title;
                 docs.Description = Description;
                 docs.Price = Convert.ToInt32(Price);
+
+                // TODO Серьезно? Заменить на численные значения
                 docs.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
                 switch (DocType.ToLower())
                 {
@@ -297,13 +285,6 @@ namespace I2P_Project.Classes
             user.Address = userAdress;
             user.PhoneNumber = userPhoneNumber;
             user.UserType = userType;
-            db.SubmitChanges();
-        }
-
-        public void UpgradeUser(string Name)
-        {
-            Users user = GetUser(Name);
-            if (user.UserType < 2) user.UserType++;
             db.SubmitChanges();
         }
 
@@ -394,7 +375,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                                  where p.UserType != 2
+                                  where p.UserType != 5 // TODO Заменить на enum
                                   select new
                                   {
                                       p.Id,
@@ -452,14 +433,13 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
             var load_users = from u in db.Users
-                             join ut in db.UserTypes on u.UserType equals ut.TypeID
                              select new
                              {
                                  u.Id,
                                  u.Name,
                                  u.Address,
                                  u.PhoneNumber,
-                                 ut.TypeName
+                                 u.UserType
                              };
             foreach (var element in load_users)
             {
@@ -469,7 +449,7 @@ namespace I2P_Project.Classes
                     userName = element.Name,
                     userAddress = element.Address,
                     userPhoneNumber = element.PhoneNumber,
-                    userType = element.TypeName
+                    userType = SDM.Strings.USER_TYPES[element.UserType]
                 };
                 temp_table.Add(row);
             }
@@ -568,22 +548,6 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
-        public List<System.Windows.Controls.TextBlock> GetDocTypes()
-        {
-            var get_type = from dt in db.DocTypes
-                           select dt;
-            List<System.Windows.Controls.TextBlock> lst_types = new List<System.Windows.Controls.TextBlock>();            
-
-            foreach (var el in get_type)
-            {
-                System.Windows.Controls.TextBlock temp_txt_b = new System.Windows.Controls.TextBlock();
-                temp_txt_b.Text = el.TypeName;
-                lst_types.Add(temp_txt_b);
-            }
-
-            return lst_types;
-        }
-
         #endregion
 
         #region DB Existence Check
@@ -656,8 +620,6 @@ namespace I2P_Project.Classes
             var test = from u in db.Users where u.Id == userID select u;
             return test.Single();
         }
-
-        
         
         public List<CheckedOut> GetCheckout(string Name)
         {
@@ -708,6 +670,7 @@ namespace I2P_Project.Classes
             }
             return res;
         }
+
         /// <summary> Returns a checkout info of particular document </summary>
         private Checkouts GetOwnerInfo(int docID)
         {

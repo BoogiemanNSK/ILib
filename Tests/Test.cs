@@ -576,7 +576,7 @@ namespace I2P_Project.Tests
 
             output += "Registering patrons Sergey Afonso, Nadia Teixeira, Elvira Espindola...\n";
             lb.RegisterUser("Sergey Afonso", "Sergey Afonso", "Sergey Afonso", "Via Margutta, 3", "30001", false);
-            lb.UpgradeUser("Sergey Afonso");
+            //lb.UpgradeUser("Sergey Afonso");
             lb.RegisterUser("Nadia Teixeira", "Nadia Teixeira", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
             lb.RegisterUser("Elvira Espindola", "Elvira Espindola", "Elvira Espindola", "Via del Corso, 22", "30003", false);
             //Assertions for auto-tests
@@ -646,7 +646,7 @@ namespace I2P_Project.Tests
             output += "Logging In as librarian lb...\n";
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            lb.UpgradeUser("Sergey Afonso");
+            //lb.UpgradeUser("Sergey Afonso");
             output += "Creating new window with user card of Sergey Afonso...\n";
             // output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 

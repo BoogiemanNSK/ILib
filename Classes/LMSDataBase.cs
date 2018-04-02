@@ -402,12 +402,14 @@
         private bool _IsReference;
         private bool _IsBestseller;
         private int _Price;
-
+        private int _Quantity;
         #region Extensibility Method Definitions
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
         partial void OnIdChanging(int value);
+        partial void OnQuantityChanged();
+        partial void OnQuantityChanging(int value);
         partial void OnIdChanged();
         partial void OnTitleChanging(string value);
         partial void OnTitleChanged();
@@ -437,7 +439,22 @@
         {
             OnCreated();
         }
-        
+        [Column(Storage = "_Quantity", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int Quantity
+        {
+            get => _Quantity;
+            set
+            {
+                if ((_Quantity != value))
+                {
+                    OnQuantityChanging(value);
+                    SendPropertyChanging();
+                    _Quantity = value;
+                    SendPropertyChanged("Id");
+                    OnQuantityChanged();
+                }
+            }
+        }
         [Column(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id
         {

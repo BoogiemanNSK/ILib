@@ -2,8 +2,8 @@
 /// Class of string constants to avoid harcoding and
 ///  (maybe sometime) provide multi-language support 
 /// </summary>
-class StringConstants
-{
+class StringConstants {
+
     public string CONNECTION_STRING => "Server=tcp:ilibserver.database.windows.net,1433;" +
                                        "Initial Catalog=iLibDB;" +
                                        "Persist Security Info=False;" +
@@ -13,6 +13,9 @@ class StringConstants
                                        "Encrypt=True;" +
                                        "TrustServerCertificate=False;" +
                                        "Connection Timeout=30;";
+
+    public string SUCCESSFUL_RENEW => "Successfuly renewed";
+
     public string USER_HAVE_FINE => "You have fine, paid please";
     public string FINE_CONFIRMATION_TEXT => "Are you sure you want paid fine?";
     public string SUCCESSFUL_PAID => "Successfuly paid";
@@ -27,9 +30,7 @@ class StringConstants
     public string ALREADY_HAVE_TEXT => "You already have that book";
     public string NO_FREE_COPIES_TEXT => "There are no free copies of this book for now";
     public string SUCCESS_CHECK_OUT_TEXT => "Successfully checked out";
-
-    public string WELCOME_TEXT => "Welcome";
-    public string SELECT_CHECK_OUT => "Select a document you would like to check out";
+    
     public string CHECK_OUT_CONFIRMATION_TEXT => "Are you sure you want to check out this book?";
 
     public string RETURN_CONFIRMATION_TEXT => "Are you sure you want to return this book?";
@@ -41,8 +42,12 @@ class StringConstants
     public string USER_DOES_NOT_EXIST_TEXT => "User with such login does not exist!";
 
     public string USER_CARD_OBTAINING_TEXT => "User card successfully obtained!";
-    public string OVERDUE_INFO_TEXT => "Ocerdue info successfully obtained!";
+    public string OVERDUE_INFO_TEXT => "Overdue info successfully obtained!";
 
+    public string REGISTER_PAGE_TITLE => "Sign Up";
+    public string ADD_USER_PAGE_TITLE => "Register New User";
+
+    public string[] USER_TYPES => new string[] { "Student", "Instructor", "TA", "Professor", "Visiting Professor", "Librarian" };
     public string[] DOC_TYPES => new string[] {"Book", "Journal", "Audio", "Video"};
 
 }

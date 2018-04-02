@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
+using I2P_Project.DataBase;
 
 namespace I2P_Project.Pages
 {
@@ -21,18 +22,22 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class ModifyBooksPage : Window
     {
-        int doc_id;
+        private int _docID;
         DocumentsManagementPage prevPage;
+
         public ModifyBooksPage(int docID, DocumentsManagementPage page)
         {
-            doc_id = docID;
+            _docID = docID;
             InitializeComponent();
+            DocType.ItemsSource = SDM.Strings.DOC_TYPES;
+
             Document doc = SDM.LMS.GetDocByID(docID);
-            TitleTB.AppendText(doc.docTitle);
-            DescriptionTB.AppendText(doc.descriptiion);
-            PriceTB.AppendText("500");
-            IsBestsellerTB.AppendText(doc.isBestseller ? "yes" : "no");
-            DocTypeTB.AppendText(doc.docType);
+            TitleTB.AppendText(doc.Title);
+            DescriptionTB.AppendText(doc.Description);
+            PriceTB.AppendText(doc.Price.ToString());
+            IsBestseller.IsChecked = doc.IsBestseller;
+            DocType.SelectedIndex = doc.DocType;
+
             prevPage = page;
         }
 
@@ -43,14 +48,13 @@ namespace I2P_Project.Pages
                 Librarian lib = (Librarian)SDM.CurrentUser;
                 lib.ModifyDoc
                     (
-                        doc_id,
+                        _docID,
                         TitleTB.ToString().Substring(TitleTB.ToString().IndexOf(":") + 2),
                         DescriptionTB.ToString().Substring(DescriptionTB.ToString().IndexOf(":") + 2),
                         PriceTB.ToString().Substring(PriceTB.ToString().IndexOf(":") + 2),
-                        IsBestsellerTB.ToString().Substring(IsBestsellerTB.ToString().IndexOf(":") + 2),
-                        DocTypeTB.ToString().Substring(DocTypeTB.ToString().IndexOf(":") + 2)
+                        (bool)IsBestseller.IsChecked,
+                        DocType.SelectedIndex
                     );
-               
             }
             catch
             {

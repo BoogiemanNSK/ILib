@@ -18,33 +18,32 @@ namespace I2P_Project.Classes.UserSystem
 
         /// <summary> Check out by Title </summary>
         /// <returns> Result of check out as message </returns>
-
         public abstract string CheckOut(string title, params int[] DateCheat);
 
         public string RenewDoc(int docID)
         {
-            Library lb = new Library();
             Patron patron = (Patron)SDM.CurrentUser;
             var doc = (from b in uDB.Checkouts
                        where b.BookID == docID
                        select b).Single();
             if (doc.IsRenewed)
                 return SDM.Strings.DOC_ALREADY_RENEWED;
-            /* else if (lb.InQueue(docID))
-                 return SDM.Strings.DOC_IN_QUEUE;*/
-            /*else if (lb.checkFine(patron.Name)
+            else if (SDM.LMS.ExistQueueForDoc(docID))
+                 return SDM.Strings.DOC_IN_QUEUE;
+            else if (SDM.LMS.GetUserFine(patron.PersonID)>0)
             {
                 return SDM.Strings.USER_HAVE_FINE;
-            }*/
+            }
             else
             {
                  doc.TimeToBack = System.DateTime.Now.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
                  doc.DateTaked = System.DateTime.Now;
+                 doc.IsRenewed = true;
                  uDB.SubmitChanges();
+                 return SDM.Strings.SUCCESSFUL_RENEW;
             }
-             
-            throw new System.NotImplementedException();
         }
+
         /// <summary> Returns a document from a user to the LMS </summary>
         /// <returns> Result of returning doc as message </returns>
         public string ReturnDoc(int docID)
@@ -59,8 +58,47 @@ namespace I2P_Project.Classes.UserSystem
 
             return SDM.Strings.SUCCESSFUL_RETURN + " " + GetTitleByID(docID) + "!";
         }
-
         
+        protected string CheckAvailibility(string title)
+        {
+            var test = from b in uDB.Documents
+                       where b.Title.ToLower().Contains(title.ToLower()) && !b.IsReference
+                       select b;
+
+            if (test.Any()) // Check if any copies of doc exists
+            {
+                foreach (DataBase.Document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
+                    if (DocBelongsToUser(selected.Id))
+                        return SDM.Strings.ALREADY_HAVE_TEXT;
+                foreach (DataBase.Document selected in test.ToArray()) // Checks if any of them are free
+                {
+                    var test2 = from c in uDB.Checkouts
+                                where c.BookID == selected.Id
+                                select c;
+                    if (!test2.Any()) return "";
+                }
+                return SDM.Strings.NO_FREE_COPIES_TEXT;
+            }
+            else
+                return SDM.Strings.NO_FREE_COPIES_TEXT;
+        }
+
+        protected DataBase.Document GetDocumentForCheckOut(string title)
+        {
+            var test = from b in uDB.Documents
+                       where b.Title.ToLower().Contains(title.ToLower()) && !b.IsReference
+                       select b;
+
+            foreach (DataBase.Document selected in test.ToArray())
+            {
+                var test2 = from c in uDB.Checkouts
+                            where c.BookID == selected.Id
+                            select c;
+                if (!test2.Any()) return selected;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Change fields in DB when some user check out docs.

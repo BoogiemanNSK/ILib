@@ -15,14 +15,17 @@ namespace I2P_Project.Classes
     class Library
     {
         private LMSDataBase db;
+        // Map from docID to it's Priority queue for docs
+        private Dictionary<int, PriorityQueue<int>> queueMap;
 
         /// <summary> Initializing DB </summary>
         public Library()
         {            
             db = new LMSDataBase(SDM.Strings.CONNECTION_STRING);
+            queueMap = new Dictionary<int, PriorityQueue<int>>();
             ConnectToDB(db);
         }
-        
+
         /// <summary> Connecting to Data Base </summary>
         /// <param name="db"></param>
         public void ConnectToDB(LMSDataBase db)
@@ -45,7 +48,6 @@ namespace I2P_Project.Classes
                 if (!File.Exists(connString))
                 {
                     db.CreateDatabase();
-                    GenerateUserTypesDB();
                     GenerateTestDB();
                 }
 
@@ -73,7 +75,7 @@ namespace I2P_Project.Classes
                 Name = name,
                 Address = adress,
                 PhoneNumber = phone,
-                UserType = (isLibrarian ? 2 : 1)
+                UserType = (isLibrarian ? 5 : 0) // TODO Замнить на enum
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
@@ -125,19 +127,6 @@ namespace I2P_Project.Classes
             newDoc.IsBestseller = false;
             db.Documents.InsertOnSubmit(newDoc);
             db.SubmitChanges();
-        }
-
-        
-        /// <summary> Generates database of user types association </summary>
-        private void GenerateUserTypesDB()
-        {
-            UserTypes studentType = new UserTypes { TypeName = "Student" };
-            UserTypes facultyType = new UserTypes { TypeName = "Faculty" };
-            UserTypes librarianType = new UserTypes { TypeName = "Librarian" };
-
-            db.UserTypes.InsertOnSubmit(studentType);
-            db.UserTypes.InsertOnSubmit(facultyType);
-            db.UserTypes.InsertOnSubmit(librarianType);
         }
 
         /// <summary>
@@ -255,10 +244,10 @@ namespace I2P_Project.Classes
         #region DB Updating
 
         /// <summary> Updates document info </summary>
-        public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller, string DocType)
+        public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
         {
             var doc = (from d in db.Documents
-                       where d.Id == doc_id
+                       where d.Id == DocID
                        select d).Single();
             var copy = (from d in db.Documents
                         where d.Title == doc.Title
@@ -269,22 +258,8 @@ namespace I2P_Project.Classes
                 docs.Title = Title;
                 docs.Description = Description;
                 docs.Price = Convert.ToInt32(Price);
-                docs.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
-                switch (DocType.ToLower())
-                {
-                    case "book":
-                        doc.DocType = 0;
-                        break;
-                    case "journal":
-                        doc.DocType = 1;
-                        break;
-                    case "AV":
-                        doc.DocType = 2;
-                        break;
-                    default:
-                        new Exception();
-                        break;
-                }
+                docs.IsBestseller = IsBestseller;
+                docs.DocType = DocType;
                 db.SubmitChanges();
             }
         }
@@ -297,13 +272,6 @@ namespace I2P_Project.Classes
             user.Address = userAdress;
             user.PhoneNumber = userPhoneNumber;
             user.UserType = userType;
-            db.SubmitChanges();
-        }
-
-        public void UpgradeUser(string Name)
-        {
-            Users user = GetUser(Name);
-            if (user.UserType < 2) user.UserType++;
             db.SubmitChanges();
         }
 
@@ -374,7 +342,7 @@ namespace I2P_Project.Classes
                         docID = element.Id,
                         docTitle = element.Title,
                         isReference = element.IsReference,
-                        docType = DocTypeString(element.DocType),
+                        docType = SDM.Strings.DOC_TYPES[element.DocType],
                         dateTaked = (DateTime)element.DateTaked,
                         timeToBack = element.TimeToBack,
                         fine = (passedDays * 50 > element.Price ?
@@ -394,7 +362,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                                  where p.UserType != 2
+                                  where p.UserType != 5 // TODO Заменить на enum
                                   select new
                                   {
                                       p.Id,
@@ -452,14 +420,13 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
             var load_users = from u in db.Users
-                             join ut in db.UserTypes on u.UserType equals ut.TypeID
                              select new
                              {
                                  u.Id,
                                  u.Name,
                                  u.Address,
                                  u.PhoneNumber,
-                                 ut.TypeName
+                                 u.UserType
                              };
             foreach (var element in load_users)
             {
@@ -469,7 +436,7 @@ namespace I2P_Project.Classes
                     userName = element.Name,
                     userAddress = element.Address,
                     userPhoneNumber = element.PhoneNumber,
-                    userType = element.TypeName
+                    userType = SDM.Strings.USER_TYPES[element.UserType]
                 };
                 temp_table.Add(row);
             }
@@ -526,7 +493,7 @@ namespace I2P_Project.Classes
                 Pages.UserDocsTable row = new Pages.UserDocsTable
                 {
                     DocTitle = element.Title,
-                    DocType = DocTypeString(element.DocType),
+                    DocType = SDM.Strings.DOC_TYPES[element.DocType],
                     DateTaked = (DateTime)element.DateTaked,
                     DeadLine = element.TimeToBack
                 };
@@ -535,20 +502,37 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
-        public List<System.Windows.Controls.TextBlock> GetDocTypes()
+        /// <summary> Returns all non-reference docs </summary>
+        public ObservableCollection<Pages.LibraryTable> GetAllDocs() // сюда можно засунуть вывод по userType
         {
-            var get_type = from dt in db.DocTypes
-                           select dt;
-            List<System.Windows.Controls.TextBlock> lst_types = new List<System.Windows.Controls.TextBlock>();            
-
-            foreach (var el in get_type)
+            var test = (from p in db.Documents select p);
+            ObservableCollection<Pages.LibraryTable> temp_table = new ObservableCollection<Pages.LibraryTable>();
+            var load_user_books = from d in db.Documents
+                                  where (!d.IsReference) && (!d.IsBestseller)
+                                  select new
+                                  {
+                                      d.Id,
+                                      d.Title,
+                                      d.Autors,
+                                      d.Publisher,
+                                      d.PublishYear,
+                                      d.Price
+                                  };
+            foreach (var element in load_user_books)
             {
-                System.Windows.Controls.TextBlock temp_txt_b = new System.Windows.Controls.TextBlock();
-                temp_txt_b.Text = el.TypeName;
-                lst_types.Add(temp_txt_b);
+                Pages.LibraryTable row = new Pages.LibraryTable
+                {
+                    bookID = element.Id,
+                    book_image = Directory.GetCurrentDirectory() + @"\media\source_images\book_default.png",
+                    title = element.Title,
+                    author = element.Autors,
+                    publisher = element.Publisher,
+                    publish_year = element.PublishYear,
+                    price = element.Price
+                };
+                temp_table.Add(row);
             }
-
-            return lst_types;
+            return temp_table;
         }
 
         #endregion
@@ -595,22 +579,10 @@ namespace I2P_Project.Classes
         /// <summary> Returns document object from given ID </summary>
         public Document GetDocByID(int docID)
         {
-            var test = (from doc in db.Documents where doc.Id == docID select doc);
-            Document res = new Document();
-            DataBase.Document d;
-            if (test.Any())
-            {
-                d = test.Single();
-                res.descriptiion = d.Description;
-                res.docTitle = d.Title;
-                res.isBestseller = d.IsBestseller;
-                res.isReference = d.IsReference;
-                res.docType = DocTypeString(d.DocType);
-            }
-            return res;
+            var test = from doc in db.Documents where doc.Id == docID select doc;
+            return test.Single();
         }
         
-
         public Users GetUser(string Name)
         {
             var test = from u in db.Users where u.Name == Name select u;
@@ -623,8 +595,6 @@ namespace I2P_Project.Classes
             var test = from u in db.Users where u.Id == userID select u;
             return test.Single();
         }
-
-        
         
         public List<CheckedOut> GetCheckout(string Name)
         {
@@ -675,6 +645,7 @@ namespace I2P_Project.Classes
             }
             return res;
         }
+
         /// <summary> Returns a checkout info of particular document </summary>
         private Checkouts GetOwnerInfo(int docID)
         {
@@ -706,7 +677,7 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Counts overall user`s fine for overdued books </summary>
-        private int GetUserFine(int userID)
+        public int GetUserFine(int userID)
         {
             int fine = 0;
             var test = from c in db.Checkouts
@@ -793,56 +764,34 @@ namespace I2P_Project.Classes
 
         #endregion
 
-        // TODO Replace with Observable collection
-        /// <summary> Returns all non-reference docs </summary>
-        public ObservableCollection<Pages.LibraryTable> GetAllDocs() // сюда можно засунуть вывод по userType
+        #region PQ Operations
+
+        public void PushInPQ(int docID, int personID)
         {
-            var test = (from p in db.Documents select p);
-            ObservableCollection<Pages.LibraryTable> temp_table = new ObservableCollection<Pages.LibraryTable>();
-            var load_user_books = from d in db.Documents
-                                  where (!d.IsReference) && (!d.IsBestseller)
-                                  select new
-                                  {
-                                      d.Id,
-                                      d.Title,
-                                      d.Autors,
-                                      d.Publisher,
-                                      d.PublishYear,
-                                      d.Price
-                                  };
-            foreach (var element in load_user_books)
+            var test = from doc in queueMap
+                       where doc.Key == docID
+                       select doc.Value;
+            if (test.Any())
+                test.Single().Push(personID, CheckPriority(personID));
+            else
             {
-                Pages.LibraryTable row = new Pages.LibraryTable
-                {
-                    bookID = element.Id,
-                    book_image = Directory.GetCurrentDirectory() + @"\media\source_images\book_default.png",
-                    title = element.Title,
-                    author = element.Autors,
-                    publisher = element.Publisher,
-                    publish_year = element.PublishYear,
-                    price = element.Price
-                };
-                temp_table.Add(row);
+                PriorityQueue<int> newPQ = new PriorityQueue<int>();
+                newPQ.Push(personID, CheckPriority(personID));
+                queueMap.Add(docID, newPQ);
             }
-            return temp_table;
         }
 
-        private string DocTypeString(int index)
+        public bool ExistQueueForDoc(int docID)
         {
-            switch (index)
-            {
-                case 0:
-                    return "Book";
-                case 1:
-                    return "Journal";
-                case 2:
-                    return "Audio";
-                case 3:
-                    return "Video";
-                default:
-                    throw new Exception("Unknown type index");
-            }
+            return queueMap.ContainsKey(docID);
         }
+
+        private int CheckPriority(int personID)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
     }
 }

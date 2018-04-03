@@ -34,7 +34,7 @@ namespace I2P_Project.Pages
             UserName.Text = user.Name;
             UserAdress.Text = user.Address;
             UserPhoneNumber.Text = user.PhoneNumber;
-            UserType.Text = (user.UserType == 1 ? "Student" : "Faculty");
+            UserType.Text = SDM.Strings.USER_TYPES[user.UserType];
 
             UserDocsTable.ItemsSource = SDM.LMS.GetUserDocsFromLibrarian(patronID);
         }

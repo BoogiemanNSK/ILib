@@ -1,8 +1,5 @@
-﻿using System.Linq;
-
-namespace I2P_Project.Classes.UserSystem
+﻿namespace I2P_Project.Classes.UserSystem
 {
-
     class Student : Patron
     {
         public Student(string login) : base(login) {}
@@ -12,25 +9,17 @@ namespace I2P_Project.Classes.UserSystem
         public override string CheckOut(string title, params int[] DateCheat)
         {
             DataBase.Document doc = null;
-            var test = from b in uDB.Documents
-                       where b.Title.ToLower().Contains(title.ToLower()) && !b.IsReference
-                       select b;
-            if (test.Any()) // Check if any copies of doc exists
+            string result = CheckAvailibility(title);
+
+            if (result == SDM.Strings.NO_FREE_COPIES_TEXT)
             {
-                foreach (DataBase.Document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
-                    if (DocBelongsToUser(selected.Id))
-                        return SDM.Strings.ALREADY_HAVE_TEXT;
-                foreach (DataBase.Document selected in test.ToArray()) // Checks if any of them are free
-                {
-                    var test2 = from c in uDB.Checkouts
-                                where c.BookID == selected.Id
-                                select c;
-                    if (!test2.Any()) doc = selected;
-                    else return SDM.Strings.NO_FREE_COPIES_TEXT;
-                }
+                doc = GetDocumentForCheckOut(title);
+                SDM.LMS.PushInPQ(doc.Id, SDM.CurrentUser.PersonID, UserType);
+                return result;
             }
-            else
-                return SDM.Strings.NO_FREE_COPIES_TEXT;
+            if (result != "") return result;
+
+            doc = GetDocumentForCheckOut(title);
 
             if (doc.IsBestseller || doc.DocType != 0)
                 SetCheckOut(doc.Id, 2, DateCheat);
@@ -39,7 +28,5 @@ namespace I2P_Project.Classes.UserSystem
 
             return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";
         }
-
     }
-
 }

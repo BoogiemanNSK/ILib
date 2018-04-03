@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 
 namespace I2P_Project.Classes
 {
@@ -18,25 +20,39 @@ namespace I2P_Project.Classes
 
         /// <summary> Initializing DB </summary>
         public Library()
-        {
-            string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string path = (Path.GetDirectoryName(executable));
-
-            Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
-
-            string connString = path + SDM.Strings.DB_RELATIVE_PATH;
-            db = new LMSDataBase(connString);
-
-            if (!File.Exists(connString))
-            {
-                db.CreateDatabase();
-                GenerateUserTypesDB();
-                GenerateTestDB();
-            }
-
-            db.SubmitChanges(); // DB Preload
+        {            
+            db = new LMSDataBase(SDM.Strings.CONNECTION_STRING);
+            ConnectToDB(db);
         }
-        
+
+        /// <summary> Connecting to Data Base </summary>
+        /// <param name="db"></param>
+        public void ConnectToDB(LMSDataBase db)
+        {
+            // Trying to connect to Azure cloud database
+            try
+            {
+                db.SubmitChanges();
+            }
+            // If connection failed, establishing a local DB
+            catch
+            {
+                string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                string path = (Path.GetDirectoryName(executable));
+                string connString = path + SDM.Strings.DB_RELATIVE_PATH;
+
+                db = new LMSDataBase(connString);
+            
+                Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
+                if (!File.Exists(connString))
+                {
+                    db.CreateDatabase();
+                    GenerateTestDB();
+                }
+
+                db.SubmitChanges();
+            }
+        }
 
         #region DB Addition
 
@@ -45,6 +61,12 @@ namespace I2P_Project.Classes
         {
             if (CheckLogin(login)) return false;
 
+            using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
+            {
+                Cryptography cpt = new Cryptography();
+                password = cpt.GetHash(md5_hash, password);  // hashing password string by MD5
+            }
+
             Users newUser = new Users
             {
                 Login = login,
@@ -52,7 +74,7 @@ namespace I2P_Project.Classes
                 Name = name,
                 Address = adress,
                 PhoneNumber = phone,
-                UserType = (isLibrarian ? 3 : 1)
+                UserType = (isLibrarian ? 5 : 0) // TODO Замнить на enum
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
@@ -77,47 +99,59 @@ namespace I2P_Project.Classes
         public void AddBook(string title, string Autors, string Publisher, int PublishYear, string Edition, string description, int docType, int price, bool isBestseller)
         {
             bool isReference = !CheckReference(title);
-            DataBase.Document newDoc = new DataBase.Document();
-            newDoc.Title = title;
-            newDoc.Autors = Autors;
-            newDoc.Publisher = Publisher;
-            newDoc.PublishYear = PublishYear;
-            newDoc.Edition = Edition;
-            newDoc.Description = description;
-            newDoc.Price = price;
-            newDoc.DocType = 0;
-            newDoc.IsReference = isReference;
-            newDoc.IsBestseller = isBestseller;
-            db.Documents.InsertOnSubmit(newDoc);
+            if (isReference)
+            {
+                DataBase.Document newDoc = new DataBase.Document();
+                newDoc.Title = title;
+                newDoc.Autors = Autors;
+                newDoc.Publisher = Publisher;
+                newDoc.PublishYear = PublishYear;
+                newDoc.Edition = Edition;
+                newDoc.Description = description;
+                newDoc.Price = price;
+                newDoc.DocType = 0;
+                newDoc.IsReference = isReference;
+                newDoc.IsBestseller = isBestseller;
+                newDoc.Quantity = 0;
+            }
+            else
+            {
+                var test = (from p in db.Documents
+                            where (p.Title == title)
+                            select p);
+                DataBase.Document newDoc = test.Single();
+                newDoc.Quantity++;
+            }
             db.SubmitChanges();
         }
 
         public void AddAV(string title, string Autors,string description, int price)
         {
-            DataBase.Document newDoc = new DataBase.Document();
-            newDoc.Title = title;
-            newDoc.Autors = Autors;
-            newDoc.Description = description;
-            newDoc.Price = price;
-            newDoc.DocType = 2;
-            newDoc.IsReference = false;
-            newDoc.IsBestseller = false;
-            db.Documents.InsertOnSubmit(newDoc);
+            bool isReference = !CheckReference(title);
+            if (isReference)
+            {
+                DataBase.Document newDoc = new DataBase.Document();
+                newDoc.Title = title;
+                newDoc.Autors = Autors;
+                newDoc.Description = description;
+                newDoc.Price = price;
+                newDoc.DocType = 2;
+                newDoc.Quantity = 1;
+                newDoc.IsReference = false;
+                newDoc.IsBestseller = false;
+                db.Documents.InsertOnSubmit(newDoc);
+            }
+            else
+            {
+                var test = (from p in db.Documents
+                            where (p.Title == title)
+                            select p);
+                DataBase.Document newDoc = test.Single();
+                newDoc.Quantity++;
+            }
             db.SubmitChanges();
-        }
 
-        
-        /// <summary> Generates database of user types association </summary>
-        private void GenerateUserTypesDB()
-        {
-            UserTypes studentType = new UserTypes { TypeName = "Student" };
-            UserTypes facultyType = new UserTypes { TypeName = "Faculty" };
-            UserTypes librarianType = new UserTypes { TypeName = "Librarian" };
-
-            db.UserTypes.InsertOnSubmit(studentType);
-            db.UserTypes.InsertOnSubmit(facultyType);
-            db.UserTypes.InsertOnSubmit(librarianType);
-        }
+    }
 
         /// <summary>
         /// First generate for show functionality
@@ -190,34 +224,29 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Deletes registered doc from the system by ID </summary>
-        internal bool RemoveDocument(int doc_id)
+        internal void RemoveDocument(int doc_id)
         {
             var record_to_remove = (from d in db.Documents
                                     where (d.Id == doc_id)
                                     select d).Single();
-            if (record_to_remove.IsReference)
-            {
-                var check_copy = (from d in db.Documents
-                                  where (d.Id != record_to_remove.Id && d.Title.Equals(record_to_remove.Title))
-                                  select d);
-                if (check_copy.Any())
-                    return false;
-            }
-            db.Documents.DeleteOnSubmit(record_to_remove);
+            if (record_to_remove.Quantity == 0)
+                db.Documents.DeleteOnSubmit(record_to_remove);
+            else
+                record_to_remove.Quantity--;
             db.SubmitChanges();
-            return true;
-
         }
 
         /// <summary> Deletes registered doc from the system by Title </summary>
         internal void RemoveDocument(string Title)
         {
             var record_to_remove = (from d in db.Documents
-                                    where (d.Title.Equals(Title) && d.IsReference == false)
-                                    select d).FirstOrDefault();
-            if (record_to_remove == null)
-                record_to_remove = (from d in db.Documents where d.Title.Equals(Title) && d.IsReference select d).Single();
-            db.Documents.DeleteOnSubmit(record_to_remove);
+                                    where (d.Title.Equals(Title))
+                                    select d).Single();
+
+            if (record_to_remove.Quantity == 0)
+                db.Documents.DeleteOnSubmit(record_to_remove);
+            else
+                record_to_remove.Quantity--;
             db.SubmitChanges();
         }
 
@@ -234,10 +263,10 @@ namespace I2P_Project.Classes
         #region DB Updating
 
         /// <summary> Updates document info </summary>
-        public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller, string DocType)
+        public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
         {
             var doc = (from d in db.Documents
-                       where d.Id == doc_id
+                       where d.Id == DocID
                        select d).Single();
             var copy = (from d in db.Documents
                         where d.Title == doc.Title
@@ -248,22 +277,8 @@ namespace I2P_Project.Classes
                 docs.Title = Title;
                 docs.Description = Description;
                 docs.Price = Convert.ToInt32(Price);
-                docs.IsBestseller = IsBestseller.ToLower().Equals("yes") ? true : false;
-                switch (DocType.ToLower())
-                {
-                    case "book":
-                        doc.DocType = 0;
-                        break;
-                    case "journal":
-                        doc.DocType = 1;
-                        break;
-                    case "AV":
-                        doc.DocType = 2;
-                        break;
-                    default:
-                        new Exception();
-                        break;
-                }
+                docs.IsBestseller = IsBestseller;
+                docs.DocType = DocType;
                 db.SubmitChanges();
             }
         }
@@ -276,13 +291,6 @@ namespace I2P_Project.Classes
             user.Address = userAdress;
             user.PhoneNumber = userPhoneNumber;
             user.UserType = userType;
-            db.SubmitChanges();
-        }
-
-        public void UpgradeUser(string Name)
-        {
-            Users user = GetUser(Name);
-            if (user.UserType < 1) user.UserType++;
             db.SubmitChanges();
         }
 
@@ -353,7 +361,7 @@ namespace I2P_Project.Classes
                         docID = element.Id,
                         docTitle = element.Title,
                         isReference = element.IsReference,
-                        docType = DocTypeString(element.DocType),
+                        docType = SDM.Strings.DOC_TYPES[element.DocType],
                         dateTaked = (DateTime)element.DateTaked,
                         timeToBack = element.TimeToBack,
                         fine = (passedDays * 50 > element.Price ?
@@ -373,7 +381,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                                  where p.UserType != 3
+                                  where p.UserType != 5 // TODO Заменить на enum
                                   select new
                                   {
                                       p.Id,
@@ -431,14 +439,13 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
             var load_users = from u in db.Users
-                             join ut in db.UserTypes on u.UserType equals ut.TypeID
                              select new
                              {
                                  u.Id,
                                  u.Name,
                                  u.Address,
                                  u.PhoneNumber,
-                                 ut.TypeName
+                                 u.UserType
                              };
             foreach (var element in load_users)
             {
@@ -448,7 +455,7 @@ namespace I2P_Project.Classes
                     userName = element.Name,
                     userAddress = element.Address,
                     userPhoneNumber = element.PhoneNumber,
-                    userType = element.TypeName
+                    userType = SDM.Strings.USER_TYPES[element.UserType]
                 };
                 temp_table.Add(row);
             }
@@ -505,9 +512,42 @@ namespace I2P_Project.Classes
                 Pages.UserDocsTable row = new Pages.UserDocsTable
                 {
                     DocTitle = element.Title,
-                    DocType = DocTypeString(element.DocType),
+                    DocType = SDM.Strings.DOC_TYPES[element.DocType],
                     DateTaked = (DateTime)element.DateTaked,
                     DeadLine = element.TimeToBack
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
+        /// <summary> Returns all non-reference docs </summary>
+        public ObservableCollection<Pages.LibraryTable> GetAllDocs() // сюда можно засунуть вывод по userType
+        {
+            var test = (from p in db.Documents select p);
+            ObservableCollection<Pages.LibraryTable> temp_table = new ObservableCollection<Pages.LibraryTable>();
+            var load_user_books = from d in db.Documents
+                                  where (!d.IsReference) && (!d.IsBestseller)
+                                  select new
+                                  {
+                                      d.Id,
+                                      d.Title,
+                                      d.Autors,
+                                      d.Publisher,
+                                      d.PublishYear,
+                                      d.Price
+                                  };
+            foreach (var element in load_user_books)
+            {
+                Pages.LibraryTable row = new Pages.LibraryTable
+                {
+                    bookID = element.Id,
+                    book_image = Directory.GetCurrentDirectory() + @"\media\source_images\book_default.png",
+                    title = element.Title,
+                    author = element.Autors,
+                    publisher = element.Publisher,
+                    publish_year = element.PublishYear,
+                    price = element.Price
                 };
                 temp_table.Add(row);
             }
@@ -530,6 +570,12 @@ namespace I2P_Project.Classes
         /// <summary> Checks if a user with given e-mail has given password </summary>
         public bool CheckPassword(string login, string password)
         {
+            using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
+            {
+                Cryptography cpt = new Cryptography();
+                password = cpt.GetHash(md5_hash, password);  // hashing password string by MD5
+            }
+
             var test = (from p in db.Users
                         where (p.Login == login && p.Password == password)
                         select p);
@@ -552,21 +598,10 @@ namespace I2P_Project.Classes
         /// <summary> Returns document object from given ID </summary>
         public Document GetDocByID(int docID)
         {
-            var test = (from doc in db.Documents where doc.Id == docID select doc);
-            Document res = new Document();
-            DataBase.Document d;
-            if (test.Any())
-            {
-                d = test.Single();
-                res.descriptiion = d.Description;
-                res.docTitle = d.Title;
-                res.isBestseller = d.IsBestseller;
-                res.isReference = d.IsReference;
-                res.docType = DocTypeString(d.DocType);
-            }
-            return res;
+            var test = from doc in db.Documents where doc.Id == docID select doc;
+            return test.Single();
         }
-
+        
         public Users GetUser(string Name)
         {
             var test = from u in db.Users where u.Name == Name select u;
@@ -579,10 +614,31 @@ namespace I2P_Project.Classes
             var test = from u in db.Users where u.Id == userID select u;
             return test.Single();
         }
+        
+        public List<CheckedOut> GetCheckout(string Name)
+        {
+            Users user = GetUser(Name);
+            int userID = user.Id;
+            List<CheckedOut> res = new List<CheckedOut>();
+            var load_user_books = from c in db.Checkouts
+                                  where c.UserID == userID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                CheckedOut pair = new CheckedOut();
+                pair.CheckOutTime = element.TimeToBack.Day;
+                pair.DocumentCheckedOut = element.Title;
+                res.Insert(0, pair);
+            }
+            return res;
+        }
 
-        
-        
-        public List<OverdueInfo> GetOverdue(string Name)
+        public List<OverdueInfo> GetOverdues(string Name)
         {
             Users user = GetUser(Name);
             int userID = user.Id;
@@ -597,13 +653,18 @@ namespace I2P_Project.Classes
                                   };
             foreach (var element in load_user_books)
             {
-                OverdueInfo pair = new OverdueInfo();
-                pair.CheckOutTime = element.TimeToBack.Day;
-                pair.DocumentCheckedOut = element.Title;
-                res.Insert(0, pair);
+                int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
+                if (passedDays > 0)
+                { 
+                    OverdueInfo pair = new OverdueInfo();
+                    pair.overdue = passedDays;
+                    pair.DocumentChekedOut = element.Title;
+                    res.Add(pair);
+                }
             }
             return res;
         }
+
         /// <summary> Returns a checkout info of particular document </summary>
         private Checkouts GetOwnerInfo(int docID)
         {
@@ -635,7 +696,7 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Counts overall user`s fine for overdued books </summary>
-        private int GetUserFine(int userID)
+        public int GetUserFine(int userID)
         {
             int fine = 0;
             var test = from c in db.Checkouts
@@ -692,45 +753,138 @@ namespace I2P_Project.Classes
             return test.Count()==n;
         }
 
-        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdue)
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
         {
             Users user = GetUser(Name);
-            List<OverdueInfo> checkover = GetOverdue(Name);
+            List<CheckedOut> checkover = GetCheckout(Name);
 
             return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
-                && user.UserType == UserType && EqualOverdue(overdue, checkover);
+                && user.UserType == UserType && EqualCheckouts(checkout, checkover);
         }
 
-        private bool EqualOverdue(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues)
+        {
+            Users user = GetUser(Name);
+            List<OverdueInfo> checkoverdues = GetOverdues(Name);
+
+            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
+                && user.UserType == UserType && EqualOverdues(overdues, checkoverdues);
+        }
+
+        private bool EqualOverdues(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
         {
             return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
         }
+        
+        private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
+        {
+            return new HashSet<CheckedOut>(checkedOuts).SetEquals(neededInfo);
+        }
 
         #endregion
-        // TODO Replace with Observable collection
-        /// <summary> Returns all non-reference docs </summary>
-        public List<DataBase.Document> GetAllDocs()
+
+        #region PQ Operations
+
+        public void SavePQ(PriorityQueue<int> pq, int bookID)
         {
-            var test = (from p in db.Documents select p);
-            return test.ToList();
+            string queue_string = "";
+
+            while (pq.Length > 1)
+            {
+                queue_string += pq.FirstElement.Element;
+                queue_string += '|';
+                queue_string += pq.FirstElement.PriorityLevel;
+                queue_string += '-';
+                pq.Pop();
+            }
+
+            queue_string += pq.FirstElement.Element;
+            queue_string += '|';
+            queue_string += pq.FirstElement.PriorityLevel;
+
+            var test = from doc in db.Documents
+                       where doc.Id == bookID
+                       select doc;
+            Document d = test.Single();
+            d.Queue = queue_string;
+            db.SubmitChanges();
         }
 
-        private string DocTypeString(int index)
+        public PriorityQueue<int> LoadPQ(int bookID)
         {
-            switch (index)
+            PriorityQueue<int> localQueue = new PriorityQueue<int>();
+            var test = from doc in db.Documents
+                       where doc.Id == bookID
+                       select doc.Queue;
+
+            string queue_string = test.Single();
+            string[] queue_pairs = queue_string.Split('-');
+            foreach (string pair in queue_pairs)
             {
-                case 0:
-                    return "Book";
-                case 1:
-                    return "Journal";
-                case 2:
-                    return "Audio";
-                case 3:
-                    return "Video";
-                default:
-                    throw new Exception("Unknown type index");
+                int id = Convert.ToInt32(pair.Split('|')[0]);
+                int priority = Convert.ToInt32(pair.Split('|')[1]);
+                localQueue.Push(id, priority);
+            }
+
+            return localQueue;
+        }
+
+        public void PushInPQ(int docID, int personID, int priority)
+        {
+            PriorityQueue<int> PQ = LoadPQ(docID);
+            PQ.Push(personID, priority);
+            SavePQ(PQ, docID);
+        }
+
+        public void PopFromPQ(int docID)
+        {
+            PriorityQueue<int> PQ = LoadPQ(docID);
+            PQ.Pop();
+            if (PQ.Length > 0)
+            {
+                Users next = GetUser(Convert.ToInt32(PQ.FirstElement));
+                Document doc = GetDocByID(docID);
+                SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
+            }
+            SavePQ(PQ, docID);
+        }
+
+        public bool ExistQueueForDoc(int docID)
+        {
+            var test = from doc in db.Documents
+                       where doc.Id == docID
+                       select doc.Queue;
+            if (test.Single().Length > 0) return true;
+            return false;
+        }
+
+        public bool SendNotificationToUser(string To, string Title, string Text)
+        {
+            try
+            {
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(SDM.Strings.MAIL_SERVER_LOGIN, SDM.Strings.MAIL_SERVER_PASSWORD),
+                    DeliveryMethod = SmtpDeliveryMethod.Network
+                };
+
+                MailMessage msg = new MailMessage(SDM.Strings.MAIL_SERVER_LOGIN + "@gmail.com", To)
+                {
+                    Subject = Title,
+                    Body = Text
+                };
+
+                smtp.Send(msg);
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
+
+        #endregion
 
     }
 }

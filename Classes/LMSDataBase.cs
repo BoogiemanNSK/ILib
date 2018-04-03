@@ -12,9 +12,6 @@
 
         #region Extensibility Method Definitions
         partial void OnCreated();
-        partial void InsertuserTypes(UserTypes instance);
-        partial void UpdateuserTypes(UserTypes instance);
-        partial void DeleteuserTypes(UserTypes instance);
         partial void Insertcheckouts(Checkouts instance);
         partial void Updatecheckouts(Checkouts instance);
         partial void Deletecheckouts(Checkouts instance);
@@ -31,88 +28,11 @@
         {
             OnCreated();
         }
-
-        public Table<UserTypes> UserTypes => GetTable<UserTypes>();
+        
         public Table<Checkouts> Checkouts => GetTable<Checkouts>();
         public Table<Users> Users => GetTable<Users>();
         public Table<Document> Documents => GetTable<Document>();
         public static MappingSource MappingSource { get => mappingSource; set => mappingSource = value; }
-    }
-
-    [Table(Name = "dbo.userTypes")]
-    public partial class UserTypes : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-        private int _typeID;
-        private string _typeName;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OntypeIDChanging(int value);
-        partial void OntypeIDChanged();
-        partial void OntypeNameChanging(string value);
-        partial void OntypeNameChanged();
-        #endregion
-
-        public UserTypes()
-        {
-            OnCreated();
-        }
-
-        [Column(Storage = "_typeID", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int TypeID
-        {
-            get => _typeID;
-            set
-            {
-                if ((_typeID != value))
-                {
-                    OntypeIDChanging(value);
-                    SendPropertyChanging();
-                    _typeID = value;
-                    SendPropertyChanged("typeID");
-                    OntypeIDChanged();
-                }
-            }
-        }
-
-        [Column(Storage = "_typeName", DbType = "VarChar(20) NOT NULL", CanBeNull = false)]
-        public string TypeName
-        {
-            get => _typeName;
-            set
-            {
-                if ((_typeName != value))
-                {
-                    OntypeNameChanging(value);
-                    SendPropertyChanging();
-                    _typeName = value;
-                    SendPropertyChanged("typeName");
-                    OntypeNameChanged();
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((PropertyChanging != null))
-            {
-                PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((PropertyChanged != null))
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 
     [Table(Name = "dbo.checkouts")]
@@ -125,6 +45,7 @@
         private DateTime? _dateTaked;
         private DateTime _timeToBack;
         private bool _isReturned;
+        private bool _isRenewed;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -142,6 +63,8 @@
         partial void OntimeToBackChanged();
         partial void OnisReturnedChanging(bool value);
         partial void OnisReturnedChanged();
+        partial void OnisRenewedChanged();
+        partial void OnisRenewedChanging(bool value);
         #endregion
 
         public Checkouts()
@@ -247,6 +170,23 @@
                     _isReturned = value;
                     SendPropertyChanged("isReturned");
                     OnisReturnedChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_isRenewed", DbType = "Bit NOT NULL")]
+        public bool IsRenewed
+        {
+            get => _isRenewed;
+            set
+            {
+                if ((_isRenewed != value))
+                {
+                    OnisRenewedChanging(value);
+                    SendPropertyChanging();
+                    _isRenewed = value;
+                    SendPropertyChanged("isRenewed");
+                    OnisRenewedChanged();
                 }
             }
         }
@@ -462,12 +402,16 @@
         private bool _IsReference;
         private bool _IsBestseller;
         private int _Price;
+        private string _Queue;
+        private int _Quantity;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
         partial void OnIdChanging(int value);
+        partial void OnQuantityChanged();
+        partial void OnQuantityChanging(int value);
         partial void OnIdChanged();
         partial void OnTitleChanging(string value);
         partial void OnTitleChanged();
@@ -477,10 +421,8 @@
         partial void OnPublisherChanged();
         partial void OnPublishYearChanging(int value);
         partial void OnPublishYearChanged();
-    
         partial void OnEditionChanging(string value);
         partial void OnEditionChanged();
-
         partial void OnDescriptionChanging(string value);
         partial void OnDescriptionChanged();
         partial void OnDocTypeChanging(int value);
@@ -491,13 +433,32 @@
         partial void OnIsBestsellerChanged();
         partial void OnPriceChanging(int value);
         partial void OnPriceChanged();
+        partial void OnQueueChanging(string value);
+        partial void OnQueueChanged();
         #endregion
 
         public Document()
         {
             OnCreated();
         }
-        
+
+        [Column(Storage = "_Quantity", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int Quantity
+        {
+            get => _Quantity;
+            set
+            {
+                if ((_Quantity != value))
+                {
+                    OnQuantityChanging(value);
+                    SendPropertyChanging();
+                    _Quantity = value;
+                    SendPropertyChanged("Id");
+                    OnQuantityChanged();
+                }
+            }
+        }
+
         [Column(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id
         {
@@ -684,6 +645,23 @@
                     _Price = value;
                     SendPropertyChanged("Price");
                     OnPriceChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_Queue", DbType = "NVarChar(MAX) NULL")]
+        public string Queue
+        {
+            get => _Queue;
+            set
+            {
+                if ((_Queue != value))
+                {
+                    OnQueueChanging(value);
+                    SendPropertyChanging();
+                    _Queue = value;
+                    SendPropertyChanged("Queue");
+                    OnQueueChanged();
                 }
             }
         }

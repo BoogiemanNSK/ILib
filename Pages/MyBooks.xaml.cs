@@ -31,8 +31,11 @@ namespace I2P_Project.Pages
 
         /// <summary> Updates table of user`s docs </summary>
         private void UpdateUI()
-        {        
+        {
+            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+            pm.BeginWaiting(); // Starts Loading Flow
             myBooksTable.ItemsSource = SDM.LMS.GetUserBooks();
+            pm.EndWaiting();
         }
 
         /// <summary> Trying to return document </summary>
@@ -50,6 +53,27 @@ namespace I2P_Project.Pages
                     int bookID = mb_row.bookID;
                     Patron currentPatron = (Patron)SDM.CurrentUser;
                     MessageBox.Show(currentPatron.ReturnDoc(bookID));
+                    UpdateUI();
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
+        }
+
+        private void OnRenew(object sender, RoutedEventArgs e)
+        {
+            if (myBooksTable.SelectedIndex == -1) return;
+
+            MessageBoxResult result = MessageBox.Show(SDM.Strings.RETURN_CONFIRMATION_TEXT,
+                SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    MyBooksTable mb_row = myBooksTable.SelectedItems[0] as MyBooksTable;
+                    int bookID = mb_row.bookID;
+                    var currentPatron = (Patron)SDM.CurrentUser;
+                    MessageBox.Show(currentPatron.RenewDoc(bookID));
                     UpdateUI();
                     break;
                 case MessageBoxResult.No:

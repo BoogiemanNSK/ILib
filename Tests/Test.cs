@@ -11,7 +11,8 @@ namespace I2P_Project.Tests
 {
     class Test
     {
-        public string test1(bool autoTest)
+
+        public string test1()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -39,20 +40,20 @@ namespace I2P_Project.Tests
             st.CheckOut("b");
 
             output += "Test passed with no exceptions!\n";
-            
+
             try
             {
                 Debug.Assert(SDM.LMS.UserExists("lb"));
                 Debug.Assert(SDM.LMS.UserExists("st"));
                 Debug.Assert(SDM.LMS.DocExists("b"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("b",3));
+                Debug.Assert(SDM.LMS.AmountOfDocs("b", 3));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
 
-                output = autoTest ? "Test1 OK" : output + "Test1 OK";
+                output = "Test1 OK";
             }
             catch
             {
-                output = autoTest ? "Test1 FAIL" : output + "Test1 FAIL";
+                output = "Test1 FAIL";
             }
 
 
@@ -60,7 +61,7 @@ namespace I2P_Project.Tests
         }
 
 
-        public string test2(bool autoTest)
+        public string test2()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -87,17 +88,17 @@ namespace I2P_Project.Tests
                 Debug.Assert(!SDM.LMS.DocExists("A"));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 0);
 
-                output = autoTest ? "Test2 OK" : output + "Test2 OK";
+                output = "Test2 OK";
             }
             catch
             {
-                output = autoTest ? "Test2 FAIL" : output + "Test2 FAIL";
+                output = "Test2 FAIL";
             }
 
             return output;
         }
 
-        public string test3(bool autoTest)
+        public string test3()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -133,18 +134,18 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
                 Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 4);
 
-                output = autoTest ? "Test3 OK" : output + "Test3 OK";
+                output = "Test3 OK";
 
             }
             catch
             {
-                output = autoTest ? "Test3 FAIL" : output + "Test3 FAIL";
+                output = "Test3 FAIL";
             }
 
             return output;
         }
 
-        public string test4(bool autoTest)
+        public string test4()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -180,18 +181,18 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
                 Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 2);
 
-                output = autoTest ? "Test4 OK" : output + "Test4 OK";
+                output = "Test4 OK";
 
             }
             catch
             {
-                output = autoTest ? "Test4 FAIL" : output + "Test4 FAIL";
+                output = "Test4 FAIL";
             }
 
             return output;
         }
 
-        public string test5(bool autoTest)
+        public string test5()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -233,7 +234,7 @@ namespace I2P_Project.Tests
 
             output += "Student st2 checking out book A...\n";
             st2.CheckOut("a");
-            
+
             try
             {
                 Debug.Assert(SDM.LMS.UserExists("lb"));
@@ -246,26 +247,26 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 0);
 
                 SDM.CurrentUser = new Student("st1");
-             //   st1 = (Student)SDM.CurrentUser;
+                //   st1 = (Student)SDM.CurrentUser;
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
 
                 SDM.CurrentUser = new Student("st");
                 st = (Student)SDM.CurrentUser;
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
 
-                output = autoTest ? "Test5 OK" : output + "Test5 OK";
+                output = "Test5 OK";
 
             }
             catch
             {
-                output = autoTest ? "Test5 FAIL" : output + "Test5 FAIL";
+                output = "Test5 FAIL";
             }
-            
+
             output += "Test passed with no exceptions!\n";
             return output;
         }
 
-        public string test6(bool autoTest)
+        public string test6()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -299,19 +300,19 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("b"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("b", 3));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                
-                output = autoTest ? "Test6 OK" : output + "Test6 OK";
+
+                output = "Test6 OK";
 
             }
             catch
             {
-                output = autoTest ? "Test6 FAIL" : output + "Test6 FAIL";
+                output = "Test6 FAIL";
             }
 
             return output;
         }
 
-        public string test7(bool autoTest)
+        public string test7()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -359,18 +360,18 @@ namespace I2P_Project.Tests
 
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
 
-                output = autoTest ? "Test7 OK" : output + "Test7 OK";
+                output = "Test7 OK";
 
             }
             catch
             {
-                output = autoTest ? "Test7 FAIL" : output + "Test7 FAIL";
+                output = "Test7 FAIL";
             }
 
             return output;
         }
 
-        public string test8(bool autoTest)
+        public string test8()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -410,18 +411,18 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
                 Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 3);
 
-                output = autoTest ? "Test8 OK" : output + "Test8 OK";
+                output = "Test8 OK";
 
             }
             catch
             {
-                output = autoTest ? "Test8 FAIL" : output + "Test8 FAIL";
+                output = "Test8 FAIL";
             }
 
             return output;
         }
 
-        public string test9(bool autoTest)
+        public string test9()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -461,18 +462,18 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
                 Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 2);
 
-                output = autoTest ? "Test9 OK" : output + "Test9 OK";
+                output = "Test9 OK";
 
             }
             catch
             {
-                output = autoTest ? "Test9 FAIL" : output + "Test9 FAIL";
+                output = "Test9 FAIL";
             }
 
             return output;
         }
 
-        public string test10(bool autoTest)
+        public string test10()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -507,18 +508,16 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.AmountOfDocs("b", 1));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
 
-                output = autoTest ? "Test10 OK" : output + "Test10 OK";
             }
             catch
             {
-                output = autoTest ? "Test10 FAIL" : output + "Test10 FAIL";
+                output = "Test10 FAIL";
             }
 
             return output;
 
         }
-
-        public string test11(bool autoTest)
+        public string test11()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -560,13 +559,14 @@ namespace I2P_Project.Tests
             output += "Adding reference book Design Patterns: Elements of Reusable Object-Oriented Software and 2 copy of Introduction to Algorithms...\n";
             for (int i = 0; i < 2; i++)
             {
-                SDM.LMS.AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P",
-               "Addison-Wesley Longman Publishing Co., Inc.", 1995,
-               "Second edition", "How to do everything and live better",
-               0, 800, false);
                 SDM.LMS.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
                 SDM.LMS.AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
             }
+            //reference book
+            SDM.LMS.AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P",
+           "Addison-Wesley Longman Publishing Co., Inc.", 1995,
+           "Second edition", "How to do everything and live better",
+           0, 800, false);
             output += "Adding reference book The Mythical Man-month and copy of Introduction to Algorithms...\n";
             output += "Adding reference video and copy of Null References: The Billion Dollar Mistake...\n";
             output += "Adding reference video and copy of Information Entropy...\n";
@@ -576,6 +576,7 @@ namespace I2P_Project.Tests
 
             output += "Registering patrons Sergey Afonso, Nadia Teixeira, Elvira Espindola...\n";
             lb.RegisterUser("Sergey Afonso", "Sergey Afonso", "Sergey Afonso", "Via Margutta, 3", "30001", false);
+            //lb.UpgradeUser("Sergey Afonso");
             lb.RegisterUser("Nadia Teixeira", "Nadia Teixeira", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
             lb.RegisterUser("Elvira Espindola", "Elvira Espindola", "Elvira Espindola", "Via del Corso, 22", "30003", false);
             //Assertions for auto-tests
@@ -587,7 +588,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("Design Patterns: Elements of Reusable Object-Oriented Software"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("Design Patterns: Elements of Reusable Object-Oriented Software", 3));
                 Debug.Assert(SDM.LMS.DocExists("The Mythical Man-month"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 2));
+                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 1));
                 Debug.Assert(SDM.LMS.DocExists("Null References: The Billion Dollar Mistake"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("Null References: The Billion Dollar Mistake", 2));
                 Debug.Assert(SDM.LMS.DocExists("Information Entropy"));
@@ -603,12 +604,12 @@ namespace I2P_Project.Tests
             return output;
         }
 
-        public string test12(bool autoTest)
+        public string test12()
         {
             string output = "";
             output += "Running TC11...\n";
 
-            test11(autoTest);
+            test11();
 
             output += "Logging In as librarian lb...\n";
             Librarian lb = (Librarian)SDM.CurrentUser;
@@ -625,7 +626,7 @@ namespace I2P_Project.Tests
             {
                 Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("Introduction to Algorithms", 4 - 1));
-                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 2 - 1));
+                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 0));
             }
             catch
             {
@@ -634,29 +635,29 @@ namespace I2P_Project.Tests
             return output;
         }
 
-        public string test13(bool autoTest)
+        public string test13()
         {
             string output = "Cleared DB...\n";
 
             output += "Running TC11...\n";
 
-            test11(autoTest);
+            test11();
 
             output += "Logging In as librarian lb...\n";
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            lb.UpgradeUser("Sergey Afonso");
+            //lb.UpgradeUser("Sergey Afonso");
             output += "Creating new window with user card of Sergey Afonso...\n";
-            output += lb.ShowUserCard("Sergey Afonso") + "...\n";
+            // output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 
             output += "Creating new window with user card of Elvira Espindola...\n";
-            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
+            //output += lb.ShowUserCard("Elvira Espindola") + "...\n";
             //Assertions for auto-tests
             try
             {
-                List<OverdueInfo> overdueInfo = new List<OverdueInfo>();
-                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1,overdueInfo));
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0,overdueInfo));
+                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1, CheckedOutInfo));
             }
             catch
             {
@@ -665,28 +666,28 @@ namespace I2P_Project.Tests
             return output;
         }
 
-        public string test14(bool autoTest)
+        public string test14()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
 
             output += "Running TC12...\n";
 
-            test12(autoTest);
+            test12();
 
             output += "Logging In as librarian lb...\n";
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Creating new window with user card of Nadia Teixeira...\n";
-            output += lb.ShowUserCard("Nadia Teixeira") + "...\n";
+            //output += lb.ShowUserCard("Nadia Teixeira") + "...\n";
 
             output += "Creating new window with user card of Elvira Espindola...\n";
-            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
+            //output += lb.ShowUserCard("Elvira Espindola") + "...\n";
             try
             {
-                List<OverdueInfo> overdueInfo = new List<OverdueInfo>();
+                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
                 Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0,overdueInfo));
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1, CheckedOutInfo));
             }
             catch
             {
@@ -695,14 +696,14 @@ namespace I2P_Project.Tests
             return output;
         }
 
-        public string test15(bool autoTest)
+        public string test15()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
 
             output += "Running TC12...\n";
 
-            test12(autoTest);
+            test12();
 
             output += "Checking existence of Nadia Teixeira...\n";
             if (SDM.LMS.CheckLogin("Nadia Teixeira"))
@@ -717,7 +718,7 @@ namespace I2P_Project.Tests
             try
             {
                 Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-             }
+            }
             catch
             {
                 return "Test15 not passed";
@@ -725,18 +726,18 @@ namespace I2P_Project.Tests
             return output;
         }
 
-        public string test16(bool autoTest)
+        public string test16()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
 
             output += "Running TC12...\n";
 
-            test12(autoTest);
+            test11();
 
             output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Student("Sergey Afonso");
-            Student p1 = (Student)SDM.CurrentUser;
+            SDM.CurrentUser = new Faculty("Sergey Afonso");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
 
             output += "Checking Introduction to Algorithms out by Sergey Afonso patron...\n";
             p1.CheckOut("Introduction to Algorithms");
@@ -745,12 +746,12 @@ namespace I2P_Project.Tests
             SDM.CurrentUser = new Student("Elvira Espindola");
             Student p3 = (Student)SDM.CurrentUser;
 
-            output += "Checking Introduction to Algorithms out by Elvira Espindola patron...\n";
-            p1.CheckOut("Introduction to Algorithms");
+            output += "Introduction to Algorithms out by Elvira Espindola patron...\n";
+            p3.CheckOut("Introduction to Algorithms");
 
             output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Student("Sergey Afonso");
-            p1 = (Student)SDM.CurrentUser;
+            SDM.CurrentUser = new Faculty("Sergey Afonso");
+            p1 = (Faculty)SDM.CurrentUser;
 
             output += "Checking Design Patterns: Elements of Reusable Object-Oriented Software out by Sergey Afonso patron...\n";
             p1.CheckOut("Design Patterns: Elements of Reusable Object-Oriented Software");
@@ -760,23 +761,27 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Creating new window with user card of Sergey Afonso...\n";
-            output += lb.ShowUserCard("Sergey Afonso") + "...\n";
+            //output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 
             output += "Creating new window with user card of Elvira Espindola...\n";
-            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
+            //output += lb.ShowUserCard("Elvira Espindola") + "...\n";
             try
             {
-                List<OverdueInfo> overdueInfo = new List<OverdueInfo>();
-                OverdueInfo temp = new OverdueInfo();
-                Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
-                temp.DocumentCheckedOut = "The Mythical Man-month";
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0,overdueInfo));
+                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
+                CheckedOut temp = new CheckedOut();
+                temp.CheckOutTime = DateTime.Now.AddDays(21).Day;
+                temp.DocumentCheckedOut = "Introduction to Algorithms";
+                CheckedOutInfo.Add(temp);
+                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1, CheckedOutInfo));
+                CheckedOutInfo = new List<CheckedOut>();
+                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
+                temp.DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
+                CheckedOutInfo.Insert(0, temp);
                 temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
                 temp.DocumentCheckedOut = "Introduction to Algorithms";
-                overdueInfo.Insert(0, temp);
-                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1, overdueInfo));
-               
+                CheckedOutInfo.Add(temp);
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
+
             }
             catch
             {
@@ -785,18 +790,18 @@ namespace I2P_Project.Tests
             return output;
         }
 
-        public string test17(bool autoTest)
+        public string test17()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
 
             output += "Running TC11...\n";
 
-            test11(autoTest);
+            test11();
 
             output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Student("Sergey Afonso");
-            Student p1 = (Student)SDM.CurrentUser;
+            SDM.CurrentUser = new Faculty("Sergey Afonso");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
 
             output += " Checking out Introduction to Algorithms, Design Patterns: Elements of Reusable Object-Oriented Software, The Mythical Man-month, Null References: The Billion Dollar Mistake by Sergey Afonso patron...\n";
             p1.CheckOut("Introduction to Algorithms");
@@ -818,27 +823,54 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Creating new window with user card of Sergey Afonso...\n";
-            output += lb.ShowUserCard("Sergey Afonso") + "...\n";
+            // output += lb.ShowUserCard("Sergey Afonso") + "...\n";
 
             output += "Creating new window with user card of Elvira Espindola...\n";
-            output += lb.ShowUserCard("Elvira Espindola") + "...\n";
+            //  output += lb.ShowUserCard("Nadia Teixeira") + "...\n";
+            try
+            {
+                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
+                CheckedOut temp = new CheckedOut();
+                temp.CheckOutTime = DateTime.Now.AddDays(21).Day;
+                temp.DocumentCheckedOut = "Introduction to Algorithms";
+                CheckedOutInfo.Add(temp);
+                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
+                temp.DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
+                CheckedOutInfo.Add(temp);
+                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
+                temp.DocumentCheckedOut = "Information Entropy";
+                CheckedOutInfo.Add(temp);
 
+                Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 1, CheckedOutInfo));
+
+                CheckedOutInfo = new List<CheckedOut>();
+                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
+                temp.DocumentCheckedOut = "Introduction to Algorithms";
+                CheckedOutInfo.Add(temp);
+                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
+                temp.DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
+                CheckedOutInfo.Add(temp);
+                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
+                temp.DocumentCheckedOut = "Null References: The Billion Dollar Mistake";
+                CheckedOutInfo.Add(temp);
+
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
+
+            }
+            catch
+            {
+                return "Test17 not passed";
+            }
             return output;
 
         }
 
-        public string test18(bool autoTest)
+        public string test18()
         {
-            string output = "Cleared DB...\n";
-            SDM.LMS.ClearDB();
-
-            output += "Running TC11...\n";
-
-            test11(autoTest);
-
+            string output = "";
             output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Student("Sergey Afonso");
-            Student p1 = (Student)SDM.CurrentUser;
+            SDM.CurrentUser = new Faculty("Sergey Afonso");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
 
             output += "breaking through space and time to February 2nd 2018...\n";
             int[] timeCheat = { 09, 02, 2018 };
@@ -853,8 +885,8 @@ namespace I2P_Project.Tests
             p2.CheckOut("Introduction to Algorithms", timeCheat);
 
             output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Student("Sergey Afonso");
-            p1 = (Student)SDM.CurrentUser;
+            SDM.CurrentUser = new Faculty("Sergey Afonso");
+            p1 = (Faculty)SDM.CurrentUser;
 
             output += "breaking through space and time to February 9th 2018...\n";
             timeCheat[0] = 02;
@@ -873,22 +905,52 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Creating new window with overdue info of Sergey Afonso...\n";
-            lb.ShowOverdue("Sergey Afonso");
+            //lb.ShowOverdue("Sergey Afonso");
 
             output += "Creating new window with overdue info of Nadia Teixeira...\n";
-            lb.ShowOverdue("Nadia Teixeira");
+            //lb.ShowOverdue("Nadia Teixeira");
+            try
+            {
+                List<OverdueInfo> overdueInfos = new List<OverdueInfo>();
+                OverdueInfo temp = new OverdueInfo();
+                DateTime timetoback = new DateTime(2018, 02, 05).AddDays(21);
+                DateTime assumingTime = new DateTime(2018, 03, 05);
 
+                temp.overdue = (int)DateTime.Now.Subtract(timetoback).TotalDays;
+                temp.DocumentChekedOut = "Introduction to Algorithms";
+                overdueInfos.Add(temp);
+                timetoback = new DateTime(2018, 02, 17).AddDays(14);
+                temp.overdue = (int)DateTime.Now.Subtract(timetoback).TotalDays;
+                temp.DocumentChekedOut = "Null References: The Billion Dollar Mistake";
+                overdueInfos.Add(temp);
+
+                Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 1, overdueInfos));
+
+                overdueInfos = new List<OverdueInfo>();
+                temp = new OverdueInfo();
+                timetoback = new DateTime(2018, 02, 02).AddDays(28);
+                temp.overdue = (int)DateTime.Now.Subtract(timetoback).TotalDays;
+                temp.DocumentChekedOut = "Introduction to Algorithms";
+                overdueInfos.Add(temp);
+
+                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, overdueInfos));
+
+            }
+            catch
+            {
+                return "Test18 not passed";
+            }
             return output;
         }
 
-        public string test19(bool autoTest)
+        public string test19()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
 
             output += "Running TC11...\n";
 
-            test11(autoTest);
+            test11();
 
             output += "Logging In as librarian lb...\n";
             Librarian lb = (Librarian)SDM.CurrentUser;
@@ -898,6 +960,3 @@ namespace I2P_Project.Tests
         }
     }
 }
-
-
-

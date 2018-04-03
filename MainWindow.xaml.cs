@@ -1,4 +1,5 @@
-﻿using I2P_Project.Pages;
+﻿using I2P_Project.Classes;
+using I2P_Project.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace I2P_Project
             LogInPage sign_in_page =  new LogInPage();
             sign_in_page.Show();
             Close();
+            //page_Viewer.NavigationService.GoBack(); // Return to previous page
         }
 
         private void btn_Menu_Click(object sender, RoutedEventArgs e)  // Open/close task menu
@@ -56,7 +58,7 @@ namespace I2P_Project
             anim_menu.From = 50;
             anim_menu.To = 180;
             anim_menu.Duration = TimeSpan.FromSeconds(0.2);
-            lst_Menu.BeginAnimation(ListView.WidthProperty, anim_menu);
+            lst_Menu.BeginAnimation(WidthProperty, anim_menu);
         }
 
         private void CloseTaskMenu()
@@ -65,70 +67,91 @@ namespace I2P_Project
             anim_menu.From = 180;
             anim_menu.To = 50;
             anim_menu.Duration = TimeSpan.FromSeconds(0.2);
-            lst_Menu.BeginAnimation(ListView.WidthProperty, anim_menu);
+            lst_Menu.BeginAnimation(WidthProperty, anim_menu);
         }
 
         private void OnLoadWindow()
         {
-            switch (Classes.SDM.CurrentUser.UserType)
+            switch (SDM.CurrentUser.UserType)
             {
-                case 0:  // Student ?             
+                case 0: // Student
+                case 1: // Instructor
+                case 2: // TA
+                case 3: // Proffesor
+                case 4: // Visiting proffesor
                     li_page_LibrarianHome.Visibility = Visibility.Collapsed;
                     li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
                     li_page_UsersManagement.Visibility = Visibility.Collapsed;
+                    li_page_userHome.IsChecked = true;
                     break;
-                case 1:  // Faculty             
-                    li_page_LibrarianHome.Visibility = Visibility.Collapsed;
-                    li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
-                    li_page_UsersManagement.Visibility = Visibility.Collapsed;
-                    break;
-                case 3:  // Librarian     //3333333Исправить!!!!!!
+                case 5:  // Librarian
                     li_page_userHome.Visibility = Visibility.Collapsed;
                     li_page_UserLibrary.Visibility = Visibility.Collapsed;
                     li_page_UserMyBooks.Visibility = Visibility.Collapsed;
+                    li_page_LibrarianHome.IsChecked = true;
                     break;
             }
 
             CloseTaskMenu();
             taskMenu = false;
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/PageHome.xaml", UriKind.Relative);
+            ChangePage("PageHome.xaml");
         }
 
-        private void lst_Menu_SelectionChanged(object sender, SelectionChangedEventArgs e)  // Clear selected index
+        private void Page_userHome_Click(object sender, RoutedEventArgs e) // Faculty open Library Window
         {
-            lst_Menu.SelectedIndex = -1;
+            CloseMenuAfterClick();
+            ChangePage("PageHome.xaml");
         }
 
-        private void page_userHome_Click(object sender, RoutedEventArgs e) // Faculty open Library Window
+        private void Page_userLibrary_Click(object sender, RoutedEventArgs e)  // Faculty open Library page
         {
-            //CloseTaskMenu();
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/PageHome.xaml", UriKind.Relative);
+            CloseMenuAfterClick();
+            ChangePage("UserHomePage.xaml");
         }
 
-        private void RadioButton_Click(object sender, RoutedEventArgs e)  // Faculty open Library page
+        private void Page_userMyBooks_Click(object sender, RoutedEventArgs e) // Faculty open my books page
         {
-            //CloseTaskMenu();
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/UserHomePage.xaml", UriKind.Relative);
+            CloseMenuAfterClick();
+            ChangePage("MyBooks.xaml");
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e) // Faculty open my books page
+        private void Page_librarianHome_Click(object sender, RoutedEventArgs e)  // Librarian open Home page
         {
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/MyBooks.xaml", UriKind.Relative);
+            CloseMenuAfterClick();
+            ChangePage("PageHome.xaml");
         }
 
-        private void RadioButton_Click_1(object sender, RoutedEventArgs e)  // Librarian open Home page
+        private void Page_librarianUsersManagement_Click(object sender, RoutedEventArgs e)  // Librarian open Users Management page
         {
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/PageHome.xaml", UriKind.Relative);
+            CloseMenuAfterClick();
+            ChangePage("UsersManagementPage.xaml");
         }
 
-        private void RadioButton_Click_2(object sender, RoutedEventArgs e)  // Librarian open Users Management page
+        private void Page_librarianDocumentsManagement_Click(object sender, RoutedEventArgs e)  // Librarian open Documents Management page
         {
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/UsersManagementPage.xaml", UriKind.Relative);
+            CloseMenuAfterClick();
+            ChangePage("DocumentsManagementPage.xaml");
         }
 
-        private void RadioButton_Click_3(object sender, RoutedEventArgs e)
+        private void ChangePage(string page_name)  // Changes page on page viewer
         {
-            page_Viewer.Source = new Uri("/I2P-Project;component/Pages/DocumentsManagementPage.xaml", UriKind.Relative);
+            string link = "/I2P-Project;component/Pages/" + page_name;
+            page_Viewer.Source = new Uri(link, UriKind.Relative);
         }
+
+        private void CloseMenuAfterClick()  // Closes task menu after click on menu button
+        {
+            if (taskMenu)
+            {
+                CloseTaskMenu();
+                taskMenu = !taskMenu;
+            }
+        }
+
+        private void btn_Notifications_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("ToDo! Notification system");
+        }
+
     }
 }

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -41,80 +40,108 @@ namespace I2P_Project.Pages
             TestOutput.Text = "Test " + TestNumber.Text + ":\n";
             switch (TestNumber.Text)
             {
+                case "Test all":
+                    try
+                    {
+                        test.test1();
+                        test.test2();
+                        test.test3();
+                        test.test4();
+                        test.test5();
+                        test.test6();
+                        test.test7();
+                        test.test8();
+                        test.test9();
+                        test.test10();
+                        test.test11();
+                        test.test12();
+                        test.test13();
+                        test.test14();
+                        test.test15();
+                        test.test16();
+                        test.test17();
+                        test.test18();
+                        TestOutput.Text += "Tests are passed, restart system for test 19";
+                    } catch
+                    {
+                        TestOutput.Text += "Tests not passed";
+                    }
+                    UpdateTables();
+                    break;
                 case "1":
-                    TestOutput.Text += test.test1(false);
+                    TestOutput.Text += test.test1();
                     UpdateTables();
                     break;
                 case "2":
-                    TestOutput.Text += test.test2(false);
+                    TestOutput.Text += test.test2();
                     UpdateTables();
                     break;
                 case "3":
-                    TestOutput.Text += test.test3(false);
+                    TestOutput.Text += test.test3();
                     UpdateTables();
                     break;
                 case "4":
-                    TestOutput.Text += test.test4(false);
+                    TestOutput.Text += test.test4();
                     UpdateTables();
                     break;
                 case "5":
-                    TestOutput.Text += test.test5(false);
+                    TestOutput.Text += test.test5();
                     UpdateTables();
                     break;
                 case "6":
-                    TestOutput.Text += test.test6(false);
+                    TestOutput.Text += test.test6();
                     UpdateTables();
                     break;
                 case "7":
-                    TestOutput.Text += test.test7(false);
+                    TestOutput.Text += test.test7();
                     UpdateTables();
                     break;
                 case "8":
-                    TestOutput.Text += test.test8(false);
+                    TestOutput.Text += test.test8();
                     UpdateTables();
                     break;
                 case "9":
-                    TestOutput.Text += test.test9(false);
+                    TestOutput.Text += test.test9();
                     UpdateTables();
                     break;
                 case "10":
-                    TestOutput.Text += test.test10(false);
+                    TestOutput.Text += test.test10();
                     UpdateTables();
                     break;
                 case "11":
-                    TestOutput.Text += test.test11(false);
+                    TestOutput.Text += test.test11();
                     UpdateTables();
                     break;
                 case "12":
-                    TestOutput.Text += test.test12(false);
+                    TestOutput.Text += test.test12();
                     UpdateTables();
                     break;
                 case "13":
-                    TestOutput.Text += test.test13(false);
+                    TestOutput.Text += test.test13();
                     UpdateTables();
                     break;
                 case "14":
-                    TestOutput.Text += test.test14(false);
+                    TestOutput.Text += test.test14();
                     UpdateTables();
                     break;
                 case "15":
-                    TestOutput.Text += test.test15(false);
+                    TestOutput.Text += test.test15();
                     UpdateTables();
                     break;
                 case "16":
-                    TestOutput.Text += test.test16(false);
+                    TestOutput.Text += test.test16();
                     UpdateTables();
                     break;
                case "17":
-                    TestOutput.Text += test.test17(false);
+                    TestOutput.Text += test.test17();
                     UpdateTables();
                     break;
                 case "18":
-                    TestOutput.Text += test.test18(false);
+                    TestOutput.Text += test.test18();
                     UpdateTables();
                     break;
                 case "19":
-                    TestOutput.Text += test.test19(false);
+                    TestOutput.Text += test.test19();
                     UpdateTables();
                     break;
                 default:

@@ -9,11 +9,9 @@ namespace I2P_Project.Classes.UserSystem
     {
         public Librarian(string login) : base(login) {}
 
-        public List<OverdueInfo> CheckOverdue()
+        public List<CheckedOut> CheckCheckouts(string Name)
         {
-            List<OverdueInfo> ovList = new List<OverdueInfo>();
-            // TODO
-            return ovList;
+            return SDM.LMS.GetCheckout(Name);            
         }
 
         /// <summary> Deletes patron from DB </summary>
@@ -43,10 +41,10 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.RemoveDocument(Title);
         }
 
-        public void ModifyDoc(int doc_id, string Title, string Description, string Price, string IsBestseller,
-            string DocType)
+        public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller,
+            int DocType)
         {
-            SDM.LMS.ModifyDoc(doc_id, Title, Description, Price, IsBestseller, DocType);
+            SDM.LMS.ModifyDoc(DocID, Title, Description, Price, IsBestseller, DocType);
         }
 
         public bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
@@ -73,7 +71,7 @@ namespace I2P_Project.Classes.UserSystem
         public string ShowOverdue(string Name)
         {
             string output = "";
-            var patron = SDM.LMS.PatronbyName(Name);
+            var patron = SDM.LMS.GetPatronByName(Name);
             if (patron == null)
                 output = SDM.Strings.USER_DOES_NOT_EXIST_TEXT;
             else
@@ -88,10 +86,17 @@ namespace I2P_Project.Classes.UserSystem
 
     }
 
+    public struct CheckedOut
+    {
+        public string DocumentCheckedOut { get; set; }   
+        public int CheckOutTime { get; set; }
+    }
+
     public struct OverdueInfo
     {
-        Patron OverduedPatron { get; }   
-        DateTime CheckOutTime { get; }
+        public string DocumentChekedOut { get; set; }
+        public int DocID { get; set; }
+        public int overdue { get; set; }
     }
 
 }

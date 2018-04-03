@@ -28,9 +28,30 @@ namespace I2P_Project.Pages
         {
             _register = b;
             InitializeComponent();
+            if (b) Title.Content = SDM.Strings.ADD_USER_PAGE_TITLE;
+            else Title.Content = SDM.Strings.REGISTER_PAGE_TITLE;
         }
 
         private void OnRegisterClick(object sender, RoutedEventArgs e)
+        {
+            OnRegisterProcess();
+        }
+
+        private void OnRegisterProcess()
+        {
+            if (LoginTB.Text == "" || PasswordTB.Password == "" || NameTB.Text == "" || AdressTB.Text == "" || PhoneNumberTB.Text == "")
+            {
+                MessageBox.Show("Not all fields are filled out!", "Warning");
+                return;
+            }
+
+            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+            pm.BeginWaiting(); // Starts Loading Flow
+            RegisterUser();
+            pm.EndWaiting();
+        }
+
+        private void RegisterUser()
         {
             bool isLibrarian = (SerialNumTB.Text == SDM.Strings.SERIAL_NUMBER);
 
@@ -57,24 +78,16 @@ namespace I2P_Project.Pages
             }
             else
             {
-                InfoText.Content = SDM.Strings.USER_EXIST_TEXT;
+                MessageBox.Show(SDM.Strings.USER_EXIST_TEXT);
             }
-            
         }
 
-        private void OnBackClick(object sender, RoutedEventArgs e)
+        private void SerialNumTB_KeyDown(object sender, KeyEventArgs e)
         {
-            if (_register)
-                {
-                LogInPage LogIn = new LogInPage();
-                LogIn.Show();
-                Close();
-            }
-            else
+            if (Key.Enter == e.Key)  // If user pressed Enter, when password box got focus
             {
-                Close();
+                OnRegisterProcess();
             }
         }
-
     }
 }

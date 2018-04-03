@@ -399,7 +399,6 @@
         private string _Title;
         private string _Description;
         private int _DocType;
-        private bool _IsReference;
         private bool _IsBestseller;
         private int _Price;
         private string _Queue;
@@ -427,8 +426,6 @@
         partial void OnDescriptionChanged();
         partial void OnDocTypeChanging(int value);
         partial void OnDocTypeChanged();
-        partial void OnIsReferenceChanging(bool value);
-        partial void OnIsReferenceChanged();
         partial void OnIsBestsellerChanging(bool value);
         partial void OnIsBestsellerChanged();
         partial void OnPriceChanging(int value);
@@ -594,23 +591,6 @@
                     _DocType = value;
                     SendPropertyChanged("DocType");
                     OnDocTypeChanged();
-                }
-            }
-        }
-
-        [Column(Storage = "_IsReference", DbType = "Bit NOT NULL")]
-        public bool IsReference
-        {
-            get => _IsReference;
-            set
-            {
-                if ((_IsReference != value))
-                {
-                    OnIsReferenceChanging(value);
-                    SendPropertyChanging();
-                    _IsReference = value;
-                    SendPropertyChanged("IsReference");
-                    OnIsReferenceChanged();
                 }
             }
         }

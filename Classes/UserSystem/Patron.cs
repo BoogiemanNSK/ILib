@@ -1,5 +1,4 @@
 ﻿using I2P_Project.DataBase;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace I2P_Project.Classes.UserSystem
@@ -31,9 +30,7 @@ namespace I2P_Project.Classes.UserSystem
             else if (SDM.LMS.ExistQueueForDoc(docID))
                  return SDM.Strings.DOC_IN_QUEUE;
             else if (SDM.LMS.GetUserFine(patron.PersonID) > 0)
-            {
                 return SDM.Strings.USER_HAVE_FINE;
-            }
             else
             {
                  doc.TimeToBack = System.DateTime.Now.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
@@ -56,48 +53,35 @@ namespace I2P_Project.Classes.UserSystem
             uDB.Checkouts.DeleteOnSubmit(checkout);
             uDB.SubmitChanges();
 
+            SDM.LMS.NotifyNextUser(docID);
+
             return SDM.Strings.SUCCESSFUL_RETURN + " " + GetTitleByID(docID) + "!";
         }
         
         protected string CheckAvailibility(string title)
         {
-            var test = from b in uDB.Documents
-                       where b.Title.ToLower().Contains(title.ToLower()) && !b.IsReference
-                       select b;
+            Document selected = GetDocumentForCheckOut(title);
 
-            if (test.Any()) // Check if any copies of doc exists
+            if (DocBelongsToUser(selected.Id))
+                return SDM.Strings.ALREADY_HAVE_TEXT;
+            else if (selected.Queue.Length > 0)
             {
-                foreach (DataBase.Document selected in test.ToArray()) // Checks that book doesnt`t belong to user already
-                    if (DocBelongsToUser(selected.Id))
-                        return SDM.Strings.ALREADY_HAVE_TEXT;
-                foreach (DataBase.Document selected in test.ToArray()) // Checks if any of them are free
-                {
-                    var test2 = from c in uDB.Checkouts
-                                where c.BookID == selected.Id
-                                select c;
-                    if (!test2.Any()) return "";
-                }
-                return SDM.Strings.NO_FREE_COPIES_TEXT;
+                if (selected.Queue.Split('-')[0].Equals(PersonID))
+                    return SDM.Strings.PERSON_FIRST_IN_QUEUE_TEXT;
+                else if (SDM.LMS.IsPersonInQueue(PersonID, selected.Id))
+                    return SDM.Strings.PERSON_IN_QUEUE_TEXT;
+                else
+                    return SDM.Strings.PERSON_NOT_IN_QUEUE_TEXT;
             }
-            else
-                return SDM.Strings.NOT_EXIST_TEXT;
+            return "";
         }
 
-        protected DataBase.Document GetDocumentForCheckOut(string title)
+        protected Document GetDocumentForCheckOut(string title)
         {
             var test = from b in uDB.Documents
-                       where b.Title.ToLower().Contains(title.ToLower()) && !b.IsReference
+                       where b.Title.Equals(title)
                        select b;
-
-            foreach (DataBase.Document selected in test.ToArray())
-            {
-                var test2 = from c in uDB.Checkouts
-                            where c.BookID == selected.Id
-                            select c;
-                if (!test2.Any()) return selected;
-            }
-
-            return null;
+            return test.Single();
         }
 
         /// <summary>
@@ -114,12 +98,15 @@ namespace I2P_Project.Classes.UserSystem
             else
                 time = new System.DateTime(DateCheat[2], DateCheat[1], DateCheat[0]);
 
-            Checkouts chk = new Checkouts();
-            chk.UserID = PersonID;
-            chk.BookID = docID;
-            chk.IsReturned = false;
-            chk.DateTaked = time;
-            chk.TimeToBack = time.AddDays(weeks * 7);
+            Checkouts chk = new Checkouts
+            {
+                UserID = PersonID,
+                BookID = docID,
+                IsReturned = false,
+                DateTaked = time,
+                TimeToBack = time.AddDays(weeks * 7)
+            };
+
             uDB.Checkouts.InsertOnSubmit(chk);
             uDB.SubmitChanges();
         }

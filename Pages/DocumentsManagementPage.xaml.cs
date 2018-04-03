@@ -99,7 +99,7 @@ namespace I2P_Project.Pages
         public int docOwnerID { get; set; }
         public string docTitle { get; set; }
         public string docType { get; set; }
-        public bool isReference { get; set; }
+        public int quantity { get; set; }
         public DateTime timeToBack { get; set; }
 
     }

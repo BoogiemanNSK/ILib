@@ -30,7 +30,7 @@ namespace I2P_Project.Classes.UserSystem
                 return SDM.Strings.DOC_ALREADY_RENEWED;
             else if (SDM.LMS.ExistQueueForDoc(docID))
                  return SDM.Strings.DOC_IN_QUEUE;
-            else if (SDM.LMS.GetUserFine(patron.PersonID)>0)
+            else if (SDM.LMS.GetUserFine(patron.PersonID) > 0)
             {
                 return SDM.Strings.USER_HAVE_FINE;
             }
@@ -80,7 +80,7 @@ namespace I2P_Project.Classes.UserSystem
                 return SDM.Strings.NO_FREE_COPIES_TEXT;
             }
             else
-                return SDM.Strings.NO_FREE_COPIES_TEXT;
+                return SDM.Strings.NOT_EXIST_TEXT;
         }
 
         protected DataBase.Document GetDocumentForCheckOut(string title)

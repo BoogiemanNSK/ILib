@@ -16,6 +16,9 @@ class StringConstants {
 
     public string MAIL_SERVER_LOGIN => "ilib.mail2018";
     public string MAIL_SERVER_PASSWORD => "Faraday28";
+    public string MAIL_TITLE => "Book is Availible!";
+    public string MAIL_TEXT(string docTitle, string docType) => "\r" + docType + " " + docTitle +
+        " is now availible. Check it out in iLib!\n\rhttps://github.com/BoogiemanNSK/ILib";
 
     public string SUCCESSFUL_RENEW => "Successfuly renewed";
 
@@ -31,7 +34,9 @@ class StringConstants {
     public string WRONG_PASSWORD_TEXT => "Wrong password";
 
     public string ALREADY_HAVE_TEXT => "You already have that book";
-    public string NO_FREE_COPIES_TEXT => "There are no free copies of this book for now";
+    public string NO_FREE_COPIES_TEXT => "There are no free copies of this book for now." +
+        " You`ve been added to queue and will be notified when this book become availible to you";
+    public string NOT_EXIST_TEXT => "This book is not exist in library";
     public string SUCCESS_CHECK_OUT_TEXT => "Successfully checked out";
     
     public string CHECK_OUT_CONFIRMATION_TEXT => "Are you sure you want to check out this book?";

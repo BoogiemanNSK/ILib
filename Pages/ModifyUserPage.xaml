@@ -26,7 +26,7 @@
         <Label Name="InfoText" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="30" Foreground="Red" HorizontalAlignment="Center"></Label>
         <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Name"/>
         <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="UserName"/>
-        <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Adress"/>
+        <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="E-Mail"/>
         <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="UserAdress"/>
         <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Phone Number"/>
         <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="UserPhoneNumber"/>

@@ -2,7 +2,6 @@
 {
     class VisitingProfessor : Patron
     {
-
         public VisitingProfessor(string login) : base(login) { }
 
         /// <summary> Checks out a book for a current student user </summary>
@@ -12,17 +11,27 @@
             DataBase.Document doc = null;
             string result = CheckAvailibility(title);
 
-            if (result != "") return result;
+            if (result == SDM.Strings.PERSON_NOT_IN_QUEUE_TEXT)
+            {
+                doc = GetDocumentForCheckOut(title);
+                SDM.LMS.PushInPQ(doc.Id, PersonID, UserType);
+                return result;
+            }
+            else if (result == SDM.Strings.PERSON_FIRST_IN_QUEUE_TEXT)
+            {
+                doc = GetDocumentForCheckOut(title);
+                SDM.LMS.PopFromPQ(doc.Id);
+            }
+            else if (result != "") return result;
 
             doc = GetDocumentForCheckOut(title);
+            doc.Quantity--;
+            uDB.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
+            uDB.SubmitChanges();
 
-            if (doc.IsReference)
-                SDM.LMS.PushInPQ(doc.Id, SDM.CurrentUser.PersonID);
-            
             SetCheckOut(doc.Id, 1, DateCheat);
 
             return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";
         }
-
     }
 }

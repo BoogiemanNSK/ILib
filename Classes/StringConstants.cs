@@ -14,6 +14,12 @@ class StringConstants {
                                        "TrustServerCertificate=False;" +
                                        "Connection Timeout=30;";
 
+    public string MAIL_SERVER_LOGIN => "ilib.mail2018";
+    public string MAIL_SERVER_PASSWORD => "Faraday28";
+    public string MAIL_TITLE => "Book is Availible!";
+    public string MAIL_TEXT(string docTitle, string docType) => "\r" + docType + " " + docTitle +
+        " is now availible. Check it out in iLib!\n\rhttps://github.com/BoogiemanNSK/ILib";
+
     public string SUCCESSFUL_RENEW => "Successfuly renewed";
 
     public string USER_HAVE_FINE => "You have fine, paid please";
@@ -28,9 +34,13 @@ class StringConstants {
     public string WRONG_PASSWORD_TEXT => "Wrong password";
 
     public string ALREADY_HAVE_TEXT => "You already have that book";
-    public string NO_FREE_COPIES_TEXT => "There are no free copies of this book for now";
+    public string PERSON_NOT_IN_QUEUE_TEXT => "There are no free copies of this book for now." +
+        " You`ve been added to queue and will be notified when this book become availible to you";
     public string SUCCESS_CHECK_OUT_TEXT => "Successfully checked out";
-    
+    public string PERSON_IN_QUEUE_TEXT => "You are already in the queue for this book";
+    public string PERSON_FIRST_IN_QUEUE_TEXT => "Since you are first for this book, you can check it out";
+
+
     public string CHECK_OUT_CONFIRMATION_TEXT => "Are you sure you want to check out this book?";
 
     public string RETURN_CONFIRMATION_TEXT => "Are you sure you want to return this book?";
@@ -48,6 +58,6 @@ class StringConstants {
     public string ADD_USER_PAGE_TITLE => "Register New User";
 
     public string[] USER_TYPES => new string[] { "Student", "Instructor", "TA", "Professor", "Visiting Professor", "Librarian" };
-    public string[] DOC_TYPES => new string[] {"Book", "Journal", "Audio", "Video"};
+    public string[] DOC_TYPES => new string[] {"Book", "Journal", "AV"};
 
 }

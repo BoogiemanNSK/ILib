@@ -28,9 +28,9 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Adding reference book b and two copies...\n";
-            lb.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            lb.AddDoc("b", "B", 0, 0, false);
-            lb.AddDoc("b", "B", 0, 0, false);
+            //lb.AddDoc("b", "B", 0, 0, false); // Adding Reference book
+            //lb.AddDoc("b", "B", 0, 0, false);
+            //lb.AddDoc("b", "B", 0, 0, false);
 
             output += "Logging In as student st...\n";
             SDM.CurrentUser = new Student("st"); // Log In student st
@@ -117,8 +117,8 @@ namespace I2P_Project.Tests
             Faculty ft = (Faculty)SDM.CurrentUser;
 
             output += "Adding reference book b and copy...\n";
-            SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("b", "B", 0, 0, false);
+            //SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
+            //SDM.LMS.AddDoc("b", "B", 0, 0, false);
 
             output += "Faculty ft checking out book b...\n";
             ft.CheckOut("b");
@@ -164,8 +164,8 @@ namespace I2P_Project.Tests
             Student st = (Student)SDM.CurrentUser;
 
             output += "Adding reference book b and copy...\n";
-            SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
-            SDM.LMS.AddDoc("b", "B", 0, 0, true);
+            //SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
+            //SDM.LMS.AddDoc("b", "B", 0, 0, true);
 
             output += "Studebt st checking out book b...\n";
             st.CheckOut("b");
@@ -210,9 +210,9 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference book A and two copies...\n";
-            SDM.LMS.AddDoc("a", "a", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("a", "a", 0, 0, false);
-            SDM.LMS.AddDoc("a", "a", 0, 0, false);
+            //SDM.LMS.AddDoc("a", "a", 0, 0, false); // Adding Reference book
+            //SDM.LMS.AddDoc("a", "a", 0, 0, false);
+            //SDM.LMS.AddDoc("a", "a", 0, 0, false);
 
             output += "Logging In as student st...\n";
             SDM.CurrentUser = new Student("st"); // Log In student st
@@ -282,9 +282,9 @@ namespace I2P_Project.Tests
             Student st = (Student)SDM.CurrentUser;
 
             output += "Adding reference book b and two copies...\n";
-            SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("b", "B", 0, 0, false);
-            SDM.LMS.AddDoc("b", "B", 0, 0, false);
+            //SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
+            //SDM.LMS.AddDoc("b", "B", 0, 0, false);
+            //SDM.LMS.AddDoc("b", "B", 0, 0, false);
 
             output += "Student st checking out book b...\n";
             st.CheckOut("b");
@@ -327,9 +327,9 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference book b1 and two copies...\n";
-            SDM.LMS.AddDoc("b1", "B", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("b1", "B", 0, 0, false);
-            SDM.LMS.AddDoc("b1", "B", 0, 0, false);
+            //SDM.LMS.AddDoc("b1", "B", 0, 0, false); // Adding Reference book
+            //SDM.LMS.AddDoc("b1", "B", 0, 0, false);
+            //SDM.LMS.AddDoc("b1", "B", 0, 0, false);
 
             output += "Logging In as student p1...\n";
             SDM.CurrentUser = new Student("p1"); // Log In student st
@@ -386,8 +386,8 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference book b and two copies...\n";
-            SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("b", "B", 0, 0, false);
+            //SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
+            //SDM.LMS.AddDoc("b", "B", 0, 0, false);
 
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
@@ -437,8 +437,8 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference book b and copy...\n";
-            SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
-            SDM.LMS.AddDoc("b", "B", 0, 0, true);
+            //SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
+            //SDM.LMS.AddDoc("b", "B", 0, 0, true);
 
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
@@ -485,9 +485,9 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference books a and b and copy of a...\n";
-            SDM.LMS.AddDoc("a", "A", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("a", "A", 0, 0, false);
-            SDM.LMS.AddDoc("b", "B", 0, 0, false);
+            //SDM.LMS.AddDoc("a", "A", 0, 0, false); // Adding Reference book
+            //SDM.LMS.AddDoc("a", "A", 0, 0, false);
+            //SDM.LMS.AddDoc("b", "B", 0, 0, false);
 
             output += "Logging In as student st...\n";
             SDM.CurrentUser = new Student("st"); // Log In student st
@@ -528,7 +528,7 @@ namespace I2P_Project.Tests
             output += "Adding reference book Introduction to Algorithms and 3 copy of Introduction to Algorithms...\n";
             for (int i = 0; i < 4; i++)
             {
-                SDM.LMS.AddBook
+                /*SDM.LMS.AddBook
                     (
                         "Introduction to Algorithms",
                         "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
@@ -539,11 +539,11 @@ namespace I2P_Project.Tests
                         0,
                         1800,
                         false
-                    );
+                    );*/
             }
             for (int i = 0; i < 3; i++)
             {
-                SDM.LMS.AddBook
+                /*SDM.LMS.AddBook
                    (
                        "Design Patterns: Elements of Reusable Object-Oriented Software",
                        "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
@@ -554,19 +554,19 @@ namespace I2P_Project.Tests
                        0,
                        2000,
                        true
-                   );
+                   );*/
             }
             output += "Adding reference book Design Patterns: Elements of Reusable Object-Oriented Software and 2 copy of Introduction to Algorithms...\n";
             for (int i = 0; i < 2; i++)
             {
-                SDM.LMS.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
-                SDM.LMS.AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
+                //SDM.LMS.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
+                //SDM.LMS.AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
             }
             //reference book
-            SDM.LMS.AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P",
+            /*SDM.LMS.AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P",
            "Addison-Wesley Longman Publishing Co., Inc.", 1995,
            "Second edition", "How to do everything and live better",
-           0, 800, false);
+           0, 800, false);*/
             output += "Adding reference book The Mythical Man-month and copy of Introduction to Algorithms...\n";
             output += "Adding reference video and copy of Null References: The Billion Dollar Mistake...\n";
             output += "Adding reference video and copy of Information Entropy...\n";

@@ -31,28 +31,20 @@ namespace I2P_Project.Pages
 
         private void OnAddBookClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Librarian currentUser = (Librarian)SDM.CurrentUser;
-                int dt = cmb_DocType.SelectedIndex;
-                int price = Convert.ToInt32(PriceTB.Text);
-                bool ib = IsBestseller.SelectedIndex == 0;
-                int n = Convert.ToInt32(CopiesTB.Text);
-                for (int i = 0; i < n; i++)
-                {
-                    currentUser.AddDoc
-                        (
-                            TitleTB.Text,
-                            DescriptionTB.Text,
-                            dt,
-                            price,
-                            ib
-                        );
-                }
-            } catch
-            {
-                MessageBox.Show("The row is empty", "Error");
-            }
+            Librarian currentUser = (Librarian)SDM.CurrentUser;
+            int dt = cmb_DocType.SelectedIndex;
+            int price = Convert.ToInt32(PriceTB.Text);
+            int n = Convert.ToInt32(CopiesTB.Text);
+            bool ib = IsBestseller.SelectedIndex == 0;
+
+            // TODO Change it, of course
+            currentUser.AddAV
+                (
+                    TitleTB.Text,
+                    DescriptionTB.Text,
+                    price,
+                    n
+                );
 
             previousPage.updateTable();
             Close();

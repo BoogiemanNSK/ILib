@@ -25,7 +25,9 @@
             else if (result != "") return result;
 
             doc = GetDocumentForCheckOut(title);
-            
+            doc.Quantity--;
+            uDB.SubmitChanges();
+
             if (doc.DocType != 0)
                 SetCheckOut(doc.Id, 2, DateCheat);
             else

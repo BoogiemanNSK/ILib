@@ -66,13 +66,15 @@ namespace I2P_Project.Classes.UserSystem
                 return SDM.Strings.ALREADY_HAVE_TEXT;
             else if (selected.Queue.Length > 0)
             {
-                if (selected.Queue.Split('-')[0].Equals(PersonID))
+                if (selected.Queue.Split('|')[0].Equals(PersonID))
                     return SDM.Strings.PERSON_FIRST_IN_QUEUE_TEXT;
                 else if (SDM.LMS.IsPersonInQueue(PersonID, selected.Id))
                     return SDM.Strings.PERSON_IN_QUEUE_TEXT;
                 else
                     return SDM.Strings.PERSON_NOT_IN_QUEUE_TEXT;
             }
+            else if (selected.Quantity == 0)
+                return SDM.Strings.PERSON_NOT_IN_QUEUE_TEXT;
             return "";
         }
 

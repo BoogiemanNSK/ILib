@@ -393,27 +393,36 @@
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
         private int _Id;
         private string _Autors;
+        private string _Title;
         private string _Publisher;
         private string _Edition;
+        private string _IssueTitle;
+        private string _IssueEditor;
+        private string _PublishedIn;
         private int _PublishYear;
-        private string _Title;
         private string _Description;
         private int _DocType;
         private bool _IsBestseller;
         private int _Price;
-        private string _Queue;
         private int _Quantity;
+        private string _Queue;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
         partial void OnCreated();
         partial void OnIdChanging(int value);
+        partial void OnIdChanged();
         partial void OnQuantityChanged();
         partial void OnQuantityChanging(int value);
-        partial void OnIdChanged();
         partial void OnTitleChanging(string value);
         partial void OnTitleChanged();
+        partial void OnPublishedInChanging(string value);
+        partial void OnPublishedInChanged();
+        partial void OnIssueTitleChanging(string value);
+        partial void OnIssueTitleChanged();
+        partial void OnIssueEditorChanging(string value);
+        partial void OnIssueEditorChanged();
         partial void OnAutorsChanging(string value);
         partial void OnAutorsChanged();
         partial void OnPublisherChanging(string value);
@@ -439,7 +448,7 @@
             OnCreated();
         }
 
-        [Column(Storage = "_Quantity", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
+        [Column(Storage = "_Quantity", DbType = "Int NOT NULL DEFAULT 0")]
         public int Quantity
         {
             get => _Quantity;
@@ -450,7 +459,7 @@
                     OnQuantityChanging(value);
                     SendPropertyChanging();
                     _Quantity = value;
-                    SendPropertyChanged("Id");
+                    SendPropertyChanged("Quantity");
                     OnQuantityChanged();
                 }
             }
@@ -484,7 +493,7 @@
                     OnAutorsChanging(value);
                     SendPropertyChanging();
                     _Autors = value;
-                    SendPropertyChanged("Title");
+                    SendPropertyChanged("Autors");
                     OnAutorsChanged();
                 }
             }
@@ -519,7 +528,7 @@
                     OnPublisherChanging(value);
                     SendPropertyChanging();
                     _Publisher = value;
-                    SendPropertyChanged("Title");
+                    SendPropertyChanged("Publisher");
                     OnPublisherChanged();
                 }
             }
@@ -539,6 +548,57 @@
                     _Edition = value;
                     SendPropertyChanged("Edition");
                     OnTitleChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_PublishedIn", DbType = "NVarChar(MAX) NULL")]
+        public string PublishedIn
+        {
+            get => _PublishedIn;
+            set
+            {
+                if ((_PublishedIn != value))
+                {
+                    OnPublishedInChanging(value);
+                    SendPropertyChanging();
+                    _PublishedIn = value;
+                    SendPropertyChanged("PublishedIn");
+                    OnPublishedInChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_IssueTitle", DbType = "NVarChar(MAX) NULL")]
+        public string IssueTitle
+        {
+            get => _IssueTitle;
+            set
+            {
+                if ((_IssueTitle != value))
+                {
+                    OnIssueTitleChanging(value);
+                    SendPropertyChanging();
+                    _IssueTitle = value;
+                    SendPropertyChanged("IssueTitle");
+                    OnIssueTitleChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_IssueEditor", DbType = "NVarChar(MAX) NULL")]
+        public string IssueEditor
+        {
+            get => _IssueEditor;
+            set
+            {
+                if ((_IssueEditor != value))
+                {
+                    OnIssueEditorChanging(value);
+                    SendPropertyChanging();
+                    _IssueEditor = value;
+                    SendPropertyChanged("IssueEditor");
+                    OnIssueEditorChanged();
                 }
             }
         }
@@ -612,7 +672,7 @@
             }
         }
 
-        [Column(Storage = "_Price", DbType = "Int NOT NULL")]
+        [Column(Storage = "_Price", DbType = "Int NOT NULL DEFAULT 0")]
         public int Price
         {
             get => _Price;

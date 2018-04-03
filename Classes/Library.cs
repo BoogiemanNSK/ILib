@@ -81,7 +81,7 @@ namespace I2P_Project.Classes
             return true;
         }
 
-        public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int docType, int price, bool isBestseller, int quantity)
+        public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
         {
             bool isReference = !CheckReference(title);
             if (isReference)
@@ -123,9 +123,9 @@ namespace I2P_Project.Classes
                 {
                     Title = title,
                     Autors = autors,
-                    //PublishedIn = publishedIn,
-                    //IssueTitle = issueTitle,
-                    //IssueEditor = issueEditor,
+                    PublishedIn = publishedIn,
+                    IssueTitle = issueTitle,
+                    IssueEditor = issueEditor,
                     Price = price,
                     DocType = 1,
                     Quantity = quantity
@@ -155,7 +155,8 @@ namespace I2P_Project.Classes
                     Autors = autors,
                     Price = price,
                     DocType = 2,
-                    Quantity = quantity
+                    Quantity = quantity,
+                    Queue = ""
                 };
                 db.Documents.InsertOnSubmit(newDoc);
             }
@@ -185,7 +186,6 @@ namespace I2P_Project.Classes
                     2009,
                     "Third Edition",
                     "Alghorithm techniques and design",
-                    0,
                     1800,
                     false,
                     1
@@ -198,7 +198,6 @@ namespace I2P_Project.Classes
                     2003,
                     "First Edition",
                     "Programm patterns, how to programm well w/o headache",
-                    0,
                     2000,
                     true,
                     1
@@ -212,8 +211,7 @@ namespace I2P_Project.Classes
                     "Addison-Wesley Longman Publishing Co., Inc.",
                     1995,
                     "Second edition",
-                    "How to do everything and live better", 
-                    0, 
+                    "How to do everything and live better",
                     800,
                     false,
                     0
@@ -867,7 +865,7 @@ namespace I2P_Project.Classes
             PriorityQueue<int> PQ = LoadPQ(docID);
             if (PQ.Length > 0)
             {
-                Users next = GetUser(Convert.ToInt32(PQ.FirstElement));
+                Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
                 Document doc = GetDocByID(docID);
                 SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
                 SavePQ(PQ, docID);
@@ -933,6 +931,8 @@ namespace I2P_Project.Classes
                        select doc.Queue;
 
             string queue_string = test.Single();
+            if (queue_string.Length == 0) return localQueue;
+            
             string[] queue_pairs = queue_string.Split('-');
             foreach (string pair in queue_pairs)
             {

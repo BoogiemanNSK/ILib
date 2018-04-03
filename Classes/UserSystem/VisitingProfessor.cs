@@ -25,7 +25,9 @@
             else if (result != "") return result;
 
             doc = GetDocumentForCheckOut(title);
-            
+            doc.Quantity--;
+            uDB.SubmitChanges();
+
             SetCheckOut(doc.Id, 1, DateCheat);
 
             return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";

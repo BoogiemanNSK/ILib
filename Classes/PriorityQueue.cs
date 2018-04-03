@@ -1,150 +1,121 @@
-﻿/// <summary>
-/// PriorityQueue class
-/// </summary>
-
-namespace I2P_Project.Classes
+﻿namespace I2P_Project.Classes
 {
+    /// <summary> PriorityQueue class </summary>
     class PriorityQueue<Generic>
     {
-        private int length = 0;  // length of a queue
-        private Node first = null;  // first element in queue
-        private Node rare = null;  // last element in queue
+        private int _length = 0;  // Length of a queue
+        private Node _first = null;  // First element in queue
+        private Node _rare = null;  // Last element in queue
 
-        class Node  // element coneluctor
+        public class Node  // Element constructor
         {
-            public Generic element;  // user_id
-            public int priority_level;
-            public Node link;  // link cell to next element of queue
+            public Generic Element;  // UserID
+            public int PriorityLevel;
+            public Node Link;  // Link cell to next element of queue
         }
 
-        /// <summary>
-        /// Enqueue method
-        /// </summary>
+        /// <summary> Length of the queue </summary>
+        public int Length => _length;
+        /// <summary> Returns first element in queue </summary>
+        public Node FirstElement => _first;
+        /// <summary> Checking empty in queue </summary>
+        private bool IsEmpty => (_length == 0);
 
+        /// <summary> Enqueue method </summary>
         public void Push(Generic el, int priority)
         {
-            Node temp = first;
-            Node prev_node = first;  // previous node
+            Node temp = _first;
+            Node prev_node = _first;  // Previous node
             Node toAdd = new Node
             {
-                element = el,
-                priority_level = priority
+                Element = el,
+                PriorityLevel = priority
             };
 
             if (temp == null)
             {
-                first = toAdd;
-                length++;
+                _first = toAdd;
+                _length++;
                 return;
             }
 
             while (true)  // move elements in the queue according to priority
             {
-                if (priority > temp.priority_level)
+                if (priority > temp.PriorityLevel)
                 {
-                    if (temp.link != null)
+                    if (temp.Link != null)
                     {
                         prev_node = temp;
-                        temp = temp.link;
+                        temp = temp.Link;
                     }
                     else
                     {
-                        temp.link = toAdd;
-                        rare = temp.link;
+                        temp.Link = toAdd;
+                        _rare = temp.Link;
                         break;
                     }
                 }
-                else if (priority < temp.priority_level)
+                else if (priority < temp.PriorityLevel)
                 {
-                    if (temp == first)
+                    if (temp == _first)
                     {
-                        toAdd.link = first;
-                        first = toAdd;
+                        toAdd.Link = _first;
+                        _first = toAdd;
                     }
                     else
                     {
-                        prev_node.link = toAdd;
-                        toAdd.link = temp;
+                        prev_node.Link = toAdd;
+                        toAdd.Link = temp;
                     }
                     break;
                 }
-                else if (priority == temp.priority_level)
+                else if (priority == temp.PriorityLevel)
                 {
-                    if (temp.link != null)
+                    if (temp.Link != null)
                     {
-                        while (priority == temp.priority_level)
+                        while (priority == temp.PriorityLevel)
                         {
-                            if (temp.link != null)
+                            if (temp.Link != null)
                             {
                                 prev_node = temp;
-                                temp = temp.link;
+                                temp = temp.Link;
                             }
                             else
                             {
-                                temp.link = toAdd;
-                                length++;
+                                temp.Link = toAdd;
+                                _length++;
                                 return;
                             }
                         }
-                        toAdd.link = prev_node.link;
-                        prev_node.link = toAdd;
+                        toAdd.Link = prev_node.Link;
+                        prev_node.Link = toAdd;
                         break;
                     }
                     else
                     {
-                        temp.link = toAdd;
-                        rare = temp.link;
+                        temp.Link = toAdd;
+                        _rare = temp.Link;
                         break;
                     }
                 }
             }
-            length++;  // increase queue length by 1
+            _length++;  // Increase queue length by 1
         }
 
-        /// <summary>
-        /// Dequeue method
-        /// </summary>
-
+        /// <summary> Dequeue method </summary>
         public Generic Pop()
         {
-            if (length > 0)
+            if (_length > 0)
             {
-                Generic el = first.element;
-                first = first.link;
-                length--;
-                return el;  // returns element data
+                Generic el = _first.Element;
+                _first = _first.Link;
+                _length--;
+                return el;  // Returns element data
             }
             else
             {
                 return default(Generic);
             }
-        }
-
-        /// <summary>
-        /// Legth of the queue
-        /// </summary>
-
-        public int Length()
-        {
-            return length;
-        }
-
-        /// <summary>
-        /// Checking empty in queue
-        /// </summary>
-
-        private bool IsEmpty()
-        {
-            return length == 0;
-        }
-
-        /// <summary>
-        /// Returns first element in queue
-        /// </summary>
-
-        public Generic GetFirstElement()
-        {
-            return first.element;
         }
     }
 }

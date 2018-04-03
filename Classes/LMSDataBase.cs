@@ -402,7 +402,9 @@
         private bool _IsReference;
         private bool _IsBestseller;
         private int _Price;
+        private string _Queue;
         private int _Quantity;
+
         #region Extensibility Method Definitions
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -419,10 +421,8 @@
         partial void OnPublisherChanged();
         partial void OnPublishYearChanging(int value);
         partial void OnPublishYearChanged();
-    
         partial void OnEditionChanging(string value);
         partial void OnEditionChanged();
-
         partial void OnDescriptionChanging(string value);
         partial void OnDescriptionChanged();
         partial void OnDocTypeChanging(int value);
@@ -433,12 +433,15 @@
         partial void OnIsBestsellerChanged();
         partial void OnPriceChanging(int value);
         partial void OnPriceChanged();
+        partial void OnQueueChanging(string value);
+        partial void OnQueueChanged();
         #endregion
 
         public Document()
         {
             OnCreated();
         }
+
         [Column(Storage = "_Quantity", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
         public int Quantity
         {
@@ -455,6 +458,7 @@
                 }
             }
         }
+
         [Column(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id
         {
@@ -641,6 +645,23 @@
                     _Price = value;
                     SendPropertyChanged("Price");
                     OnPriceChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_Queue", DbType = "NVarChar(MAX) NULL")]
+        public string Queue
+        {
+            get => _Queue;
+            set
+            {
+                if ((_Queue != value))
+                {
+                    OnQueueChanging(value);
+                    SendPropertyChanging();
+                    _Queue = value;
+                    SendPropertyChanged("Queue");
+                    OnQueueChanged();
                 }
             }
         }

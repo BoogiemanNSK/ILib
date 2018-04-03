@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 
 namespace I2P_Project.Classes
 {
@@ -15,14 +17,11 @@ namespace I2P_Project.Classes
     class Library
     {
         private LMSDataBase db;
-        // Map from docID to it's Priority queue for docs
-        private Dictionary<int, PriorityQueue<int>> queueMap;
 
         /// <summary> Initializing DB </summary>
         public Library()
         {            
             db = new LMSDataBase(SDM.Strings.CONNECTION_STRING);
-            queueMap = new Dictionary<int, PriorityQueue<int>>();
             ConnectToDB(db);
         }
 
@@ -786,29 +785,103 @@ namespace I2P_Project.Classes
 
         #region PQ Operations
 
-        public void PushInPQ(int docID, int personID)
+        public void SavePQ(PriorityQueue<int> pq, int bookID)
         {
-            var test = from doc in queueMap
-                       where doc.Key == docID
-                       select doc.Value;
-            if (test.Any())
-                test.Single().Push(personID, CheckPriority(personID));
-            else
+            string queue_string = "";
+
+            while (pq.Length > 1)
             {
-                PriorityQueue<int> newPQ = new PriorityQueue<int>();
-                newPQ.Push(personID, CheckPriority(personID));
-                queueMap.Add(docID, newPQ);
+                queue_string += pq.FirstElement.Element;
+                queue_string += '|';
+                queue_string += pq.FirstElement.PriorityLevel;
+                queue_string += '-';
+                pq.Pop();
             }
+
+            queue_string += pq.FirstElement.Element;
+            queue_string += '|';
+            queue_string += pq.FirstElement.PriorityLevel;
+
+            var test = from doc in db.Documents
+                       where doc.Id == bookID
+                       select doc;
+            Document d = test.Single();
+            d.Queue = queue_string;
+            db.SubmitChanges();
+        }
+
+        public PriorityQueue<int> LoadPQ(int bookID)
+        {
+            PriorityQueue<int> localQueue = new PriorityQueue<int>();
+            var test = from doc in db.Documents
+                       where doc.Id == bookID
+                       select doc.Queue;
+
+            string queue_string = test.Single();
+            string[] queue_pairs = queue_string.Split('-');
+            foreach (string pair in queue_pairs)
+            {
+                int id = Convert.ToInt32(pair.Split('|')[0]);
+                int priority = Convert.ToInt32(pair.Split('|')[1]);
+                localQueue.Push(id, priority);
+            }
+
+            return localQueue;
+        }
+
+        public void PushInPQ(int docID, int personID, int priority)
+        {
+            PriorityQueue<int> PQ = LoadPQ(docID);
+            PQ.Push(personID, priority);
+            SavePQ(PQ, docID);
+        }
+
+        public void PopFromPQ(int docID)
+        {
+            PriorityQueue<int> PQ = LoadPQ(docID);
+            PQ.Pop();
+            if (PQ.Length > 0)
+            {
+                Users next = GetUser(Convert.ToInt32(PQ.FirstElement));
+                Document doc = GetDocByID(docID);
+                SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
+            }
+            SavePQ(PQ, docID);
         }
 
         public bool ExistQueueForDoc(int docID)
         {
-            return queueMap.ContainsKey(docID);
+            var test = from doc in db.Documents
+                       where doc.Id == docID
+                       select doc.Queue;
+            if (test.Single().Length > 0) return true;
+            return false;
         }
 
-        private int CheckPriority(int personID)
+        public bool SendNotificationToUser(string To, string Title, string Text)
         {
-            throw new NotImplementedException();
+            try
+            {
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(SDM.Strings.MAIL_SERVER_LOGIN, SDM.Strings.MAIL_SERVER_PASSWORD),
+                    DeliveryMethod = SmtpDeliveryMethod.Network
+                };
+
+                MailMessage msg = new MailMessage(SDM.Strings.MAIL_SERVER_LOGIN + "@gmail.com", To)
+                {
+                    Subject = Title,
+                    Body = Text
+                };
+
+                smtp.Send(msg);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion

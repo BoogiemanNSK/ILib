@@ -31,9 +31,9 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.AddDoc(title, description, docType, price, isBestseller);
         }
 
-        public bool DeleteDoc(int docID)
+        public void DeleteDoc(int docID)
         {
-            return SDM.LMS.RemoveDocument(docID);
+            SDM.LMS.RemoveDocument(docID);
         }
 
         public void DeleteDoc(string Title)

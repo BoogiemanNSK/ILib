@@ -99,34 +99,59 @@ namespace I2P_Project.Classes
         public void AddBook(string title, string Autors, string Publisher, int PublishYear, string Edition, string description, int docType, int price, bool isBestseller)
         {
             bool isReference = !CheckReference(title);
-            DataBase.Document newDoc = new DataBase.Document();
-            newDoc.Title = title;
-            newDoc.Autors = Autors;
-            newDoc.Publisher = Publisher;
-            newDoc.PublishYear = PublishYear;
-            newDoc.Edition = Edition;
-            newDoc.Description = description;
-            newDoc.Price = price;
-            newDoc.DocType = 0;
-            newDoc.IsReference = isReference;
-            newDoc.IsBestseller = isBestseller;
-            db.Documents.InsertOnSubmit(newDoc);
+            if (isReference)
+            {
+                DataBase.Document newDoc = new DataBase.Document();
+                newDoc.Title = title;
+                newDoc.Autors = Autors;
+                newDoc.Publisher = Publisher;
+                newDoc.PublishYear = PublishYear;
+                newDoc.Edition = Edition;
+                newDoc.Description = description;
+                newDoc.Price = price;
+                newDoc.DocType = 0;
+                newDoc.IsReference = isReference;
+                newDoc.IsBestseller = isBestseller;
+                newDoc.Quantity = 0;
+            }
+            else
+            {
+                var test = (from p in db.Documents
+                            where (p.Title == title)
+                            select p);
+                DataBase.Document newDoc = test.Single();
+                newDoc.Quantity++;
+            }
             db.SubmitChanges();
         }
 
         public void AddAV(string title, string Autors,string description, int price)
         {
-            DataBase.Document newDoc = new DataBase.Document();
-            newDoc.Title = title;
-            newDoc.Autors = Autors;
-            newDoc.Description = description;
-            newDoc.Price = price;
-            newDoc.DocType = 2;
-            newDoc.IsReference = false;
-            newDoc.IsBestseller = false;
-            db.Documents.InsertOnSubmit(newDoc);
+            bool isReference = !CheckReference(title);
+            if (isReference)
+            {
+                DataBase.Document newDoc = new DataBase.Document();
+                newDoc.Title = title;
+                newDoc.Autors = Autors;
+                newDoc.Description = description;
+                newDoc.Price = price;
+                newDoc.DocType = 2;
+                newDoc.Quantity = 1;
+                newDoc.IsReference = false;
+                newDoc.IsBestseller = false;
+                db.Documents.InsertOnSubmit(newDoc);
+            }
+            else
+            {
+                var test = (from p in db.Documents
+                            where (p.Title == title)
+                            select p);
+                DataBase.Document newDoc = test.Single();
+                newDoc.Quantity++;
+            }
             db.SubmitChanges();
-        }
+
+    }
 
         /// <summary>
         /// First generate for show functionality
@@ -199,34 +224,29 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Deletes registered doc from the system by ID </summary>
-        internal bool RemoveDocument(int doc_id)
+        internal void RemoveDocument(int doc_id)
         {
             var record_to_remove = (from d in db.Documents
                                     where (d.Id == doc_id)
                                     select d).Single();
-            if (record_to_remove.IsReference)
-            {
-                var check_copy = (from d in db.Documents
-                                  where (d.Id != record_to_remove.Id && d.Title.Equals(record_to_remove.Title))
-                                  select d);
-                if (check_copy.Any())
-                    return false;
-            }
-            db.Documents.DeleteOnSubmit(record_to_remove);
+            if (record_to_remove.Quantity == 0)
+                db.Documents.DeleteOnSubmit(record_to_remove);
+            else
+                record_to_remove.Quantity--;
             db.SubmitChanges();
-            return true;
-
         }
 
         /// <summary> Deletes registered doc from the system by Title </summary>
         internal void RemoveDocument(string Title)
         {
             var record_to_remove = (from d in db.Documents
-                                    where (d.Title.Equals(Title) && d.IsReference == false)
-                                    select d).FirstOrDefault();
-            if (record_to_remove == null)
-                record_to_remove = (from d in db.Documents where d.Title.Equals(Title) && d.IsReference select d).Single();
-            db.Documents.DeleteOnSubmit(record_to_remove);
+                                    where (d.Title.Equals(Title))
+                                    select d).Single();
+
+            if (record_to_remove.Quantity == 0)
+                db.Documents.DeleteOnSubmit(record_to_remove);
+            else
+                record_to_remove.Quantity--;
             db.SubmitChanges();
         }
 

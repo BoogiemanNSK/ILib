@@ -258,10 +258,7 @@ namespace I2P_Project.Classes
             var record_to_remove = (from d in db.Documents
                                     where (d.Id == doc_id)
                                     select d).Single();
-            if (record_to_remove.Quantity == 0)
-                db.Documents.DeleteOnSubmit(record_to_remove);
-            else
-                record_to_remove.Quantity--;
+            db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
         }
 
@@ -271,11 +268,7 @@ namespace I2P_Project.Classes
             var record_to_remove = (from d in db.Documents
                                     where (d.Title.Equals(Title))
                                     select d).Single();
-
-            if (record_to_remove.Quantity == 0)
-                db.Documents.DeleteOnSubmit(record_to_remove);
-            else
-                record_to_remove.Quantity--;
+            db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
         }
 
@@ -301,7 +294,7 @@ namespace I2P_Project.Classes
                         where d.Title == doc.Title
                         select d);
 
-            foreach (DataBase.Document docs in copy)
+            foreach (Document docs in copy)
             {
                 docs.Title = Title;
                 docs.Description = Description;
@@ -826,7 +819,7 @@ namespace I2P_Project.Classes
             PQ.Pop();
             if (PQ.Length > 0)
             {
-                Users next = GetUser(Convert.ToInt32(PQ.FirstElement));
+                Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
                 Document doc = GetDocByID(docID);
                 SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
                 SavePQ(PQ, docID);
@@ -920,6 +913,7 @@ namespace I2P_Project.Classes
                        select doc;
             Document d = test.Single();
             d.Queue = queue_string;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, d);
             db.SubmitChanges();
         }
 

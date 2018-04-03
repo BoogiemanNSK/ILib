@@ -26,6 +26,7 @@
 
             doc = GetDocumentForCheckOut(title);
             doc.Quantity--;
+            uDB.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             uDB.SubmitChanges();
 
             if (doc.IsBestseller || doc.DocType != 0)

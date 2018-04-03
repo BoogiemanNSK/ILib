@@ -48,8 +48,11 @@ namespace I2P_Project.Classes.UserSystem
             var test = from c in uDB.Checkouts
                        where (c.BookID == docID & c.UserID == PersonID)
                        select c;
-            Checkouts checkout = test.Single();
 
+            Checkouts checkout = test.Single();
+            Document doc = SDM.LMS.GetDocByID(docID);
+
+            doc.Quantity++;
             uDB.Checkouts.DeleteOnSubmit(checkout);
             uDB.SubmitChanges();
 
@@ -66,7 +69,7 @@ namespace I2P_Project.Classes.UserSystem
                 return SDM.Strings.ALREADY_HAVE_TEXT;
             else if (selected.Queue.Length > 0)
             {
-                if (selected.Queue.Split('|')[0].Equals(PersonID))
+                if (selected.Queue.Split('|')[0].Equals(PersonID.ToString()))
                     return SDM.Strings.PERSON_FIRST_IN_QUEUE_TEXT;
                 else if (SDM.LMS.IsPersonInQueue(PersonID, selected.Id))
                     return SDM.Strings.PERSON_IN_QUEUE_TEXT;

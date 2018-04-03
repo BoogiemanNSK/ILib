@@ -26,6 +26,7 @@
 
             doc = GetDocumentForCheckOut(title);
             doc.Quantity--;
+            uDB.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             uDB.SubmitChanges();
 
             SetCheckOut(doc.Id, 1, DateCheat);

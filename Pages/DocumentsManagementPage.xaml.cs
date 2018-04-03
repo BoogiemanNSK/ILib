@@ -76,10 +76,8 @@ namespace I2P_Project.Pages
                         //remove document
                         DocumentsTable doc_row = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
                         int doc_id = doc_row.docID;
-                        if (!lib.DeleteDoc(doc_id))
-                            MessageBox.Show("It's not possible to delete referense book, when copies exists");
-                        else
-                            updateTable();
+                        lib.DeleteDoc(doc_id);
+                        updateTable();
                     }
                     catch (Exception exc)
                     {

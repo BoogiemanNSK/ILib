@@ -25,24 +25,24 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.UpdateUser(patronID, Name, Adress, PhoneNumber, userType);
         }
 
-        /// <summary> Adding new doc to DB with given parameters </summary>
+        /// <summary> Adding new book to DB with given parameters </summary>
         public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
         {
             SDM.LMS.AddBook(title, autors, publisher, publishYear, edition, description, price, isBestseller, quantity);
         }
 
-        /// <summary> Adding new doc to DB with given parameters </summary>
+        /// <summary> Adding new journal to DB with given parameters </summary>
         public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
         {
             SDM.LMS.AddJournal(title, autors, publishedIn, issueTitle, issueEditor, price, quantity);
         }
 
-        /// <summary> Adding new doc to DB with given parameters </summary>
+        /// <summary> Adding new AV to DB with given parameters </summary>
         public void AddAV(string title, string autors, int price, int quantity)
         {
             SDM.LMS.AddAV(title, autors, price, quantity);
         }
-
+        
         public void DeleteDoc(int docID)
         {
             SDM.LMS.RemoveDocument(docID);

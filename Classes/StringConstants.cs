@@ -4,11 +4,11 @@
 /// </summary>
 class StringConstants {
 
-    public string CONNECTION_STRING => "Server=tcp:ilibserver.database.windows.net,1433;" +
-                                       "Initial Catalog=iLibDB;" +
+    public string CONNECTION_STRING => "Server=tcp:ilib2018.database.windows.net,1433;" +
+                                       "Initial Catalog=iLibDB2018;" +
                                        "Persist Security Info=False;" +
-                                       "User ID=iLibAdmin;" +
-                                       "Password=Faraday28;" +
+                                       "User ID=ilib2018admin;" +
+                                       "Password=iLibpass2018;" +
                                        "MultipleActiveResultSets=False;" +
                                        "Encrypt=True;" +
                                        "TrustServerCertificate=False;" +

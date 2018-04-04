@@ -69,8 +69,7 @@ namespace I2P_Project.Pages
                             case MessageBoxResult.No:
                                 break;
                         }
-                    } else
-                    {
+                    } else {
                         MessageBox.Show(returnResult);
                     }
 

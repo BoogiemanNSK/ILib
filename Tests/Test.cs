@@ -1033,7 +1033,24 @@ namespace I2P_Project.Tests
 
         public void test26()
         {
-
+            //test25();
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut("d3");
+            SDM.CurrentUser = new Faculty("p2");
+            Faculty p2 = (Faculty)SDM.CurrentUser;
+            p2.CheckOut("d3");
+            SDM.CurrentUser = new Faculty("s");
+            Student s = (Student)SDM.CurrentUser;
+            s.CheckOut("d3");
+            SDM.CurrentUser = new VisitingProfessor("v");
+            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
+            s.CheckOut("d3");
+            SDM.CurrentUser = new Faculty("p3");
+            Faculty p3 = (Faculty)SDM.CurrentUser;
+            s.CheckOut("d3");
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
+               
         }
     }
 }

@@ -762,10 +762,10 @@ namespace I2P_Project.Classes
 
         public bool AmountOfDocs(string Title, int n)
         {
-            var test = from d in db.Documents
+            var test = (from d in db.Documents
                        where d.Title.Equals(Title)
-                       select d;
-            return test.Count()==n;
+                       select d).Single();
+            return test.Quantity==n;
         }
 
         public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)

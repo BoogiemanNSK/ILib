@@ -974,7 +974,7 @@ namespace I2P_Project.Tests
                     "Alghorithm techniques and design",
                     5000,
                     false,
-                    4
+                    3
                 );
             SDM.LMS.AddBook
                 (
@@ -986,9 +986,9 @@ namespace I2P_Project.Tests
                     "Programm patterns, how to programm well w/o headache",
                     1700,
                     true,
-                    4
+                    3
                 );
-            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 3);
+            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 2);
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
             lb.RegisterUser("p1", "p1", "p1", "Via Margutta, 3", "30001", false);
@@ -1006,11 +1006,11 @@ namespace I2P_Project.Tests
             {
                 Debug.Assert(SDM.LMS.DocExists("d1"));
                 //included reference book
-                Debug.Assert(SDM.LMS.AmountOfDocs("d1", 4));
+                Debug.Assert(SDM.LMS.AmountOfDocs("d1", 3));
                 Debug.Assert(SDM.LMS.DocExists("d2"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("d2", 4));
+                Debug.Assert(SDM.LMS.AmountOfDocs("d2", 3));
                 Debug.Assert(SDM.LMS.DocExists("d3"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("d3", 3));
+                Debug.Assert(SDM.LMS.AmountOfDocs("d3", 2));
                 Debug.Assert(SDM.LMS.CheckLogin("p1"));
                 Debug.Assert(SDM.LMS.CheckLogin("p2"));
                 Debug.Assert(SDM.LMS.CheckLogin("p3"));
@@ -1083,7 +1083,10 @@ namespace I2P_Project.Tests
         public void test29()
         {
             test26();
-
+            SDM.CurrentUser = new Faculty("p3");
+            Faculty p3 = (Faculty)SDM.CurrentUser;
+            p3.RenewDoc(SDM.LMS.GetDocID("d3"));
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p3");
         }
     }
 }

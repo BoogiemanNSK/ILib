@@ -14,8 +14,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="40"/>
             <RowDefinition />
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -23,7 +22,7 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Center" Content="DocsTable"/>
+        <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Center" Content="Documents Table"/>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Click="OnAddBook" Width="32" Content="&#xE109;" Margin="5,5,5,5" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
                     FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Style="{DynamicResource ButtonStyle}"

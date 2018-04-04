@@ -50,7 +50,7 @@ namespace I2P_Project.Pages
             {
                 case MessageBoxResult.Yes:
                     MyBooksTable mb_row = myBooksTable.SelectedItems[0] as MyBooksTable;
-                    int bookID = mb_row.bookID;
+                    int bookID = mb_row.docID;
                     Patron currentPatron = (Patron)SDM.CurrentUser;
                     MessageBox.Show(currentPatron.ReturnDoc(bookID));
                     UpdateUI();
@@ -71,7 +71,7 @@ namespace I2P_Project.Pages
             {
                 case MessageBoxResult.Yes:
                     MyBooksTable mb_row = myBooksTable.SelectedItems[0] as MyBooksTable;
-                    int bookID = mb_row.bookID;
+                    int bookID = mb_row.docID;
                     var currentPatron = (Patron)SDM.CurrentUser;
                     MessageBox.Show(currentPatron.RenewDoc(bookID));
                     UpdateUI();
@@ -85,9 +85,12 @@ namespace I2P_Project.Pages
     class MyBooksTable
     {
         public int checkID { get; set; }
-        public int bookID { get; set; }
-        public string b_title { get; set; }
-        public DateTime c_dateTaked { get; set; }
-        public DateTime c_timeToBack { get; set; }
+        public int docID { get; set; }
+        public string docTitle { get; set; }
+        public string docAutors { get; set; }
+        public int docPrice { get; set; }
+        public int docFine { get; set; }
+        public DateTime checkDateTaked { get; set; }
+        public DateTime checkTimeToBack { get; set; }
     }
 }

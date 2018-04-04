@@ -132,7 +132,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("b"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 4);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().checkTimeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().checkDateTaked).TotalDays / 7) == 4);
 
                 output = "Test3 OK";
 
@@ -179,7 +179,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("b"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 2);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().checkTimeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().checkDateTaked).TotalDays / 7) == 2);
 
                 output = "Test4 OK";
 
@@ -409,7 +409,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("b"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 3);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().checkTimeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().checkDateTaked).TotalDays / 7) == 3);
 
                 output = "Test8 OK";
 
@@ -460,7 +460,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("b"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 2);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().checkTimeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().checkDateTaked).TotalDays / 7) == 2);
 
                 output = "Test9 OK";
 

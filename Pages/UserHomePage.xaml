@@ -32,19 +32,12 @@
         <DataGrid Grid.Column="1" Name="docTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False"
                   IsReadOnly="True" FontWeight="Bold" FontFamily="/I2P-Project;component/Fonts/#Panton">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="bookID" Binding="{Binding bookID}" Visibility="Hidden"/>
-                <DataGridTemplateColumn CanUserResize="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Margin="5, 5, 5, 5" Height="80" Width="80" x:Name="book_img" Source="{Binding book_image}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Title" Binding="{Binding title}" Width="*"/>
-                <DataGridTextColumn Header="Author" Binding="{Binding author}" Width="*"/>
-                <DataGridTextColumn Header="Publisher" Binding="{Binding publisher}" Width="*"/>
-                <DataGridTextColumn Header="Year" Binding="{Binding publish_year}" Width="*"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding price}" Width="*"/>
+                <DataGridTextColumn Header="docID" Binding="{Binding docID}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="*"/>
+                <DataGridTextColumn Header="Author" Binding="{Binding docAutor}" Width="*"/>
+                <DataGridTextColumn Header="DocType" Binding="{Binding docType}" Width="*"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding docPrice}" Width="*"/>
+                <DataGridTextColumn Header="Publisher" Binding="{Binding docQuantity}" Width="*"/>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

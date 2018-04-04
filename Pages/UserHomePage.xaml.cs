@@ -30,7 +30,7 @@ namespace I2P_Project.Pages
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
-            docTable.ItemsSource = SDM.LMS.GetAllDocs();
+            docTable.ItemsSource = SDM.LMS.GetDocsTable();
             pm.EndWaiting();
         }
 
@@ -45,8 +45,8 @@ namespace I2P_Project.Pages
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    LibraryTable lb_row = docTable.SelectedItems[0] as LibraryTable;
-                    int bookID = lb_row.bookID;
+                    DocumentsTable lb_row = docTable.SelectedItems[0] as DocumentsTable;
+                    int bookID = lb_row.docID;
                     Patron currentPatron = (Patron)SDM.CurrentUser;
                     MessageBox.Show(currentPatron.CheckOut(bookID));
                     UpdateUI();
@@ -57,14 +57,4 @@ namespace I2P_Project.Pages
         }
     }
 
-    class LibraryTable
-    {
-        public int bookID { get; set; }
-        public string book_image { get; set; }
-        public string title { get; set; }
-        public string author { get; set; }
-        public string publisher { get; set; }
-        public int publish_year { get; set; }
-        public int price { get; set; }
-    }
 }

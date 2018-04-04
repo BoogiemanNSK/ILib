@@ -964,6 +964,7 @@ namespace I2P_Project.Tests
         {
             //AddBooks
             SDM.LMS.ClearDB();
+            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             SDM.LMS.AddBook
                 (
                     "d1",
@@ -974,7 +975,7 @@ namespace I2P_Project.Tests
                     "Alghorithm techniques and design",
                     5000,
                     false,
-                    4
+                    3
                 );
             SDM.LMS.AddBook
                 (
@@ -986,7 +987,7 @@ namespace I2P_Project.Tests
                     "Programm patterns, how to programm well w/o headache",
                     1700,
                     true,
-                    4
+                    3
                 );
             SDM.LMS.AddAV("d3", "Tony Hoare", 700, 3);
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
@@ -1007,11 +1008,11 @@ namespace I2P_Project.Tests
             {
                 Debug.Assert(SDM.LMS.DocExists("d1"));
                 //included reference book
-                Debug.Assert(SDM.LMS.AmountOfDocs("d1", 4));
+                Debug.Assert(SDM.LMS.AmountOfDocs("d1", 3));
                 Debug.Assert(SDM.LMS.DocExists("d2"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("d2", 4));
+                Debug.Assert(SDM.LMS.AmountOfDocs("d2", 3));
                 Debug.Assert(SDM.LMS.DocExists("d3"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("d3", 3));
+                Debug.Assert(SDM.LMS.AmountOfDocs("d3", 2));
                 Debug.Assert(SDM.LMS.CheckLogin("p1"));
                 Debug.Assert(SDM.LMS.CheckLogin("p2"));
                 Debug.Assert(SDM.LMS.CheckLogin("p3"));
@@ -1054,7 +1055,59 @@ namespace I2P_Project.Tests
 
         public void test26()
         {
+            //test25();
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut("d3");
+            SDM.CurrentUser = new Faculty("p2");
+            Faculty p2 = (Faculty)SDM.CurrentUser;
+            p2.CheckOut("d3");
+            SDM.CurrentUser = new Faculty("s");
+            Student s = (Student)SDM.CurrentUser;
+            s.CheckOut("d3");
+            SDM.CurrentUser = new VisitingProfessor("v");
+            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
+            s.CheckOut("d3");
+            SDM.CurrentUser = new Faculty("p3");
+            Faculty p3 = (Faculty)SDM.CurrentUser;
+            s.CheckOut("d3");
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
+        }
+        public void test27()
+        {
+            test26();
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            int docid = SDM.LMS.GetDocID("d3");
+            lb.OutstandingRequest(docid);
+            Debug.Assert(!SDM.LMS.ExistQueueForDoc(docid));
+        }
 
+        public void test28()
+        {
+            test26();
+            SDM.CurrentUser = new Faculty("p2");
+            Faculty p2 = (Faculty)SDM.CurrentUser;
+            p2.ReturnDoc(SDM.LMS.GetDocID("d3"));
+            
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p2");
+            Debug.Assert(checkedOuts.Capacity == 0);
+        }
+
+        public void test29()
+        {
+            test26();
+            SDM.CurrentUser = new Faculty("p3");
+            Faculty p3 = (Faculty)SDM.CurrentUser;
+            p3.RenewDoc(SDM.LMS.GetDocID("d3"));
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p3");
         }
     }
 }

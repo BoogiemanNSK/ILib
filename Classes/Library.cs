@@ -309,6 +309,14 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
+        public void UpgradeUser(string Name)
+        {
+            Users user = GetUser(Name);
+            if (user.UserType < 2)
+                user.UserType++;
+            db.SubmitChanges();
+        }
+
         public void SetOutstandingRequest(int docID)
         {
             var doc = (from d in db.Documents

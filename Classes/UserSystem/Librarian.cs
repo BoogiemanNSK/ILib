@@ -19,7 +19,10 @@ namespace I2P_Project.Classes.UserSystem
         {
             SDM.LMS.RemoveUser(patronID);
         }
-
+        public void UpgradeUser(string Name, int ut)
+        {
+            SDM.LMS.UpgradeUser(Name, ut);
+        }
         public void ModifyUser(int patronID, string Name, string Adress, string PhoneNumber, int userType)
         {
             SDM.LMS.UpdateUser(patronID, Name, Adress, PhoneNumber, userType);

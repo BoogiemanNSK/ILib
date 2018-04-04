@@ -34,9 +34,9 @@ namespace I2P_Project.Pages
             DocumentsTable.ItemsSource = SDM.LMS.GetDocsTable();
             UserTable.ItemsSource = SDM.LMS.TestUsersTable();
         }
-
         private void OnTest(object sender, RoutedEventArgs e)
         {
+            /*
             TestOutput.Text = "Test " + TestNumber.Text + ":\n";
             switch (TestNumber.Text)
             {
@@ -148,8 +148,9 @@ namespace I2P_Project.Pages
                     TestOutput.Text += "No such test found";
                     break;
             }
-        }
-
+    */    
+    }
+        
         private void OnShow(object sender, RoutedEventArgs e)
         {
             UserTable ut_row = UserTable.SelectedItems[0] as UserTable;

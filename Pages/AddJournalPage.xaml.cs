@@ -19,11 +19,11 @@ namespace I2P_Project.Pages
     /// <summary>
     /// Логика взаимодействия для AddBookPage.xaml
     /// </summary>
-    public partial class AddBookPage : Window
+    public partial class AddJournalPage : Window
     {
         private DocumentsManagementPage _previousPage;
 
-        public AddBookPage(DocumentsManagementPage page)
+        public AddJournalPage(DocumentsManagementPage page)
         {
             _previousPage = page;
             InitializeComponent();
@@ -34,18 +34,15 @@ namespace I2P_Project.Pages
             Librarian currentUser = (Librarian)SDM.CurrentUser;
             int price = Convert.ToInt32(PriceTB.Text);
             int quantity = Convert.ToInt32(CopiesTB.Text);
-            bool isBestseller = IsBestseller.SelectedIndex == 0;
             
-            currentUser.AddBook
+            currentUser.AddJournal
                 (
                     TitleTB.Text,
                     AutorsTB.Text,
-                    PublisherTB.Text,
-                    Convert.ToInt32(PublishYearTB.Text),
-                    EditionTB.Text,
-                    DescriptionTB.Text,
+                    PublishedInTB.Text,
+                    IssueTitleTB.Text,
+                    IssueEditorTB.Text,
                     price,
-                    isBestseller,
                     quantity
                 );
 

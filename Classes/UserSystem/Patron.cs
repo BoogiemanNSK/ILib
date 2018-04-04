@@ -21,15 +21,14 @@ namespace I2P_Project.Classes.UserSystem
 
         public string RenewDoc(int docID)
         {
-            Patron patron = (Patron)SDM.CurrentUser;
             var doc = (from b in uDB.Checkouts
                        where b.BookID == docID
                        select b).Single();
-            if (doc.IsRenewed)
+            if (doc.IsRenewed && UserType != 3)
                 return SDM.Strings.DOC_ALREADY_RENEWED;
             else if (SDM.LMS.ExistQueueForDoc(docID))
                  return SDM.Strings.DOC_IN_QUEUE;
-            else if (SDM.LMS.GetUserFine(patron.PersonID) > 0)
+            else if (SDM.LMS.GetUserFineForDoc(PersonID, docID) > 0)
                 return SDM.Strings.USER_HAVE_FINE;
             else
             {

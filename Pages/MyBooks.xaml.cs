@@ -62,6 +62,7 @@ namespace I2P_Project.Pages
                         switch (askForFine)
                         {
                             case MessageBoxResult.Yes:
+                                currentPatron.PayFine(bookID);
                                 returnResult = currentPatron.ReturnDoc(bookID);
                                 MessageBox.Show(returnResult);
                                 break;

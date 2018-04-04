@@ -19,8 +19,14 @@ namespace I2P_Project.Classes.UserSystem
         /// <returns> Result of check out as message </returns>
         public abstract string CheckOut(string title, params int[] DateCheat);
 
-        public string RenewDoc(int docID)
+        public string RenewDoc(int docID, params int[] DateCheat)
         {
+            System.DateTime time;
+            if (DateCheat.Length == 0)
+                time = System.DateTime.Now;
+            else
+                time = new System.DateTime(DateCheat[2], DateCheat[1], DateCheat[0]);
+
             var doc = (from book in uDB.Checkouts
                        where book.BookID == docID && SDM.CurrentUser.PersonID == book.UserID
                        select book).Single();
@@ -32,8 +38,8 @@ namespace I2P_Project.Classes.UserSystem
                 return SDM.Strings.USER_HAVE_FINE;
             else
             {
-                 doc.TimeToBack = System.DateTime.Now.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
-                 doc.DateTaked = System.DateTime.Now;
+                 doc.TimeToBack = time.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
+                 doc.DateTaked = time;
                  doc.IsRenewed = true;
                  uDB.SubmitChanges();
                  return SDM.Strings.SUCCESSFUL_RENEW;

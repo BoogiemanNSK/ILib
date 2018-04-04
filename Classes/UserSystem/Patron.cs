@@ -70,7 +70,7 @@ namespace I2P_Project.Classes.UserSystem
                        where (c.BookID == docID & c.UserID == PersonID)
                        select c;
             Checkouts checkout = test.Single();
-            checkout.DateTaked = checkout.TimeToBack;
+            checkout.TimeToBack = System.DateTime.Now;
             uDB.Refresh(System.Data.Linq.RefreshMode.KeepChanges, checkout);
             uDB.SubmitChanges();
         }

@@ -23,7 +23,7 @@ namespace I2P_Project.Classes.UserSystem
         {
             Patron patron = (Patron)SDM.CurrentUser;
             var doc = (from b in uDB.Checkouts
-                       where b.BookID == docID
+                       where b.BookID == docID && b.UserID == SDM.CurrentUser.PersonID
                        select b).Single();
             if (doc.IsRenewed)
                 return SDM.Strings.DOC_ALREADY_RENEWED;

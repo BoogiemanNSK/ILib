@@ -92,6 +92,7 @@
             <ListBoxItem Content="27"/>
             <ListBoxItem Content="28"/>
             <ListBoxItem Content="29"/>
+            <ListBoxItem Content="30"/>
         </ComboBox>
 
         <Button Grid.Row="9" Click="OnTest" Height="25" Width="120" HorizontalAlignment="Center" Margin="0,2,0,2">Test</Button>

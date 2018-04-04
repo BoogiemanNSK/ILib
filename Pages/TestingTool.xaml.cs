@@ -153,19 +153,15 @@ namespace I2P_Project.Pages
                     UpdateTables();
                     break;
                 case "22":
-                    test.test20();
+                    test.test22();
                     UpdateTables();
                     break;
                 case "23":
-                    test.test20();
-                    UpdateTables();
-                    break;
-                case "24":
-                    test.test20();
+                    test.test23();
                     UpdateTables();
                     break;
                 case "25":
-                    test.test20();
+                    test.test25();
                     UpdateTables();
                     break;
                 case "26":
@@ -184,7 +180,10 @@ namespace I2P_Project.Pages
                     test.test29();
                     UpdateTables();
                     break;
-
+                case "30":
+                    test.test30();
+                    UpdateTables();
+                    break;
                 default:
                     TestOutput.Text += "No such test found";
                     break;
@@ -214,7 +213,7 @@ namespace I2P_Project.Pages
     {
         public int userID { get; set; }
         public string userName { get; set; }
-        public string userAddress { get; set; }
+        public string userAddress{ get; set; }
         public string userPhoneNumber { get; set; }
         public string userType { get; set; }
     }

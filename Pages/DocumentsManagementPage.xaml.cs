@@ -30,7 +30,7 @@ namespace I2P_Project.Pages
 
         private void OnAddBook(object sender, RoutedEventArgs e)
         {
-            AddBookPage page = new AddBookPage(this);
+            AddDocPage page = new AddDocPage(this);
             page.ShowDialog();
         }
 
@@ -38,7 +38,7 @@ namespace I2P_Project.Pages
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
-            dgLibrarianDocuments.ItemsSource = SDM.LMS.GetDocsTableForLibrarian();
+            dgLibrarianDocuments.ItemsSource = SDM.LMS.GetDocsTable();
             pm.EndWaiting();
         }
 
@@ -88,17 +88,25 @@ namespace I2P_Project.Pages
                     break;
             }
         }
+
+        private void OnRequestBook(object sender, RoutedEventArgs e)
+        {
+
+            DocumentsTable docRow = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
+            SDM.LMS.SetOutstandingRequest(docRow.docID);
+            updateTable();
+            MessageBox.Show("You have successfully deleted users queue for that document.", "Success!", MessageBoxButton.OK);
+        }
     }
 
     class DocumentsTable
     {
-        public DateTime dateTaked { get; set; }
         public int docID { get; set; }
-        public int docOwnerID { get; set; }
         public string docTitle { get; set; }
+        public string docAutors { get; set; }
         public string docType { get; set; }
-        public bool isReference { get; set; }
-        public DateTime timeToBack { get; set; }
+        public int docPrice { get; set; }
+        public int docQuantity { get; set; }
 
     }
 }

@@ -391,72 +391,62 @@
     public partial class Document : INotifyPropertyChanging, INotifyPropertyChanged
     {
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+
         private int _Id;
         private string _Autors;
+        private string _Description;
+        private string _Title;
         private string _Publisher;
         private string _Edition;
-        private int _PublishYear;
-        private string _Title;
-        private string _Description;
-        private int _DocType;
-        private bool _IsReference;
-        private bool _IsBestseller;
-        private int _Price;
+        private string _IssueTitle;
+        private string _IssueEditor;
+        private string _PublishedIn;
         private string _Queue;
+        private bool _IsBestseller;
+        private int _PublishYear;
+        private int _Price;
         private int _Quantity;
+        private int _DocType;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
+        partial void OnValidate(ChangeAction action);
         partial void OnCreated();
         partial void OnIdChanging(int value);
-        partial void OnQuantityChanged();
-        partial void OnQuantityChanging(int value);
         partial void OnIdChanged();
-        partial void OnTitleChanging(string value);
-        partial void OnTitleChanged();
         partial void OnAutorsChanging(string value);
         partial void OnAutorsChanged();
-        partial void OnPublisherChanging(string value);
-        partial void OnPublisherChanged();
-        partial void OnPublishYearChanging(int value);
-        partial void OnPublishYearChanged();
-        partial void OnEditionChanging(string value);
-        partial void OnEditionChanged();
         partial void OnDescriptionChanging(string value);
         partial void OnDescriptionChanged();
-        partial void OnDocTypeChanging(int value);
-        partial void OnDocTypeChanged();
-        partial void OnIsReferenceChanging(bool value);
-        partial void OnIsReferenceChanged();
-        partial void OnIsBestsellerChanging(bool value);
-        partial void OnIsBestsellerChanged();
-        partial void OnPriceChanging(int value);
-        partial void OnPriceChanged();
+        partial void OnTitleChanging(string value);
+        partial void OnTitleChanged();
+        partial void OnPublisherChanging(string value);
+        partial void OnPublisherChanged();
+        partial void OnEditionChanging(string value);
+        partial void OnEditionChanged();
+        partial void OnIssueTitleChanging(string value);
+        partial void OnIssueTitleChanged();
+        partial void OnIssueEditorChanging(string value);
+        partial void OnIssueEditorChanged();
+        partial void OnPublishedInChanging(string value);
+        partial void OnPublishedInChanged();
         partial void OnQueueChanging(string value);
         partial void OnQueueChanged();
+        partial void OnIsBestsellerChanging(bool value);
+        partial void OnIsBestsellerChanged();
+        partial void OnPublishYearChanging(int value);
+        partial void OnPublishYearChanged();
+        partial void OnPriceChanging(int value);
+        partial void OnPriceChanged();
+        partial void OnQuantityChanged();
+        partial void OnQuantityChanging(int value);
+        partial void OnDocTypeChanging(int value);
+        partial void OnDocTypeChanged();
         #endregion
 
         public Document()
         {
             OnCreated();
-        }
-
-        [Column(Storage = "_Quantity", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Quantity
-        {
-            get => _Quantity;
-            set
-            {
-                if ((_Quantity != value))
-                {
-                    OnQuantityChanging(value);
-                    SendPropertyChanging();
-                    _Quantity = value;
-                    SendPropertyChanged("Id");
-                    OnQuantityChanged();
-                }
-            }
         }
 
         [Column(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
@@ -487,8 +477,25 @@
                     OnAutorsChanging(value);
                     SendPropertyChanging();
                     _Autors = value;
-                    SendPropertyChanged("Title");
+                    SendPropertyChanged("Autors");
                     OnAutorsChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_Description", DbType = "NVarChar(MAX) NULL")]
+        public string Description
+        {
+            get => _Description;
+            set
+            {
+                if ((_Description != value))
+                {
+                    OnDescriptionChanging(value);
+                    SendPropertyChanging();
+                    _Description = value;
+                    SendPropertyChanged("Description");
+                    OnDescriptionChanged();
                 }
             }
         }
@@ -522,7 +529,7 @@
                     OnPublisherChanging(value);
                     SendPropertyChanging();
                     _Publisher = value;
-                    SendPropertyChanged("Title");
+                    SendPropertyChanged("Publisher");
                     OnPublisherChanged();
                 }
             }
@@ -541,11 +548,95 @@
                     SendPropertyChanging();
                     _Edition = value;
                     SendPropertyChanged("Edition");
-                    OnTitleChanged();
+                    OnEditionChanged();
                 }
             }
         }
 
+        [Column(Storage = "_IssueTitle", DbType = "NVarChar(MAX) NULL")]
+        public string IssueTitle
+        {
+            get => _IssueTitle;
+            set
+            {
+                if ((_IssueTitle != value))
+                {
+                    OnIssueTitleChanging(value);
+                    SendPropertyChanging();
+                    _IssueTitle = value;
+                    SendPropertyChanged("IssueTitle");
+                    OnIssueTitleChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_IssueEditor", DbType = "NVarChar(MAX) NULL")]
+        public string IssueEditor
+        {
+            get => _IssueEditor;
+            set
+            {
+                if ((_IssueEditor != value))
+                {
+                    OnIssueEditorChanging(value);
+                    SendPropertyChanging();
+                    _IssueEditor = value;
+                    SendPropertyChanged("IssueEditor");
+                    OnIssueEditorChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_PublishedIn", DbType = "NVarChar(MAX) NULL")]
+        public string PublishedIn
+        {
+            get => _PublishedIn;
+            set
+            {
+                if ((_PublishedIn != value))
+                {
+                    OnPublishedInChanging(value);
+                    SendPropertyChanging();
+                    _PublishedIn = value;
+                    SendPropertyChanged("PublishedIn");
+                    OnPublishedInChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_Queue", DbType = "NVarChar(MAX) NULL")]
+        public string Queue
+        {
+            get => _Queue;
+            set
+            {
+                if ((_Queue != value))
+                {
+                    OnQueueChanging(value);
+                    SendPropertyChanging();
+                    _Queue = value;
+                    SendPropertyChanged("Queue");
+                    OnQueueChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_IsBestseller", DbType = "Bit NULL")]
+        public bool IsBestseller
+        {
+            get => _IsBestseller;
+            set
+            {
+                if ((_IsBestseller != value))
+                {
+                    OnIsBestsellerChanging(value);
+                    SendPropertyChanging();
+                    _IsBestseller = value;
+                    SendPropertyChanged("IsBestseller");
+                    OnIsBestsellerChanged();
+                }
+            }
+        }
 
         [Column(Storage = "_PublishYear", DbType = "Int NOT NULL DEFAULT 0")]
         public int PublishYear
@@ -564,19 +655,36 @@
             }
         }
 
-        [Column(Storage = "_Description", DbType = "NVarChar(MAX) NULL")]
-        public string Description   
+        [Column(Storage = "_Price", DbType = "Int NOT NULL DEFAULT 0")]
+        public int Price
         {
-            get => _Description;
+            get => _Price;
             set
             {
-                if ((_Description != value))
+                if ((_Price != value))
                 {
-                    OnDescriptionChanging(value);
+                    OnPriceChanging(value);
                     SendPropertyChanging();
-                    _Description = value;
-                    SendPropertyChanged("Description");
-                    OnDescriptionChanged();
+                    _Price = value;
+                    SendPropertyChanged("Price");
+                    OnPriceChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_Quantity", DbType = "Int NOT NULL DEFAULT 0")]
+        public int Quantity
+        {
+            get => _Quantity;
+            set
+            {
+                if ((_Quantity != value))
+                {
+                    OnQuantityChanging(value);
+                    SendPropertyChanging();
+                    _Quantity = value;
+                    SendPropertyChanged("Quantity");
+                    OnQuantityChanged();
                 }
             }
         }
@@ -594,74 +702,6 @@
                     _DocType = value;
                     SendPropertyChanged("DocType");
                     OnDocTypeChanged();
-                }
-            }
-        }
-
-        [Column(Storage = "_IsReference", DbType = "Bit NOT NULL")]
-        public bool IsReference
-        {
-            get => _IsReference;
-            set
-            {
-                if ((_IsReference != value))
-                {
-                    OnIsReferenceChanging(value);
-                    SendPropertyChanging();
-                    _IsReference = value;
-                    SendPropertyChanged("IsReference");
-                    OnIsReferenceChanged();
-                }
-            }
-        }
-
-        [Column(Storage = "_IsBestseller", DbType = "Bit")]
-        public bool IsBestseller
-        {
-            get => _IsBestseller;
-            set
-            {
-                if ((_IsBestseller != value))
-                {
-                    OnIsBestsellerChanging(value);
-                    SendPropertyChanging();
-                    _IsBestseller = value;
-                    SendPropertyChanged("IsBestseller");
-                    OnIsBestsellerChanged();
-                }
-            }
-        }
-
-        [Column(Storage = "_Price", DbType = "Int NOT NULL")]
-        public int Price
-        {
-            get => _Price;
-            set
-            {
-                if ((_Price != value))
-                {
-                    OnPriceChanging(value);
-                    SendPropertyChanging();
-                    _Price = value;
-                    SendPropertyChanged("Price");
-                    OnPriceChanged();
-                }
-            }
-        }
-
-        [Column(Storage = "_Queue", DbType = "NVarChar(MAX) NULL")]
-        public string Queue
-        {
-            get => _Queue;
-            set
-            {
-                if ((_Queue != value))
-                {
-                    OnQueueChanging(value);
-                    SendPropertyChanging();
-                    _Queue = value;
-                    SendPropertyChanged("Queue");
-                    OnQueueChanged();
                 }
             }
         }

@@ -37,7 +37,7 @@ namespace I2P_Project.Pages
     {
         public int docID { get; set; }
         public string docTitle { get; set; }
-        public bool isReference { get; set; }
+        public int quantity { get; set; }
         public string docType { get; set; }
         public DateTime dateTaked { get; set; }
         public DateTime timeToBack { get; set; }

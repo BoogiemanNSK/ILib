@@ -99,6 +99,15 @@
     <Compile Include="Classes\UserSystem\Student.cs" />
     <Compile Include="Classes\UserSystem\User.cs" />
     <Compile Include="Classes\UserSystem\VisitingProfessor.cs" />
+    <Compile Include="Pages\AddDocPage.xaml.cs">
+      <DependentUpon>AddDocPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AddAVPage.xaml.cs">
+      <DependentUpon>AddAVPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AddJournalPage.xaml.cs">
+      <DependentUpon>AddJournalPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AddBookPage.xaml.cs">
       <DependentUpon>AddBookPage.xaml</DependentUpon>
     </Compile>
@@ -129,6 +138,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\AddDocPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\AddAVPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\AddJournalPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

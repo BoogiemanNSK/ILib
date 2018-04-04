@@ -21,40 +21,35 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class AddBookPage : Window
     {
-        DocumentsManagementPage previousPage;
+        private DocumentsManagementPage _previousPage;
+
         public AddBookPage(DocumentsManagementPage page)
         {
-            previousPage = page;
+            _previousPage = page;
             InitializeComponent();
-            cmb_DocType.ItemsSource = SDM.Strings.DOC_TYPES;
         }
 
         private void OnAddBookClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Librarian currentUser = (Librarian)SDM.CurrentUser;
-                int dt = cmb_DocType.SelectedIndex;
-                int price = Convert.ToInt32(PriceTB.Text);
-                bool ib = IsBestseller.SelectedIndex == 0;
-                int n = Convert.ToInt32(CopiesTB.Text);
-                for (int i = 0; i < n; i++)
-                {
-                    currentUser.AddDoc
-                        (
-                            TitleTB.Text,
-                            DescriptionTB.Text,
-                            dt,
-                            price,
-                            ib
-                        );
-                }
-            } catch
-            {
-                MessageBox.Show("The row is empty", "Error");
-            }
+            Librarian currentUser = (Librarian)SDM.CurrentUser;
+            int price = Convert.ToInt32(PriceTB.Text);
+            int quantity = Convert.ToInt32(CopiesTB.Text);
+            bool isBestseller = IsBestseller.SelectedIndex == 0;
+            
+            currentUser.AddBook
+                (
+                    TitleTB.Text,
+                    AutorsTB.Text,
+                    PublisherTB.Text,
+                    Convert.ToInt32(PublishYearTB.Text),
+                    EditionTB.Text,
+                    DescriptionTB.Text,
+                    price,
+                    isBestseller,
+                    quantity
+                );
 
-            previousPage.updateTable();
+            _previousPage.updateTable();
             Close();
         }
 

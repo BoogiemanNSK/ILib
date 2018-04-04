@@ -31,12 +31,12 @@ namespace I2P_Project.Pages
 
         private void UpdateTables()
         {
-            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTableForLibrarian();
+            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTable();
             UserTable.ItemsSource = SDM.LMS.TestUsersTable();
         }
-
         private void OnTest(object sender, RoutedEventArgs e)
         {
+            /*
             TestOutput.Text = "Test " + TestNumber.Text + ":\n";
             switch (TestNumber.Text)
             {
@@ -148,8 +148,9 @@ namespace I2P_Project.Pages
                     TestOutput.Text += "No such test found";
                     break;
             }
-        }
-
+    */    
+    }
+        
         private void OnShow(object sender, RoutedEventArgs e)
         {
             UserTable ut_row = UserTable.SelectedItems[0] as UserTable;
@@ -159,7 +160,7 @@ namespace I2P_Project.Pages
 
         private void OnOverall(object sender, RoutedEventArgs e) // Shows books without user
         {
-            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTableForLibrarian(); 
+            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTable(); 
         }
 
         private void OnExit(object sender, RoutedEventArgs e)

@@ -74,71 +74,31 @@ namespace I2P_Project.Classes
                 Name = name,
                 Address = adress,
                 PhoneNumber = phone,
-                UserType = (isLibrarian ? 5 : 0) // TODO Замнить на enum
+                UserType = (isLibrarian ? 5 : 0) // TODO Заменить на enum
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
             return true;
         }
 
-        /// <summary> Registers new document in the system </summary>
-        public void AddDoc(string title, string description, int docType, int price, bool isBestseller)
-        {
-            bool isReference = !CheckReference(title);
-            DataBase.Document newDoc = new DataBase.Document();
-            newDoc.Title = title;
-            newDoc.Description = description;
-            newDoc.Price = price;
-            newDoc.DocType = docType;
-            newDoc.IsReference = isReference;
-            newDoc.IsBestseller = isBestseller;
-            db.Documents.InsertOnSubmit(newDoc);
-            db.SubmitChanges();
-        }
-
-        public void AddBook(string title, string Autors, string Publisher, int PublishYear, string Edition, string description, int docType, int price, bool isBestseller)
+        public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
         {
             bool isReference = !CheckReference(title);
             if (isReference)
             {
-                DataBase.Document newDoc = new DataBase.Document();
-                newDoc.Title = title;
-                newDoc.Autors = Autors;
-                newDoc.Publisher = Publisher;
-                newDoc.PublishYear = PublishYear;
-                newDoc.Edition = Edition;
-                newDoc.Description = description;
-                newDoc.Price = price;
-                newDoc.DocType = 0;
-                newDoc.IsReference = isReference;
-                newDoc.IsBestseller = isBestseller;
-                newDoc.Quantity = 0;
-            }
-            else
-            {
-                var test = (from p in db.Documents
-                            where (p.Title == title)
-                            select p);
-                DataBase.Document newDoc = test.Single();
-                newDoc.Quantity++;
-            }
-            db.SubmitChanges();
-        }
-
-        public void AddAV(string title, string Autors,string description, int price)
-        {
-            bool isReference = !CheckReference(title);
-            if (isReference)
-            {
-                DataBase.Document newDoc = new DataBase.Document();
-                newDoc.Title = title;
-                newDoc.Autors = Autors;
-                newDoc.Description = description;
-                newDoc.Price = price;
-                newDoc.DocType = 2;
-                newDoc.Quantity = 1;
-                newDoc.IsReference = false;
-                newDoc.IsBestseller = false;
+                Document newDoc = new Document
+                {
+                    Title = title,
+                    Autors = autors,
+                    Publisher = publisher,
+                    PublishYear = publishYear,
+                    Edition = edition,
+                    Description = description,
+                    Price = price,
+                    DocType = 0,
+                    IsBestseller = isBestseller,
+                    Quantity = quantity
+                };
                 db.Documents.InsertOnSubmit(newDoc);
             }
             else
@@ -146,59 +106,128 @@ namespace I2P_Project.Classes
                 var test = (from p in db.Documents
                             where (p.Title == title)
                             select p);
-                DataBase.Document newDoc = test.Single();
-                newDoc.Quantity++;
+                Document newDoc = test.Single();
+                newDoc.Quantity += quantity;
+                NotifyNextUser(newDoc.Id);
             }
             db.SubmitChanges();
+        }
 
-    }
+        // TODO Change journal - add more fields
+        public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
+        {
+            bool isReference = !CheckReference(title);
+            if (isReference)
+            {
+                Document newDoc = new Document
+                {
+                    Title = title,
+                    Autors = autors,
+                    PublishedIn = publishedIn,
+                    IssueTitle = issueTitle,
+                    IssueEditor = issueEditor,
+                    Price = price,
+                    DocType = 1,
+                    Quantity = quantity
+                };
+                db.Documents.InsertOnSubmit(newDoc);
+            }
+            else
+            {
+                var test = (from p in db.Documents
+                            where (p.Title == title)
+                            select p);
+                Document newDoc = test.Single();
+                newDoc.Quantity += quantity;
+                NotifyNextUser(newDoc.Id);
+            }
+            db.SubmitChanges();
+        }
+
+        public void AddAV(string title, string autors, int price, int quantity)
+        {
+            bool isReference = !CheckReference(title);
+            if (isReference)
+            {
+                Document newDoc = new Document
+                {
+                    Title = title,
+                    Autors = autors,
+                    Price = price,
+                    DocType = 2,
+                    Quantity = quantity,
+                    Queue = ""
+                };
+                db.Documents.InsertOnSubmit(newDoc);
+            }
+            else
+            {
+                var test = (from p in db.Documents
+                            where (p.Title == title)
+                            select p);
+                Document newDoc = test.Single();
+                newDoc.Quantity += quantity;
+                NotifyNextUser(newDoc.Id);
+            }
+            db.SubmitChanges();
+        }
 
         /// <summary>
         /// First generate for show functionality
         /// </summary>
         private void GenerateTestDB()
         {
-            //Not referense books
-            for (int i = 0; i < 2; i++)
-            {
-                AddBook
-                    (
-                        "Introduction to Algorithms",
-                        "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
-                        "MIT Press",
-                        2009,
-                        "Third Edition",
-                        "Alghorithm techniques and design",
-                        0,
-                        1800,
-                        false
-                    );
-                AddBook
-                    (
-                        "Design Patterns: Elements of Reusable Object-Oriented Software",
-                        "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
-                        "Addison-Wesley Professional",
-                        2003,
-                        "First Edition",
-                        "Programm patterns, how to programm well w/o headache",
-                        0,
-                        2000,
-                        true
-                    );
-            }
-            //Reference book
-            AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P", 
-                "Addison-Wesley Longman Publishing Co., Inc.", 1995,
-                "Second edition", "How to do everything and live better", 
-                0, 800,false);
-            AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
-            AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
+            // Adding two books and their copies
+            AddBook
+                (
+                    "Introduction to Algorithms",
+                    "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
+                    "MIT Press",
+                    2009,
+                    "Third Edition",
+                    "Alghorithm techniques and design",
+                    1800,
+                    false,
+                    1
+                );
+            AddBook
+                (
+                    "Design Patterns: Elements of Reusable Object-Oriented Software",
+                    "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
+                    "Addison-Wesley Professional",
+                    2003,
+                    "First Edition",
+                    "Programm patterns, how to programm well w/o headache",
+                    2000,
+                    true,
+                    1
+                );
+
+            // Adding reference book
+            AddBook
+                (
+                    "The Mythical Man-month",
+                    "Brooks,Jr., Frederick P", 
+                    "Addison-Wesley Longman Publishing Co., Inc.",
+                    1995,
+                    "Second edition",
+                    "How to do everything and live better",
+                    800,
+                    false,
+                    0
+                );
+
+            // Adding two AV's
+            AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 400, 0);
+            AddAV("Information Entropy", "Claude Shannon", 700, 0);
+
+            // Registering 3 users
             RegisterUser("p1", "p1", "Sergey Afonso", "Via Margutta, 3", "30001", false);
             RegisterUser("p2", "p2", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
             RegisterUser("p3", "p3", "Elvira Espindola", "Via del Corso, 22", "30003", false);
+
             //Special for me
-            RegisterUser("zhychek1@yandex.ru", "lolcore", "Toha", "1-312", "+79648350370", true);
-            
+            RegisterUser("zhychek1", "lolcore", "Toha", "zhychek1@yandex.ru", "+79648350370", true);
         }
 
         #endregion
@@ -229,10 +258,7 @@ namespace I2P_Project.Classes
             var record_to_remove = (from d in db.Documents
                                     where (d.Id == doc_id)
                                     select d).Single();
-            if (record_to_remove.Quantity == 0)
-                db.Documents.DeleteOnSubmit(record_to_remove);
-            else
-                record_to_remove.Quantity--;
+            db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
         }
 
@@ -242,11 +268,7 @@ namespace I2P_Project.Classes
             var record_to_remove = (from d in db.Documents
                                     where (d.Title.Equals(Title))
                                     select d).Single();
-
-            if (record_to_remove.Quantity == 0)
-                db.Documents.DeleteOnSubmit(record_to_remove);
-            else
-                record_to_remove.Quantity--;
+            db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
         }
 
@@ -265,22 +287,14 @@ namespace I2P_Project.Classes
         /// <summary> Updates document info </summary>
         public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
         {
-            var doc = (from d in db.Documents
-                       where d.Id == DocID
-                       select d).Single();
-            var copy = (from d in db.Documents
-                        where d.Title == doc.Title
-                        select d);
-
-            foreach (DataBase.Document docs in copy)
-            {
-                docs.Title = Title;
-                docs.Description = Description;
-                docs.Price = Convert.ToInt32(Price);
-                docs.IsBestseller = IsBestseller;
-                docs.DocType = DocType;
-                db.SubmitChanges();
-            }
+            Document doc = GetDocByID(DocID);
+            doc.Title = Title;
+            doc.Description = Description;
+            doc.Price = Convert.ToInt32(Price);
+            doc.IsBestseller = IsBestseller;
+            doc.DocType = DocType;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
+            db.SubmitChanges();
         }
 
         /// <summary> Updates user info </summary>
@@ -291,6 +305,25 @@ namespace I2P_Project.Classes
             user.Address = userAdress;
             user.PhoneNumber = userPhoneNumber;
             user.UserType = userType;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
+            db.SubmitChanges();
+        }
+
+        public void UpgradeUser(string Name)
+        {
+            Users user = GetUser(Name);
+            if (user.UserType < 2)
+                user.UserType++;
+            db.SubmitChanges();
+        }
+
+        public void SetOutstandingRequest(int docID)
+        {
+            var doc = (from d in db.Documents
+                       where d.Id == docID
+                       select d).Single();
+            doc.Queue = "";
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
         }
 
@@ -313,6 +346,8 @@ namespace I2P_Project.Classes
                                       c.CheckID,
                                       c.BookID,
                                       b.Title,
+                                      b.Autors,
+                                      b.Price,
                                       c.DateTaked,
                                       c.TimeToBack
                                   };
@@ -321,10 +356,13 @@ namespace I2P_Project.Classes
                 Pages.MyBooksTable row = new Pages.MyBooksTable
                 {
                     checkID = element.CheckID,
-                    bookID = element.BookID,
-                    b_title = element.Title,
-                    c_dateTaked = (DateTime)element.DateTaked,
-                    c_timeToBack = element.TimeToBack
+                    docID = element.BookID,
+                    docTitle = element.Title,
+                    docAutors = element.Autors,
+                    docPrice = element.Price,
+                    docFine = GetUserFineForDoc(SDM.CurrentUser.PersonID, element.BookID),
+                    checkDateTaked = (DateTime)element.DateTaked,
+                    checkTimeToBack = element.TimeToBack
                 };
                 temp_table.Add(row);
             }
@@ -345,7 +383,7 @@ namespace I2P_Project.Classes
                                   {
                                       b.Id,
                                       b.Title,
-                                      b.IsReference,
+                                      b.Quantity,
                                       b.DocType,
                                       c.DateTaked,
                                       c.TimeToBack,
@@ -360,7 +398,7 @@ namespace I2P_Project.Classes
                     {
                         docID = element.Id,
                         docTitle = element.Title,
-                        isReference = element.IsReference,
+                        quantity = element.Quantity,
                         docType = SDM.Strings.DOC_TYPES[element.DocType],
                         dateTaked = (DateTime)element.DateTaked,
                         timeToBack = element.TimeToBack,
@@ -411,22 +449,23 @@ namespace I2P_Project.Classes
                                  where c.UserID == user_id
                                  select new
                                  {
-                                     c.BookID,
+                                     b.Id,
                                      b.Title,
+                                     b.Autors,
                                      b.DocType,
-                                     c.DateTaked,
-                                     c.TimeToBack
+                                     b.Price,
+                                     b.Quantity
                                  };
             foreach (var element in load_user_docs)
             {
                 Pages.DocumentsTable row = new Pages.DocumentsTable
                 {
-                    docID = element.BookID,
-                    docOwnerID = user_id,
+                    docID = element.Id,
+                    docAutors = element.Autors,
                     docTitle = element.Title,
                     docType = SDM.Strings.DOC_TYPES[element.DocType],
-                    dateTaked = (DateTime)element.DateTaked,
-                    timeToBack = element.TimeToBack
+                    docPrice = element.Price,
+                    docQuantity = element.Quantity
                 };
                 temp_table.Add(row);
             }
@@ -466,7 +505,7 @@ namespace I2P_Project.Classes
         /// Return a list of all docs registered in system
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<Pages.DocumentsTable> GetDocsTableForLibrarian()
+        public ObservableCollection<Pages.DocumentsTable> GetDocsTable()
         {
             ObservableCollection<Pages.DocumentsTable> temp_table = new ObservableCollection<Pages.DocumentsTable>();
             var load_user_docs = from b in db.Documents
@@ -474,21 +513,21 @@ namespace I2P_Project.Classes
                                  {
                                      b.Id,
                                      b.Title,
+                                     b.Autors,
                                      b.DocType,
-                                     b.IsReference
+                                     b.Price,
+                                     b.Quantity
                                  };
             foreach (var element in load_user_docs)
             {
-                Checkouts checkoutInfo = GetOwnerInfo(element.Id);
                 Pages.DocumentsTable row = new Pages.DocumentsTable
                 {
                     docID = element.Id,
+                    docAutors = element.Autors,
                     docTitle = element.Title,
                     docType = SDM.Strings.DOC_TYPES[element.DocType],
-                    docOwnerID = checkoutInfo == null ? -1 : checkoutInfo.UserID,
-                    dateTaked = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.DateTaked,
-                    timeToBack = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.TimeToBack,
-                    isReference = element.IsReference
+                    docPrice = element.Price,
+                    docQuantity = element.Quantity
                 };
                 temp_table.Add(row);
             }
@@ -515,39 +554,6 @@ namespace I2P_Project.Classes
                     DocType = SDM.Strings.DOC_TYPES[element.DocType],
                     DateTaked = (DateTime)element.DateTaked,
                     DeadLine = element.TimeToBack
-                };
-                temp_table.Add(row);
-            }
-            return temp_table;
-        }
-
-        /// <summary> Returns all non-reference docs </summary>
-        public ObservableCollection<Pages.LibraryTable> GetAllDocs() // сюда можно засунуть вывод по userType
-        {
-            var test = (from p in db.Documents select p);
-            ObservableCollection<Pages.LibraryTable> temp_table = new ObservableCollection<Pages.LibraryTable>();
-            var load_user_books = from d in db.Documents
-                                  where (!d.IsReference) && (!d.IsBestseller)
-                                  select new
-                                  {
-                                      d.Id,
-                                      d.Title,
-                                      d.Autors,
-                                      d.Publisher,
-                                      d.PublishYear,
-                                      d.Price
-                                  };
-            foreach (var element in load_user_books)
-            {
-                Pages.LibraryTable row = new Pages.LibraryTable
-                {
-                    bookID = element.Id,
-                    book_image = Directory.GetCurrentDirectory() + @"\media\source_images\book_default.png",
-                    title = element.Title,
-                    author = element.Autors,
-                    publisher = element.Publisher,
-                    publish_year = element.PublishYear,
-                    price = element.Price
                 };
                 temp_table.Add(row);
             }
@@ -685,6 +691,43 @@ namespace I2P_Project.Classes
             return patron;
         }
 
+        /// <summary> Counts overall user`s fine for overdued docs </summary>
+        public int GetUserFine(int userID)
+        {
+            int fine = 0;
+            var test = from c in db.Checkouts
+                       where c.UserID == userID
+                       select c;
+
+            if (test.Any())
+            {
+                foreach (Checkouts c in test)
+                {
+                    fine += GetUserFineForDoc(userID, c.BookID);
+                }
+            }
+
+            return fine;
+        }
+
+        /// <summary> Counts user`s fine for some doc </summary>
+        private int GetUserFineForDoc(int userID, int docID)
+        {
+            var test = from c in db.Checkouts
+                       where c.BookID == docID && c.UserID == userID
+                       select c;
+            Checkouts testCheck = test.Single();
+
+            int overduedTime = (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
+            if (overduedTime > 0)
+            {
+                int docPrice = GetDocPrice(docID);
+                return (overduedTime * 50 > docPrice ? docPrice : overduedTime * 50);
+            }
+
+            return 0;
+        }
+
         /// <summary> Counts number of user`s docs from his ID </summary>
         private int GetUserBooksNumber(int userID)
         {
@@ -693,28 +736,6 @@ namespace I2P_Project.Classes
                        select c;
             if (test.Any()) return test.Count();
             else return 0;
-        }
-
-        /// <summary> Counts overall user`s fine for overdued books </summary>
-        public int GetUserFine(int userID)
-        {
-            int fine = 0;
-            var test = from c in db.Checkouts
-                       where c.UserID == userID
-                       select c;
-            if (test.Any())
-            {
-                foreach (Checkouts c in test)
-                {
-                    int overduedTime = (int)DateTime.Now.Subtract(c.TimeToBack).TotalDays;
-                    if (overduedTime > 0)
-                    {
-                        int docPrice = GetDocPrice(c.BookID);
-                        fine += (overduedTime * 50 > docPrice ? docPrice : overduedTime * 50);
-                    }
-                }
-            }
-            return fine;
         }
 
         /// <summary> Gets price of doc by its ID </summary>
@@ -785,50 +806,6 @@ namespace I2P_Project.Classes
 
         #region PQ Operations
 
-        public void SavePQ(PriorityQueue<int> pq, int bookID)
-        {
-            string queue_string = "";
-
-            while (pq.Length > 1)
-            {
-                queue_string += pq.FirstElement.Element;
-                queue_string += '|';
-                queue_string += pq.FirstElement.PriorityLevel;
-                queue_string += '-';
-                pq.Pop();
-            }
-
-            queue_string += pq.FirstElement.Element;
-            queue_string += '|';
-            queue_string += pq.FirstElement.PriorityLevel;
-
-            var test = from doc in db.Documents
-                       where doc.Id == bookID
-                       select doc;
-            Document d = test.Single();
-            d.Queue = queue_string;
-            db.SubmitChanges();
-        }
-
-        public PriorityQueue<int> LoadPQ(int bookID)
-        {
-            PriorityQueue<int> localQueue = new PriorityQueue<int>();
-            var test = from doc in db.Documents
-                       where doc.Id == bookID
-                       select doc.Queue;
-
-            string queue_string = test.Single();
-            string[] queue_pairs = queue_string.Split('-');
-            foreach (string pair in queue_pairs)
-            {
-                int id = Convert.ToInt32(pair.Split('|')[0]);
-                int priority = Convert.ToInt32(pair.Split('|')[1]);
-                localQueue.Push(id, priority);
-            }
-
-            return localQueue;
-        }
-
         public void PushInPQ(int docID, int personID, int priority)
         {
             PriorityQueue<int> PQ = LoadPQ(docID);
@@ -842,11 +819,11 @@ namespace I2P_Project.Classes
             PQ.Pop();
             if (PQ.Length > 0)
             {
-                Users next = GetUser(Convert.ToInt32(PQ.FirstElement));
+                Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
                 Document doc = GetDocByID(docID);
                 SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
+                SavePQ(PQ, docID);
             }
-            SavePQ(PQ, docID);
         }
 
         public bool ExistQueueForDoc(int docID)
@@ -856,6 +833,36 @@ namespace I2P_Project.Classes
                        select doc.Queue;
             if (test.Single().Length > 0) return true;
             return false;
+        }
+
+        public bool IsPersonInQueue(int patronID, int bookID)
+        {
+            bool inQueue = false;
+            var test = from doc in db.Documents
+                       where doc.Id == bookID
+                       select doc.Queue;
+
+            string queue_string = test.Single();
+            string[] queue_pairs = queue_string.Split('-');
+            foreach (string pair in queue_pairs)
+            {
+                int id = Convert.ToInt32(pair.Split('|')[0]);
+                if (id == patronID) inQueue = true;
+            }
+
+            return inQueue;
+        }
+
+        public void NotifyNextUser(int docID)
+        {
+            PriorityQueue<int> PQ = LoadPQ(docID);
+            if (PQ.Length > 0)
+            {
+                Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
+                Document doc = GetDocByID(docID);
+                SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
+                SavePQ(PQ, docID);
+            }
         }
 
         public bool SendNotificationToUser(string To, string Title, string Text)
@@ -882,6 +889,53 @@ namespace I2P_Project.Classes
             {
                 return false;
             }
+        }
+
+        private void SavePQ(PriorityQueue<int> pq, int bookID)
+        {
+            string queue_string = "";
+
+            while (pq.Length > 1)
+            {
+                queue_string += pq.FirstElement.Element;
+                queue_string += '|';
+                queue_string += pq.FirstElement.PriorityLevel;
+                queue_string += '-';
+                pq.Pop();
+            }
+
+            queue_string += pq.FirstElement.Element;
+            queue_string += '|';
+            queue_string += pq.FirstElement.PriorityLevel;
+
+            var test = from doc in db.Documents
+                       where doc.Id == bookID
+                       select doc;
+            Document d = test.Single();
+            d.Queue = queue_string;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, d);
+            db.SubmitChanges();
+        }
+
+        private PriorityQueue<int> LoadPQ(int bookID)
+        {
+            PriorityQueue<int> localQueue = new PriorityQueue<int>();
+            var test = from doc in db.Documents
+                       where doc.Id == bookID
+                       select doc.Queue;
+
+            string queue_string = test.Single();
+            if (queue_string.Length == 0) return localQueue;
+            
+            string[] queue_pairs = queue_string.Split('-');
+            foreach (string pair in queue_pairs)
+            {
+                int id = Convert.ToInt32(pair.Split('|')[0]);
+                int priority = Convert.ToInt32(pair.Split('|')[1]);
+                localQueue.Push(id, priority);
+            }
+
+            return localQueue;
         }
 
         #endregion

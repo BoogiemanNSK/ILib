@@ -11,16 +11,24 @@
             DataBase.Document doc = null;
             string result = CheckAvailibility(title);
             
-            if (result == SDM.Strings.NO_FREE_COPIES_TEXT)
+            if (result == SDM.Strings.PERSON_NOT_IN_QUEUE_TEXT)
             {
                 doc = GetDocumentForCheckOut(title);
-                SDM.LMS.PushInPQ(doc.Id, SDM.CurrentUser.PersonID, UserType);
+                SDM.LMS.PushInPQ(doc.Id, PersonID, UserType);
                 return result;
             }
-            if (result != "") return result;
+            else if (result == SDM.Strings.PERSON_FIRST_IN_QUEUE_TEXT)
+            {
+                doc = GetDocumentForCheckOut(title);
+                SDM.LMS.PopFromPQ(doc.Id);
+            }
+            else if (result != "") return result;
 
             doc = GetDocumentForCheckOut(title);
-            
+            doc.Quantity--;
+            uDB.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
+            uDB.SubmitChanges();
+
             if (doc.DocType != 0)
                 SetCheckOut(doc.Id, 2, DateCheat);
             else

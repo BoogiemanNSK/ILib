@@ -27,7 +27,7 @@
         <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Name"/>
         <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="UserName"/>
         <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="E-Mail"/>
-        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="Adress"/>
+        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="UserAdress"/>
         <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Phone Number"/>
         <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="UserPhoneNumber"/>
         <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="User Type"/>

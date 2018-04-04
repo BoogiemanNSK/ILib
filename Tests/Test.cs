@@ -11,7 +11,7 @@ namespace I2P_Project.Tests
 {
     class Test
     {
-
+        /*
         public string test1()
         {
             string output = "Cleared DB...\n";
@@ -958,50 +958,82 @@ namespace I2P_Project.Tests
 
             return output;
         }
-
+        */
         public void initial()
         {
-            string output = "Cleared DB...\n";
+            //AddBooks
             SDM.LMS.ClearDB();
-
-            output += "Adding docs d1 with reference one... \n";
-            SDM.LMS.AddDoc("d1", "d1", 0, 0, false);
-            SDM.LMS.AddDoc("d1", "d1", 0, 0, false);
-            SDM.LMS.AddDoc("d1", "d1", 0, 0, false);
-            SDM.LMS.AddDoc("d1", "d1", 0, 0, false);
-
-            output += "Adding docs d2 with reference one... \n";
-            SDM.LMS.AddDoc("d2", "d2", 0, 0, false);
-            SDM.LMS.AddDoc("d2", "d2", 0, 0, false);
-            SDM.LMS.AddDoc("d2", "d2", 0, 0, false);
-            SDM.LMS.AddDoc("d2", "d2", 0, 0, false);
-
-            output += "Adding docs d3 with reference one... \n";
-            SDM.LMS.AddDoc("d3", "d3", 0, 0, false);
-            SDM.LMS.AddDoc("d3", "d3", 0, 0, false);
-            SDM.LMS.AddDoc("d3", "d3", 0, 0, false);
-
-            output += "Registering user p1 in the system...\n";
-            SDM.LMS.RegisterUser("p1", "p1", "p1", "p1", "p1", false);
-
-            output += "Registering user p2 in the system...\n";
-            SDM.LMS.RegisterUser("p2", "p2", "p2", "p2", "p2", false);
-
-            output += "Registering user p3 in the system...\n";
-            SDM.LMS.RegisterUser("p3", "p3", "p3", "p3", "p3", false);
-
-            output += "Registering user s in the system...\n";
+            SDM.LMS.AddBook
+                (
+                    "d1",
+                    "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
+                    "MIT Press",
+                    2009,
+                    "Third Edition",
+                    "Alghorithm techniques and design",
+                    5000,
+                    false,
+                    4
+                );
+            SDM.LMS.AddBook
+                (
+                    "d2",
+                    "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
+                    "Addison-Wesley Professional",
+                    2003,
+                    "First Edition",
+                    "Programm patterns, how to programm well w/o headache",
+                    1700,
+                    true,
+                    4
+                );
+            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 3);
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            lb.RegisterUser("p1", "p1", "p1", "Via Margutta, 3", "30001", false);
+            lb.UpgradeUser("p1",3);
+            lb.RegisterUser("p2", "p2", "p2", "Via Sacra, 13", "30002", false);
+            lb.UpgradeUser("p2",3);
+            lb.RegisterUser("p3", "p3", "p3", "Via del Corso, 22", "30003", false);
+            lb.UpgradeUser("p3",3);
+            SDM.CurrentUser = new Faculty("p1");
             SDM.LMS.RegisterUser("s", "s", "s", "s", "s", false);
-
-            output += "Registering user v in the system...\n";
             SDM.LMS.RegisterUser("v", "v", "v", "v", "v", false);
+            lb.UpgradeUser("v", 4);
+            //Assertions for auto-tests
+            try
+            {
+                Debug.Assert(SDM.LMS.DocExists("d1"));
+                //included reference book
+                Debug.Assert(SDM.LMS.AmountOfDocs("d1", 4));
+                Debug.Assert(SDM.LMS.DocExists("d2"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("d2", 4));
+                Debug.Assert(SDM.LMS.DocExists("d3"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("d3", 3));
+                Debug.Assert(SDM.LMS.CheckLogin("p1"));
+                Debug.Assert(SDM.LMS.CheckLogin("p2"));
+                Debug.Assert(SDM.LMS.CheckLogin("p3"));
+                Debug.Assert(SDM.LMS.CheckLogin("s"));
+                Debug.Assert(SDM.LMS.CheckLogin("v"));
+            }
+            catch
+            {
+                return;
+            }
+
         }
+        
 
         public string test20()
         {
             string output = "Initial state...\n";
 
             return output;
+        }
+
+        public void test26()
+        {
+
         }
     }
 }

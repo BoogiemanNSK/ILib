@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="8"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
             <RowDefinition />
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
@@ -22,7 +23,13 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="1" Grid.Column="1" FontSize="16" Content="Library" HorizontalAlignment="Center"/>
-        <DataGrid Grid.Column="1" Name="docTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="2" AutoGenerateColumns="False"
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5,5,5,5" VerticalAlignment="Center" Width="250" Name="SearchTB"/>
+            <Button Width="100" Margin="5,10,0,10" HorizontalAlignment="Right" Content="Search" 
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+        </StackPanel>
+        
+        <DataGrid Grid.Column="1" Name="docTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False"
                   IsReadOnly="True" FontWeight="Bold" FontFamily="/I2P-Project;component/Fonts/#Panton">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="docID" Binding="{Binding docID}" Visibility="Hidden"/>

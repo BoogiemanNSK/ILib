@@ -963,6 +963,7 @@ namespace I2P_Project.Tests
         {
             //AddBooks
             SDM.LMS.ClearDB();
+            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             SDM.LMS.AddBook
                 (
                     "d1",
@@ -1050,7 +1051,39 @@ namespace I2P_Project.Tests
             Faculty p3 = (Faculty)SDM.CurrentUser;
             s.CheckOut("d3");
             PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
-               
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
+        }
+        public void test27()
+        {
+            test26();
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            int docid = SDM.LMS.GetDocID("d3");
+            lb.OutstandingRequest(docid);
+            Debug.Assert(!SDM.LMS.ExistQueueForDoc(docid));
+        }
+
+        public void test28()
+        {
+            test26();
+            SDM.CurrentUser = new Faculty("p2");
+            Faculty p2 = (Faculty)SDM.CurrentUser;
+            p2.ReturnDoc(SDM.LMS.GetDocID("d3"));
+            
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p2");
+            Debug.Assert(checkedOuts.Capacity == 0);
+        }
+
+        public void test29()
+        {
+            test26();
+
         }
     }
 }

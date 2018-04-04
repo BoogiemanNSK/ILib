@@ -4,36 +4,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Height="320" Width="360" WindowStartupLocation="CenterScreen" Title="ModifyBooks" Background="#FF8080FF" FontFamily="/I2P-Project;component/Fonts/#Panton">
+        Height="320" Width="360" WindowStartupLocation="CenterScreen" Title="Modify Document" FontFamily="/I2P-Project;component/Fonts/#Panton"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition />
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Label Name="InfoText" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Foreground="Red" HorizontalAlignment="Center"></Label>
-        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Title"/>
-        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="TitleTB"/>
-        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Description"/>
-        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="DescriptionTB"/>
-        <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="Price"/>
-        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Name="PriceTB"/>
-        <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="DocType"/>
-        <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="180" Name="DocType"/>
-        <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center" Content="IsBestseller"/>
-        <CheckBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Height="20" Width="20" Name="IsBestseller"/>
-        <Button Grid.Row="7" Width="150" Grid.Column="1" Margin="10,10,10,5" Click="OnModifyDocClick" Content="Modify doc"/>
-        <Button Grid.Row="8" Width="150" Grid.Column="1" Margin="10,5,10,10" Click="OnBackClick">Back</Button>
+        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Edit document data" 
+               FontSize="16"/>
+        <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Right" Content="Title" FontSize="14"/>
+        <TextBox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Center" Width="190" 
+                 Name="TitleTB" FontSize="14" Style="{DynamicResource TextBoxDesign}"/>
+        <Label Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Right" Content="Description" FontSize="14"/>
+        <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="190" Name="DescriptionTB"
+                 FontSize="14" Style="{DynamicResource TextBoxDesign}"/>
+        <Label Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Right" Content="Price" FontSize="14"/>
+        <TextBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Center" Width="190" 
+                 Name="PriceTB" FontSize="14" Style="{DynamicResource TextBoxDesign}"/>
+        <Label Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Right" Content="DocType" FontSize="14"/>
+        <ComboBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="190" Name="DocType"
+                 FontSize="14"/>
+        <Label Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Right" Content="IsBestseller" FontSize="14"/>
+        <CheckBox Grid.Row="5" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="20" Name="IsBestseller"/>
+        <StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="130" Margin="5,5,5,5" Click="OnModifyDocClick" Content="Save" Style="{DynamicResource ButtonStyle}"/>
+            <Button Width="130" Margin="5,5,5,5" Click="OnBackClick" Content="Cancel" Style="{DynamicResource ButtonStyle}"/>
+        </StackPanel>        
     </Grid>
 </Window>

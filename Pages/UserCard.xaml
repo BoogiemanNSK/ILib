@@ -63,10 +63,10 @@
         <DataGrid Grid.Row="4" Grid.Column="1" Name="UserDocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False"
                   IsReadOnly="True" FontWeight="Bold">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Title" Binding="{Binding DocTitle}" Width="Auto"/>
-                <DataGridTextColumn Header="Type" Binding="{Binding DocType}" Width="Auto"/>
-                <DataGridTextColumn Header="Taked" Binding="{Binding DateTaked}" Width="Auto"/>
-                <DataGridTextColumn Header="Deadline" Binding="{Binding DeadLine}" Width="Auto"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding DocTitle}" Width="*"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding DocType}" Width="*"/>
+                <DataGridTextColumn Header="Taked" Binding="{Binding DateTaked}" Width="*"/>
+                <DataGridTextColumn Header="Deadline" Binding="{Binding DeadLine}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">

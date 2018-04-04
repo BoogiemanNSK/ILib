@@ -3,32 +3,33 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="OverdueInfo" Height="300" Width="420" FontFamily="/I2P-Project;component/Fonts/#Panton" WindowStartupLocation="CenterScreen">
+        Title="OverdueInfo" Height="300" Width="420" FontFamily="/I2P-Project;component/Fonts/#Panton" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
     <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="180"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        
-        <Label Name="TitleInfo" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">Peter`s Overdued Docs</Label>
 
-        <DataGrid Grid.Row="1" Name="OverduedDocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" Height="160" Width="400">
+        <Label Name="TitleInfo" Grid.Row="0" Content="Sombody's overdue documents" HorizontalAlignment="Center" VerticalContentAlignment="Center"
+               FontSize="16"/>
+
+        <DataGrid Grid.Row="1" Name="OverduedDocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True"
+                  FontWeight="Bold" Margin="6.8,11.5">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Doc ID" Binding="{Binding docID}" Width="Auto"/>
-                <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
-                <DataGridTextColumn Header="Is Reference?" Binding="{Binding isReference}" Width="Auto"/>
-                <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="Auto"/>
-                <DataGridTextColumn Header="Taked" Binding="{Binding dateTaked}" Width="Auto"/>
-                <DataGridTextColumn Header="Deadline" Binding="{Binding timeToBack}" Width="Auto"/>
-                <DataGridTextColumn Header="Fine" Binding="{Binding fine}" Width="Auto"/>
+                <DataGridTextColumn Header="Doc ID" Binding="{Binding docID}" Width="*"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="*"/>
+                <DataGridTextColumn Header="Is Reference?" Binding="{Binding isReference}" Width="*"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="*"/>
+                <DataGridTextColumn Header="Taked" Binding="{Binding dateTaked}" Width="*"/>
+                <DataGridTextColumn Header="Deadline" Binding="{Binding timeToBack}" Width="*"/>
+                <DataGridTextColumn Header="Fine" Binding="{Binding fine}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-
-        <Button Click="OnBackClick" Grid.Row="2" Width="60" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Back"/>
-
+        
+        <Button Click="OnBackClick" Grid.Row="2" Content="Cancel" Width="50" Style="{DynamicResource ButtonStyle}"/>
     </Grid>
 </Window>

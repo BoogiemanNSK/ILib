@@ -989,20 +989,20 @@ namespace I2P_Project.Tests
                     true,
                     3
                 );
-            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 3);
+            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 2);
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
             lb.RegisterUser("p1", "p1", "p1", "Via Margutta, 3", "30001", false);
-            lb.UpgradeUser("p1",3);
+            lb.UpgradeUser("p1",4);
             lb.RegisterUser("p2", "p2", "p2", "Via Sacra, 13", "30002", false);
-            lb.UpgradeUser("p2",3);
+            lb.UpgradeUser("p2",4);
             lb.RegisterUser("p3", "p3", "p3", "Via del Corso, 22", "30003", false);
-            lb.UpgradeUser("p3",3);
+            lb.UpgradeUser("p3",4);
             SDM.CurrentUser = new Faculty("p1");
             SDM.LMS.RegisterUser("s", "s", "s", "s", "s", false);
             SDM.LMS.RegisterUser("v", "v", "v", "v", "v", false);
-            lb.UpgradeUser("v", 4);
+            lb.UpgradeUser("v", 3);
             //Assertions for auto-tests
             try
             {
@@ -1071,26 +1071,29 @@ namespace I2P_Project.Tests
 
         public void test26()
         {
-            //test25();
+            initial();
             SDM.CurrentUser = new Faculty("p1");
             Faculty p1 = (Faculty)SDM.CurrentUser;
             p1.CheckOut("d3");
             SDM.CurrentUser = new Faculty("p2");
             Faculty p2 = (Faculty)SDM.CurrentUser;
             p2.CheckOut("d3");
-            SDM.CurrentUser = new Faculty("s");
+            SDM.CurrentUser = new Student("s");
             Student s = (Student)SDM.CurrentUser;
             s.CheckOut("d3");
             SDM.CurrentUser = new VisitingProfessor("v");
             VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
-            s.CheckOut("d3");
+            v.CheckOut("d3");
             SDM.CurrentUser = new Faculty("p3");
             Faculty p3 = (Faculty)SDM.CurrentUser;
-            s.CheckOut("d3");
+            p3.CheckOut("d3");
             PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
             Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
+            int check = pq.Pop();
+            int id = SDM.LMS.GetUserID("v");
+            check = pq.Pop();
+            id = SDM.LMS.GetUserID("p3");
+            Debug.Assert(check == id);
         }
         public void test27()
         {

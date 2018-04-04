@@ -1185,10 +1185,10 @@ namespace I2P_Project.Tests
         public void test29()
         {
             test26();
-            SDM.CurrentUser = new Faculty("p3");
-            Faculty p3 = (Faculty)SDM.CurrentUser;
-            p3.RenewDoc(SDM.LMS.GetDocID("d3"));
-            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p3");
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.RenewDoc(SDM.LMS.GetDocID("d3"));
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p1");
             Debug.Assert(checkedOuts.First().CheckOutTime == 30);
             Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d3");
             PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));

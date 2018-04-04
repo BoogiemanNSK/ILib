@@ -21,13 +21,6 @@ namespace I2P_Project.Classes.UserSystem
 
         public string RenewDoc(int docID, params int[] DateCheat)
         {
-<<<<<<< HEAD
-            Patron patron = (Patron)SDM.CurrentUser;
-            var doc = (from b in uDB.Checkouts
-                       where b.BookID == docID && b.UserID == SDM.CurrentUser.PersonID
-                       select b).Single();
-            if (doc.IsRenewed)
-=======
             System.DateTime time;
             if (DateCheat.Length == 0)
                 time = System.DateTime.Now;
@@ -38,7 +31,6 @@ namespace I2P_Project.Classes.UserSystem
                        where book.BookID == docID && SDM.CurrentUser.PersonID == book.UserID
                        select book).Single();
             if (doc.IsRenewed && UserType != 3)
->>>>>>> Architecture-And-Logic
                 return SDM.Strings.DOC_ALREADY_RENEWED;
             else if (SDM.LMS.ExistQueueForDoc(docID))
                  return SDM.Strings.DOC_IN_QUEUE;

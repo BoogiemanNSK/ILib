@@ -1189,16 +1189,10 @@ namespace I2P_Project.Tests
             test26();
             SDM.CurrentUser = new Faculty("p1");
             Faculty p1 = (Faculty)SDM.CurrentUser;
-<<<<<<< HEAD
-            p1.RenewDoc(SDM.LMS.GetDocID("d3"));
-            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p1");
-            Debug.Assert(checkedOuts.First().CheckOutTime == 30);
-=======
             int[] dateCheat = { 02, 04, 2018 };
             p1.RenewDoc(SDM.LMS.GetDocID("d3"),dateCheat);
             List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p1");
             Debug.Assert(checkedOuts.First().CheckOutTime == 16);
->>>>>>> Architecture-And-Logic
             Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d3");
             PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
             Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
@@ -1217,15 +1211,15 @@ namespace I2P_Project.Tests
             p1.RenewDoc(SDM.LMS.GetDocID("d1"), dateCheat);
             SDM.CurrentUser = new VisitingProfessor("v");
             VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
-            dateCheat = new int[] { 26, 03, 2018 };
-            v.CheckOut("d1", dateCheat);
             dateCheat = new int[] { 29, 03, 2018 };
+            v.CheckOut("d1", dateCheat);
+            dateCheat = new int[] { 30, 03, 2018 };
             v.RenewDoc(SDM.LMS.GetDocID("d1"),dateCheat);
             List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p1");
             Debug.Assert(checkedOuts.First().CheckOutTime == 26);
             Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d1");
             checkedOuts = SDM.LMS.GetCheckout("v");
-            Debug.Assert(checkedOuts.First().CheckOutTime == 5);
+            Debug.Assert(checkedOuts.First().CheckOutTime == 6);
             Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d1");
         }
     }

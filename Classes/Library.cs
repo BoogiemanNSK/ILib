@@ -892,13 +892,13 @@ namespace I2P_Project.Classes
         {
             PriorityQueue<int> PQ = LoadPQ(docID);
             PQ.Pop();
-            if (PQ.Length > 0)
-            {
+            if (PQ.FirstElement != null)
+            { 
                 Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
                 Document doc = GetDocByID(docID);
                 SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
-                SavePQ(PQ, docID);
             }
+            SavePQ(PQ, docID);
         }
 
         public bool ExistQueueForDoc(int docID)

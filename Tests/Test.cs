@@ -1196,7 +1196,7 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
             int docid = SDM.LMS.GetDocID("d3");
             lb.OutstandingRequest(docid);
-            Debug.Assert(!SDM.LMS.ExistQueueForDoc(docid));
+            Debug.Assert(SDM.LMS.ExistQueueForDoc(docid));
         }
 
         public void test28()

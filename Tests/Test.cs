@@ -989,20 +989,20 @@ namespace I2P_Project.Tests
                     true,
                     3
                 );
-            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 3);
+            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 2);
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
             lb.RegisterUser("p1", "p1", "p1", "Via Margutta, 3", "30001", false);
-            lb.UpgradeUser("p1",3);
+            lb.UpgradeUser("p1",4);
             lb.RegisterUser("p2", "p2", "p2", "Via Sacra, 13", "30002", false);
-            lb.UpgradeUser("p2",3);
+            lb.UpgradeUser("p2",4);
             lb.RegisterUser("p3", "p3", "p3", "Via del Corso, 22", "30003", false);
-            lb.UpgradeUser("p3",3);
+            lb.UpgradeUser("p3",4);
             SDM.CurrentUser = new Faculty("p1");
             SDM.LMS.RegisterUser("s", "s", "s", "s", "s", false);
             SDM.LMS.RegisterUser("v", "v", "v", "v", "v", false);
-            lb.UpgradeUser("v", 4);
+            lb.UpgradeUser("v", 3);
             //Assertions for auto-tests
             try
             {
@@ -1025,12 +1025,11 @@ namespace I2P_Project.Tests
             }
 
         }
-        
 
         public void test20()
         {
             initial();
-            int[] timeCheat = { 09, 02, 2018 };
+            int[] timeCheat = { 07, 03, 2018 };
             SDM.CurrentUser = new Faculty("p1");
             Faculty p1 = (Faculty)SDM.CurrentUser;
             p1.CheckOut("d1", timeCheat);
@@ -1038,43 +1037,125 @@ namespace I2P_Project.Tests
             p1.ReturnDoc(SDM.LMS.GetDocID("d2"));
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
-            try
-            {
-                List<OverdueInfo> info = new List<OverdueInfo>();
-                OverdueInfo overdue = new OverdueInfo();
-                overdue.overdue = 0;
-                overdue.DocID = SDM.LMS.GetDocID("d1");
-                overdue.DocumentChekedOut = "d1";
-                Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetDocID("d1")) == 0);
-            }
-            catch
-            {
-                return;
-            }
+
+            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("p1").userID) == 0);
+        }
+
+        public void test21()
+        {
+            initial();
+            int[] timeCheat = { 07, 03, 2018 };
+
+
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut("d1", timeCheat);
+            p1.CheckOut("d2", timeCheat);
+
+            SDM.CurrentUser = new Faculty("s");
+            Faculty s = (Faculty)SDM.CurrentUser;
+            s.CheckOut("d1", timeCheat);
+            s.CheckOut("d2", timeCheat);
+
+            SDM.CurrentUser = new Faculty("v");
+            Faculty v = (Faculty)SDM.CurrentUser;
+            v.CheckOut("d1", timeCheat);
+            v.CheckOut("d2", timeCheat);
+
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("p1").userID) == 0);
+            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("p1").userID) == 0);
+
+            int i = SDM.LMS.GetUserFine(SDM.LMS.GetUserID("s"));
+
+            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("s").userID) == 700);
+            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("s").userID) == 1400);
+
+            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("v").userID) == 2100);
+            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("v").userID) == 1700);
+        }
+
+        public void test22()
+        {
+            initial();
+            int[] timeCheat = { 31, 03, 2018 };
+
+
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut("d1", timeCheat);
+            p1.RenewDoc(SDM.LMS.GetDocID("d1"));
+
+            SDM.CurrentUser = new Faculty("s");
+            Faculty s = (Faculty)SDM.CurrentUser;
+            s.CheckOut("d2", timeCheat);
+            s.RenewDoc(SDM.LMS.GetDocID("d2"));
+
+            SDM.CurrentUser = new Faculty("v");
+            Faculty v = (Faculty)SDM.CurrentUser;
+            v.CheckOut("d2", timeCheat);
+            v.RenewDoc(SDM.LMS.GetDocID("d2"));
+
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d1")).Day == 30);
+
+            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d2")).Day == 16);
+
+            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("v").userID, SDM.LMS.GetDocID("d2")).Day == 9);
+
+        }
+
+        public void test23()
+        {
+
+        }
+
+
+        public void test25()
+        {
+            initial();
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut("d3");
+            SDM.CurrentUser = new Student("s");
+            Student s = (Student)SDM.CurrentUser;
+            s.CheckOut("d3");
+            SDM.CurrentUser = new VisitingProfessor("v");
+            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
+            v.CheckOut("d3");
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
         }
 
         public void test26()
         {
-            //test25();
+            initial();
             SDM.CurrentUser = new Faculty("p1");
             Faculty p1 = (Faculty)SDM.CurrentUser;
             p1.CheckOut("d3");
             SDM.CurrentUser = new Faculty("p2");
             Faculty p2 = (Faculty)SDM.CurrentUser;
             p2.CheckOut("d3");
-            SDM.CurrentUser = new Faculty("s");
+            SDM.CurrentUser = new Student("s");
             Student s = (Student)SDM.CurrentUser;
             s.CheckOut("d3");
             SDM.CurrentUser = new VisitingProfessor("v");
             VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
-            s.CheckOut("d3");
+            v.CheckOut("d3");
             SDM.CurrentUser = new Faculty("p3");
             Faculty p3 = (Faculty)SDM.CurrentUser;
-            s.CheckOut("d3");
+            p3.CheckOut("d3");
             PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
             Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
+            int check = pq.Pop();
+            int id = SDM.LMS.GetUserID("v");
+            check = pq.Pop();
+            id = SDM.LMS.GetUserID("p3");
+            Debug.Assert(check == id);
         }
         public void test27()
         {
@@ -1092,7 +1173,7 @@ namespace I2P_Project.Tests
             SDM.CurrentUser = new Faculty("p2");
             Faculty p2 = (Faculty)SDM.CurrentUser;
             p2.ReturnDoc(SDM.LMS.GetDocID("d3"));
-            
+
             PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
             Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
             Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
@@ -1108,6 +1189,33 @@ namespace I2P_Project.Tests
             Faculty p3 = (Faculty)SDM.CurrentUser;
             p3.RenewDoc(SDM.LMS.GetDocID("d3"));
             List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p3");
+            Debug.Assert(checkedOuts.First().CheckOutTime == 30);
+            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d3");
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
+        }
+
+        public void test30()
+        {
+            initial();
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            int[] dateCheat = { 26, 03, 2018 };
+            p1.CheckOut("d1", dateCheat);
+            p1.RenewDoc(SDM.LMS.GetDocID("d1"));
+            SDM.CurrentUser = new VisitingProfessor("v");
+            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
+            dateCheat = new int[] { 26, 03, 2018 };
+            v.CheckOut("d1", dateCheat);
+            v.RenewDoc(SDM.LMS.GetDocID("d1"));
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p1");
+            Debug.Assert(checkedOuts.First().CheckOutTime == 26);
+            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d1");
+            checkedOuts = SDM.LMS.GetCheckout("v");
+            Debug.Assert(checkedOuts.First().CheckOutTime == 5);
+            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d1");
         }
     }
 }

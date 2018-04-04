@@ -287,22 +287,14 @@ namespace I2P_Project.Classes
         /// <summary> Updates document info </summary>
         public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
         {
-            var doc = (from d in db.Documents
-                       where d.Id == DocID
-                       select d).Single();
-            var copy = (from d in db.Documents
-                        where d.Title == doc.Title
-                        select d);
-
-            foreach (Document docs in copy)
-            {
-                docs.Title = Title;
-                docs.Description = Description;
-                docs.Price = Convert.ToInt32(Price);
-                docs.IsBestseller = IsBestseller;
-                docs.DocType = DocType;
-                db.SubmitChanges();
-            }
+            Document doc = GetDocByID(DocID);
+            doc.Title = Title;
+            doc.Description = Description;
+            doc.Price = Convert.ToInt32(Price);
+            doc.IsBestseller = IsBestseller;
+            doc.DocType = DocType;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
+            db.SubmitChanges();
         }
 
         /// <summary> Updates user info </summary>
@@ -313,6 +305,17 @@ namespace I2P_Project.Classes
             user.Address = userAdress;
             user.PhoneNumber = userPhoneNumber;
             user.UserType = userType;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
+            db.SubmitChanges();
+        }
+
+        public void SetOutstandingRequest(int docID)
+        {
+            var doc = (from d in db.Documents
+                       where d.Id == docID
+                       select d).Single();
+            doc.Queue = "";
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
         }
 
@@ -335,6 +338,8 @@ namespace I2P_Project.Classes
                                       c.CheckID,
                                       c.BookID,
                                       b.Title,
+                                      b.Autors,
+                                      b.Price,
                                       c.DateTaked,
                                       c.TimeToBack
                                   };
@@ -343,10 +348,13 @@ namespace I2P_Project.Classes
                 Pages.MyBooksTable row = new Pages.MyBooksTable
                 {
                     checkID = element.CheckID,
-                    bookID = element.BookID,
-                    b_title = element.Title,
-                    c_dateTaked = (DateTime)element.DateTaked,
-                    c_timeToBack = element.TimeToBack
+                    docID = element.BookID,
+                    docTitle = element.Title,
+                    docAutors = element.Autors,
+                    docPrice = element.Price,
+                    docFine = GetUserFineForDoc(SDM.CurrentUser.PersonID, element.BookID),
+                    checkDateTaked = (DateTime)element.DateTaked,
+                    checkTimeToBack = element.TimeToBack
                 };
                 temp_table.Add(row);
             }
@@ -433,22 +441,23 @@ namespace I2P_Project.Classes
                                  where c.UserID == user_id
                                  select new
                                  {
-                                     c.BookID,
+                                     b.Id,
                                      b.Title,
+                                     b.Autors,
                                      b.DocType,
-                                     c.DateTaked,
-                                     c.TimeToBack
+                                     b.Price,
+                                     b.Quantity
                                  };
             foreach (var element in load_user_docs)
             {
                 Pages.DocumentsTable row = new Pages.DocumentsTable
                 {
-                    docID = element.BookID,
-                    docOwnerID = user_id,
+                    docID = element.Id,
+                    docAutors = element.Autors,
                     docTitle = element.Title,
                     docType = SDM.Strings.DOC_TYPES[element.DocType],
-                    dateTaked = (DateTime)element.DateTaked,
-                    timeToBack = element.TimeToBack
+                    docPrice = element.Price,
+                    docQuantity = element.Quantity
                 };
                 temp_table.Add(row);
             }
@@ -488,7 +497,7 @@ namespace I2P_Project.Classes
         /// Return a list of all docs registered in system
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<Pages.DocumentsTable> GetDocsTableForLibrarian()
+        public ObservableCollection<Pages.DocumentsTable> GetDocsTable()
         {
             ObservableCollection<Pages.DocumentsTable> temp_table = new ObservableCollection<Pages.DocumentsTable>();
             var load_user_docs = from b in db.Documents
@@ -496,21 +505,21 @@ namespace I2P_Project.Classes
                                  {
                                      b.Id,
                                      b.Title,
+                                     b.Autors,
                                      b.DocType,
+                                     b.Price,
                                      b.Quantity
                                  };
             foreach (var element in load_user_docs)
             {
-                Checkouts checkoutInfo = GetOwnerInfo(element.Id);
                 Pages.DocumentsTable row = new Pages.DocumentsTable
                 {
                     docID = element.Id,
+                    docAutors = element.Autors,
                     docTitle = element.Title,
                     docType = SDM.Strings.DOC_TYPES[element.DocType],
-                    docOwnerID = checkoutInfo == null ? -1 : checkoutInfo.UserID,
-                    dateTaked = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.DateTaked,
-                    timeToBack = checkoutInfo == null ? DateTime.Now : (System.DateTime)checkoutInfo.TimeToBack,
-                    quantity = element.Quantity
+                    docPrice = element.Price,
+                    docQuantity = element.Quantity
                 };
                 temp_table.Add(row);
             }
@@ -537,38 +546,6 @@ namespace I2P_Project.Classes
                     DocType = SDM.Strings.DOC_TYPES[element.DocType],
                     DateTaked = (DateTime)element.DateTaked,
                     DeadLine = element.TimeToBack
-                };
-                temp_table.Add(row);
-            }
-            return temp_table;
-        }
-
-        /// <summary> Returns all non-reference docs </summary>
-        public ObservableCollection<Pages.LibraryTable> GetAllDocs() // сюда можно засунуть вывод по userType
-        {
-            var test = (from p in db.Documents select p);
-            ObservableCollection<Pages.LibraryTable> temp_table = new ObservableCollection<Pages.LibraryTable>();
-            var load_user_books = from d in db.Documents
-                                  select new
-                                  {
-                                      d.Id,
-                                      d.Title,
-                                      d.Autors,
-                                      d.Publisher,
-                                      d.PublishYear,
-                                      d.Price
-                                  };
-            foreach (var element in load_user_books)
-            {
-                Pages.LibraryTable row = new Pages.LibraryTable
-                {
-                    bookID = element.Id,
-                    book_image = Directory.GetCurrentDirectory() + @"\media\source_images\book_default.png",
-                    title = element.Title,
-                    author = element.Autors,
-                    publisher = element.Publisher,
-                    publish_year = element.PublishYear,
-                    price = element.Price
                 };
                 temp_table.Add(row);
             }
@@ -706,6 +683,43 @@ namespace I2P_Project.Classes
             return patron;
         }
 
+        /// <summary> Counts overall user`s fine for overdued docs </summary>
+        public int GetUserFine(int userID)
+        {
+            int fine = 0;
+            var test = from c in db.Checkouts
+                       where c.UserID == userID
+                       select c;
+
+            if (test.Any())
+            {
+                foreach (Checkouts c in test)
+                {
+                    fine += GetUserFineForDoc(userID, c.BookID);
+                }
+            }
+
+            return fine;
+        }
+
+        /// <summary> Counts user`s fine for some doc </summary>
+        private int GetUserFineForDoc(int userID, int docID)
+        {
+            var test = from c in db.Checkouts
+                       where c.BookID == docID && c.UserID == userID
+                       select c;
+            Checkouts testCheck = test.Single();
+
+            int overduedTime = (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
+            if (overduedTime > 0)
+            {
+                int docPrice = GetDocPrice(docID);
+                return (overduedTime * 50 > docPrice ? docPrice : overduedTime * 50);
+            }
+
+            return 0;
+        }
+
         /// <summary> Counts number of user`s docs from his ID </summary>
         private int GetUserBooksNumber(int userID)
         {
@@ -714,28 +728,6 @@ namespace I2P_Project.Classes
                        select c;
             if (test.Any()) return test.Count();
             else return 0;
-        }
-
-        /// <summary> Counts overall user`s fine for overdued books </summary>
-        public int GetUserFine(int userID)
-        {
-            int fine = 0;
-            var test = from c in db.Checkouts
-                       where c.UserID == userID
-                       select c;
-            if (test.Any())
-            {
-                foreach (Checkouts c in test)
-                {
-                    int overduedTime = (int)DateTime.Now.Subtract(c.TimeToBack).TotalDays;
-                    if (overduedTime > 0)
-                    {
-                        int docPrice = GetDocPrice(c.BookID);
-                        fine += (overduedTime * 50 > docPrice ? docPrice : overduedTime * 50);
-                    }
-                }
-            }
-            return fine;
         }
 
         /// <summary> Gets price of doc by its ID </summary>

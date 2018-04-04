@@ -26,10 +26,13 @@
                   IsReadOnly="True" FontWeight="Bold" FontFamily="/I2P-Project;component/Fonts/#Panton">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="checkID" Binding="{Binding checkID}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="bookID" Binding="{Binding bookID}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="Title" Binding="{Binding b_title}" Width="*"/>
-                <DataGridTextColumn Header="Taked" Binding="{Binding c_dateTaked}" Width="*"/>
-                <DataGridTextColumn Header="Deadline" Binding="{Binding c_timeToBack}" Width="*"/>
+                <DataGridTextColumn Header="bookID" Binding="{Binding docID}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="*"/>
+                <DataGridTextColumn Header="Autors" Binding="{Binding docAutors}" Width="*"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding docPrice}" Width="*"/>
+                <DataGridTextColumn Header="Current Fine" Binding="{Binding docFine}" Width="*"/>
+                <DataGridTextColumn Header="Taked" Binding="{Binding checkDateTaked}" Width="*"/>
+                <DataGridTextColumn Header="Deadline" Binding="{Binding checkTimeToBack}" Width="*"/>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

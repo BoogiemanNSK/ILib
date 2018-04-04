@@ -35,11 +35,10 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="Auto"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
-                <DataGridTextColumn Header="Is Reference?" Binding="{Binding isReference}" Width="Auto"/>
+                <DataGridTextColumn Header="Autors" Binding="{Binding docAutors}" Width="Auto"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="Auto"/>
-                <DataGridTextColumn Header="Owner ID" Binding="{Binding docOwnerID}" Width="Auto"/>
-                <DataGridTextColumn Header="Taked" Binding="{Binding dateTaked}" Width="Auto"/>
-                <DataGridTextColumn Header="Deadline" Binding="{Binding timeToBack}" Width="Auto"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding docPrice}" Width="Auto"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding docQuantity}" Width="Auto"/>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -53,7 +52,16 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Delete" Margin="7,2,7,2"  Width="70" Height="30" FontWeight="Bold" ToolTip="Delete document"
-                                    Cursor="Hand" Click="OnModifyBook" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
+                                    Cursor="Hand" Click="OnDeleteBook" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
+                                    FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Request" Margin="7,2,7,2"  Width="70" Height="30" FontWeight="Bold" ToolTip="Set outstanding request"
+                                    Cursor="Hand" Click="OnRequestBook" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
                                     FontSize="14" Style="{DynamicResource ButtonStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

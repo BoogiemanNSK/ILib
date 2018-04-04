@@ -36,10 +36,10 @@ namespace I2P_Project.Pages
         }
         private void OnTest(object sender, RoutedEventArgs e)
         {
-            /*
+            
             TestOutput.Text = "Test " + TestNumber.Text + ":\n";
             switch (TestNumber.Text)
-            {
+            {/*
                 case "Test all":
                     try
                     {
@@ -143,12 +143,16 @@ namespace I2P_Project.Pages
                 case "19":
                     TestOutput.Text += test.test19();
                     UpdateTables();
+                    break; */
+                case "20":
+                    test.test20();
+                    UpdateTables();
                     break;
                 default:
                     TestOutput.Text += "No such test found";
                     break;
             }
-    */    
+    
     }
         
         private void OnShow(object sender, RoutedEventArgs e)

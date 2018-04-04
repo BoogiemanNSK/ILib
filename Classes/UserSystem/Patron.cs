@@ -21,29 +21,7 @@ namespace I2P_Project.Classes.UserSystem
 
         public string RenewDoc(int docID, params int[] DateCheat)
         {
-            System.DateTime time;
-            if (DateCheat.Length == 0)
-                time = System.DateTime.Now;
-            else
-                time = new System.DateTime(DateCheat[2], DateCheat[1], DateCheat[0]);
-
-            var doc = (from book in uDB.Checkouts
-                       where book.BookID == docID && SDM.CurrentUser.PersonID == book.UserID
-                       select book).Single();
-            if (doc.IsRenewed && UserType != 3)
-                return SDM.Strings.DOC_ALREADY_RENEWED;
-            else if (SDM.LMS.ExistQueueForDoc(docID))
-                 return SDM.Strings.DOC_IN_QUEUE;
-            else if (SDM.LMS.GetUserFineForDoc(PersonID, docID) > 0)
-                return SDM.Strings.USER_HAVE_FINE;
-            else
-            {
-                 doc.TimeToBack = time.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
-                 doc.DateTaked = time;
-                 doc.IsRenewed = true;
-                 uDB.SubmitChanges();
-                 return SDM.Strings.SUCCESSFUL_RENEW;
-            }
+            return SDM.LMS.RenewDoc(docID, DateCheat);
         }
 
         /// <summary> Returns a document from a user to the LMS </summary>

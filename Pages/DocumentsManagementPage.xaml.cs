@@ -30,7 +30,7 @@ namespace I2P_Project.Pages
 
         private void OnAddBook(object sender, RoutedEventArgs e)
         {
-            AddBookPage page = new AddBookPage(this);
+            AddDocPage page = new AddDocPage(this);
             page.ShowDialog();
         }
 

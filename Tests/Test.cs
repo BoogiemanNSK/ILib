@@ -1032,7 +1032,7 @@ namespace I2P_Project.Tests
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("p1").userID) == 0);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("p1").userID,SDM.LMS.GetDocID("d1")) == 0);
         }
 
         public void test21()
@@ -1059,16 +1059,14 @@ namespace I2P_Project.Tests
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
 
-            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("p1").userID) == 0);
-            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("p1").userID) == 0);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d1")) == 0);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d2")) == 0);
 
-            int i = SDM.LMS.GetUserFine(SDM.LMS.GetUserID("s"));
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d1")) == 700);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d2")) == 1400);
 
-            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("s").userID) == 700);
-            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("s").userID) == 1400);
-
-            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("v").userID) == 2100);
-            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetPatronByName("v").userID) == 1700);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("v").userID, SDM.LMS.GetDocID("d1")) == 2100);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("v").userID, SDM.LMS.GetDocID("d2")) == 1700); 
         }
 
         public void test22()
@@ -1080,16 +1078,20 @@ namespace I2P_Project.Tests
             SDM.CurrentUser = new Faculty("p1");
             Faculty p1 = (Faculty)SDM.CurrentUser;
             p1.CheckOut("d1", timeCheat);
-            p1.RenewDoc(SDM.LMS.GetDocID("d1"));
+           
 
             SDM.CurrentUser = new Faculty("s");
             Faculty s = (Faculty)SDM.CurrentUser;
             s.CheckOut("d2", timeCheat);
-            s.RenewDoc(SDM.LMS.GetDocID("d2"));
+            
 
             SDM.CurrentUser = new Faculty("v");
             Faculty v = (Faculty)SDM.CurrentUser;
             v.CheckOut("d2", timeCheat);
+            
+
+            p1.RenewDoc(SDM.LMS.GetDocID("d1"));
+            s.RenewDoc(SDM.LMS.GetDocID("d2"));
             v.RenewDoc(SDM.LMS.GetDocID("d2"));
 
             SDM.CurrentUser = new Librarian("lb");
@@ -1105,7 +1107,38 @@ namespace I2P_Project.Tests
 
         public void test23()
         {
+            initial();
+            int[] timeCheat = { 31, 03, 2018 };
 
+
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut("d1", timeCheat);
+
+
+            SDM.CurrentUser = new Faculty("s");
+            Faculty s = (Faculty)SDM.CurrentUser;
+            s.CheckOut("d2", timeCheat);
+
+
+            SDM.CurrentUser = new Faculty("v");
+            Faculty v = (Faculty)SDM.CurrentUser;
+            v.CheckOut("d2", timeCheat);
+
+            SDM.LMS.SetOutstandingRequest(SDM.LMS.GetDocID("d2"));
+
+            p1.RenewDoc(SDM.LMS.GetDocID("d1"));
+            s.RenewDoc(SDM.LMS.GetDocID("d2"));
+            v.RenewDoc(SDM.LMS.GetDocID("d2"));
+
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+
+            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d1")).Day == 30);
+
+            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d2")).Day == 2);
+
+            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("v").userID, SDM.LMS.GetDocID("d2")).Day == 2);
         }
 
             public void test26()

@@ -14,12 +14,19 @@ namespace I2P_Project.Classes.UserSystem
             return SDM.LMS.GetCheckout(Name);            
         }
 
+        public void OutstandingRequest(int docID)
+        {
+            SDM.LMS.SetOutstandingRequest(docID);
+        }
         /// <summary> Deletes patron from DB </summary>
         public void DeleteUser(int patronID)
         {
             SDM.LMS.RemoveUser(patronID);
         }
-
+        public void UpgradeUser(string Name, int ut)
+        {
+            SDM.LMS.UpgradeUser(Name, ut);
+        }
         public void ModifyUser(int patronID, string Name, string Adress, string PhoneNumber, int userType)
         {
             SDM.LMS.UpdateUser(patronID, Name, Adress, PhoneNumber, userType);

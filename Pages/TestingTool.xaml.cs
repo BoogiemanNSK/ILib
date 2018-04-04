@@ -31,7 +31,7 @@ namespace I2P_Project.Pages
 
         private void UpdateTables()
         {
-            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTableForLibrarian();
+            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTable();
             UserTable.ItemsSource = SDM.LMS.TestUsersTable();
         }
 
@@ -159,7 +159,7 @@ namespace I2P_Project.Pages
 
         private void OnOverall(object sender, RoutedEventArgs e) // Shows books without user
         {
-            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTableForLibrarian(); 
+            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTable(); 
         }
 
         private void OnExit(object sender, RoutedEventArgs e)

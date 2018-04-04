@@ -148,6 +148,18 @@ namespace I2P_Project.Pages
                     test.test20();
                     UpdateTables();
                     break;
+                case "21":
+                    test.test21();
+                    UpdateTables();
+                    break;
+                case "22":
+                    test.test22();
+                    UpdateTables();
+                    break;
+                case "23":
+                    test.test23();
+                    UpdateTables();
+                    break;
                 case "25":
                     test.test25();
                     UpdateTables();
@@ -201,7 +213,7 @@ namespace I2P_Project.Pages
     {
         public int userID { get; set; }
         public string userName { get; set; }
-        public string userAddress { get; set; }
+        public string userAddress{ get; set; }
         public string userPhoneNumber { get; set; }
         public string userType { get; set; }
     }

@@ -11,7 +11,7 @@ namespace I2P_Project.Tests
 {
     class Test
     {
-
+        /*
         public string test1()
         {
             string output = "Cleared DB...\n";
@@ -28,9 +28,9 @@ namespace I2P_Project.Tests
             Librarian lb = (Librarian)SDM.CurrentUser;
 
             output += "Adding reference book b and two copies...\n";
-            //lb.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            //lb.AddDoc("b", "B", 0, 0, false);
-            //lb.AddDoc("b", "B", 0, 0, false);
+            lb.AddDoc("b", "B", 0, 0, false); // Adding Reference book
+            lb.AddDoc("b", "B", 0, 0, false);
+            lb.AddDoc("b", "B", 0, 0, false);
 
             output += "Logging In as student st...\n";
             SDM.CurrentUser = new Student("st"); // Log In student st
@@ -117,8 +117,8 @@ namespace I2P_Project.Tests
             Faculty ft = (Faculty)SDM.CurrentUser;
 
             output += "Adding reference book b and copy...\n";
-            //SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            //SDM.LMS.AddDoc("b", "B", 0, 0, false);
+            SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
+            SDM.LMS.AddDoc("b", "B", 0, 0, false);
 
             output += "Faculty ft checking out book b...\n";
             ft.CheckOut("b");
@@ -132,7 +132,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("b"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().checkTimeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().checkDateTaked).TotalDays / 7) == 4);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 4);
 
                 output = "Test3 OK";
 
@@ -164,8 +164,8 @@ namespace I2P_Project.Tests
             Student st = (Student)SDM.CurrentUser;
 
             output += "Adding reference book b and copy...\n";
-            //SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
-            //SDM.LMS.AddDoc("b", "B", 0, 0, true);
+            SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
+            SDM.LMS.AddDoc("b", "B", 0, 0, true);
 
             output += "Studebt st checking out book b...\n";
             st.CheckOut("b");
@@ -179,7 +179,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("b"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().checkTimeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().checkDateTaked).TotalDays / 7) == 2);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 2);
 
                 output = "Test4 OK";
 
@@ -210,9 +210,9 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference book A and two copies...\n";
-            //SDM.LMS.AddDoc("a", "a", 0, 0, false); // Adding Reference book
-            //SDM.LMS.AddDoc("a", "a", 0, 0, false);
-            //SDM.LMS.AddDoc("a", "a", 0, 0, false);
+            SDM.LMS.AddDoc("a", "a", 0, 0, false); // Adding Reference book
+            SDM.LMS.AddDoc("a", "a", 0, 0, false);
+            SDM.LMS.AddDoc("a", "a", 0, 0, false);
 
             output += "Logging In as student st...\n";
             SDM.CurrentUser = new Student("st"); // Log In student st
@@ -282,9 +282,9 @@ namespace I2P_Project.Tests
             Student st = (Student)SDM.CurrentUser;
 
             output += "Adding reference book b and two copies...\n";
-            //SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            //SDM.LMS.AddDoc("b", "B", 0, 0, false);
-            //SDM.LMS.AddDoc("b", "B", 0, 0, false);
+            SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
+            SDM.LMS.AddDoc("b", "B", 0, 0, false);
+            SDM.LMS.AddDoc("b", "B", 0, 0, false);
 
             output += "Student st checking out book b...\n";
             st.CheckOut("b");
@@ -327,9 +327,9 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference book b1 and two copies...\n";
-            //SDM.LMS.AddDoc("b1", "B", 0, 0, false); // Adding Reference book
-            //SDM.LMS.AddDoc("b1", "B", 0, 0, false);
-            //SDM.LMS.AddDoc("b1", "B", 0, 0, false);
+            SDM.LMS.AddDoc("b1", "B", 0, 0, false); // Adding Reference book
+            SDM.LMS.AddDoc("b1", "B", 0, 0, false);
+            SDM.LMS.AddDoc("b1", "B", 0, 0, false);
 
             output += "Logging In as student p1...\n";
             SDM.CurrentUser = new Student("p1"); // Log In student st
@@ -386,8 +386,8 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference book b and two copies...\n";
-            //SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            //SDM.LMS.AddDoc("b", "B", 0, 0, false);
+            SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
+            SDM.LMS.AddDoc("b", "B", 0, 0, false);
 
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
@@ -409,7 +409,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("b"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().checkTimeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().checkDateTaked).TotalDays / 7) == 3);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 3);
 
                 output = "Test8 OK";
 
@@ -437,8 +437,8 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference book b and copy...\n";
-            //SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
-            //SDM.LMS.AddDoc("b", "B", 0, 0, true);
+            SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
+            SDM.LMS.AddDoc("b", "B", 0, 0, true);
 
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
@@ -460,7 +460,7 @@ namespace I2P_Project.Tests
                 Debug.Assert(SDM.LMS.DocExists("b"));
                 Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
                 Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().checkTimeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().checkDateTaked).TotalDays / 7) == 2);
+                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 2);
 
                 output = "Test9 OK";
 
@@ -485,9 +485,9 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 
             output += "Adding reference books a and b and copy of a...\n";
-            //SDM.LMS.AddDoc("a", "A", 0, 0, false); // Adding Reference book
-            //SDM.LMS.AddDoc("a", "A", 0, 0, false);
-            //SDM.LMS.AddDoc("b", "B", 0, 0, false);
+            SDM.LMS.AddDoc("a", "A", 0, 0, false); // Adding Reference book
+            SDM.LMS.AddDoc("a", "A", 0, 0, false);
+            SDM.LMS.AddDoc("b", "B", 0, 0, false);
 
             output += "Logging In as student st...\n";
             SDM.CurrentUser = new Student("st"); // Log In student st
@@ -528,7 +528,7 @@ namespace I2P_Project.Tests
             output += "Adding reference book Introduction to Algorithms and 3 copy of Introduction to Algorithms...\n";
             for (int i = 0; i < 4; i++)
             {
-                /*SDM.LMS.AddBook
+                SDM.LMS.AddBook
                     (
                         "Introduction to Algorithms",
                         "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
@@ -539,11 +539,11 @@ namespace I2P_Project.Tests
                         0,
                         1800,
                         false
-                    );*/
+                    );
             }
             for (int i = 0; i < 3; i++)
             {
-                /*SDM.LMS.AddBook
+                SDM.LMS.AddBook
                    (
                        "Design Patterns: Elements of Reusable Object-Oriented Software",
                        "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
@@ -554,19 +554,19 @@ namespace I2P_Project.Tests
                        0,
                        2000,
                        true
-                   );*/
+                   );
             }
             output += "Adding reference book Design Patterns: Elements of Reusable Object-Oriented Software and 2 copy of Introduction to Algorithms...\n";
             for (int i = 0; i < 2; i++)
             {
-                //SDM.LMS.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
-                //SDM.LMS.AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
+                SDM.LMS.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
+                SDM.LMS.AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
             }
             //reference book
-            /*SDM.LMS.AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P",
+            SDM.LMS.AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P",
            "Addison-Wesley Longman Publishing Co., Inc.", 1995,
            "Second edition", "How to do everything and live better",
-           0, 800, false);*/
+           0, 800, false);
             output += "Adding reference book The Mythical Man-month and copy of Introduction to Algorithms...\n";
             output += "Adding reference video and copy of Null References: The Billion Dollar Mistake...\n";
             output += "Adding reference video and copy of Information Entropy...\n";
@@ -864,6 +864,7 @@ namespace I2P_Project.Tests
             return output;
 
         }
+        */
 
         public string test18()
         {
@@ -889,7 +890,7 @@ namespace I2P_Project.Tests
             p1 = (Faculty)SDM.CurrentUser;
 
             output += "breaking through space and time to February 9th 2018...\n";
-            timeCheat[0] = 02;
+            timeCheat[0] = 09;
             p1.CheckOut("Introduction to Algorithms", timeCheat);
 
             output += "Logging In as Nadia Teixeira patron...\n";
@@ -943,7 +944,7 @@ namespace I2P_Project.Tests
             return output;
         }
 
-        public string test19()
+      /*  public string test19()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -957,6 +958,202 @@ namespace I2P_Project.Tests
             Environment.Exit(0);
 
             return output;
+        }*/
+        
+        public void initial()
+        {
+            //AddBooks
+            SDM.LMS.ClearDB();
+            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            SDM.LMS.AddBook
+                (
+                    "d1",
+                    "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
+                    "MIT Press",
+                    2009,
+                    "Third Edition",
+                    "Alghorithm techniques and design",
+                    5000,
+                    false,
+                    3
+                );
+            SDM.LMS.AddBook
+                (
+                    "d2",
+                    "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
+                    "Addison-Wesley Professional",
+                    2003,
+                    "First Edition",
+                    "Programm patterns, how to programm well w/o headache",
+                    1700,
+                    true,
+                    3
+                );
+            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 2);
+            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            lb.RegisterUser("p1", "p1", "p1", "Via Margutta, 3", "30001", false);
+            lb.UpgradeUser("p1",4);
+            lb.RegisterUser("p2", "p2", "p2", "Via Sacra, 13", "30002", false);
+            lb.UpgradeUser("p2",4);
+            lb.RegisterUser("p3", "p3", "p3", "Via del Corso, 22", "30003", false);
+            lb.UpgradeUser("p3",4);
+            SDM.CurrentUser = new Faculty("p1");
+            SDM.LMS.RegisterUser("s", "s", "s", "s", "s", false);
+            SDM.LMS.RegisterUser("v", "v", "v", "v", "v", false);
+            lb.UpgradeUser("v", 3);
+            //Assertions for auto-tests
+            try
+            {
+                Debug.Assert(SDM.LMS.DocExists("d1"));
+                //included reference book
+                Debug.Assert(SDM.LMS.AmountOfDocs("d1", 3));
+                Debug.Assert(SDM.LMS.DocExists("d2"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("d2", 3));
+                Debug.Assert(SDM.LMS.DocExists("d3"));
+                Debug.Assert(SDM.LMS.AmountOfDocs("d3", 2));
+                Debug.Assert(SDM.LMS.CheckLogin("p1"));
+                Debug.Assert(SDM.LMS.CheckLogin("p2"));
+                Debug.Assert(SDM.LMS.CheckLogin("p3"));
+                Debug.Assert(SDM.LMS.CheckLogin("s"));
+                Debug.Assert(SDM.LMS.CheckLogin("v"));
+            }
+            catch
+            {
+                return;
+            }
+
+        }
+
+
+        public void test20()
+        {
+            initial();
+            int[] timeCheat = { 09, 02, 2018 };
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut("d1", timeCheat);
+            p1.CheckOut("d2", timeCheat);
+            p1.ReturnDoc(SDM.LMS.GetDocID("d2"));
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            try
+            {
+                List<OverdueInfo> info = new List<OverdueInfo>();
+                OverdueInfo overdue = new OverdueInfo();
+                overdue.overdue = 0;
+                overdue.DocID = SDM.LMS.GetDocID("d1");
+                overdue.DocumentChekedOut = "d1";
+                Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetDocID("d1")) == 0);
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        public void test25()
+        {
+            initial();
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut("d3");
+            SDM.CurrentUser = new Student("s");
+            Student s = (Student)SDM.CurrentUser;
+            s.CheckOut("d3");
+            SDM.CurrentUser = new VisitingProfessor("v");
+            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
+            v.CheckOut("d3");
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
+        }
+
+        public void test26()
+        {
+            initial();
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut("d3");
+            SDM.CurrentUser = new Faculty("p2");
+            Faculty p2 = (Faculty)SDM.CurrentUser;
+            p2.CheckOut("d3");
+            SDM.CurrentUser = new Student("s");
+            Student s = (Student)SDM.CurrentUser;
+            s.CheckOut("d3");
+            SDM.CurrentUser = new VisitingProfessor("v");
+            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
+            v.CheckOut("d3");
+            SDM.CurrentUser = new Faculty("p3");
+            Faculty p3 = (Faculty)SDM.CurrentUser;
+            p3.CheckOut("d3");
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
+            int check = pq.Pop();
+            int id = SDM.LMS.GetUserID("v");
+            check = pq.Pop();
+            id = SDM.LMS.GetUserID("p3");
+            Debug.Assert(check == id);
+        }
+        public void test27()
+        {
+            test26();
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            int docid = SDM.LMS.GetDocID("d3");
+            lb.OutstandingRequest(docid);
+            Debug.Assert(!SDM.LMS.ExistQueueForDoc(docid));
+        }
+
+        public void test28()
+        {
+            test26();
+            SDM.CurrentUser = new Faculty("p2");
+            Faculty p2 = (Faculty)SDM.CurrentUser;
+            p2.ReturnDoc(SDM.LMS.GetDocID("d3"));
+
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p2");
+            Debug.Assert(checkedOuts.Capacity == 0);
+        }
+
+        public void test29()
+        {
+            test26();
+            SDM.CurrentUser = new Faculty("p3");
+            Faculty p3 = (Faculty)SDM.CurrentUser;
+            p3.RenewDoc(SDM.LMS.GetDocID("d3"));
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p3");
+            Debug.Assert(checkedOuts.First().CheckOutTime == 30);
+            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d3");
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
+            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
+        }
+
+        public void test30()
+        {
+            initial();
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            int[] dateCheat = { 26, 03, 2018 };
+            p1.CheckOut("d1", dateCheat);
+            p1.RenewDoc(SDM.LMS.GetDocID("d1"));
+            SDM.CurrentUser = new VisitingProfessor("v");
+            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
+            dateCheat = new int[] { 26, 03, 2018 };
+            v.CheckOut("d1", dateCheat);
+            v.RenewDoc(SDM.LMS.GetDocID("d1"));
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p1");
+            Debug.Assert(checkedOuts.First().CheckOutTime == 26);
+            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d1");
+            checkedOuts = SDM.LMS.GetCheckout("v");
+            Debug.Assert(checkedOuts.First().CheckOutTime == 5);
+            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d1");
         }
     }
 }

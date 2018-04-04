@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
             <RowDefinition />
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
@@ -22,7 +23,14 @@
         </Grid.ColumnDefinitions>
 
         <Label Content="My documents" Grid.Column="1" Grid.Row="1" FontSize="16" HorizontalAlignment="Center" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
-        <DataGrid Grid.Column="1" Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="2" AutoGenerateColumns="False"
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
+                     VerticalContentAlignment="Center"/>
+            <Button Width="95" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+        </StackPanel>
+        
+        <DataGrid Grid.Column="1" Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False"
                   IsReadOnly="True" FontWeight="Bold" FontFamily="/I2P-Project;component/Fonts/#Panton">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="checkID" Binding="{Binding checkID}" Visibility="Hidden"/>
@@ -36,16 +44,18 @@
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Return" Margin="7,2,7,2"  Width="50" FontWeight="Bold" ToolTip="Return book" Cursor="Hand" Click="OnReturn"
-                                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+                            <Button Content="&#xE149;" Width="30" Height="30" FontWeight="Bold" Cursor="Hand" Click="OnRenew" Background="White" 
+                                    ToolTip="Renew document" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
+                                    BorderBrush="{x:Null}" Foreground="Black" FontSize="14" Style="{DynamicResource ButtonTableStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Renew" Margin="7,2,7,2"  Width="50" FontWeight="Bold" Cursor="Hand" Click="OnRenew" Background="#FF078CD1"
-                                    BorderBrush="{x:Null}" Foreground="White" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+                            <Button Content="&#xE10A;" Width="30" Height="30" FontWeight="Bold" ToolTip="Return document" Cursor="Hand" Click="OnReturn"
+                                    Background="White" BorderBrush="{x:Null}" Foreground="Black" FontSize="16" Style="{DynamicResource ButtonTableStyle}"
+                                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

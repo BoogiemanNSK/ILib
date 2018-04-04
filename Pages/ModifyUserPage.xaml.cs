@@ -60,7 +60,7 @@ namespace I2P_Project.Pages
             }
             catch
             {
-                InfoText.Content = "One of fields is not filled!";
+                MessageBox.Show("One of fields is not filled!", "Error");
             }
         }
 

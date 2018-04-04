@@ -310,6 +310,7 @@ namespace I2P_Project.Classes
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
             db.SubmitChanges();
         }
+        
 
         public void SetOutstandingRequest(int docID)
         {
@@ -748,6 +749,7 @@ namespace I2P_Project.Classes
         #endregion
 
         #region DB Testers
+
         public bool DocExists(string Title)
         {
             var test = from d in db.Documents
@@ -766,10 +768,10 @@ namespace I2P_Project.Classes
 
         public bool AmountOfDocs(string Title, int n)
         {
-            var test = from d in db.Documents
+            var test = (from d in db.Documents
                        where d.Title.Equals(Title)
-                       select d;
-            return test.Count()==n;
+                       select d).Single();
+            return test.Quantity==n;
         }
 
         public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
@@ -794,7 +796,29 @@ namespace I2P_Project.Classes
         {
             return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
         }
-        
+        public void UpgradeUser(string Name, int ut)
+        {
+            Users user = GetUser(Name);
+            if (ut < 5)
+                user.UserType = ut;
+            db.SubmitChanges();
+        }
+
+        public int GetDocID(string Title)
+        {
+            var test = (from doc in db.Documents
+                       where doc.Title.Equals(Title)
+                       select doc).Single();
+            return test.Id;
+        }
+
+        public int GetUserID(string Name)
+        {
+            var test = (from user in db.Users
+                        where user.Name.Equals(Name)
+                        select user).Single();
+            return test.Id;
+        }
         private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
         {
             return new HashSet<CheckedOut>(checkedOuts).SetEquals(neededInfo);
@@ -915,7 +939,7 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
-        private PriorityQueue<int> LoadPQ(int bookID)
+        public PriorityQueue<int> LoadPQ(int bookID)
         {
             PriorityQueue<int> localQueue = new PriorityQueue<int>();
             var test = from doc in db.Documents

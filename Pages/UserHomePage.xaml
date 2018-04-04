@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="8"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
             <RowDefinition />
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
@@ -22,7 +23,14 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="1" Grid.Column="1" FontSize="16" Content="Library" HorizontalAlignment="Center"/>
-        <DataGrid Grid.Column="1" Name="docTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="2" AutoGenerateColumns="False"
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
+                     VerticalContentAlignment="Center"/>
+            <Button Width="95" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+        </StackPanel>
+        
+        <DataGrid Grid.Column="1" Name="docTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False"
                   IsReadOnly="True" FontWeight="Bold" FontFamily="/I2P-Project;component/Fonts/#Panton">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="docID" Binding="{Binding docID}" Visibility="Hidden"/>
@@ -34,9 +42,9 @@
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Check out" Margin="7,2,7,2"  Width="70" Height="30" FontWeight="Bold" ToolTip="Order book" Cursor="Hand"
-                                    Click="OnCheckOut" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontSize="14"
-                                    Style="{DynamicResource ButtonStyle}"/>
+                            <Button Content="&#xE109;" Width="30" Height="30" FontWeight="Bold" ToolTip="Order book" Cursor="Hand"
+                                    Click="OnCheckOut" Background="White" BorderBrush="{x:Null}" Foreground="Black" FontSize="14"
+                                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Style="{DynamicResource ButtonTableStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

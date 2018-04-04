@@ -17,27 +17,49 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
-            <RowDefinition Height="50"/>
-            
+            <RowDefinition Height="20"/>
+
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Center" Content="UserList"/>
-        <DataGrid Grid.Row="2" Grid.Column="1" Name="UsersTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold">
+        <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Center" Content="Users"/>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="7,5" HorizontalAlignment="Center" Click="OnAddUser" Width="33" Content="&#xE1E2;" Background="#FF078CD1"
+                    BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
+                    Style="{DynamicResource ButtonStyle}"/>
+            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
+                     VerticalContentAlignment="Center"/>
+            <Button Width="92" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" 
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="3" Grid.Column="1" Name="UsersTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True"
+                  FontWeight="Bold">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="User ID" Binding="{Binding userID}" Width="*"/>
                 <DataGridTextColumn Header="Login" Binding="{Binding userLogin}" Width="*"/>
                 <DataGridTextColumn Header="Docs Number" Binding="{Binding docsNumber}" Width="*"/>
                 <DataGridTextColumn Header="Fine" Binding="{Binding userFine}" Width="*"/>
+                <DataGridTemplateColumn CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="OnUserOverdueInfo" Width="30" Cursor="Hand" Height="30" Content="&#xE121;" Background="White"                                    
+                                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" ToolTip="Overdue Info"
+                                    BorderBrush="{x:Null}" Foreground="Black" FontWeight="Bold" FontSize="17" Style="{DynamicResource ButtonTableStyle}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button HorizontalAlignment="Center" Click="OnUserCard" Width="30" Height="30" Content="&#xE181;" Background="White"
+                                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" ToolTip="User Card" Cursor="Hand"
+                                    BorderBrush="{x:Null}" Foreground="Black" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonTableStyle}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnAddUser" Width="150" Content="Add user" Background="#FF078CD1"
-                    BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
-            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnUserOverdueInfo" Width="150" Content="Overdue Info" Background="#FF078CD1"
-                    BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
-            <Button Margin="7,7,7,7" HorizontalAlignment="Center" Click="OnUserCard" Width="150" Content="User Card" Background="#FF078CD1"
-                    BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
-        </StackPanel>
     </Grid>
 </Page>

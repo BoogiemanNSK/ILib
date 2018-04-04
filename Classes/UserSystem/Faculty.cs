@@ -1,6 +1,5 @@
 ﻿namespace I2P_Project.Classes.UserSystem
 {
-
     class Faculty : Patron
     {
         public Faculty(string login) : base(login) {} 
@@ -11,14 +10,25 @@
         {
             DataBase.Document doc = null;
             string result = CheckAvailibility(title);
-
-            if (result != "") return result;
+            
+            if (result == SDM.Strings.PERSON_NOT_IN_QUEUE_TEXT)
+            {
+                doc = GetDocumentForCheckOut(title);
+                SDM.LMS.PushInPQ(doc.Id, PersonID, UserType);
+                return result;
+            }
+            else if (result == SDM.Strings.PERSON_FIRST_IN_QUEUE_TEXT)
+            {
+                doc = GetDocumentForCheckOut(title);
+                SDM.LMS.PopFromPQ(doc.Id);
+            }
+            else if (result != "") return result;
 
             doc = GetDocumentForCheckOut(title);
+            doc.Quantity--;
+            uDB.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
+            uDB.SubmitChanges();
 
-            if (doc.IsReference)
-                SDM.LMS.PushInPQ(doc.Id, SDM.CurrentUser.PersonID);
-            
             if (doc.DocType != 0)
                 SetCheckOut(doc.Id, 2, DateCheat);
             else
@@ -26,7 +36,5 @@
 
             return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";
         }
-
     }
-
 }

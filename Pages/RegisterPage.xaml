@@ -36,7 +36,7 @@
         <Label Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Name" FontSize="16"/>
         <TextBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="180"
                  Name="NameTB" Height="30" FontSize="14" VerticalContentAlignment="Center" Style="{DynamicResource TextBoxDesign}"/>
-        <Label Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Address" FontSize="16"/>
+        <Label Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="E-Mail" FontSize="16"/>
         <TextBox Grid.Row="5" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="180"
                  Name="AdressTB" Height="30" FontSize="14" VerticalContentAlignment="Center" Style="{DynamicResource TextBoxDesign}"/>
         <Label Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Phone number" FontSize="16"/>

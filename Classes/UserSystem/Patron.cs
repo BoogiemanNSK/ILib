@@ -21,9 +21,9 @@ namespace I2P_Project.Classes.UserSystem
 
         public string RenewDoc(int docID)
         {
-            var doc = (from b in uDB.Checkouts
-                       where b.BookID == docID
-                       select b).Single();
+            var doc = (from book in uDB.Checkouts
+                       where book.BookID == docID && SDM.CurrentUser.PersonID == book.UserID
+                       select book).Single();
             if (doc.IsRenewed && UserType != 3)
                 return SDM.Strings.DOC_ALREADY_RENEWED;
             else if (SDM.LMS.ExistQueueForDoc(docID))

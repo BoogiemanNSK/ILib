@@ -925,11 +925,14 @@ namespace I2P_Project.Classes
                 queue_string += '-';
                 pq.Pop();
             }
-
-            queue_string += pq.FirstElement.Element;
-            queue_string += '|';
-            queue_string += pq.FirstElement.PriorityLevel;
-
+            if (pq.FirstElement == null)
+                queue_string = "";
+            else
+            {
+                queue_string += pq.FirstElement.Element;
+                queue_string += '|';
+                queue_string += pq.FirstElement.PriorityLevel;
+            }
             var test = from doc in db.Documents
                        where doc.Id == bookID
                        select doc;

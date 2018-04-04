@@ -97,7 +97,8 @@ namespace I2P_Project.Classes
                     Price = price,
                     DocType = 0,
                     IsBestseller = isBestseller,
-                    Quantity = quantity
+                    Quantity = quantity,
+                    Queue = ""
                 };
                 db.Documents.InsertOnSubmit(newDoc);
             }
@@ -128,7 +129,8 @@ namespace I2P_Project.Classes
                     IssueEditor = issueEditor,
                     Price = price,
                     DocType = 1,
-                    Quantity = quantity
+                    Quantity = quantity,
+                    Queue = ""
                 };
                 db.Documents.InsertOnSubmit(newDoc);
             }
@@ -315,6 +317,10 @@ namespace I2P_Project.Classes
             var doc = (from d in db.Documents
                        where d.Id == docID
                        select d).Single();
+
+            NotifyNextUser(docID);
+            while (doc.Queue.Length > 0) PopFromPQ(docID);
+
             doc.Queue = "";
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
@@ -704,7 +710,7 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Counts user`s fine for some doc </summary>
-        private int GetUserFineForDoc(int userID, int docID)
+        public int GetUserFineForDoc(int userID, int docID)
         {
             var test = from c in db.Checkouts
                        where c.BookID == docID && c.UserID == userID

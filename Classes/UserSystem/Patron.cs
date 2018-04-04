@@ -52,6 +52,10 @@ namespace I2P_Project.Classes.UserSystem
             Checkouts checkout = test.Single();
             Document doc = SDM.LMS.GetDocByID(docID);
 
+            // User has fine
+            if (SDM.LMS.GetUserFineForDoc(PersonID, docID) > 0)
+                return SDM.Strings.USER_HAVE_FINE;
+
             doc.Quantity++;
             uDB.Checkouts.DeleteOnSubmit(checkout);
             uDB.SubmitChanges();
@@ -59,6 +63,17 @@ namespace I2P_Project.Classes.UserSystem
             SDM.LMS.NotifyNextUser(docID);
 
             return SDM.Strings.SUCCESSFUL_RETURN + " " + GetTitleByID(docID) + "!";
+        }
+
+        public void PayFine(int docID)
+        {
+            var test = from c in uDB.Checkouts
+                       where (c.BookID == docID & c.UserID == PersonID)
+                       select c;
+            Checkouts checkout = test.Single();
+            checkout.DateTaked = checkout.TimeToBack;
+            uDB.Refresh(System.Data.Linq.RefreshMode.KeepChanges, checkout);
+            uDB.SubmitChanges();
         }
         
         protected string CheckAvailibility(string title)

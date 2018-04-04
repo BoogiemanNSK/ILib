@@ -989,7 +989,7 @@ namespace I2P_Project.Tests
                     true,
                     3
                 );
-            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 3);
+            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 2);
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
@@ -1004,26 +1004,19 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("v", "v", "v", "v", "v", false);
             lb.UpgradeUser("v", 4);
             //Assertions for auto-tests
-            try
-            {
-                Debug.Assert(SDM.LMS.DocExists("d1"));
-                //included reference book
-                Debug.Assert(SDM.LMS.AmountOfDocs("d1", 3));
-                Debug.Assert(SDM.LMS.DocExists("d2"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("d2", 3));
-                Debug.Assert(SDM.LMS.DocExists("d3"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("d3", 2));
-                Debug.Assert(SDM.LMS.CheckLogin("p1"));
-                Debug.Assert(SDM.LMS.CheckLogin("p2"));
-                Debug.Assert(SDM.LMS.CheckLogin("p3"));
-                Debug.Assert(SDM.LMS.CheckLogin("s"));
-                Debug.Assert(SDM.LMS.CheckLogin("v"));
-            }
-            catch
-            {
-                return;
-            }
 
+            Debug.Assert(SDM.LMS.DocExists("d1"));
+            //included reference book
+            Debug.Assert(SDM.LMS.AmountOfDocs("d1", 3));
+            Debug.Assert(SDM.LMS.DocExists("d2"));
+            Debug.Assert(SDM.LMS.AmountOfDocs("d2", 3));
+            Debug.Assert(SDM.LMS.DocExists("d3"));
+            Debug.Assert(SDM.LMS.AmountOfDocs("d3", 2));
+            Debug.Assert(SDM.LMS.CheckLogin("p1"));
+            Debug.Assert(SDM.LMS.CheckLogin("p2"));
+            Debug.Assert(SDM.LMS.CheckLogin("p3"));
+            Debug.Assert(SDM.LMS.CheckLogin("s"));
+            Debug.Assert(SDM.LMS.CheckLogin("v"));
         }
         
 
@@ -1038,19 +1031,13 @@ namespace I2P_Project.Tests
             p1.ReturnDoc(SDM.LMS.GetDocID("d2"));
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
-            try
-            {
-                List<OverdueInfo> info = new List<OverdueInfo>();
-                OverdueInfo overdue = new OverdueInfo();
-                overdue.overdue = 0;
-                overdue.DocID = SDM.LMS.GetDocID("d1");
-                overdue.DocumentChekedOut = "d1";
-                Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetDocID("d1")) == 0);
-            }
-            catch
-            {
-                return;
-            }
+
+            List<OverdueInfo> info = new List<OverdueInfo>();
+            OverdueInfo overdue = new OverdueInfo();
+            overdue.overdue = 0;
+            overdue.DocID = SDM.LMS.GetDocID("d1");
+            overdue.DocumentChekedOut = "d1";
+            Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetDocID("d1")) == 0);
         }
 
         public void test26()

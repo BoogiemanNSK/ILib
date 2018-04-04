@@ -864,6 +864,7 @@ namespace I2P_Project.Tests
             return output;
 
         }
+        */
 
         public string test18()
         {
@@ -943,7 +944,7 @@ namespace I2P_Project.Tests
             return output;
         }
 
-        public string test19()
+      /*  public string test19()
         {
             string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
@@ -957,8 +958,8 @@ namespace I2P_Project.Tests
             Environment.Exit(0);
 
             return output;
-        }
-        */
+        }*/
+        
         public void initial()
         {
             //AddBooks
@@ -988,6 +989,7 @@ namespace I2P_Project.Tests
                     4
                 );
             SDM.LMS.AddAV("d3", "Tony Hoare", 700, 3);
+            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             SDM.CurrentUser = new Librarian("lb");
             Librarian lb = (Librarian)SDM.CurrentUser;
             lb.RegisterUser("p1", "p1", "p1", "Via Margutta, 3", "30001", false);
@@ -1024,33 +1026,35 @@ namespace I2P_Project.Tests
         }
         
 
-        public string test20()
+        public void test20()
         {
-            string output = "Initial state...\n";
-
-            return output;
+            initial();
+            int[] timeCheat = { 09, 02, 2018 };
+            SDM.CurrentUser = new Faculty("p1");
+            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut("d1", timeCheat);
+            p1.CheckOut("d2", timeCheat);
+            p1.ReturnDoc(SDM.LMS.GetDocID("d2"));
+            SDM.CurrentUser = new Librarian("lb");
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            try
+            {
+                List<OverdueInfo> info = new List<OverdueInfo>();
+                OverdueInfo overdue = new OverdueInfo();
+                overdue.overdue = 0;
+                overdue.DocID = SDM.LMS.GetDocID("d1");
+                overdue.DocumentChekedOut = "d1";
+                Debug.Assert(SDM.LMS.GetUserFine(SDM.LMS.GetDocID("d1")) == 0);
+            }
+            catch
+            {
+                return;
+            }
         }
 
         public void test26()
         {
-            //test25();
-            SDM.CurrentUser = new Faculty("p1");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
-            p1.CheckOut("d3");
-            SDM.CurrentUser = new Faculty("p2");
-            Faculty p2 = (Faculty)SDM.CurrentUser;
-            p2.CheckOut("d3");
-            SDM.CurrentUser = new Faculty("s");
-            Student s = (Student)SDM.CurrentUser;
-            s.CheckOut("d3");
-            SDM.CurrentUser = new VisitingProfessor("v");
-            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
-            s.CheckOut("d3");
-            SDM.CurrentUser = new Faculty("p3");
-            Faculty p3 = (Faculty)SDM.CurrentUser;
-            s.CheckOut("d3");
-            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
-               
+
         }
     }
 }

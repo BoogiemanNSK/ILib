@@ -148,6 +148,43 @@ namespace I2P_Project.Pages
                     test.test20();
                     UpdateTables();
                     break;
+                case "21":
+                    test.test21();
+                    UpdateTables();
+                    break;
+                case "22":
+                    test.test20();
+                    UpdateTables();
+                    break;
+                case "23":
+                    test.test20();
+                    UpdateTables();
+                    break;
+                case "24":
+                    test.test20();
+                    UpdateTables();
+                    break;
+                case "25":
+                    test.test20();
+                    UpdateTables();
+                    break;
+                case "26":
+                    test.test26();
+                    UpdateTables();
+                    break;
+                case "27":
+                    test.test27();
+                    UpdateTables();
+                    break;
+                case "28":
+                    test.test28();
+                    UpdateTables();
+                    break;
+                case "29":
+                    test.test29();
+                    UpdateTables();
+                    break;
+
                 default:
                     TestOutput.Text += "No such test found";
                     break;

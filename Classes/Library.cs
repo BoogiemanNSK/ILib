@@ -690,6 +690,15 @@ namespace I2P_Project.Classes
             return patron;
         }
 
+        // [TEST]
+        public DateTime CheckoutTimeToBack(int patronID, int docID)
+        {
+            var test = from c in db.Checkouts
+                       where c.BookID == docID && c.UserID == patronID
+                       select c;
+            return test.Single().TimeToBack;
+        }
+
         /// <summary> Counts overall user`s fine for overdued docs </summary>
         public int GetUserFine(int userID)
         {

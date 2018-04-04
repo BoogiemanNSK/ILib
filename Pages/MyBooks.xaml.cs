@@ -62,14 +62,14 @@ namespace I2P_Project.Pages
                         switch (askForFine)
                         {
                             case MessageBoxResult.Yes:
+                                currentPatron.PayFine(bookID);
                                 returnResult = currentPatron.ReturnDoc(bookID);
                                 MessageBox.Show(returnResult);
                                 break;
                             case MessageBoxResult.No:
                                 break;
                         }
-                    } else
-                    {
+                    } else {
                         MessageBox.Show(returnResult);
                     }
 
@@ -93,7 +93,28 @@ namespace I2P_Project.Pages
                     MyBooksTable mb_row = myBooksTable.SelectedItems[0] as MyBooksTable;
                     int bookID = mb_row.docID;
                     var currentPatron = (Patron)SDM.CurrentUser;
-                    MessageBox.Show(currentPatron.RenewDoc(bookID));
+                    string returnResult = currentPatron.RenewDoc(bookID);
+
+                    if (returnResult.Equals(SDM.Strings.USER_HAVE_FINE))
+                    {
+                        MessageBoxResult askForFine = MessageBox.Show(SDM.Strings.FINE_CONFIRMATION_TEXT,
+                            SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
+                        switch (askForFine)
+                        {
+                            case MessageBoxResult.Yes:
+                                currentPatron.PayFine(bookID);
+                                returnResult = currentPatron.RenewDoc(bookID);
+                                MessageBox.Show(returnResult);
+                                break;
+                            case MessageBoxResult.No:
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(returnResult);
+                    }
+
                     UpdateUI();
                     break;
                 case MessageBoxResult.No:

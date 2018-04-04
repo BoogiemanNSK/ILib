@@ -850,8 +850,8 @@ namespace I2P_Project.Classes
                 Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
                 Document doc = GetDocByID(docID);
                 SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
-                SavePQ(PQ, docID);
             }
+            SavePQ(PQ, docID);
         }
 
         public bool ExistQueueForDoc(int docID)
@@ -931,11 +931,14 @@ namespace I2P_Project.Classes
                 queue_string += '-';
                 pq.Pop();
             }
-
-            queue_string += pq.FirstElement.Element;
-            queue_string += '|';
-            queue_string += pq.FirstElement.PriorityLevel;
-
+            if (pq.FirstElement == null)
+                queue_string = "";
+            else
+            {
+                queue_string += pq.FirstElement.Element;
+                queue_string += '|';
+                queue_string += pq.FirstElement.PriorityLevel;
+            }
             var test = from doc in db.Documents
                        where doc.Id == bookID
                        select doc;

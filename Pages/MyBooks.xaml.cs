@@ -52,7 +52,27 @@ namespace I2P_Project.Pages
                     MyBooksTable mb_row = myBooksTable.SelectedItems[0] as MyBooksTable;
                     int bookID = mb_row.docID;
                     Patron currentPatron = (Patron)SDM.CurrentUser;
-                    MessageBox.Show(currentPatron.ReturnDoc(bookID));
+
+                    string returnResult = currentPatron.ReturnDoc(bookID);
+
+                    if (returnResult.Equals(SDM.Strings.USER_HAVE_FINE))
+                    {
+                        MessageBoxResult askForFine = MessageBox.Show(SDM.Strings.FINE_CONFIRMATION_TEXT,
+                            SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
+                        switch (askForFine)
+                        {
+                            case MessageBoxResult.Yes:
+                                returnResult = currentPatron.ReturnDoc(bookID);
+                                MessageBox.Show(returnResult);
+                                break;
+                            case MessageBoxResult.No:
+                                break;
+                        }
+                    } else
+                    {
+                        MessageBox.Show(returnResult);
+                    }
+
                     UpdateUI();
                     break;
                 case MessageBoxResult.No:

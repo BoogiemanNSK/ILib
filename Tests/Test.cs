@@ -889,7 +889,7 @@ namespace I2P_Project.Tests
             p1 = (Faculty)SDM.CurrentUser;
 
             output += "breaking through space and time to February 9th 2018...\n";
-            timeCheat[0] = 02;
+            timeCheat[0] = 09;
             p1.CheckOut("Introduction to Algorithms", timeCheat);
 
             output += "Logging In as Nadia Teixeira patron...\n";
@@ -955,6 +955,51 @@ namespace I2P_Project.Tests
             output += "Logging In as librarian lb...\n";
             Librarian lb = (Librarian)SDM.CurrentUser;
             Environment.Exit(0);
+
+            return output;
+        }
+
+        public void initial()
+        {
+            string output = "Cleared DB...\n";
+            SDM.LMS.ClearDB();
+
+            output += "Adding docs d1 with reference one... \n";
+            SDM.LMS.AddDoc("d1", "d1", 0, 0, false);
+            SDM.LMS.AddDoc("d1", "d1", 0, 0, false);
+            SDM.LMS.AddDoc("d1", "d1", 0, 0, false);
+            SDM.LMS.AddDoc("d1", "d1", 0, 0, false);
+
+            output += "Adding docs d2 with reference one... \n";
+            SDM.LMS.AddDoc("d2", "d2", 0, 0, false);
+            SDM.LMS.AddDoc("d2", "d2", 0, 0, false);
+            SDM.LMS.AddDoc("d2", "d2", 0, 0, false);
+            SDM.LMS.AddDoc("d2", "d2", 0, 0, false);
+
+            output += "Adding docs d3 with reference one... \n";
+            SDM.LMS.AddDoc("d3", "d3", 0, 0, false);
+            SDM.LMS.AddDoc("d3", "d3", 0, 0, false);
+            SDM.LMS.AddDoc("d3", "d3", 0, 0, false);
+
+            output += "Registering user p1 in the system...\n";
+            SDM.LMS.RegisterUser("p1", "p1", "p1", "p1", "p1", false);
+
+            output += "Registering user p2 in the system...\n";
+            SDM.LMS.RegisterUser("p2", "p2", "p2", "p2", "p2", false);
+
+            output += "Registering user p3 in the system...\n";
+            SDM.LMS.RegisterUser("p3", "p3", "p3", "p3", "p3", false);
+
+            output += "Registering user s in the system...\n";
+            SDM.LMS.RegisterUser("s", "s", "s", "s", "s", false);
+
+            output += "Registering user v in the system...\n";
+            SDM.LMS.RegisterUser("v", "v", "v", "v", "v", false);
+        }
+
+        public string test20()
+        {
+            string output = "Initial state...\n";
 
             return output;
         }

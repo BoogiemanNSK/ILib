@@ -27,7 +27,8 @@
             <Button Click="OnAddBook" Width="32" Content="&#xE109;" Margin="5,5,5,5" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
                     FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Style="{DynamicResource ButtonStyle}"
                     ToolTip="Add document"/>
-            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30"/>
+            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
+                     VerticalContentAlignment="Center"/>
             <Button Click="OnSearch" Width="95" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
                     Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
         </StackPanel>
@@ -35,17 +36,18 @@
         <DataGrid Grid.Row="3" Grid.Column="1" Name="dgLibrarianDocuments" CanUserAddRows="false" CanUserDeleteRows="False"
                   AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" SelectionChanged="myBooksTable_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="Auto"/>
-                <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
-                <DataGridTextColumn Header="Autors" Binding="{Binding docAutors}" Width="Auto"/>
-                <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="Auto"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding docPrice}" Width="Auto"/>
-                <DataGridTextColumn Header="Quantity" Binding="{Binding docQuantity}" Width="Auto"/>
+                <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="*"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="*"/>
+                <DataGridTextColumn Header="Autors" Binding="{Binding docAutors}" Width="*"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="*"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding docPrice}" Width="*"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding docQuantity}" Width="*"/>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="&#xE104;" Width="30" Height="30" FontWeight="Bold" ToolTip="Edit document data"
-                                    Cursor="Hand" Click="OnModifyBook" Background="#FF272828" BorderBrush="{x:Null}" Foreground="White"
+                                    Style="{DynamicResource ButtonTableStyle}"
+                                    Cursor="Hand" Click="OnModifyBook" Background="White" BorderBrush="{x:Null}" Foreground="Black"
                                     FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol">
                             </Button>
                         </DataTemplate>
@@ -54,18 +56,20 @@
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="&#xE107;" Width="30" Height="30" FontWeight="Bold" ToolTip="Delete document"
-                                    Cursor="Hand" Click="OnDeleteBook" Background="#FF272828" BorderBrush="{x:Null}" Foreground="White"
-                                    FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"/>
+                            <Button Content="&#xE13C;" Width="30" Height="30" FontWeight="Bold" ToolTip="Set outstanding request"
+                                    Cursor="Hand" Click="OnRequestBook" Background="White" BorderBrush="{x:Null}" Foreground="Black"
+                                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
+                                    FontSize="14" Style="{DynamicResource ButtonTableStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Request" Margin="7,2,7,2"  Width="70" Height="30" FontWeight="Bold" ToolTip="Set outstanding request"
-                                    Cursor="Hand" Click="OnRequestBook" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
-                                    FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+                            <Button Content="&#xE107;" Width="30" Height="30" FontWeight="Bold" ToolTip="Delete document"
+                                    Style="{DynamicResource ButtonTableStyle}"
+                                    Cursor="Hand" Click="OnDeleteBook" Background="White" BorderBrush="{x:Null}" Foreground="Black"
+                                    FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

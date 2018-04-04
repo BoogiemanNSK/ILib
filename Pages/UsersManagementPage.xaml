@@ -28,7 +28,8 @@
             <Button Margin="7,5" HorizontalAlignment="Center" Click="OnAddUser" Width="33" Content="&#xE1E2;" Background="#FF078CD1"
                     BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
                     Style="{DynamicResource ButtonStyle}"/>
-            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30"/>
+            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
+                     VerticalContentAlignment="Center"/>
             <Button Width="92" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" 
                     Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
         </StackPanel>
@@ -43,18 +44,18 @@
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="OnUserOverdueInfo" Width="30" Cursor="Hand" Height="30" Content="&#xE121;" Background="#FF078CD1"                                    
+                            <Button Click="OnUserOverdueInfo" Width="30" Cursor="Hand" Height="30" Content="&#xE121;" Background="White"                                    
                                     FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" ToolTip="Overdue Info"
-                                    BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="17" Style="{DynamicResource ButtonStyle}"/>
+                                    BorderBrush="{x:Null}" Foreground="Black" FontWeight="Bold" FontSize="17" Style="{DynamicResource ButtonTableStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button HorizontalAlignment="Center" Click="OnUserCard" Width="30" Height="30" Content="&#xE181;" Background="#FF078CD1"
+                            <Button HorizontalAlignment="Center" Click="OnUserCard" Width="30" Height="30" Content="&#xE181;" Background="White"
                                     FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" ToolTip="User Card" Cursor="Hand"
-                                    BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+                                    BorderBrush="{x:Null}" Foreground="Black" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonTableStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

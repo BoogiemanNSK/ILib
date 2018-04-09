@@ -60,6 +60,7 @@ namespace I2P_Project.Classes
         public bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
         {
             if (CheckLogin(login)) return false;
+            // TODO Проверять правильность вводимого мейла (adress)
 
             using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
             {
@@ -81,8 +82,11 @@ namespace I2P_Project.Classes
             return true;
         }
 
+        // TODO Слудующие три методы схожие, может их можно как-то упростить?
+
         public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
         {
+            // TODO Название метода и переменной не соответствуют их функционалу
             bool isReference = !CheckReference(title);
             if (isReference)
             {
@@ -114,9 +118,9 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
-        // TODO Change journal - add more fields
         public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
         {
+            // TODO Название метода и переменной не соответствуют их функционалу
             bool isReference = !CheckReference(title);
             if (isReference)
             {
@@ -148,6 +152,7 @@ namespace I2P_Project.Classes
 
         public void AddAV(string title, string autors, int price, int quantity)
         {
+            // TODO Название метода и переменной не соответствуют их функционалу
             bool isReference = !CheckReference(title);
             if (isReference)
             {
@@ -174,9 +179,8 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
-        /// <summary>
-        /// First generate for show functionality
-        /// </summary>
+        // [TEST]
+        /// <summary> First generate for show functionality </summary>
         private void GenerateTestDB()
         {
             // Adding two books and their copies
@@ -228,7 +232,7 @@ namespace I2P_Project.Classes
             RegisterUser("p2", "p2", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
             RegisterUser("p3", "p3", "Elvira Espindola", "Via del Corso, 22", "30003", false);
 
-            //Special for me
+            // Special for me
             RegisterUser("zhychek1", "lolcore", "Toha", "zhychek1@yandex.ru", "+79648350370", true);
         }
 
@@ -251,6 +255,8 @@ namespace I2P_Project.Classes
                                        select c);
             db.Checkouts.DeleteAllOnSubmit(checkouts_to_remove);
 
+            // TODO Нужно ещё как-то удалить юзера из очередей за книгами
+
             db.SubmitChanges();
         }
 
@@ -259,16 +265,6 @@ namespace I2P_Project.Classes
         {
             var record_to_remove = (from d in db.Documents
                                     where (d.Id == doc_id)
-                                    select d).Single();
-            db.Documents.DeleteOnSubmit(record_to_remove);
-            db.SubmitChanges();
-        }
-
-        /// <summary> Deletes registered doc from the system by Title </summary>
-        internal void RemoveDocument(string Title)
-        {
-            var record_to_remove = (from d in db.Documents
-                                    where (d.Title.Equals(Title))
                                     select d).Single();
             db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
@@ -285,13 +281,14 @@ namespace I2P_Project.Classes
         #endregion
 
         #region DB Updating
+
         public string RenewDoc(int docID, params int[] DateCheat)
         {
-            System.DateTime time;
+            DateTime time;
             if (DateCheat.Length == 0)
-                time = System.DateTime.Now;
+                time = DateTime.Now;
             else
-                time = new System.DateTime(DateCheat[2], DateCheat[1], DateCheat[0]);
+                time = new DateTime(DateCheat[2], DateCheat[1], DateCheat[0]);
 
             var doc = (from book in db.Checkouts
                        where book.BookID == docID && SDM.CurrentUser.PersonID == book.UserID
@@ -304,15 +301,17 @@ namespace I2P_Project.Classes
                 return SDM.Strings.USER_HAVE_FINE;
             else
             {
-                doc.TimeToBack = time.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
+                doc.TimeToBack = time.Add(doc.TimeToBack.Subtract((DateTime)doc.DateTaked));
                 doc.DateTaked = time;
                 doc.IsRenewed = true;
                 db.SubmitChanges();
                 return SDM.Strings.SUCCESSFUL_RENEW;
             }
         }
-            /// <summary> Updates document info </summary>
-            public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
+
+        // TODO Сделать Update для разных типов доков, как при создании
+        /// <summary> Updates document info </summary>
+        public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
         {
             Document doc = GetDocByID(DocID);
             doc.Title = Title;
@@ -354,11 +353,14 @@ namespace I2P_Project.Classes
             
             foreach (Checkouts c in test)
             {
-                if (c.TimeToBack.CompareTo(System.DateTime.Now) > 0)
-                    c.TimeToBack = System.DateTime.Now;
+                if (c.TimeToBack.CompareTo(DateTime.Now) > 0)
+                    c.TimeToBack = DateTime.Now;
             }
             doc.Queue = "";
+
+            // TODO Чёт сомнительный костыль, от него проблем не будет?
             PushInPQ(docID, GetUserID("lb"), 5);
+
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
         }
@@ -369,7 +371,7 @@ namespace I2P_Project.Classes
 
         /// <summary>
         /// Returns collection of current logged user books
-        /// Used in MyBooks page, where user can view and return his docs 
+        /// Usage: MyBooks.xaml 
         /// </summary>
         public ObservableCollection<Pages.MyBooksTable> GetUserBooks()
         {
@@ -407,7 +409,7 @@ namespace I2P_Project.Classes
 
         /// <summary>
         /// Return overdued docs for particular user
-        /// Used in OverdueInfo page, where librarian can view some patron`s overdued books
+        /// Usage: OverdueInfo.xaml
         /// </summary>
         public ObservableCollection<Pages.OverdueInfoTable> OverdueInfo(int userID)
         {
@@ -449,7 +451,7 @@ namespace I2P_Project.Classes
 
         /// <summary>
         /// Returns collection of all patrons only
-        /// Used in UserManagementPage so that librarian could see list of all patrons
+        /// Usage: UserManagementPage.xaml
         /// </summary>
         public ObservableCollection<Pages.LibrarianUserView> LibrarianViewUserTable()
         {
@@ -475,7 +477,7 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
-        // [FOR TEST]
+        // [FOR TEST] (TestingTool.xaml)
         /// <summary> Returns a collection of books checked by particular user </summary>
         public ObservableCollection<Pages.DocumentsTable> TestDocsTableUsersBooks(int user_id)
         {
@@ -508,7 +510,7 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
-        // [FOR TEST]
+        // [FOR TEST] (TestingTool.xaml)
         /// <summary> Returns a collection of all users registered in system </summary>
         public ObservableCollection<Pages.UserTable> TestUsersTable()
         {
@@ -539,8 +541,8 @@ namespace I2P_Project.Classes
 
         /// <summary>
         /// Return a list of all docs registered in system
+        /// Usage: UserHomePage.xaml, DocumentsManagementPage.xaml, TestingTool.xaml
         /// </summary>
-        /// <returns></returns>
         public ObservableCollection<Pages.DocumentsTable> GetDocsTable()
         {
             ObservableCollection<Pages.DocumentsTable> temp_table = new ObservableCollection<Pages.DocumentsTable>();
@@ -570,6 +572,10 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        /// <summary>
+        /// Gets particular user docs for UserCard
+        /// Usage: UserCard.xaml
+        /// </summary>
         public ObservableCollection<Pages.UserDocsTable> GetUserDocsFromLibrarian(int patronID)
         {
             ObservableCollection<Pages.UserDocsTable> temp_table = new ObservableCollection<Pages.UserDocsTable>();
@@ -624,6 +630,7 @@ namespace I2P_Project.Classes
             return test.Any();
         }
 
+        // TODO Переименовать
         /// <summary> Checks if a book with given title exists in the system </summary>
         private bool CheckReference(string title)
         {
@@ -636,6 +643,9 @@ namespace I2P_Project.Classes
         #endregion
 
         #region DB Getters
+
+        // TODO Больно уж сомнительные все эти геттеры, я считаю, что многие не нужны
+        // Ладно, потом обсудим вместе
 
         /// <summary> Returns document object from given ID </summary>
         public Document GetDocByID(int docID)
@@ -656,6 +666,8 @@ namespace I2P_Project.Classes
             var test = from u in db.Users where u.Id == userID select u;
             return test.Single();
         }
+
+        // TODO Объясните мне необходимость следующих двух методов
 
         public List<CheckedOut> GetCheckout(string Name)
         {
@@ -707,6 +719,7 @@ namespace I2P_Project.Classes
             return res;
         }
 
+        // TODO Я человек простой, вижу 0 референсов - удаляю
         /// <summary> Returns a checkout info of particular document </summary>
         private Checkouts GetOwnerInfo(int docID)
         {
@@ -717,15 +730,16 @@ namespace I2P_Project.Classes
             else return null;
         }
 
+        // TODO Ну это для тестов, я так понимаю?
         /// <summary> Gets patron row in UI table by his name </summary>
         public Pages.UserTable GetPatronByName(string name)
         {
             var table = SDM.LMS.TestUsersTable();
-
             var patron = (from p in table where p.userName.Equals(name) select p).FirstOrDefault();
-
             return patron;
         }
+
+        // TODO В общем методы для тестов надо вынести в другой класс, либо создать отдельный регион
         public DateTime CheckoutTimeToBack(int patronID, int docID)
         {
             var test = from c in db.Checkouts
@@ -734,6 +748,7 @@ namespace I2P_Project.Classes
             DateTime dt = test.Single().TimeToBack;
             return dt;
         }
+
         /// <summary> Counts overall user`s fine for overdued docs </summary>
         public int GetUserFine(int userID)
         {
@@ -764,7 +779,7 @@ namespace I2P_Project.Classes
             int overduedTime = (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
             if (overduedTime > 0)
             {
-                int docPrice = GetDocPrice(docID);
+                int docPrice = GetDocByID(docID).Price;
                 return (overduedTime * 100 > docPrice ? docPrice : overduedTime * 100);
             }
 
@@ -781,26 +796,17 @@ namespace I2P_Project.Classes
             else return 0;
         }
 
-        /// <summary> Gets price of doc by its ID </summary>
-        private int GetDocPrice(int docID)
-        {
-            var test = from c in db.Documents
-                       where c.Id == docID
-                       select c;
-            return test.Single().Price;
-        }
-
         #endregion
 
         #region DB Testers
 
         public int OverdueTime(int userID, int docID) { 
-             var test = from c in db.Checkouts
-                        where c.BookID == docID && c.UserID == userID
-                        select c;
-        Checkouts testCheck = test.Single();
+            var test = from c in db.Checkouts
+                       where c.BookID == docID && c.UserID == userID
+                       select c;
+            Checkouts testCheck = test.Single();
 
-        return (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
+            return (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
         }
 
         public bool DocExists(string Title)
@@ -827,6 +833,7 @@ namespace I2P_Project.Classes
             return test.Quantity==n;
         }
 
+        // TODO Я человек простой, вижу 0 референсов - удаляю
         public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
         {
             Users user = GetUser(Name);
@@ -849,6 +856,7 @@ namespace I2P_Project.Classes
         {
             return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
         }
+
         public void UpgradeUser(string Name, int ut)
         {
             Users user = GetUser(Name);
@@ -881,6 +889,7 @@ namespace I2P_Project.Classes
 
         #region PQ Operations
 
+        /// <summary> Pushes personID with given priority to queue of given ID doc </summary>
         public void PushInPQ(int docID, int personID, int priority)
         {
             PriorityQueue<int> PQ = LoadPQ(docID);
@@ -888,6 +897,7 @@ namespace I2P_Project.Classes
             SavePQ(PQ, docID);
         }
 
+        /// <summary> Pops personID with given priority from queue of given ID doc </summary>
         public void PopFromPQ(int docID)
         {
             PriorityQueue<int> PQ = LoadPQ(docID);
@@ -901,6 +911,7 @@ namespace I2P_Project.Classes
             SavePQ(PQ, docID);
         }
 
+        /// <summary> Checks if queue for doc with given ID exists </summary>
         public bool ExistQueueForDoc(int docID)
         {
             var test = from doc in db.Documents
@@ -910,6 +921,7 @@ namespace I2P_Project.Classes
             return false;
         }
 
+        /// <summary> Checks if person is in queue for given doc </summary>
         public bool IsPersonInQueue(int patronID, int bookID)
         {
             bool inQueue = false;
@@ -928,6 +940,7 @@ namespace I2P_Project.Classes
             return inQueue;
         }
 
+        /// <summary> Send mail for next user in queue if it is not empty </summary>
         public void NotifyNextUser(int docID)
         {
             PriorityQueue<int> PQ = LoadPQ(docID);
@@ -940,6 +953,7 @@ namespace I2P_Project.Classes
             }
         }
 
+        /// <summary> Sends e-mail to given address with given title and text </summary>
         public bool SendNotificationToUser(string To, string Title, string Text)
         {
             try
@@ -966,6 +980,7 @@ namespace I2P_Project.Classes
             }
         }
 
+        /// <summary> Converts PQ into string and saves it in DB </summary>
         private void SavePQ(PriorityQueue<int> pq, int bookID)
         {
             string queue_string = "";
@@ -996,6 +1011,7 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
+        /// <summary> Parse PQ string from DB and push entries to PQ </summary>
         public PriorityQueue<int> LoadPQ(int bookID)
         {
             PriorityQueue<int> localQueue = new PriorityQueue<int>();

@@ -39,11 +39,11 @@ namespace I2P_Project.Pages
             
             TestOutput.Text = "Test " + TestNumber.Text + ":\n";
             switch (TestNumber.Text)
-            {/*
+            {
                 case "Test all":
                     try
                     {
-                        test.test1();
+                        /*test.test1();
                         test.test2();
                         test.test3();
                         test.test4();
@@ -61,6 +61,17 @@ namespace I2P_Project.Pages
                         test.test16();
                         test.test17();
                         test.test18();
+                        */
+                        test.test20();
+                        test.test21();
+                        test.test22();
+                        test.test23();
+                        test.test25();
+                        test.test26();
+                        test.test27();
+                        test.test28();
+                        test.test29();
+                        test.test30();
                         TestOutput.Text += "Tests are passed, restart system for test 19";
                     } catch
                     {
@@ -68,7 +79,7 @@ namespace I2P_Project.Pages
                     }
                     UpdateTables();
                     break;
-                case "1":
+                /*case "1":
                     TestOutput.Text += test.test1();
                     UpdateTables();
                     break;

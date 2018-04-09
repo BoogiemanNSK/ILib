@@ -20,7 +20,7 @@ namespace I2P_Project.Classes
 
         /// <summary> Initializing DB </summary>
         public Library()
-        {            
+        {
             db = new LMSDataBase(SDM.Strings.CONNECTION_STRING);
             ConnectToDB(db);
         }
@@ -42,7 +42,7 @@ namespace I2P_Project.Classes
                 string connString = path + SDM.Strings.DB_RELATIVE_PATH;
 
                 db = new LMSDataBase(connString);
-            
+
                 Directory.CreateDirectory(SDM.Strings.DB_DIRECTORY_NAME);
                 if (!File.Exists(connString))
                 {
@@ -209,7 +209,7 @@ namespace I2P_Project.Classes
             AddBook
                 (
                     "The Mythical Man-month",
-                    "Brooks,Jr., Frederick P", 
+                    "Brooks,Jr., Frederick P",
                     "Addison-Wesley Longman Publishing Co., Inc.",
                     1995,
                     "Second edition",
@@ -241,8 +241,8 @@ namespace I2P_Project.Classes
         {
             // Deleting user
             var user_to_remove = (from d in db.Users
-                                    where d.Id == patronID
-                                    select d).Single();
+                                  where d.Id == patronID
+                                  select d).Single();
             db.Users.DeleteOnSubmit(user_to_remove);
 
             // Deleting user`s checkouts
@@ -285,9 +285,34 @@ namespace I2P_Project.Classes
         #endregion
 
         #region DB Updating
+        public string RenewDoc(int docID, params int[] DateCheat)
+        {
+            System.DateTime time;
+            if (DateCheat.Length == 0)
+                time = System.DateTime.Now;
+            else
+                time = new System.DateTime(DateCheat[2], DateCheat[1], DateCheat[0]);
 
-        /// <summary> Updates document info </summary>
-        public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
+            var doc = (from book in db.Checkouts
+                       where book.BookID == docID && SDM.CurrentUser.PersonID == book.UserID
+                       select book).Single();
+            if (doc.IsRenewed && SDM.CurrentUser.UserType != 3)
+                return SDM.Strings.DOC_ALREADY_RENEWED;
+            else if (ExistQueueForDoc(docID))
+                return SDM.Strings.DOC_IN_QUEUE;
+            else if (GetUserFineForDoc(SDM.CurrentUser.PersonID, docID) > 0)
+                return SDM.Strings.USER_HAVE_FINE;
+            else
+            {
+                doc.TimeToBack = time.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
+                doc.DateTaked = time;
+                doc.IsRenewed = true;
+                db.SubmitChanges();
+                return SDM.Strings.SUCCESSFUL_RENEW;
+            }
+        }
+            /// <summary> Updates document info </summary>
+            public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
         {
             Document doc = GetDocByID(DocID);
             doc.Title = Title;
@@ -310,7 +335,7 @@ namespace I2P_Project.Classes
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
             db.SubmitChanges();
         }
-        
+
 
         public void SetOutstandingRequest(int docID)
         {
@@ -319,9 +344,21 @@ namespace I2P_Project.Classes
                        select d).Single();
 
             NotifyNextUser(docID);
-            while (doc.Queue.Length > 0) PopFromPQ(docID);
+            while (doc.Queue.Length > 0) {
+                PopFromPQ(docID);
+            }
 
+            var test = from c in db.Checkouts
+                       where c.BookID == docID
+                       select c;
+            
+            foreach (Checkouts c in test)
+            {
+                if (c.TimeToBack.CompareTo(System.DateTime.Now) > 0)
+                    c.TimeToBack = System.DateTime.Now;
+            }
             doc.Queue = "";
+            PushInPQ(docID, GetUserID("lb"), 5);
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
         }
@@ -418,12 +455,12 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                                  where p.UserType != 5 // TODO Заменить на enum
-                                  select new
-                                  {
-                                      p.Id,
-                                      p.Login
-                                  };
+                             where p.UserType != 5 // TODO Заменить на enum
+                             select new
+                             {
+                                 p.Id,
+                                 p.Login
+                             };
             foreach (var element in load_users)
             {
                 Pages.LibrarianUserView row = new Pages.LibrarianUserView
@@ -499,7 +536,7 @@ namespace I2P_Project.Classes
             }
             return temp_table;
         }
-        
+
         /// <summary>
         /// Return a list of all docs registered in system
         /// </summary>
@@ -606,7 +643,7 @@ namespace I2P_Project.Classes
             var test = from doc in db.Documents where doc.Id == docID select doc;
             return test.Single();
         }
-        
+
         public Users GetUser(string Name)
         {
             var test = from u in db.Users where u.Name == Name select u;
@@ -619,7 +656,7 @@ namespace I2P_Project.Classes
             var test = from u in db.Users where u.Id == userID select u;
             return test.Single();
         }
-        
+
         public List<CheckedOut> GetCheckout(string Name)
         {
             Users user = GetUser(Name);
@@ -660,7 +697,7 @@ namespace I2P_Project.Classes
             {
                 int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
                 if (passedDays > 0)
-                { 
+                {
                     OverdueInfo pair = new OverdueInfo();
                     pair.overdue = passedDays;
                     pair.DocumentChekedOut = element.Title;
@@ -679,7 +716,7 @@ namespace I2P_Project.Classes
             if (test.Any()) return test.Single();
             else return null;
         }
-      
+
         /// <summary> Gets patron row in UI table by his name </summary>
         public Pages.UserTable GetPatronByName(string name)
         {
@@ -694,7 +731,8 @@ namespace I2P_Project.Classes
             var test = from c in db.Checkouts
                        where c.BookID == docID && c.UserID == patronID
                        select c;
-            return test.Single().TimeToBack;
+            DateTime dt = test.Single().TimeToBack;
+            return dt;
         }
         /// <summary> Counts overall user`s fine for overdued docs </summary>
         public int GetUserFine(int userID)
@@ -727,7 +765,7 @@ namespace I2P_Project.Classes
             if (overduedTime > 0)
             {
                 int docPrice = GetDocPrice(docID);
-                return (overduedTime * 50 > docPrice ? docPrice : overduedTime * 50);
+                return (overduedTime * 100 > docPrice ? docPrice : overduedTime * 100);
             }
 
             return 0;
@@ -755,6 +793,15 @@ namespace I2P_Project.Classes
         #endregion
 
         #region DB Testers
+
+        public int OverdueTime(int userID, int docID) { 
+             var test = from c in db.Checkouts
+                        where c.BookID == docID && c.UserID == userID
+                        select c;
+        Checkouts testCheck = test.Single();
+
+        return (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
+        }
 
         public bool DocExists(string Title)
         {
@@ -845,13 +892,13 @@ namespace I2P_Project.Classes
         {
             PriorityQueue<int> PQ = LoadPQ(docID);
             PQ.Pop();
-            if (PQ.Length > 0)
-            {
+            if (PQ.FirstElement != null)
+            { 
                 Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
                 Document doc = GetDocByID(docID);
                 SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
-                SavePQ(PQ, docID);
             }
+            SavePQ(PQ, docID);
         }
 
         public bool ExistQueueForDoc(int docID)
@@ -931,10 +978,14 @@ namespace I2P_Project.Classes
                 queue_string += '-';
                 pq.Pop();
             }
-
-            queue_string += pq.FirstElement.Element;
-            queue_string += '|';
-            queue_string += pq.FirstElement.PriorityLevel;
+            if (pq.FirstElement == null)
+                queue_string = "";
+            else
+            {
+                queue_string += pq.FirstElement.Element;
+                queue_string += '|';
+                queue_string += pq.FirstElement.PriorityLevel;
+            }
 
             var test = from doc in db.Documents
                        where doc.Id == bookID

@@ -19,26 +19,9 @@ namespace I2P_Project.Classes.UserSystem
         /// <returns> Result of check out as message </returns>
         public abstract string CheckOut(string title, params int[] DateCheat);
 
-        public string RenewDoc(int docID)
+        public string RenewDoc(int docID, params int[] DateCheat)
         {
-            Patron patron = (Patron)SDM.CurrentUser;
-            var doc = (from b in uDB.Checkouts
-                       where b.BookID == docID && b.UserID == SDM.CurrentUser.PersonID
-                       select b).Single();
-            if (doc.IsRenewed)
-                return SDM.Strings.DOC_ALREADY_RENEWED;
-            else if (SDM.LMS.ExistQueueForDoc(docID))
-                 return SDM.Strings.DOC_IN_QUEUE;
-            else if (SDM.LMS.GetUserFine(patron.PersonID) > 0)
-                return SDM.Strings.USER_HAVE_FINE;
-            else
-            {
-                 doc.TimeToBack = System.DateTime.Now.Add(doc.TimeToBack.Subtract((System.DateTime)doc.DateTaked));
-                 doc.DateTaked = System.DateTime.Now;
-                 doc.IsRenewed = true;
-                 uDB.SubmitChanges();
-                 return SDM.Strings.SUCCESSFUL_RENEW;
-            }
+            return SDM.LMS.RenewDoc(docID, DateCheat);
         }
 
         /// <summary> Returns a document from a user to the LMS </summary>
@@ -71,7 +54,7 @@ namespace I2P_Project.Classes.UserSystem
                        where (c.BookID == docID & c.UserID == PersonID)
                        select c;
             Checkouts checkout = test.Single();
-            checkout.DateTaked = checkout.TimeToBack;
+            checkout.TimeToBack = System.DateTime.Now;
             uDB.Refresh(System.Data.Linq.RefreshMode.KeepChanges, checkout);
             uDB.SubmitChanges();
         }

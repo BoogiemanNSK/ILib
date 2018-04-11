@@ -730,23 +730,13 @@ namespace I2P_Project.Classes
             else return null;
         }
 
-        // TODO Ну это для тестов, я так понимаю?
+        // TODO Ну это для тестов, я так понимаю? Неправильно понимаешь
         /// <summary> Gets patron row in UI table by his name </summary>
         public Pages.UserTable GetPatronByName(string name)
         {
             var table = SDM.LMS.TestUsersTable();
             var patron = (from p in table where p.userName.Equals(name) select p).FirstOrDefault();
             return patron;
-        }
-
-        // TODO В общем методы для тестов надо вынести в другой класс, либо создать отдельный регион
-        public DateTime CheckoutTimeToBack(int patronID, int docID)
-        {
-            var test = from c in db.Checkouts
-                       where c.BookID == docID && c.UserID == patronID
-                       select c;
-            DateTime dt = test.Single().TimeToBack;
-            return dt;
         }
 
         /// <summary> Counts overall user`s fine for overdued docs </summary>
@@ -796,11 +786,21 @@ namespace I2P_Project.Classes
             else return 0;
         }
 
-        #endregion
+		#endregion
 
-        #region DB Testers
+		#region DB Testers
 
-        public int OverdueTime(int userID, int docID) { 
+		// TODO В общем методы для тестов надо вынести в другой класс, либо создать отдельный регион
+		public DateTime CheckoutTimeToBack(int patronID, int docID)
+		{
+			var test = from c in db.Checkouts
+					   where c.BookID == docID && c.UserID == patronID
+					   select c;
+			DateTime dt = test.Single().TimeToBack;
+			return dt;
+		}
+
+		public int OverdueTime(int userID, int docID) { 
             var test = from c in db.Checkouts
                        where c.BookID == docID && c.UserID == userID
                        select c;
@@ -833,7 +833,7 @@ namespace I2P_Project.Classes
             return test.Quantity==n;
         }
 
-        // TODO Я человек простой, вижу 0 референсов - удаляю
+        // TODO Я человек простой, вижу 0 референсов - удаляю//Сам завалил тесты а потом на 0 референсов жалобы
         public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
         {
             Users user = GetUser(Name);
@@ -867,10 +867,10 @@ namespace I2P_Project.Classes
 
         public int GetDocID(string Title)
         {
-            var test = (from doc in db.Documents
+            var document = (from doc in db.Documents
                        where doc.Title.Equals(Title)
                        select doc).Single();
-            return test.Id;
+            return document.Id;
         }
 
         public int GetUserID(string Name)

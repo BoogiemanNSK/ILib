@@ -31,7 +31,7 @@ namespace I2P_Project.Pages
             InitializeComponent();
             DocType.ItemsSource = SDM.Strings.DOC_TYPES;
 
-            Document doc = SDM.LMS.GetDocByID(docID);
+            Document doc = SDM.LMS.GetDoc(docID);
             TitleTB.AppendText(doc.Title);
             DescriptionTB.AppendText(doc.Description);
             PriceTB.AppendText(doc.Price.ToString());

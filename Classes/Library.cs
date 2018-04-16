@@ -54,6 +54,7 @@ namespace I2P_Project.Classes
             }
         }
 
+        // TODO ФОрмальные поправки
         #region DB Addition
 
         /// <summary> Registers new user in data base </summary>
@@ -82,13 +83,10 @@ namespace I2P_Project.Classes
             return true;
         }
 
-        // TODO Слудующие три методы схожие, может их можно как-то упростить?
-
         public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
         {
-            // TODO Название метода и переменной не соответствуют их функционалу
-            bool isReference = !CheckReference(title);
-            if (isReference)
+            bool notExist = !CheckDocExistence(title);
+            if (notExist)
             {
                 Document newDoc = new Document
                 {
@@ -120,9 +118,8 @@ namespace I2P_Project.Classes
 
         public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
         {
-            // TODO Название метода и переменной не соответствуют их функционалу
-            bool isReference = !CheckReference(title);
-            if (isReference)
+            bool notExist = !CheckDocExistence(title);
+            if (notExist)
             {
                 Document newDoc = new Document
                 {
@@ -152,9 +149,8 @@ namespace I2P_Project.Classes
 
         public void AddAV(string title, string autors, int price, int quantity)
         {
-            // TODO Название метода и переменной не соответствуют их функционалу
-            bool isReference = !CheckReference(title);
-            if (isReference)
+            bool notExist = !CheckDocExistence(title);
+            if (notExist)
             {
                 Document newDoc = new Document
                 {
@@ -177,63 +173,6 @@ namespace I2P_Project.Classes
                 NotifyNextUser(newDoc.Id);
             }
             db.SubmitChanges();
-        }
-
-        // [TEST]
-        /// <summary> First generate for show functionality </summary>
-        private void GenerateTestDB()
-        {
-            // Adding two books and their copies
-            AddBook
-                (
-                    "Introduction to Algorithms",
-                    "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
-                    "MIT Press",
-                    2009,
-                    "Third Edition",
-                    "Alghorithm techniques and design",
-                    1800,
-                    false,
-                    1
-                );
-            AddBook
-                (
-                    "Design Patterns: Elements of Reusable Object-Oriented Software",
-                    "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
-                    "Addison-Wesley Professional",
-                    2003,
-                    "First Edition",
-                    "Programm patterns, how to programm well w/o headache",
-                    2000,
-                    true,
-                    1
-                );
-
-            // Adding reference book
-            AddBook
-                (
-                    "The Mythical Man-month",
-                    "Brooks,Jr., Frederick P",
-                    "Addison-Wesley Longman Publishing Co., Inc.",
-                    1995,
-                    "Second edition",
-                    "How to do everything and live better",
-                    800,
-                    false,
-                    0
-                );
-
-            // Adding two AV's
-            AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 400, 0);
-            AddAV("Information Entropy", "Claude Shannon", 700, 0);
-
-            // Registering 3 users
-            RegisterUser("p1", "p1", "Sergey Afonso", "Via Margutta, 3", "30001", false);
-            RegisterUser("p2", "p2", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
-            RegisterUser("p3", "p3", "Elvira Espindola", "Via del Corso, 22", "30003", false);
-
-            // Special for me
-            RegisterUser("zhychek1", "lolcore", "Toha", "zhychek1@yandex.ru", "+79648350370", true);
         }
 
         #endregion
@@ -280,6 +219,7 @@ namespace I2P_Project.Classes
 
         #endregion
 
+        // TODO Сделать разны Update для разных типов док-ов
         #region DB Updating
 
         public string RenewDoc(int docID, params int[] DateCheat)
@@ -313,7 +253,7 @@ namespace I2P_Project.Classes
         /// <summary> Updates document info </summary>
         public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
         {
-            Document doc = GetDocByID(DocID);
+            Document doc = GetDoc(DocID);
             doc.Title = Title;
             doc.Description = Description;
             doc.Price = Convert.ToInt32(Price);
@@ -359,7 +299,9 @@ namespace I2P_Project.Classes
             doc.Queue = "";
 
             // TODO Чёт сомнительный костыль, от него проблем не будет?
-            PushInPQ(docID, GetUserID("lb"), 5);
+            // Нужно также отправить извещение всем в очереди (с правильным текстом)
+            // + я думаю всё же лучше добавить еще одно поле в БД, меньше костылей - меньше проблем
+            PushInPQ(docID, SDM.CurrentUser.PersonID, 5);
 
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
@@ -475,69 +417,7 @@ namespace I2P_Project.Classes
                 temp_table.Add(row);
             }
             return temp_table;
-        }
-
-        // [FOR TEST] (TestingTool.xaml)
-        /// <summary> Returns a collection of books checked by particular user </summary>
-        public ObservableCollection<Pages.DocumentsTable> TestDocsTableUsersBooks(int user_id)
-        {
-            ObservableCollection<Pages.DocumentsTable> temp_table = new ObservableCollection<Pages.DocumentsTable>();
-            var load_user_docs = from c in db.Checkouts
-                                 join b in db.Documents on c.BookID equals b.Id
-                                 where c.UserID == user_id
-                                 select new
-                                 {
-                                     b.Id,
-                                     b.Title,
-                                     b.Autors,
-                                     b.DocType,
-                                     b.Price,
-                                     b.Quantity
-                                 };
-            foreach (var element in load_user_docs)
-            {
-                Pages.DocumentsTable row = new Pages.DocumentsTable
-                {
-                    docID = element.Id,
-                    docAutors = element.Autors,
-                    docTitle = element.Title,
-                    docType = SDM.Strings.DOC_TYPES[element.DocType],
-                    docPrice = element.Price,
-                    docQuantity = element.Quantity
-                };
-                temp_table.Add(row);
-            }
-            return temp_table;
-        }
-
-        // [FOR TEST] (TestingTool.xaml)
-        /// <summary> Returns a collection of all users registered in system </summary>
-        public ObservableCollection<Pages.UserTable> TestUsersTable()
-        {
-            ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
-            var load_users = from u in db.Users
-                             select new
-                             {
-                                 u.Id,
-                                 u.Name,
-                                 u.Address,
-                                 u.PhoneNumber,
-                                 u.UserType
-                             };
-            foreach (var element in load_users)
-            {
-                Pages.UserTable row = new Pages.UserTable
-                {
-                    userID = element.Id,
-                    userName = element.Name,
-                    userAddress = element.Address,
-                    userPhoneNumber = element.PhoneNumber,
-                    userType = SDM.Strings.USER_TYPES[element.UserType]
-                };
-                temp_table.Add(row);
-            }
-            return temp_table;
-        }
+        }      
 
         /// <summary>
         /// Return a list of all docs registered in system
@@ -604,6 +484,7 @@ namespace I2P_Project.Classes
 
         #endregion
 
+        // TODO Ну опять же - тут можно пользоваться геттерами, обернув их в try-catch
         #region DB Existence Check
 
         /// <summary> Checks if there exist a user with given login </summary>
@@ -615,7 +496,7 @@ namespace I2P_Project.Classes
             return test.Any();
         }
 
-        /// <summary> Checks if a user with given e-mail has given password </summary>
+        /// <summary> Checks if a user with given дщпшт has given password </summary>
         public bool CheckPassword(string login, string password)
         {
             using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
@@ -630,9 +511,8 @@ namespace I2P_Project.Classes
             return test.Any();
         }
 
-        // TODO Переименовать
         /// <summary> Checks if a book with given title exists in the system </summary>
-        private bool CheckReference(string title)
+        private bool CheckDocExistence(string title)
         {
             var test = (from p in db.Documents
                         where (p.Title == title)
@@ -642,92 +522,23 @@ namespace I2P_Project.Classes
 
         #endregion
 
+        // TODO Нужно всё-таки соблюдать какую-то иерархию:
+        // чтобы были какие-то базовые геттеры (для трёх таблиц), ну и дальше использование уже их,
+        // а так повторение одних и тех же запросов в БД в каждом 5ом методе
         #region DB Getters
 
-        // TODO Больно уж сомнительные все эти геттеры, я считаю, что многие не нужны
-        // Ладно, потом обсудим вместе
-
         /// <summary> Returns document object from given ID </summary>
-        public Document GetDocByID(int docID)
+        public Document GetDoc(int docID)
         {
             var test = from doc in db.Documents where doc.Id == docID select doc;
             return test.Single();
         }
-
-        public Users GetUser(string Name)
-        {
-            var test = from u in db.Users where u.Name == Name select u;
-            return test.Single();
-        }
-
+        
         /// <summary> Returns user row from given ID </summary>
         public Users GetUser(int userID)
         {
             var test = from u in db.Users where u.Id == userID select u;
             return test.Single();
-        }
-
-        // TODO Объясните мне необходимость следующих двух методов
-
-        public List<CheckedOut> GetCheckout(string Name)
-        {
-            Users user = GetUser(Name);
-            int userID = user.Id;
-            List<CheckedOut> res = new List<CheckedOut>();
-            var load_user_books = from c in db.Checkouts
-                                  where c.UserID == userID
-                                  join b in db.Documents on c.BookID equals b.Id
-                                  select new
-                                  {
-                                      b.Title,
-                                      c.TimeToBack
-                                  };
-            foreach (var element in load_user_books)
-            {
-                CheckedOut pair = new CheckedOut();
-                pair.CheckOutTime = element.TimeToBack.Day;
-                pair.DocumentCheckedOut = element.Title;
-                res.Insert(0, pair);
-            }
-            return res;
-        }
-
-        public List<OverdueInfo> GetOverdues(string Name)
-        {
-            Users user = GetUser(Name);
-            int userID = user.Id;
-            List<OverdueInfo> res = new List<OverdueInfo>();
-            var load_user_books = from c in db.Checkouts
-                                  where c.UserID == userID
-                                  join b in db.Documents on c.BookID equals b.Id
-                                  select new
-                                  {
-                                      b.Title,
-                                      c.TimeToBack
-                                  };
-            foreach (var element in load_user_books)
-            {
-                int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
-                if (passedDays > 0)
-                {
-                    OverdueInfo pair = new OverdueInfo();
-                    pair.overdue = passedDays;
-                    pair.DocumentChekedOut = element.Title;
-                    res.Add(pair);
-                }
-            }
-            return res;
-        }
-
-        // TODO Я человек простой, вижу 0 референсов - удаляю
-        /// <summary> Returns a checkout info of particular document </summary>
-        private Checkouts GetOwnerInfo(int docID)
-        {
-            var test = from c in db.Checkouts
-                       where c.BookID == docID
-                       select c;
-            if (test.Any()) return test.Single();
-            else return null;
         }
 
         // TODO Ну это для тестов, я так понимаю? Неправильно понимаешь
@@ -739,7 +550,10 @@ namespace I2P_Project.Classes
             return patron;
         }
 
-        /// <summary> Counts overall user`s fine for overdued docs </summary>
+        /// <summary>
+        /// Usage: Shown to librarian in UserManagementPage.xaml
+        /// Counts overall user`s fine for overdued docs
+        /// </summary>
         public int GetUserFine(int userID)
         {
             int fine = 0;
@@ -769,14 +583,17 @@ namespace I2P_Project.Classes
             int overduedTime = (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
             if (overduedTime > 0)
             {
-                int docPrice = GetDocByID(docID).Price;
+                int docPrice = GetDoc(docID).Price;
                 return (overduedTime * 100 > docPrice ? docPrice : overduedTime * 100);
             }
 
             return 0;
         }
 
-        /// <summary> Counts number of user`s docs from his ID </summary>
+        /// <summary>
+        /// Usage: Shown to librarian in UserManagementPage.xaml
+        /// Counts number of user`s docs from his ID
+        /// </summary>
         private int GetUserBooksNumber(int userID)
         {
             var test = from c in db.Checkouts
@@ -787,105 +604,6 @@ namespace I2P_Project.Classes
         }
 
 		#endregion
-
-		#region DB Testers
-
-		// TODO В общем методы для тестов надо вынести в другой класс, либо создать отдельный регион
-		public DateTime CheckoutTimeToBack(int patronID, int docID)
-		{
-			var test = from c in db.Checkouts
-					   where c.BookID == docID && c.UserID == patronID
-					   select c;
-			DateTime dt = test.Single().TimeToBack;
-			return dt;
-		}
-
-		public int OverdueTime(int userID, int docID) { 
-            var test = from c in db.Checkouts
-                       where c.BookID == docID && c.UserID == userID
-                       select c;
-            Checkouts testCheck = test.Single();
-
-            return (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
-        }
-
-        public bool DocExists(string Title)
-        {
-            var test = from d in db.Documents
-                       where d.Title.Equals(Title)
-                       select d;
-            return test.Any();
-        }
-
-        public bool UserExists(string Name)
-        {
-            var test = from u in db.Users
-                       where u.Name.Equals(Name)
-                       select u;
-            return test.Any();
-        }
-
-        public bool AmountOfDocs(string Title, int n)
-        {
-            var test = (from d in db.Documents
-                       where d.Title.Equals(Title)
-                       select d).Single();
-            return test.Quantity==n;
-        }
-
-        // TODO Я человек простой, вижу 0 референсов - удаляю//Сам завалил тесты а потом на 0 референсов жалобы
-        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
-        {
-            Users user = GetUser(Name);
-            List<CheckedOut> checkover = GetCheckout(Name);
-
-            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
-                && user.UserType == UserType && EqualCheckouts(checkout, checkover);
-        }
-
-        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues)
-        {
-            Users user = GetUser(Name);
-            List<OverdueInfo> checkoverdues = GetOverdues(Name);
-
-            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
-                && user.UserType == UserType && EqualOverdues(overdues, checkoverdues);
-        }
-
-        private bool EqualOverdues(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
-        {
-            return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
-        }
-
-        public void UpgradeUser(string Name, int ut)
-        {
-            Users user = GetUser(Name);
-            if (ut < 5)
-                user.UserType = ut;
-            db.SubmitChanges();
-        }
-
-        public int GetDocID(string Title)
-        {
-            var document = (from doc in db.Documents
-                       where doc.Title.Equals(Title)
-                       select doc).Single();
-            return document.Id;
-        }
-
-        public int GetUserID(string Name)
-        {
-            var test = (from user in db.Users
-                        where user.Name.Equals(Name)
-                        select user).Single();
-            return test.Id;
-        }
-        private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
-        {
-            return new HashSet<CheckedOut>(checkedOuts).SetEquals(neededInfo);
-        }
-
-        #endregion
 
         #region PQ Operations
 
@@ -905,7 +623,7 @@ namespace I2P_Project.Classes
             if (PQ.FirstElement != null)
             { 
                 Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
-                Document doc = GetDocByID(docID);
+                Document doc = GetDoc(docID);
                 SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             }
             SavePQ(PQ, docID);
@@ -947,7 +665,7 @@ namespace I2P_Project.Classes
             if (PQ.Length > 0)
             {
                 Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
-                Document doc = GetDocByID(docID);
+                Document doc = GetDoc(docID);
                 SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
                 SavePQ(PQ, docID);
             }
@@ -1031,6 +749,294 @@ namespace I2P_Project.Classes
             }
 
             return localQueue;
+        }
+
+        #endregion
+
+        // TODO Поглядить на тесты и понять зачем вообще нужны все эти методы
+        #region TESTING
+
+        // [TEST]
+        /// <summary> First generate for show functionality </summary>
+        private void GenerateTestDB()
+        {
+            // Adding two books and their copies
+            AddBook
+                (
+                    "Introduction to Algorithms",
+                    "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
+                    "MIT Press",
+                    2009,
+                    "Third Edition",
+                    "Alghorithm techniques and design",
+                    1800,
+                    false,
+                    1
+                );
+            AddBook
+                (
+                    "Design Patterns: Elements of Reusable Object-Oriented Software",
+                    "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
+                    "Addison-Wesley Professional",
+                    2003,
+                    "First Edition",
+                    "Programm patterns, how to programm well w/o headache",
+                    2000,
+                    true,
+                    1
+                );
+
+            // Adding reference book
+            AddBook
+                (
+                    "The Mythical Man-month",
+                    "Brooks,Jr., Frederick P",
+                    "Addison-Wesley Longman Publishing Co., Inc.",
+                    1995,
+                    "Second edition",
+                    "How to do everything and live better",
+                    800,
+                    false,
+                    0
+                );
+
+            // Adding two AV's
+            AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 400, 0);
+            AddAV("Information Entropy", "Claude Shannon", 700, 0);
+
+            // Registering 3 users
+            RegisterUser("p1", "p1", "Sergey Afonso", "Via Margutta, 3", "30001", false);
+            RegisterUser("p2", "p2", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
+            RegisterUser("p3", "p3", "Elvira Espindola", "Via del Corso, 22", "30003", false);
+
+            // Special for me
+            RegisterUser("zhychek1", "lolcore", "Toha", "zhychek1@yandex.ru", "+79648350370", true);
+        }
+
+        public Users GetUser(string Name)
+        {
+            var test = from u in db.Users where u.Name == Name select u;
+            return test.Single();
+        }
+
+        public int OverdueTime(int userID, int docID)
+        {
+            var test = from c in db.Checkouts
+                       where c.BookID == docID && c.UserID == userID
+                       select c;
+            Checkouts testCheck = test.Single();
+
+            return (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
+        }
+
+        public DateTime CheckoutTimeToBack(int patronID, int docID)
+        {
+            var test = from c in db.Checkouts
+                       where c.BookID == docID && c.UserID == patronID
+                       select c;
+            DateTime dt = test.Single().TimeToBack;
+            return dt;
+        }
+
+        public int GetUserID(string Name)
+        {
+            var test = (from user in db.Users
+                        where user.Name.Equals(Name)
+                        select user).Single();
+            return test.Id;
+        }
+
+        private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
+        {
+            return new HashSet<CheckedOut>(checkedOuts).SetEquals(neededInfo);
+        }
+
+        public int GetDocID(string Title)
+        {
+            var document = (from doc in db.Documents
+                            where doc.Title.Equals(Title)
+                            select doc).Single();
+            return document.Id;
+        }
+
+        private bool EqualOverdues(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
+        {
+            return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
+        }
+
+        public void UpgradeUser(string Name, int ut)
+        {
+            Users user = GetUser(Name);
+            if (ut < 5)
+                user.UserType = ut;
+            db.SubmitChanges();
+        }
+
+        // TODO Объясните мне необходимость следующих двух методов
+
+        public List<CheckedOut> GetCheckout(string Name)
+        {
+            Users user = GetUser(Name);
+            int userID = user.Id;
+            List<CheckedOut> res = new List<CheckedOut>();
+            var load_user_books = from c in db.Checkouts
+                                  where c.UserID == userID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                CheckedOut pair = new CheckedOut();
+                pair.CheckOutTime = element.TimeToBack.Day;
+                pair.DocumentCheckedOut = element.Title;
+                res.Insert(0, pair);
+            }
+            return res;
+        }
+
+        public List<OverdueInfo> GetOverdues(string Name)
+        {
+            Users user = GetUser(Name);
+            int userID = user.Id;
+            List<OverdueInfo> res = new List<OverdueInfo>();
+            var load_user_books = from c in db.Checkouts
+                                  where c.UserID == userID
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  select new
+                                  {
+                                      b.Title,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
+                if (passedDays > 0)
+                {
+                    OverdueInfo pair = new OverdueInfo();
+                    pair.Overdue = passedDays;
+                    pair.DocumentChekedOut = element.Title;
+                    res.Add(pair);
+                }
+            }
+            return res;
+        }
+
+        // TODO Я человек простой, вижу 0 референсов - удаляю
+        /// <summary> Returns a checkout info of particular document </summary>
+        private Checkouts GetOwnerInfo(int docID)
+        {
+            var test = from c in db.Checkouts
+                       where c.BookID == docID
+                       select c;
+            if (test.Any()) return test.Single();
+            else return null;
+        }
+
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
+        {
+            Users user = GetUser(Name);
+            List<CheckedOut> checkover = GetCheckout(Name);
+
+            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
+                && user.UserType == UserType && EqualCheckouts(checkout, checkover);
+        }
+
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues)
+        {
+            Users user = GetUser(Name);
+            List<OverdueInfo> checkoverdues = GetOverdues(Name);
+
+            return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
+                && user.UserType == UserType && EqualOverdues(overdues, checkoverdues);
+        }
+
+        public bool DocExists(string Title)
+        {
+            var test = from d in db.Documents
+                       where d.Title.Equals(Title)
+                       select d;
+            return test.Any();
+        }
+
+        public bool UserExists(string Name)
+        {
+            var test = from u in db.Users
+                       where u.Name.Equals(Name)
+                       select u;
+            return test.Any();
+        }
+
+        public bool AmountOfDocs(string Title, int n)
+        {
+            var test = (from d in db.Documents
+                        where d.Title.Equals(Title)
+                        select d).Single();
+            return test.Quantity == n;
+        }
+
+        // [FOR TEST] (TestingTool.xaml)
+        /// <summary> Returns a collection of books checked by particular user </summary>
+        public ObservableCollection<Pages.DocumentsTable> TestDocsTableUsersBooks(int user_id)
+        {
+            ObservableCollection<Pages.DocumentsTable> temp_table = new ObservableCollection<Pages.DocumentsTable>();
+            var load_user_docs = from c in db.Checkouts
+                                 join b in db.Documents on c.BookID equals b.Id
+                                 where c.UserID == user_id
+                                 select new
+                                 {
+                                     b.Id,
+                                     b.Title,
+                                     b.Autors,
+                                     b.DocType,
+                                     b.Price,
+                                     b.Quantity
+                                 };
+            foreach (var element in load_user_docs)
+            {
+                Pages.DocumentsTable row = new Pages.DocumentsTable
+                {
+                    docID = element.Id,
+                    docAutors = element.Autors,
+                    docTitle = element.Title,
+                    docType = SDM.Strings.DOC_TYPES[element.DocType],
+                    docPrice = element.Price,
+                    docQuantity = element.Quantity
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
+        // [FOR TEST] (TestingTool.xaml)
+        /// <summary> Returns a collection of all users registered in system </summary>
+        public ObservableCollection<Pages.UserTable> TestUsersTable()
+        {
+            ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
+            var load_users = from u in db.Users
+                             select new
+                             {
+                                 u.Id,
+                                 u.Name,
+                                 u.Address,
+                                 u.PhoneNumber,
+                                 u.UserType
+                             };
+            foreach (var element in load_users)
+            {
+                Pages.UserTable row = new Pages.UserTable
+                {
+                    userID = element.Id,
+                    userName = element.Name,
+                    userAddress = element.Address,
+                    userPhoneNumber = element.PhoneNumber,
+                    userType = SDM.Strings.USER_TYPES[element.UserType]
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
         }
 
         #endregion

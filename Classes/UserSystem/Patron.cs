@@ -33,7 +33,7 @@ namespace I2P_Project.Classes.UserSystem
                        select c;
 
             Checkouts checkout = test.Single();
-            Document doc = SDM.LMS.GetDocByID(docID);
+            Document doc = SDM.LMS.GetDoc(docID);
 
             // User has fine
             if (SDM.LMS.GetUserFineForDoc(PersonID, docID) > 0)

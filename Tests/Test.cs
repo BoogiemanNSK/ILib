@@ -1,12 +1,8 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
-using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
-using System.Windows;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 namespace I2P_Project.Tests
 {
     class Test

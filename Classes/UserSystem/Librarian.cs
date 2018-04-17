@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace I2P_Project.Classes.UserSystem
 {
@@ -130,6 +128,8 @@ namespace I2P_Project.Classes.UserSystem
         #endregion
 
     }
+
+    // TODO Нужны ли эти структуры?
 
     public struct CheckedOut
     {

@@ -54,7 +54,7 @@ namespace I2P_Project.Classes
             }
         }
 
-        // TODO ФОрмальные поправки
+        // TODO Формальные поправки
         #region DB Addition
 
         /// <summary> Registers new user in data base </summary>
@@ -66,7 +66,7 @@ namespace I2P_Project.Classes
             using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
             {
                 Cryptography cpt = new Cryptography();
-                password = cpt.GetHash(md5_hash, password);  // hashing password string by MD5
+                password = cpt.GetHash(md5_hash, password);  // Hashing password string by MD5
             }
 
             Users newUser = new Users
@@ -175,6 +175,32 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
+        /// <summary>
+        /// Change fields in DB when some user check out docs.
+        /// Start timer for check out and get reference for book on it's owner.
+        /// DateCheat format - dd mm yyyy
+        /// </summary>
+        public void SetCheckOut(int patronID,int docID, int weeks, params int[] DateCheat)
+        {
+            DateTime time;
+            if (DateCheat.Length == 0)
+                time = DateTime.Now;
+            else
+                time = new DateTime(DateCheat[2], DateCheat[1], DateCheat[0]);
+
+            Checkouts chk = new Checkouts
+            {
+                UserID = patronID,
+                BookID = docID,
+                IsReturned = false,
+                DateTaked = time,
+                TimeToBack = time.AddDays(weeks * 7)
+            };
+
+            db.Checkouts.InsertOnSubmit(chk);
+            db.SubmitChanges();
+        }
+
         #endregion
 
         #region DB Deletion
@@ -219,9 +245,72 @@ namespace I2P_Project.Classes
 
         #endregion
 
-        // TODO Сделать разны Update для разных типов док-ов
+        // TODO Формальные исправления
         #region DB Updating
 
+        /// <summary> Updates user info </summary>
+        public void UpdateUser(int userId, string userName, string userAdress, string userPhoneNumber, int userType)
+        {
+            Users user = GetUser(userId);
+            user.Name = userName;
+            user.Address = userAdress;
+            user.PhoneNumber = userPhoneNumber;
+            user.UserType = userType;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
+            db.SubmitChanges();
+        }
+
+        // TODO Заменить числа на enumы
+        /// <summary> Updates book info </summary>
+        public void ModifyBook(int docID, string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
+        {
+            Document book = GetDoc(docID);
+            book.Title = title;
+            book.Autors = autors;
+            book.Publisher = publisher;
+            book.PublishYear = publishYear;
+            book.Edition = edition;
+            book.Description = description;
+            book.Price = price;
+            book.IsBestseller = isBestseller;
+            book.Quantity = quantity;
+            book.DocType = 0;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, book);
+            db.SubmitChanges();
+        }
+
+        // TODO Заменить числа на enumы
+        /// <summary> Updates journal info </summary>
+        public void ModifyJournal(int docID, string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
+        {
+            Document journal = GetDoc(docID);
+            journal.Title = title;
+            journal.Autors = autors;
+            journal.PublishedIn = publishedIn;
+            journal.IssueTitle = issueTitle;
+            journal.IssueEditor = issueEditor;
+            journal.Price = price;
+            journal.Quantity = quantity;
+            journal.DocType = 1;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, journal);
+            db.SubmitChanges();
+        }
+
+        // TODO Заменить числа на enumы
+        /// <summary> Updates AV info </summary>
+        public void ModifyAV(int docID, string title, string autors, int price, int quantity)
+        {
+            Document AV = GetDoc(docID);
+            AV.Title = title;
+            AV.Autors = autors;
+            AV.Price = price;
+            AV.Quantity = quantity;
+            AV.DocType = 2;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, AV);
+            db.SubmitChanges();
+        }
+
+        // TODO Проверить на правильность
         public string RenewDoc(int docID, params int[] DateCheat)
         {
             DateTime time;
@@ -249,33 +338,7 @@ namespace I2P_Project.Classes
             }
         }
 
-        // TODO Сделать Update для разных типов доков, как при создании
-        /// <summary> Updates document info </summary>
-        public void ModifyDoc(int DocID, string Title, string Description, string Price, bool IsBestseller, int DocType)
-        {
-            Document doc = GetDoc(DocID);
-            doc.Title = Title;
-            doc.Description = Description;
-            doc.Price = Convert.ToInt32(Price);
-            doc.IsBestseller = IsBestseller;
-            doc.DocType = DocType;
-            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
-            db.SubmitChanges();
-        }
-
-        /// <summary> Updates user info </summary>
-        public void UpdateUser(int userId, string userName, string userAdress, string userPhoneNumber, int userType)
-        {
-            Users user = GetUser(userId);
-            user.Name = userName;
-            user.Address = userAdress;
-            user.PhoneNumber = userPhoneNumber;
-            user.UserType = userType;
-            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
-            db.SubmitChanges();
-        }
-
-
+        /// <summary> Sets an outstanding request for a doc </summary>
         public void SetOutstandingRequest(int docID)
         {
             var doc = (from d in db.Documents
@@ -304,6 +367,13 @@ namespace I2P_Project.Classes
             PushInPQ(docID, SDM.CurrentUser.PersonID, 5);
 
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
+            db.SubmitChanges();
+        }
+
+        public void UpdateDeadline(int userID, int docID, DateTime newDeadline)
+        {
+            var test = from c in db.Checkouts where (c.UserID == userID && c.BookID == docID) select c;
+            test.Single().TimeToBack = newDeadline;
             db.SubmitChanges();
         }
 
@@ -511,12 +581,17 @@ namespace I2P_Project.Classes
             return test.Any();
         }
 
+        /// <summary> Check existence of some checkout </summary>
+        public bool CheckDocBelongsToUser(int docID, int userID)
+        {
+            var test = from c in db.Checkouts where (c.UserID == userID && c.BookID == docID) select c;
+            return test.Any();
+        }
+
         /// <summary> Checks if a book with given title exists in the system </summary>
         private bool CheckDocExistence(string title)
         {
-            var test = (from p in db.Documents
-                        where (p.Title == title)
-                        select p);
+            var test = from p in db.Documents where (p.Title == title) select p;
             return test.Any();
         }
 
@@ -541,7 +616,19 @@ namespace I2P_Project.Classes
             return test.Single();
         }
 
-        // TODO Ну это для тестов, я так понимаю? Неправильно понимаешь
+        public Checkouts GetCheckout(int userID, int docID)
+        {
+            var test = from c in db.Checkouts where (c.UserID == userID && c.BookID == docID) select c;
+            return test.Single();
+        }
+
+        public Users GetUserByLogin(string Login)
+        {
+            var test = from u in db.Users where u.Login == Login select u;
+            return test.Single();
+        }
+
+        // TODO Ну это для тестов, я так понимаю? Неправильно понимаешь. :(
         /// <summary> Gets patron row in UI table by his name </summary>
         public Pages.UserTable GetPatronByName(string name)
         {
@@ -639,25 +726,6 @@ namespace I2P_Project.Classes
             return false;
         }
 
-        /// <summary> Checks if person is in queue for given doc </summary>
-        public bool IsPersonInQueue(int patronID, int bookID)
-        {
-            bool inQueue = false;
-            var test = from doc in db.Documents
-                       where doc.Id == bookID
-                       select doc.Queue;
-
-            string queue_string = test.Single();
-            string[] queue_pairs = queue_string.Split('-');
-            foreach (string pair in queue_pairs)
-            {
-                int id = Convert.ToInt32(pair.Split('|')[0]);
-                if (id == patronID) inQueue = true;
-            }
-
-            return inQueue;
-        }
-
         /// <summary> Send mail for next user in queue if it is not empty </summary>
         public void NotifyNextUser(int docID)
         {
@@ -753,7 +821,7 @@ namespace I2P_Project.Classes
 
         #endregion
 
-        // TODO Поглядить на тесты и понять зачем вообще нужны все эти методы
+        // TODO Поглядеть на тесты и понять зачем вообще нужны все эти методы
         #region TESTING
 
         // [TEST]

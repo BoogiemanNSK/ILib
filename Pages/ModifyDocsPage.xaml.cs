@@ -46,13 +46,12 @@ namespace I2P_Project.Pages
             try
             {
                 Librarian lib = (Librarian)SDM.CurrentUser;
-                lib.ModifyDoc
+                SDM.LMS.ModifyAV
                     (
                         _docID,
                         TitleTB.ToString().Substring(TitleTB.ToString().IndexOf(":") + 2),
                         DescriptionTB.ToString().Substring(DescriptionTB.ToString().IndexOf(":") + 2),
-                        PriceTB.ToString().Substring(PriceTB.ToString().IndexOf(":") + 2),
-                        (bool)IsBestseller.IsChecked,
+                        Convert.ToInt32(PriceTB.ToString().Substring(PriceTB.ToString().IndexOf(":") + 2)),
                         DocType.SelectedIndex
                     );
             }

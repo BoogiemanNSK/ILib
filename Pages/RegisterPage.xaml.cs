@@ -28,8 +28,8 @@ namespace I2P_Project.Pages
         {
             _register = b;
             InitializeComponent();
-            if (b) Title.Content = SDM.Strings.ADD_USER_PAGE_TITLE;
-            else Title.Content = SDM.Strings.REGISTER_PAGE_TITLE;
+            if (b) SignUpTitle.Content = SDM.Strings.ADD_USER_PAGE_TITLE;
+            else SignUpTitle.Content = SDM.Strings.REGISTER_PAGE_TITLE;
         }
 
         private void OnRegisterClick(object sender, RoutedEventArgs e)

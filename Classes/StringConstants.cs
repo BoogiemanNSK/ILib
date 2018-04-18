@@ -38,6 +38,7 @@ class StringConstants {
     public string SUCCESS_CHECK_OUT_TEXT => "Successfully checked out";
     public string PERSON_IN_QUEUE_TEXT => "You are already in the queue for this book";
     public string PERSON_FIRST_IN_QUEUE_TEXT => "Since you are first for this book, you can check it out";
+    public string DOC_DOES_NOT_EXIST => "Such document does not exist";
 
 
     public string CHECK_OUT_CONFIRMATION_TEXT => "Are you sure you want to check out this book?";

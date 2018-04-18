@@ -34,44 +34,43 @@ namespace I2P_Project.Pages
             DocumentsTable.ItemsSource = SDM.LMS.GetDocsTable();
             UserTable.ItemsSource = SDM.LMS.TestUsersTable();
         }
+
         private void OnTest(object sender, RoutedEventArgs e)
         {
-            
             TestOutput.Text = "Test " + TestNumber.Text + ":\n";
             switch (TestNumber.Text)
             {
                 case "Test all":
                     try
                     {
-                        /*test.test1();
-                        test.test2();
-                        test.test3();
-                        test.test4();
-                        test.test5();
-                        test.test6();
-                        test.test7();
-                        test.test8();
-                        test.test9();
-                        test.test10();
-                        test.test11();
-                        test.test12();
-                        test.test13();
-                        test.test14();
-                        test.test15();
-                        test.test16();
-                        test.test17();
-                        test.test18();
-                        */
-                        test.test20();
-                        test.test21();
-                        test.test22();
-                        test.test23();
-                        test.test25();
-                        test.test26();
-                        test.test27();
-                        test.test28();
-                        test.test29();
-                        test.test30();
+                        test.Test1();
+                        test.Test2();
+                        test.Test3();
+                        test.Test4();
+                        test.Test5();
+                        test.Test6();
+                        test.Test7();
+                        test.Test8();
+                        test.Test9();
+                        test.Test10();
+                        test.Test11();
+                        test.Test12();
+                        test.Test13();
+                        test.Test14();
+                        test.Test15();
+                        test.Test16();
+                        test.Test17();
+                        test.Test18();
+                        test.Test20();
+                        test.Test21();
+                        test.Test22();
+                        test.Test23();
+                        test.Test25();
+                        test.Test26();
+                        test.Test27();
+                        test.Test28();
+                        test.Test29();
+                        test.Test30();
                         TestOutput.Text += "Tests are passed, restart system for test 19";
                     } catch
                     {
@@ -79,120 +78,120 @@ namespace I2P_Project.Pages
                     }
                     UpdateTables();
                     break;
-                /*case "1":
-                    TestOutput.Text += test.test1();
-                    UpdateTables();
-                    break;
-                case "2":
-                    TestOutput.Text += test.test2();
-                    UpdateTables();
-                    break;
-                case "3":
-                    TestOutput.Text += test.test3();
-                    UpdateTables();
-                    break;
-                case "4":
-                    TestOutput.Text += test.test4();
-                    UpdateTables();
-                    break;
-                case "5":
-                    TestOutput.Text += test.test5();
-                    UpdateTables();
-                    break;
-                case "6":
-                    TestOutput.Text += test.test6();
-                    UpdateTables();
-                    break;
-                case "7":
-                    TestOutput.Text += test.test7();
-                    UpdateTables();
-                    break;
-                case "8":
-                    TestOutput.Text += test.test8();
-                    UpdateTables();
-                    break;
-                case "9":
-                    TestOutput.Text += test.test9();
-                    UpdateTables();
-                    break;
-                case "10":
-                    TestOutput.Text += test.test10();
-                    UpdateTables();
-                    break;
-                case "11":
-                    TestOutput.Text += test.test11();
-                    UpdateTables();
-                    break;
-                case "12":
-                    TestOutput.Text += test.test12();
-                    UpdateTables();
-                    break;
-                case "13":
-                    TestOutput.Text += test.test13();
-                    UpdateTables();
-                    break;
-                case "14":
-                    TestOutput.Text += test.test14();
-                    UpdateTables();
-                    break;
-                case "15":
-                    TestOutput.Text += test.test15();
-                    UpdateTables();
-                    break;
-                case "16":
-                    TestOutput.Text += test.test16();
-                    UpdateTables();
-                    break;
-               case "17":
-                    TestOutput.Text += test.test17();
-                    UpdateTables();
-                    break;
-                case "18":
-                    TestOutput.Text += test.test18();
-                    UpdateTables();
-                    break;
-                case "19":
-                    TestOutput.Text += test.test19();
-                    UpdateTables();
-                    break; */
-                case "20":
-                    test.test20();
-                    UpdateTables();
-                    break;
-                case "21":
-                    test.test21();
-                    UpdateTables();
-                    break;
-                case "22":
-                    test.test22();
-                    UpdateTables();
-                    break;
-                case "23":
-                    test.test23();
-                    UpdateTables();
-                    break;
-                case "25":
-                    test.test25();
-                    UpdateTables();
-                    break;
-                case "26":
-                    test.test26();
-                    UpdateTables();
-                    break;
-                case "27":
-                    test.test27();
-                    UpdateTables();
-                    break;
-                case "28":
-                    test.test28();
-                    UpdateTables();
-                    break;
-                case "29":
-                    test.test29();
-                    UpdateTables();
-                    break;
-                case "30":
-                    test.test30();
+                case "1":
+                    test.Test1();
+                    UpdateTables();         
+                    break;                  
+                case "2":                   
+                    test.Test2();
+                    UpdateTables();         
+                    break;                  
+                case "3":                   
+                    test.Test3();
+                    UpdateTables();         
+                    break;                  
+                case "4":                   
+                    test.Test4();
+                    UpdateTables();         
+                    break;                  
+                case "5":                   
+                    test.Test5();
+                    UpdateTables();         
+                    break;                  
+                case "6":                   
+                    test.Test6();
+                    UpdateTables();         
+                    break;                  
+                case "7":                   
+                    test.Test7();
+                    UpdateTables();         
+                    break;                  
+                case "8":                   
+                    test.Test8();
+                    UpdateTables();         
+                    break;                  
+                case "9":                   
+                    test.Test9();
+                    UpdateTables();         
+                    break;                  
+                case "10":                  
+                    test.Test10();
+                    UpdateTables();         
+                    break;                  
+                case "11":                  
+                    test.Test11();
+                    UpdateTables();         
+                    break;                  
+                case "12":                  
+                    test.Test12();
+                    UpdateTables();         
+                    break;                  
+                case "13":                  
+                    test.Test13();
+                    UpdateTables();         
+                    break;                  
+                case "14":                  
+                    test.Test14();
+                    UpdateTables();         
+                    break;                  
+                case "15":                  
+                    test.Test15();
+                    UpdateTables();         
+                    break;                  
+                case "16":                  
+                    test.Test16();
+                    UpdateTables();         
+                    break;                  
+               case "17":                   
+                    test.Test17();
+                    UpdateTables();         
+                    break;                  
+                case "18":                  
+                    test.Test18();
+                    UpdateTables();         
+                    break;                  
+                case "19":                  
+                    test.Test19();
+                    UpdateTables();         
+                    break;                  
+                case "20":                  
+                    test.Test20();
+                    UpdateTables();         
+                    break;                  
+                case "21":                  
+                    test.Test21();
+                    UpdateTables();         
+                    break;                  
+                case "22":                  
+                    test.Test22();
+                    UpdateTables();         
+                    break;                  
+                case "23":                  
+                    test.Test23();
+                    UpdateTables();         
+                    break;                  
+                case "25":                  
+                    test.Test25();
+                    UpdateTables();         
+                    break;                  
+                case "26":                  
+                    test.Test26();
+                    UpdateTables();         
+                    break;                  
+                case "27":                  
+                    test.Test27();
+                    UpdateTables();         
+                    break;                  
+                case "28":                  
+                    test.Test28();
+                    UpdateTables();         
+                    break;                  
+                case "29":                  
+                    test.Test29();
+                    UpdateTables();         
+                    break;                  
+                case "30":                  
+                    test.Test30();
                     UpdateTables();
                     break;
                 default:
@@ -200,7 +199,7 @@ namespace I2P_Project.Pages
                     break;
             }
     
-    }
+        }
         
         private void OnShow(object sender, RoutedEventArgs e)
         {

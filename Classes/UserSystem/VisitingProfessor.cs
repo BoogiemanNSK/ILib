@@ -9,6 +9,8 @@
         public override string CheckOut(int DocID, params int[] DateCheat)
         {
             DataBase.Document doc = SDM.LMS.GetDoc(DocID);
+
+            if (doc == null) return SDM.Strings.DOC_DOES_NOT_EXIST;
             string result = CheckAvailibility(doc);
 
             if (result == SDM.Strings.PERSON_NOT_IN_QUEUE_TEXT)

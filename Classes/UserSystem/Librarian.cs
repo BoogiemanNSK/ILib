@@ -76,7 +76,7 @@ namespace I2P_Project.Classes.UserSystem
         /// <summary> Sets an outstanding request for the document (deletes queue) </summary>
         public void OutstandingRequest(int docID)
         {
-            SDM.LMS.SetOutstandingRequest(docID);
+            SDM.LMS.SetOutstandingRequest(PersonID, docID);
         }
 
         #endregion
@@ -90,47 +90,33 @@ namespace I2P_Project.Classes.UserSystem
 
         public List<CheckedOut> CheckCheckouts(string Name)
         {
-            return SDM.LMS.GetCheckout(Name);
+            return SDM.LMS.GetCheckoutsList(Name);
         }
 
-        public string ShowUserCard(string Name)
+        public void ShowUserCard(int userID)
         {
-            string output = "";
-            var patron = SDM.LMS.GetPatronByName(Name);
-            if (patron == null)
-                output = SDM.Strings.USER_DOES_NOT_EXIST_TEXT;
-            else
+            var patron = SDM.LMS.GetUser(userID);
+            if (patron != null)
             {
-                Pages.UserCard card = new Pages.UserCard(patron.userID);
+                Pages.UserCard card = new Pages.UserCard(userID);
                 card.Show();
-                output = SDM.Strings.USER_CARD_OBTAINING_TEXT;
             }
-
-            return output;
         }
 
-        public string ShowOverdue(string Name)
+        public void ShowOverdue(int userID)
         {
-            string output = "";
-            var patron = SDM.LMS.GetPatronByName(Name);
-            if (patron == null)
-                output = SDM.Strings.USER_DOES_NOT_EXIST_TEXT;
-            else
+            var patron = SDM.LMS.GetUser(userID);
+            if (patron != null)
             {
-                Pages.OverdueInfo doc = new Pages.OverdueInfo(patron.userID);
+                Pages.OverdueInfo doc = new Pages.OverdueInfo(userID);
                 doc.Show();
-                output = SDM.Strings.OVERDUE_INFO_TEXT;
             }
-
-            return output;
         }
 
         #endregion
 
     }
-
-    // TODO Нужны ли эти структуры?
-
+    
     public struct CheckedOut
     {
         public string DocumentCheckedOut { get; set; }   

@@ -311,22 +311,24 @@ namespace I2P_Project.Classes
         }
 
         // TODO Проверить на правильность
-        public string RenewDoc(int docID, params int[] DateCheat)
+        public string RenewDoc(int userID, int docID, params int[] DateCheat)
         {
             DateTime time;
+            Users CurrentUser = GetUser(userID);
+
             if (DateCheat.Length == 0)
                 time = DateTime.Now;
             else
                 time = new DateTime(DateCheat[2], DateCheat[1], DateCheat[0]);
 
             var doc = (from book in db.Checkouts
-                       where book.BookID == docID && SDM.CurrentUser.PersonID == book.UserID
+                       where book.BookID == docID && CurrentUser.Id == book.UserID
                        select book).Single();
-            if (doc.IsRenewed && SDM.CurrentUser.UserType != 3)
+            if (doc.IsRenewed && CurrentUser.UserType != 3)
                 return SDM.Strings.DOC_ALREADY_RENEWED;
             else if (ExistQueueForDoc(docID))
                 return SDM.Strings.DOC_IN_QUEUE;
-            else if (GetUserFineForDoc(SDM.CurrentUser.PersonID, docID) > 0)
+            else if (GetUserFineForDoc(CurrentUser.Id, docID) > 0)
                 return SDM.Strings.USER_HAVE_FINE;
             else
             {
@@ -339,7 +341,7 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Sets an outstanding request for a doc </summary>
-        public void SetOutstandingRequest(int docID)
+        public void SetOutstandingRequest(int userID, int docID)
         {
             var doc = (from d in db.Documents
                        where d.Id == docID
@@ -364,7 +366,7 @@ namespace I2P_Project.Classes
             // TODO Чёт сомнительный костыль, от него проблем не будет?
             // Нужно также отправить извещение всем в очереди (с правильным текстом)
             // + я думаю всё же лучше добавить еще одно поле в БД, меньше костылей - меньше проблем
-            PushInPQ(docID, SDM.CurrentUser.PersonID, 5);
+            PushInPQ(docID, userID, 5);
 
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
@@ -385,12 +387,12 @@ namespace I2P_Project.Classes
         /// Returns collection of current logged user books
         /// Usage: MyBooks.xaml 
         /// </summary>
-        public ObservableCollection<Pages.MyBooksTable> GetUserBooks()
+        public ObservableCollection<Pages.MyBooksTable> GetUserBooks(int userID)
         {
             ObservableCollection<Pages.MyBooksTable> temp_table = new ObservableCollection<Pages.MyBooksTable>();
             var load_user_books = from c in db.Checkouts
                                   join b in db.Documents on c.BookID equals b.Id
-                                  where c.UserID == SDM.CurrentUser.PersonID && c.IsReturned == false
+                                  where c.UserID == userID && c.IsReturned == false
                                   select new
                                   {
                                       c.CheckID,
@@ -410,7 +412,7 @@ namespace I2P_Project.Classes
                     docTitle = element.Title,
                     docAutors = element.Autors,
                     docPrice = element.Price,
-                    docFine = GetUserFineForDoc(SDM.CurrentUser.PersonID, element.BookID),
+                    docFine = GetUserFineForDoc(userID, element.BookID),
                     checkDateTaked = (DateTime)element.DateTaked,
                     checkTimeToBack = element.TimeToBack
                 };
@@ -606,6 +608,7 @@ namespace I2P_Project.Classes
         public Document GetDoc(int docID)
         {
             var test = from doc in db.Documents where doc.Id == docID select doc;
+            if (!test.Any()) return null;
             return test.Single();
         }
         
@@ -613,28 +616,24 @@ namespace I2P_Project.Classes
         public Users GetUser(int userID)
         {
             var test = from u in db.Users where u.Id == userID select u;
+            if (!test.Any()) return null;
             return test.Single();
         }
 
+        /// <summary> Returns a particular checkout </summary>
         public Checkouts GetCheckout(int userID, int docID)
         {
             var test = from c in db.Checkouts where (c.UserID == userID && c.BookID == docID) select c;
+            if (!test.Any()) return null;
             return test.Single();
         }
 
+        /// <summary> Returns user row from given login </summary>
         public Users GetUserByLogin(string Login)
         {
             var test = from u in db.Users where u.Login == Login select u;
+            if (!test.Any()) return null;
             return test.Single();
-        }
-
-        // TODO Ну это для тестов, я так понимаю? Неправильно понимаешь. :(
-        /// <summary> Gets patron row in UI table by his name </summary>
-        public Pages.UserTable GetPatronByName(string name)
-        {
-            var table = SDM.LMS.TestUsersTable();
-            var patron = (from p in table where p.userName.Equals(name) select p).FirstOrDefault();
-            return patron;
         }
 
         /// <summary>
@@ -820,8 +819,7 @@ namespace I2P_Project.Classes
         }
 
         #endregion
-
-        // TODO Поглядеть на тесты и понять зачем вообще нужны все эти методы
+        
         #region TESTING
 
         // [TEST]
@@ -889,29 +887,8 @@ namespace I2P_Project.Classes
 
         public int OverdueTime(int userID, int docID)
         {
-            var test = from c in db.Checkouts
-                       where c.BookID == docID && c.UserID == userID
-                       select c;
-            Checkouts testCheck = test.Single();
-
+            Checkouts testCheck = GetCheckout(userID, docID);
             return (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
-        }
-
-        public DateTime CheckoutTimeToBack(int patronID, int docID)
-        {
-            var test = from c in db.Checkouts
-                       where c.BookID == docID && c.UserID == patronID
-                       select c;
-            DateTime dt = test.Single().TimeToBack;
-            return dt;
-        }
-
-        public int GetUserID(string Name)
-        {
-            var test = (from user in db.Users
-                        where user.Name.Equals(Name)
-                        select user).Single();
-            return test.Id;
         }
 
         private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
@@ -939,10 +916,8 @@ namespace I2P_Project.Classes
                 user.UserType = ut;
             db.SubmitChanges();
         }
-
-        // TODO Объясните мне необходимость следующих двух методов
-
-        public List<CheckedOut> GetCheckout(string Name)
+        
+        public List<CheckedOut> GetCheckoutsList(string Name)
         {
             Users user = GetUser(Name);
             int userID = user.Id;
@@ -957,9 +932,11 @@ namespace I2P_Project.Classes
                                   };
             foreach (var element in load_user_books)
             {
-                CheckedOut pair = new CheckedOut();
-                pair.CheckOutTime = element.TimeToBack.Day;
-                pair.DocumentCheckedOut = element.Title;
+                CheckedOut pair = new CheckedOut
+                {
+                    CheckOutTime = element.TimeToBack.Day,
+                    DocumentCheckedOut = element.Title
+                };
                 res.Insert(0, pair);
             }
             return res;
@@ -983,30 +960,21 @@ namespace I2P_Project.Classes
                 int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
                 if (passedDays > 0)
                 {
-                    OverdueInfo pair = new OverdueInfo();
-                    pair.Overdue = passedDays;
-                    pair.DocumentChekedOut = element.Title;
+                    OverdueInfo pair = new OverdueInfo
+                    {
+                        Overdue = passedDays,
+                        DocumentChekedOut = element.Title
+                    };
                     res.Add(pair);
                 }
             }
             return res;
         }
 
-        // TODO Я человек простой, вижу 0 референсов - удаляю
-        /// <summary> Returns a checkout info of particular document </summary>
-        private Checkouts GetOwnerInfo(int docID)
-        {
-            var test = from c in db.Checkouts
-                       where c.BookID == docID
-                       select c;
-            if (test.Any()) return test.Single();
-            else return null;
-        }
-
         public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
         {
             Users user = GetUser(Name);
-            List<CheckedOut> checkover = GetCheckout(Name);
+            List<CheckedOut> checkover = GetCheckoutsList(Name);
 
             return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
                 && user.UserType == UserType && EqualCheckouts(checkout, checkover);
@@ -1021,28 +989,11 @@ namespace I2P_Project.Classes
                 && user.UserType == UserType && EqualOverdues(overdues, checkoverdues);
         }
 
-        public bool DocExists(string Title)
+        public Document GetDocByTitle(string Title)
         {
-            var test = from d in db.Documents
-                       where d.Title.Equals(Title)
-                       select d;
-            return test.Any();
-        }
-
-        public bool UserExists(string Name)
-        {
-            var test = from u in db.Users
-                       where u.Name.Equals(Name)
-                       select u;
-            return test.Any();
-        }
-
-        public bool AmountOfDocs(string Title, int n)
-        {
-            var test = (from d in db.Documents
-                        where d.Title.Equals(Title)
-                        select d).Single();
-            return test.Quantity == n;
+            var test = from d in db.Documents where d.Title.Equals(Title) select d;
+            if (!test.Any()) return null;
+            return test.Single();
         }
 
         // [FOR TEST] (TestingTool.xaml)

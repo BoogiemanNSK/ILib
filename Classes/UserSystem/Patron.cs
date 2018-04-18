@@ -23,7 +23,7 @@ namespace I2P_Project.Classes.UserSystem
         /// <summary> Renews a book (can use a datecheat for testing) </summary>
         public string RenewDoc(int docID, params int[] DateCheat)
         {
-            return SDM.LMS.RenewDoc(docID, DateCheat);
+            return SDM.LMS.RenewDoc(PersonID, docID, DateCheat);
         }
 
         /// <summary> Returns a document from a user to the LMS </summary>

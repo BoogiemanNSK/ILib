@@ -34,7 +34,7 @@ namespace I2P_Project.Pages
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
-            myBooksTable.ItemsSource = SDM.LMS.GetUserBooks();
+            myBooksTable.ItemsSource = SDM.LMS.GetUserBooks(SDM.CurrentUser.PersonID);
             pm.EndWaiting();
         }
 

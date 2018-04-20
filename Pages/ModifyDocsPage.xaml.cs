@@ -31,7 +31,7 @@ namespace I2P_Project.Pages
             InitializeComponent();
             DocType.ItemsSource = SDM.Strings.DOC_TYPES;
 
-            Document doc = SDM.LMS.GetDocByID(docID);
+            Document doc = SDM.LMS.GetDoc(docID);
             TitleTB.AppendText(doc.Title);
             DescriptionTB.AppendText(doc.Description);
             PriceTB.AppendText(doc.Price.ToString());
@@ -46,13 +46,12 @@ namespace I2P_Project.Pages
             try
             {
                 Librarian lib = (Librarian)SDM.CurrentUser;
-                lib.ModifyDoc
+                SDM.LMS.ModifyAV
                     (
                         _docID,
                         TitleTB.ToString().Substring(TitleTB.ToString().IndexOf(":") + 2),
                         DescriptionTB.ToString().Substring(DescriptionTB.ToString().IndexOf(":") + 2),
-                        PriceTB.ToString().Substring(PriceTB.ToString().IndexOf(":") + 2),
-                        (bool)IsBestseller.IsChecked,
+                        Convert.ToInt32(PriceTB.ToString().Substring(PriceTB.ToString().IndexOf(":") + 2)),
                         DocType.SelectedIndex
                     );
             }

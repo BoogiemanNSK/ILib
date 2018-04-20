@@ -83,16 +83,6 @@ namespace I2P_Project.Classes.UserSystem
 
         #region TESTING
 
-        public void UpgradeUser(string Name, int ut)
-        {
-            SDM.LMS.UpgradeUser(Name, ut);
-        }
-
-        public List<CheckedOut> CheckCheckouts(string Name)
-        {
-            return SDM.LMS.GetCheckoutsList(Name);
-        }
-
         public void ShowUserCard(int userID)
         {
             var patron = SDM.LMS.GetUser(userID);

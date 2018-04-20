@@ -12,14 +12,6 @@ namespace I2P_Project.Classes.UserSystem
         /// <returns> Result of check out as message </returns>
         public abstract string CheckOut(int docID, params int[] DateCheat);
 
-        // TESTING
-        /// <summary> Check out by Title </summary>
-        /// <returns> Result of check out as message </returns>
-        public string CheckOut(string title, params int[] DateCheat)
-        {
-            return CheckOut(SDM.LMS.GetDocID(title), DateCheat);
-        }
-
         /// <summary> Renews a book (can use a datecheat for testing) </summary>
         public string RenewDoc(int docID, params int[] DateCheat)
         {
@@ -38,7 +30,7 @@ namespace I2P_Project.Classes.UserSystem
                 return SDM.Strings.USER_HAVE_FINE;
 
             SDM.LMS.ModifyAV(docID, doc.Title, doc.Autors, doc.Price, doc.Quantity + 1);
-            SDM.LMS.NotifyNextUser(docID);
+            SDM.LMS.NotifyNextUser(docID, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
 
             return SDM.Strings.SUCCESSFUL_RETURN + " " + SDM.LMS.GetDoc(docID).Title + "!";
         }
@@ -50,7 +42,7 @@ namespace I2P_Project.Classes.UserSystem
         
         protected string CheckAvailibility(Document doc)
         {
-            if (SDM.LMS.CheckDocBelongsToUser(doc.Id, PersonID))
+            if (SDM.LMS.GetCheckout(PersonID, doc.Id) != null)
                 return SDM.Strings.ALREADY_HAVE_TEXT;
             else if (doc.Queue.Length > 0)
             {

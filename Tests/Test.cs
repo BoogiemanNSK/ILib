@@ -89,7 +89,7 @@ namespace I2P_Project.Tests
             lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1);
             DocClass b = new DocClass("b");
             
-            st.CheckOut("b");
+            st.CheckOut(b.ID);
 
             Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
             Debug.Assert(SDM.LMS.GetUser(ft.PersonID) != null);

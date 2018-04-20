@@ -85,7 +85,7 @@ namespace I2P_Project.Classes
 
         public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
         {
-            bool notExist = !CheckDocExistence(title);
+            bool notExist = (GetDocByTitle(title) == null);
             if (notExist)
             {
                 Document newDoc = new Document
@@ -111,14 +111,14 @@ namespace I2P_Project.Classes
                             select p);
                 Document newDoc = test.Single();
                 newDoc.Quantity += quantity;
-                NotifyNextUser(newDoc.Id);
+                NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
             }
             db.SubmitChanges();
         }
 
         public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
         {
-            bool notExist = !CheckDocExistence(title);
+            bool notExist = (GetDocByTitle(title) == null);
             if (notExist)
             {
                 Document newDoc = new Document
@@ -142,14 +142,14 @@ namespace I2P_Project.Classes
                             select p);
                 Document newDoc = test.Single();
                 newDoc.Quantity += quantity;
-                NotifyNextUser(newDoc.Id);
+                NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
             }
             db.SubmitChanges();
         }
 
         public void AddAV(string title, string autors, int price, int quantity)
         {
-            bool notExist = !CheckDocExistence(title);
+            bool notExist = (GetDocByTitle(title) == null);
             if (notExist)
             {
                 Document newDoc = new Document
@@ -170,7 +170,7 @@ namespace I2P_Project.Classes
                             select p);
                 Document newDoc = test.Single();
                 newDoc.Quantity += quantity;
-                NotifyNextUser(newDoc.Id);
+                NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
             }
             db.SubmitChanges();
         }
@@ -347,9 +347,10 @@ namespace I2P_Project.Classes
                        where d.Id == docID
                        select d).Single();
 
-            NotifyNextUser(docID);
+            NotifyNextUser(docID, SDM.Strings.MAIL_BOOK_REQUESTED_TITLE, SDM.Strings.MAIL_BOOK_REQUESTED_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             while (doc.Queue.Length > 0) {
                 PopFromPQ(docID);
+                NotifyNextUser(docID, SDM.Strings.MAIL_BOOK_REQUESTED_TITLE, SDM.Strings.MAIL_BOOK_REQUESTED_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             }
 
             var test = from c in db.Checkouts
@@ -360,12 +361,12 @@ namespace I2P_Project.Classes
             {
                 if (c.TimeToBack.CompareTo(DateTime.Now) > 0)
                     c.TimeToBack = DateTime.Now;
+                SendNotificationToUser(GetUser(c.UserID).Address, SDM.Strings.MAIL_RETURN_BOOK_TITLE, SDM.Strings.MAIL_RETURN_BOOK_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             }
             doc.Queue = "";
 
             // TODO Чёт сомнительный костыль, от него проблем не будет?
-            // Нужно также отправить извещение всем в очереди (с правильным текстом)
-            // + я думаю всё же лучше добавить еще одно поле в БД, меньше костылей - меньше проблем
+            // Я думаю всё же лучше добавить еще одно поле в БД, меньше костылей - меньше проблем
             PushInPQ(docID, userID, 5);
 
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
@@ -555,8 +556,7 @@ namespace I2P_Project.Classes
         }
 
         #endregion
-
-        // TODO Ну опять же - тут можно пользоваться геттерами, обернув их в try-catch
+        
         #region DB Existence Check
 
         /// <summary> Checks if there exist a user with given login </summary>
@@ -568,13 +568,13 @@ namespace I2P_Project.Classes
             return test.Any();
         }
 
-        /// <summary> Checks if a user with given дщпшт has given password </summary>
+        /// <summary> Checks if a user with given login has given password </summary>
         public bool CheckPassword(string login, string password)
         {
             using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
             {
                 Cryptography cpt = new Cryptography();
-                password = cpt.GetHash(md5_hash, password);  // hashing password string by MD5
+                password = cpt.GetHash(md5_hash, password);  // Hashing password string by MD5
             }
 
             var test = (from p in db.Users
@@ -583,25 +583,8 @@ namespace I2P_Project.Classes
             return test.Any();
         }
 
-        /// <summary> Check existence of some checkout </summary>
-        public bool CheckDocBelongsToUser(int docID, int userID)
-        {
-            var test = from c in db.Checkouts where (c.UserID == userID && c.BookID == docID) select c;
-            return test.Any();
-        }
-
-        /// <summary> Checks if a book with given title exists in the system </summary>
-        private bool CheckDocExistence(string title)
-        {
-            var test = from p in db.Documents where (p.Title == title) select p;
-            return test.Any();
-        }
-
         #endregion
-
-        // TODO Нужно всё-таки соблюдать какую-то иерархию:
-        // чтобы были какие-то базовые геттеры (для трёх таблиц), ну и дальше использование уже их,
-        // а так повторение одних и тех же запросов в БД в каждом 5ом методе
+        
         #region DB Getters
 
         /// <summary> Returns document object from given ID </summary>
@@ -632,6 +615,14 @@ namespace I2P_Project.Classes
         public Users GetUserByLogin(string Login)
         {
             var test = from u in db.Users where u.Login == Login select u;
+            if (!test.Any()) return null;
+            return test.Single();
+        }
+
+        /// <summary> Returns document row from given title </summary>
+        public Document GetDocByTitle(string Title)
+        {
+            var test = from d in db.Documents where d.Title.Equals(Title) select d;
             if (!test.Any()) return null;
             return test.Single();
         }
@@ -706,12 +697,6 @@ namespace I2P_Project.Classes
         {
             PriorityQueue<int> PQ = LoadPQ(docID);
             PQ.Pop();
-            if (PQ.FirstElement != null)
-            { 
-                Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
-                Document doc = GetDoc(docID);
-                SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
-            }
             SavePQ(PQ, docID);
         }
 
@@ -726,14 +711,13 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Send mail for next user in queue if it is not empty </summary>
-        public void NotifyNextUser(int docID)
+        public void NotifyNextUser(int docID, string mailTitle, string mailText)
         {
             PriorityQueue<int> PQ = LoadPQ(docID);
             if (PQ.Length > 0)
             {
                 Users next = GetUser(Convert.ToInt32(PQ.FirstElement.Element));
-                Document doc = GetDoc(docID);
-                SendNotificationToUser(next.Address, SDM.Strings.MAIL_TITLE, SDM.Strings.MAIL_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
+                SendNotificationToUser(next.Address, mailTitle, mailText);
                 SavePQ(PQ, docID);
             }
         }
@@ -896,25 +880,9 @@ namespace I2P_Project.Classes
             return new HashSet<CheckedOut>(checkedOuts).SetEquals(neededInfo);
         }
 
-        public int GetDocID(string Title)
-        {
-            var document = (from doc in db.Documents
-                            where doc.Title.Equals(Title)
-                            select doc).Single();
-            return document.Id;
-        }
-
         private bool EqualOverdues(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
         {
             return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
-        }
-
-        public void UpgradeUser(string Name, int ut)
-        {
-            Users user = GetUser(Name);
-            if (ut < 5)
-                user.UserType = ut;
-            db.SubmitChanges();
         }
         
         public List<CheckedOut> GetCheckoutsList(string Name)
@@ -987,13 +955,6 @@ namespace I2P_Project.Classes
 
             return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
                 && user.UserType == UserType && EqualOverdues(overdues, checkoverdues);
-        }
-
-        public Document GetDocByTitle(string Title)
-        {
-            var test = from d in db.Documents where d.Title.Equals(Title) select d;
-            if (!test.Any()) return null;
-            return test.Single();
         }
 
         // [FOR TEST] (TestingTool.xaml)

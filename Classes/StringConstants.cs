@@ -32,6 +32,8 @@ class StringConstants {
     public string FINE_CONFIRMATION_TEXT => "Are you sure you want to pay fine?";
     public string DOC_ALREADY_RENEWED => "You already renew this book";
     public string DOC_IN_QUEUE => "This book is in queue";
+    public string DOC_IS_REQUESTED => "This book is requested by librarian";
+
     public string DB_DIRECTORY_NAME => "DataBases";
     public string DB_RELATIVE_PATH => "\\" + DB_DIRECTORY_NAME + "\\ILibDB.mdf";
 

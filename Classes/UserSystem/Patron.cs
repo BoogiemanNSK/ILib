@@ -42,18 +42,18 @@ namespace I2P_Project.Classes.UserSystem
         
         protected string CheckAvailibility(Document doc)
         {
-            if (SDM.LMS.GetCheckout(PersonID, doc.Id) != null)
+            if (doc.IsRequested)
+                return SDM.Strings.DOC_IS_REQUESTED;
+            else if (SDM.LMS.GetCheckout(PersonID, doc.Id) != null)
                 return SDM.Strings.ALREADY_HAVE_TEXT;
-            else if (doc.Queue.Length > 0)
-            {
+            else if (doc.Queue.Length > 0) {
                 if (doc.Queue.Split('|')[0].Equals(PersonID.ToString()))
                     return SDM.Strings.PERSON_FIRST_IN_QUEUE_TEXT;
                 else if (PersonInQueue(doc.Queue))
                     return SDM.Strings.PERSON_IN_QUEUE_TEXT;
                 else
                     return SDM.Strings.PERSON_NOT_IN_QUEUE_TEXT;
-            }
-            else if (doc.Quantity == 0)
+            } else if (doc.Quantity == 0)
                 return SDM.Strings.PERSON_NOT_IN_QUEUE_TEXT;
             return "";
         }

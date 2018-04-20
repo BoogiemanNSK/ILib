@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace I2P_Project.Classes.UserSystem
+﻿namespace I2P_Project.Classes.UserSystem
 {
 
     class Librarian : User
@@ -116,7 +114,6 @@ namespace I2P_Project.Classes.UserSystem
     public struct OverdueInfo
     {
         public string DocumentChekedOut { get; set; }
-        public int DocID { get; set; }
         public int Overdue { get; set; }
     }
 

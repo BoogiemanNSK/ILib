@@ -69,13 +69,13 @@ namespace I2P_Project.Classes
                 password = cpt.GetHash(md5_hash, password);  // Hashing password string by MD5
             }
 
-            Users newUser = new Users
-            {
+            Users newUser = new Users {
                 Login = login,
                 Password = password,
                 Name = name,
                 Address = adress,
                 PhoneNumber = phone,
+                IsDeleted = false,
                 UserType = (isLibrarian ? 5 : 0) // TODO Заменить на enum
             };
             db.Users.InsertOnSubmit(newUser);
@@ -99,6 +99,7 @@ namespace I2P_Project.Classes
                     Price = price,
                     DocType = 0,
                     IsBestseller = isBestseller,
+                    IsRequested = false,
                     Quantity = quantity,
                     Queue = ""
                 };
@@ -110,8 +111,10 @@ namespace I2P_Project.Classes
                             where (p.Title == title)
                             select p);
                 Document newDoc = test.Single();
+                if (newDoc.Quantity == 0) {
+                    NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
+                }
                 newDoc.Quantity += quantity;
-                NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
             }
             db.SubmitChanges();
         }
@@ -130,6 +133,7 @@ namespace I2P_Project.Classes
                     IssueEditor = issueEditor,
                     Price = price,
                     DocType = 1,
+                    IsRequested = false,
                     Quantity = quantity,
                     Queue = ""
                 };
@@ -141,8 +145,10 @@ namespace I2P_Project.Classes
                             where (p.Title == title)
                             select p);
                 Document newDoc = test.Single();
+                if (newDoc.Quantity == 0) {
+                    NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
+                }
                 newDoc.Quantity += quantity;
-                NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
             }
             db.SubmitChanges();
         }
@@ -158,6 +164,7 @@ namespace I2P_Project.Classes
                     Autors = autors,
                     Price = price,
                     DocType = 2,
+                    IsRequested = false,
                     Quantity = quantity,
                     Queue = ""
                 };
@@ -169,8 +176,10 @@ namespace I2P_Project.Classes
                             where (p.Title == title)
                             select p);
                 Document newDoc = test.Single();
+                if (newDoc.Quantity == 0) {
+                    NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
+                }
                 newDoc.Quantity += quantity;
-                NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
             }
             db.SubmitChanges();
         }
@@ -209,10 +218,8 @@ namespace I2P_Project.Classes
         public void RemoveUser(int patronID)
         {
             // Deleting user
-            var user_to_remove = (from d in db.Users
-                                  where d.Id == patronID
-                                  select d).Single();
-            db.Users.DeleteOnSubmit(user_to_remove);
+            var user_to_remove = GetUser(patronID);
+            user_to_remove.IsDeleted = true;
 
             // Deleting user`s checkouts
             var checkouts_to_remove = (from c in db.Checkouts
@@ -220,17 +227,13 @@ namespace I2P_Project.Classes
                                        select c);
             db.Checkouts.DeleteAllOnSubmit(checkouts_to_remove);
 
-            // TODO Нужно ещё как-то удалить юзера из очередей за книгами
-
             db.SubmitChanges();
         }
 
         /// <summary> Deletes registered doc from the system by ID </summary>
         internal void RemoveDocument(int doc_id)
         {
-            var record_to_remove = (from d in db.Documents
-                                    where (d.Id == doc_id)
-                                    select d).Single();
+            var record_to_remove = GetDoc(doc_id);
             db.Documents.DeleteOnSubmit(record_to_remove);
             db.SubmitChanges();
         }
@@ -245,7 +248,7 @@ namespace I2P_Project.Classes
 
         #endregion
 
-        // TODO Формальные исправления
+        // TODO Заменить числа на enumы
         #region DB Updating
 
         /// <summary> Updates user info </summary>
@@ -259,8 +262,7 @@ namespace I2P_Project.Classes
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
             db.SubmitChanges();
         }
-
-        // TODO Заменить числа на enumы
+        
         /// <summary> Updates book info </summary>
         public void ModifyBook(int docID, string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
         {
@@ -278,8 +280,7 @@ namespace I2P_Project.Classes
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, book);
             db.SubmitChanges();
         }
-
-        // TODO Заменить числа на enumы
+        
         /// <summary> Updates journal info </summary>
         public void ModifyJournal(int docID, string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
         {
@@ -295,8 +296,7 @@ namespace I2P_Project.Classes
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, journal);
             db.SubmitChanges();
         }
-
-        // TODO Заменить числа на enumы
+        
         /// <summary> Updates AV info </summary>
         public void ModifyAV(int docID, string title, string autors, int price, int quantity)
         {
@@ -309,32 +309,31 @@ namespace I2P_Project.Classes
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, AV);
             db.SubmitChanges();
         }
-
-        // TODO Проверить на правильность
+        
         public string RenewDoc(int userID, int docID, params int[] DateCheat)
         {
             DateTime time;
             Users CurrentUser = GetUser(userID);
+            Checkouts c = GetCheckout(userID, docID);
+            Document doc = GetDoc(docID);
 
             if (DateCheat.Length == 0)
                 time = DateTime.Now;
             else
                 time = new DateTime(DateCheat[2], DateCheat[1], DateCheat[0]);
 
-            var doc = (from book in db.Checkouts
-                       where book.BookID == docID && CurrentUser.Id == book.UserID
-                       select book).Single();
-            if (doc.IsRenewed && CurrentUser.UserType != 3)
+            if (doc.IsRequested)
+                return SDM.Strings.DOC_IS_REQUESTED;
+            else if (c.IsRenewed && CurrentUser.UserType != 3)
                 return SDM.Strings.DOC_ALREADY_RENEWED;
             else if (ExistQueueForDoc(docID))
                 return SDM.Strings.DOC_IN_QUEUE;
             else if (GetUserFineForDoc(CurrentUser.Id, docID) > 0)
                 return SDM.Strings.USER_HAVE_FINE;
-            else
-            {
-                doc.TimeToBack = time.Add(doc.TimeToBack.Subtract((DateTime)doc.DateTaked));
-                doc.DateTaked = time;
-                doc.IsRenewed = true;
+            else {
+                c.TimeToBack = time.Add(c.TimeToBack.Subtract((DateTime)c.DateTaked));
+                c.DateTaked = time;
+                c.IsRenewed = true;
                 db.SubmitChanges();
                 return SDM.Strings.SUCCESSFUL_RENEW;
             }
@@ -363,11 +362,9 @@ namespace I2P_Project.Classes
                     c.TimeToBack = DateTime.Now;
                 SendNotificationToUser(GetUser(c.UserID).Address, SDM.Strings.MAIL_RETURN_BOOK_TITLE, SDM.Strings.MAIL_RETURN_BOOK_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             }
-            doc.Queue = "";
 
-            // TODO Чёт сомнительный костыль, от него проблем не будет?
-            // Я думаю всё же лучше добавить еще одно поле в БД, меньше костылей - меньше проблем
-            PushInPQ(docID, userID, 5);
+            doc.Queue = "";
+            doc.IsRequested = true;
 
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
@@ -472,7 +469,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                             where p.UserType != 5 // TODO Заменить на enum
+                             where p.UserType != 5 && !p.IsDeleted // TODO Заменить на enum
                              select new
                              {
                                  p.Id,
@@ -562,10 +559,7 @@ namespace I2P_Project.Classes
         /// <summary> Checks if there exist a user with given login </summary>
         public bool CheckLogin(string login)
         {
-            var test = (from p in db.Users
-                        where p.Login == login
-                        select p);
-            return test.Any();
+            return GetUserByLogin(login) != null;
         }
 
         /// <summary> Checks if a user with given login has given password </summary>
@@ -598,7 +592,7 @@ namespace I2P_Project.Classes
         /// <summary> Returns user row from given ID </summary>
         public Users GetUser(int userID)
         {
-            var test = from u in db.Users where u.Id == userID select u;
+            var test = from u in db.Users where u.Id == userID && !u.IsDeleted select u;
             if (!test.Any()) return null;
             return test.Single();
         }
@@ -614,7 +608,7 @@ namespace I2P_Project.Classes
         /// <summary> Returns user row from given login </summary>
         public Users GetUserByLogin(string Login)
         {
-            var test = from u in db.Users where u.Login == Login select u;
+            var test = from u in db.Users where u.Login == Login && !u.IsDeleted select u;
             if (!test.Any()) return null;
             return test.Single();
         }
@@ -652,10 +646,7 @@ namespace I2P_Project.Classes
         /// <summary> Counts user`s fine for some doc </summary>
         public int GetUserFineForDoc(int userID, int docID)
         {
-            var test = from c in db.Checkouts
-                       where c.BookID == docID && c.UserID == userID
-                       select c;
-            Checkouts testCheck = test.Single();
+            Checkouts testCheck = GetCheckout(userID, docID);
 
             int overduedTime = (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
             if (overduedTime > 0)
@@ -697,16 +688,15 @@ namespace I2P_Project.Classes
         {
             PriorityQueue<int> PQ = LoadPQ(docID);
             PQ.Pop();
+            while (PQ.Length > 0 && GetUser(PQ.FirstElement.Element).IsDeleted) { PQ.Pop(); }
             SavePQ(PQ, docID);
         }
 
         /// <summary> Checks if queue for doc with given ID exists </summary>
         public bool ExistQueueForDoc(int docID)
         {
-            var test = from doc in db.Documents
-                       where doc.Id == docID
-                       select doc.Queue;
-            if (test.Single().Length > 0) return true;
+            string queue = GetDoc(docID).Queue;
+            if (queue.Length > 0) return true;
             return false;
         }
 
@@ -865,7 +855,7 @@ namespace I2P_Project.Classes
 
         public Users GetUser(string Name)
         {
-            var test = from u in db.Users where u.Name == Name select u;
+            var test = from u in db.Users where u.Name == Name && !u.IsDeleted select u;
             return test.Single();
         }
 
@@ -888,10 +878,9 @@ namespace I2P_Project.Classes
         public List<CheckedOut> GetCheckoutsList(string Name)
         {
             Users user = GetUser(Name);
-            int userID = user.Id;
             List<CheckedOut> res = new List<CheckedOut>();
             var load_user_books = from c in db.Checkouts
-                                  where c.UserID == userID
+                                  where c.UserID == user.Id
                                   join b in db.Documents on c.BookID equals b.Id
                                   select new
                                   {
@@ -913,10 +902,9 @@ namespace I2P_Project.Classes
         public List<OverdueInfo> GetOverdues(string Name)
         {
             Users user = GetUser(Name);
-            int userID = user.Id;
             List<OverdueInfo> res = new List<OverdueInfo>();
             var load_user_books = from c in db.Checkouts
-                                  where c.UserID == userID
+                                  where c.UserID == user.Id
                                   join b in db.Documents on c.BookID equals b.Id
                                   select new
                                   {
@@ -995,7 +983,7 @@ namespace I2P_Project.Classes
         public ObservableCollection<Pages.UserTable> TestUsersTable()
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
-            var load_users = from u in db.Users
+            var load_users = from u in db.Users where !u.IsDeleted
                              select new
                              {
                                  u.Id,

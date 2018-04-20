@@ -1,18 +1,7 @@
 ﻿using I2P_Project.Classes;
-using I2P_Project.Tests;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using I2P_Project.Classes.UserSystem;
 
 namespace I2P_Project.Pages
@@ -30,7 +19,7 @@ namespace I2P_Project.Pages
 
         private void OnAddBook(object sender, RoutedEventArgs e)
         {
-            AddDocPage page = new AddDocPage(this);
+            AddDocPage page = new AddDocPage(this, true, 0);
             page.ShowDialog();
         }
 
@@ -57,8 +46,7 @@ namespace I2P_Project.Pages
             if (dgLibrarianDocuments.SelectedIndex != -1 && dgLibrarianDocuments.SelectedItems[0] != null)
             {
                 DocumentsTable doc_row = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
-                int doc_id = doc_row.docID;
-                ModifyBooksPage page =  new ModifyBooksPage(doc_id, this);
+                AddDocPage page =  new AddDocPage(this, false, doc_row.docID);
                 page.ShowDialog();
                 
             }

@@ -21,6 +21,8 @@
             else if (result == SDM.Strings.PERSON_FIRST_IN_QUEUE_TEXT)
             {
                 SDM.LMS.PopFromPQ(doc.Id);
+                if (doc.Quantity > 1)
+                    SDM.LMS.NotifyNextUser(DocID, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             }
             else if (result != "") return result;
             

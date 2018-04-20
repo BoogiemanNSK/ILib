@@ -115,8 +115,14 @@
     <Compile Include="Pages\DocumentsManagementPage.xaml.cs">
       <DependentUpon>DocumentsManagementPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ModifyDocsPage.xaml.cs">
-      <DependentUpon>ModifyDocsPage.xaml</DependentUpon>
+    <Compile Include="Pages\ModifyAVPage.xaml.cs">
+      <DependentUpon>ModifyAVPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ModifyBookPage.xaml.cs">
+      <DependentUpon>ModifyBookPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ModifyJournalPage.xaml.cs">
+      <DependentUpon>ModifyJournalPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\OverdueInfo.xaml.cs">
       <DependentUpon>OverdueInfo.xaml</DependentUpon>
@@ -166,9 +172,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ModifyDocsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Pages\ModifyAVPage.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ModifyBookPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ModifyJournalPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ModifyUserPage.xaml">
       <SubType>Designer</SubType>

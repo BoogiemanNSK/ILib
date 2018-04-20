@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Text.RegularExpressions;
 using I2P_Project.Classes;
 
 namespace I2P_Project.Pages
@@ -28,8 +15,8 @@ namespace I2P_Project.Pages
         {
             _register = b;
             InitializeComponent();
-            if (b) Title.Content = SDM.Strings.ADD_USER_PAGE_TITLE;
-            else Title.Content = SDM.Strings.REGISTER_PAGE_TITLE;
+            if (b) SignUpTitle.Content = SDM.Strings.ADD_USER_PAGE_TITLE;
+            else SignUpTitle.Content = SDM.Strings.REGISTER_PAGE_TITLE;
         }
 
         private void OnRegisterClick(object sender, RoutedEventArgs e)

@@ -16,9 +16,15 @@ class StringConstants {
 
     public string MAIL_SERVER_LOGIN => "ilib.mail2018";
     public string MAIL_SERVER_PASSWORD => "Faraday28";
-    public string MAIL_TITLE => "Book is Availible!";
-    public string MAIL_TEXT(string docTitle, string docType) => "\r" + docType + " " + docTitle +
+    public string MAIL_BOOK_AVAILIBLE_TITLE => "Document is Availible!";
+    public string MAIL_BOOK_AVAILIBLE_TEXT(string docTitle, string docType) => "\r" + docType + " " + docTitle +
         " is now availible. Check it out in iLib!\n\rhttps://github.com/BoogiemanNSK/ILib";
+    public string MAIL_BOOK_REQUESTED_TITLE => "You have been deleted from the queue";
+    public string MAIL_BOOK_REQUESTED_TEXT(string docTitle, string docType) => "\rYou have been deleted from the queue for " + docType + " " + docTitle +
+        " since it was requested by librarian and not availible anymore. Sorry for any inconvenience.";
+    public string MAIL_RETURN_BOOK_TITLE => "You have to return the document";
+    public string MAIL_RETURN_BOOK_TEXT(string docTitle, string docType) => "\rYou have one day to return " + docType + " " + docTitle +
+        " since it was requested by librarian. Sorry for any inconvenience.";
 
     public string SUCCESSFUL_RENEW => "Successfuly renewed";
 
@@ -26,6 +32,8 @@ class StringConstants {
     public string FINE_CONFIRMATION_TEXT => "Are you sure you want to pay fine?";
     public string DOC_ALREADY_RENEWED => "You already renew this book";
     public string DOC_IN_QUEUE => "This book is in queue";
+    public string DOC_IS_REQUESTED => "This book is requested by librarian";
+
     public string DB_DIRECTORY_NAME => "DataBases";
     public string DB_RELATIVE_PATH => "\\" + DB_DIRECTORY_NAME + "\\ILibDB.mdf";
 
@@ -38,6 +46,7 @@ class StringConstants {
     public string SUCCESS_CHECK_OUT_TEXT => "Successfully checked out";
     public string PERSON_IN_QUEUE_TEXT => "You are already in the queue for this book";
     public string PERSON_FIRST_IN_QUEUE_TEXT => "Since you are first for this book, you can check it out";
+    public string DOC_DOES_NOT_EXIST => "Such document does not exist";
 
 
     public string CHECK_OUT_CONFIRMATION_TEXT => "Are you sure you want to check out this book?";

@@ -6,33 +6,32 @@
 
         /// <summary> Checks out a book for a current student user </summary>
         /// <returns> Result of check out as message </returns>
-        public override string CheckOut(string title, params int[] DateCheat)
+        public override string CheckOut(int DocID, params int[] DateCheat)
         {
-            DataBase.Document doc = null;
-            string result = CheckAvailibility(title);
+            DataBase.Document doc = SDM.LMS.GetDoc(DocID);
+
+            if (doc == null) return SDM.Strings.DOC_DOES_NOT_EXIST;
+            string result = CheckAvailibility(doc);
 
             if (result == SDM.Strings.PERSON_NOT_IN_QUEUE_TEXT)
             {
-                doc = GetDocumentForCheckOut(title);
                 SDM.LMS.PushInPQ(doc.Id, PersonID, UserType);
                 return result;
             }
             else if (result == SDM.Strings.PERSON_FIRST_IN_QUEUE_TEXT)
             {
-                doc = GetDocumentForCheckOut(title);
                 SDM.LMS.PopFromPQ(doc.Id);
+                if (doc.Quantity > 1)
+                    SDM.LMS.NotifyNextUser(DocID, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             }
             else if (result != "") return result;
-
-            doc = GetDocumentForCheckOut(title);
-            doc.Quantity--;
-            uDB.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
-            uDB.SubmitChanges();
+            
+            SDM.LMS.ModifyAV(DocID, doc.Title, doc.Autors, doc.Price, doc.Quantity - 1);
 
             if (doc.IsBestseller || doc.DocType != 0)
-                SetCheckOut(doc.Id, 2, DateCheat);
+                SDM.LMS.SetCheckOut(PersonID, doc.Id, 2, DateCheat);
             else
-                SetCheckOut(doc.Id, 3, DateCheat);
+                SDM.LMS.SetCheckOut(PersonID, doc.Id, 3, DateCheat);
 
             return SDM.Strings.SUCCESS_CHECK_OUT_TEXT + " " + doc.Title + " !";
         }

@@ -87,6 +87,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\Cryptography.cs" />
+    <Compile Include="Classes\DocClass.cs" />
     <Compile Include="Classes\LMSDataBase.cs" />
     <Compile Include="Classes\PriorityQueue.cs" />
     <Compile Include="Classes\ProcessManager.cs" />
@@ -114,8 +115,14 @@
     <Compile Include="Pages\DocumentsManagementPage.xaml.cs">
       <DependentUpon>DocumentsManagementPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ModifyDocsPage.xaml.cs">
-      <DependentUpon>ModifyDocsPage.xaml</DependentUpon>
+    <Compile Include="Pages\ModifyAVPage.xaml.cs">
+      <DependentUpon>ModifyAVPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ModifyBookPage.xaml.cs">
+      <DependentUpon>ModifyBookPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ModifyJournalPage.xaml.cs">
+      <DependentUpon>ModifyJournalPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\OverdueInfo.xaml.cs">
       <DependentUpon>OverdueInfo.xaml</DependentUpon>
@@ -165,9 +172,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ModifyDocsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Pages\ModifyAVPage.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ModifyBookPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ModifyJournalPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ModifyUserPage.xaml">
       <SubType>Designer</SubType>
@@ -279,10 +294,6 @@
     <Resource Include="Sprites\back.png" />
   </ItemGroup>
   <ItemGroup Condition="$(VisualStudioVersion) == '15.0'">
-    <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=13.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>$(SSDTPath)\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTesting, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.dll</HintPath>
       <Private>True</Private>

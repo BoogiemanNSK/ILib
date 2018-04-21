@@ -51,9 +51,9 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="Auto"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
-                <DataGridTextColumn Header="Is Reference?" Binding="{Binding isReference}" Width="Auto"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="Auto"/>
-                <DataGridTextColumn Header="Owner ID" Binding="{Binding docOwnerID}" Width="Auto"/>
+                <DataGridTextColumn Header="Owner ID" Binding="{Binding docPrice}" Width="Auto"/>
+                <DataGridTextColumn Header="Owner ID" Binding="{Binding docQuantity}" Width="Auto"/>
                 <DataGridTextColumn Header="Taked" Binding="{Binding dateTaked}" Width="Auto"/>
                 <DataGridTextColumn Header="Deadline" Binding="{Binding timeToBack}" Width="Auto"/>
             </DataGrid.Columns>

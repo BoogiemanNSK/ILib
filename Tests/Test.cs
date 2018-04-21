@@ -48,7 +48,7 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             Student st = new Student("st");
             Librarian lb = new Librarian("lb");
-            
+
             DocClass A = new DocClass("A");
             
             st.CheckOut(A.ID);

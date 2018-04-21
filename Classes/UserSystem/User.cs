@@ -10,7 +10,8 @@ namespace I2P_Project.Classes.UserSystem
                 
         public User(string login)
         {
-            _current = SDM.LMS.GetUserByLogin(login);
+            _current = SDM.LMS.GetUserByLogin(login) ?? 
+                new Users() { Id = -1, Login = "", Password = "", IsDeleted = true, UserType = -1, LibrarianType = -1 };
         }
 
         /// <summary> Getters from DB </summary>

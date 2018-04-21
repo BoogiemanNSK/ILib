@@ -265,8 +265,7 @@ namespace I2P_Project.Classes
         }
 
         #endregion
-
-      
+        
         #region DB Updating
 
         /// <summary> Updates user info </summary>

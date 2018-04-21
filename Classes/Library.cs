@@ -245,6 +245,23 @@ namespace I2P_Project.Classes
             db.ExecuteCommand("DELETE FROM documents");
             db.ExecuteCommand("DELETE FROM users");
             db.ExecuteCommand("DELETE FROM checkouts");
+            GenerateAdmin();
+        }
+
+        private void GenerateAdmin()
+        {
+            Users admin = new Users {
+                Login = "admin",
+                Password = "admin",
+                Name = "Administrator",
+                Address = "Asministration",
+                PhoneNumber = ":)",
+                IsDeleted = false,
+                UserType = 6,
+                LibrarianType = 0
+            };
+            db.Users.InsertOnSubmit(admin);
+            db.SubmitChanges();
         }
 
         #endregion
@@ -259,7 +276,11 @@ namespace I2P_Project.Classes
             user.Name = userName;
             user.Address = userAdress;
             user.PhoneNumber = userPhoneNumber;
-            user.UserType = userType;
+            if (user.UserType == 5) {
+                user.LibrarianType = userType;
+            } else {
+                user.UserType = userType;
+            }
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
             db.SubmitChanges();
         }
@@ -470,7 +491,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                             where p.UserType != 5 && !p.IsDeleted // TODO Заменить на enum
+                             where p.UserType < 5 && !p.IsDeleted // TODO Заменить на enum
                              select new
                              {
                                  p.Id,
@@ -488,7 +509,34 @@ namespace I2P_Project.Classes
                 temp_table.Add(row);
             }
             return temp_table;
-        }      
+        }
+
+        /// <summary>
+        /// Returns collection of all librarians only
+        /// Usage: LibrariansManagementPage.xaml
+        /// </summary>
+        public ObservableCollection<Pages.AdminUserView> AdminViewUserTable()
+        {
+            ObservableCollection<Pages.AdminUserView> temp_table = new ObservableCollection<Pages.AdminUserView>();
+            var load_users = from p in db.Users
+                             where p.UserType == 5 && !p.IsDeleted // TODO Заменить на enum
+                             select new {
+                                 p.Id,
+                                 p.Login,
+                                 p.Name,
+                                 p.LibrarianType
+                             };
+            foreach (var element in load_users) {
+                Pages.AdminUserView row = new Pages.AdminUserView {
+                    LibrarianID = element.Id,
+                    LibrarianLogin = element.Login,
+                    LibrarianName = element.Name,
+                    LibrarianType = element.LibrarianType
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
 
         /// <summary>
         /// Return a list of all docs registered in system
@@ -617,7 +665,7 @@ namespace I2P_Project.Classes
         /// <summary> Returns document row from given title </summary>
         public Document GetDocByTitle(string Title)
         {
-            var test = from d in db.Documents where d.Title.Equals(Title) select d;
+            var test = from d in db.Documents where d.Title == Title select d;
             if (!test.Any()) return null;
             return test.Single();
         }
@@ -984,7 +1032,7 @@ namespace I2P_Project.Classes
         public ObservableCollection<Pages.UserTable> TestUsersTable()
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
-            var load_users = from u in db.Users where !u.IsDeleted
+            var load_users = from u in db.Users where u.UserType < 6 && !u.IsDeleted
                              select new
                              {
                                  u.Id,

@@ -9,6 +9,13 @@ namespace I2P_Project.Tests
 {
     class Test
     {
+        private Admin admin;
+
+        public Test()
+        {
+            SDM.LMS.ClearDB();
+            admin = new Admin("admin");
+        }
         
         public void Test1()
         {
@@ -18,6 +25,8 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             Student st = new Student("st");
             Librarian lb = new Librarian("lb");
+
+            admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
             
             lb.AddAV("b", "b", 0, 2);
             DocClass b = new DocClass("b");

@@ -13,6 +13,8 @@ namespace I2P_Project.Pages
 
         public AddDocPage(DocumentsManagementPage page, bool add, int docID)
         {
+            _add = add;
+            _docID = docID;
             _previousPage = page;
             InitializeComponent();
         }

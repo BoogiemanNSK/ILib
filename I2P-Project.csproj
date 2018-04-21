@@ -94,6 +94,7 @@
     <Compile Include="Classes\SDM.cs" />
     <Compile Include="Classes\Library.cs" />
     <Compile Include="Classes\StringConstants.cs" />
+    <Compile Include="Classes\UserSystem\Admin.cs" />
     <Compile Include="Classes\UserSystem\Faculty.cs" />
     <Compile Include="Classes\UserSystem\Librarian.cs" />
     <Compile Include="Classes\UserSystem\Patron.cs" />
@@ -112,8 +113,14 @@
     <Compile Include="Pages\AddBookPage.xaml.cs">
       <DependentUpon>AddBookPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AddLibrarianPage.xaml.cs">
+      <DependentUpon>AddLibrarianPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\DocumentsManagementPage.xaml.cs">
       <DependentUpon>DocumentsManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LibrariansManagementPage.xaml.cs">
+      <DependentUpon>LibrariansManagementPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ModifyAVPage.xaml.cs">
       <DependentUpon>ModifyAVPage.xaml</DependentUpon>
@@ -164,7 +171,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\AddLibrarianPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\DocumentsManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\LibrariansManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

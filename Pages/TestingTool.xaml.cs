@@ -14,8 +14,8 @@ namespace I2P_Project.Pages
         public TestingTool()
         {
             InitializeComponent();
-            UpdateTables();
             test = new Test();
+            UpdateTables();
         }
 
         private void UpdateTables()

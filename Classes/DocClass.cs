@@ -12,7 +12,6 @@ namespace I2P_Project.Classes
         {
             _current = SDM.LMS.GetDocByTitle(title);
         }
-
         /// <summary> Getters from DB </summary>
         public int ID { get { return _current.Id; } }
         public string Title { get { return _current.Title; } }

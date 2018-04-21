@@ -25,7 +25,7 @@ namespace I2P_Project.Pages
             UserAdress.Text = user.Address;
             UserPhoneNumber.Text = user.PhoneNumber;
 
-            if (user.UserType == 5) {
+            if (user.UserType == (int) I2P_Project.Classes.UserSystem.UserType.Librarian) {
                 Title = "Modify Librarian";
                 UserTypeTitle.Content = "Librarian Type";
                 ModifyButtonContent.Content = "Modify Librarian";

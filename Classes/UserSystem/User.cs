@@ -20,4 +20,14 @@ namespace I2P_Project.Classes.UserSystem
         public int PersonID { get { return _current.Id;  } }
         public int UserType { get { return _current.UserType; } }
     }
+	public enum UserType
+	{
+		Student,
+		Instructor,
+		TA,
+		VisitingProfessor,
+		Professor,
+		Librarian,
+		Admin
+	}
 }

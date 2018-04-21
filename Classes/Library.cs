@@ -76,7 +76,7 @@ namespace I2P_Project.Classes
                 Address = adress,
                 PhoneNumber = phone,
                 IsDeleted = false,
-                UserType = (isLibrarian ? 5 : 0), // TODO Заменить на enum
+                UserType = (int) (isLibrarian ? UserType.Librarian : UserType.Student), 
                 LibrarianType = 0
             };
             db.Users.InsertOnSubmit(newUser);
@@ -266,7 +266,7 @@ namespace I2P_Project.Classes
 
         #endregion
 
-        // TODO Заменить числа на enumы
+      
         #region DB Updating
 
         /// <summary> Updates user info </summary>
@@ -276,7 +276,7 @@ namespace I2P_Project.Classes
             user.Name = userName;
             user.Address = userAdress;
             user.PhoneNumber = userPhoneNumber;
-            if (user.UserType == 5) {
+            if (user.UserType == (int) UserType.Librarian) {
                 user.LibrarianType = userType;
             } else {
                 user.UserType = userType;
@@ -491,7 +491,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                             where p.UserType < 5 && !p.IsDeleted // TODO Заменить на enum
+                             where p.UserType < (int) UserType.Librarian && !p.IsDeleted
                              select new
                              {
                                  p.Id,
@@ -519,7 +519,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.AdminUserView> temp_table = new ObservableCollection<Pages.AdminUserView>();
             var load_users = from p in db.Users
-                             where p.UserType == 5 && !p.IsDeleted // TODO Заменить на enum
+                             where p.UserType ==(int) UserType.Librarian && !p.IsDeleted
                              select new {
                                  p.Id,
                                  p.Login,

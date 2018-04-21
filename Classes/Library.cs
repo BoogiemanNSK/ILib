@@ -98,7 +98,7 @@ namespace I2P_Project.Classes
                     Edition = edition,
                     Description = description,
                     Price = price,
-                    DocType = 0,
+                    DocType = (int) DocType.Book,
                     IsBestseller = isBestseller,
                     IsRequested = false,
                     Quantity = quantity,
@@ -133,7 +133,7 @@ namespace I2P_Project.Classes
                     IssueTitle = issueTitle,
                     IssueEditor = issueEditor,
                     Price = price,
-                    DocType = 1,
+                    DocType = (int) DocType.Journal,
                     IsRequested = false,
                     Quantity = quantity,
                     Queue = ""
@@ -164,7 +164,7 @@ namespace I2P_Project.Classes
                     Title = title,
                     Autors = autors,
                     Price = price,
-                    DocType = 2,
+                    DocType = (int) DocType.AV,
                     IsRequested = false,
                     Quantity = quantity,
                     Queue = ""
@@ -298,7 +298,7 @@ namespace I2P_Project.Classes
             book.Price = price;
             book.IsBestseller = isBestseller;
             book.Quantity = quantity;
-            book.DocType = 0;
+            book.DocType = (int) DocType.Book;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, book);
             db.SubmitChanges();
         }
@@ -314,7 +314,7 @@ namespace I2P_Project.Classes
             journal.IssueEditor = issueEditor;
             journal.Price = price;
             journal.Quantity = quantity;
-            journal.DocType = 1;
+            journal.DocType = (int) DocType.Journal;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, journal);
             db.SubmitChanges();
         }
@@ -327,7 +327,7 @@ namespace I2P_Project.Classes
             AV.Autors = autors;
             AV.Price = price;
             AV.Quantity = quantity;
-            AV.DocType = 2;
+            AV.DocType = (int) DocType.AV;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, AV);
             db.SubmitChanges();
         }

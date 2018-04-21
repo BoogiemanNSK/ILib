@@ -19,5 +19,13 @@ namespace I2P_Project.Classes
         public int Price { get { return _current.Price; } }
         public int DocType { get { return _current.DocType; } }
         public int Quantity { get { return _current.Quantity; } }
+
+		
     }
+	public enum DocType
+	{
+		Book,
+		Journal,
+		AV
+	}
 }

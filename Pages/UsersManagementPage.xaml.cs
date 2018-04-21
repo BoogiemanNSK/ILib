@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using I2P_Project.Classes;
+using I2P_Project.Classes.UserSystem;
 
 namespace I2P_Project.Pages
 {
@@ -12,6 +13,10 @@ namespace I2P_Project.Pages
         public UsersManagementPage()
         {
             InitializeComponent();
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            if (lb.LibrarianType < 1) {
+                AddUserButton.Visibility = Visibility.Hidden;
+            }
             UpdateTable();
         }
 

@@ -16,6 +16,10 @@ namespace I2P_Project.Pages
         public UserCard(int patronID)
         {
             InitializeComponent();
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            if (lb.LibrarianType < 2) {
+                DeleteUserButton.Visibility = Visibility.Hidden;
+            }
             _patronID = patronID;
 
             Users user = SDM.LMS.GetUser(patronID);

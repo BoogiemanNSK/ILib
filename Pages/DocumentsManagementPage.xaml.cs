@@ -14,6 +14,13 @@ namespace I2P_Project.Pages
         public DocumentsManagementPage()
         {
             InitializeComponent();
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            if (lb.LibrarianType < 2) {
+                DeleteColumn.Visibility = Visibility.Hidden;
+            }
+            if (lb.LibrarianType < 1) {
+                AddBookButton.Visibility = Visibility.Hidden;
+            }
             updateTable();
         }
 

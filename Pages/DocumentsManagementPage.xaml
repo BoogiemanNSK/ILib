@@ -26,7 +26,7 @@
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Click="OnAddBook" Width="32" Content="&#xE109;" Margin="5,5,5,5" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
                     FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Style="{DynamicResource ButtonStyle}"
-                    ToolTip="Add document"/>
+                    ToolTip="Add document" Name="AddBookButton"/>
             <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
                      VerticalContentAlignment="Center"/>
             <Button Click="OnSearch" Width="95" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
@@ -63,10 +63,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn CanUserResize="False">
+                <DataGridTemplateColumn x:Name="DeleteColumn" CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="&#xE107;" Width="30" Height="30" FontWeight="Bold" ToolTip="Delete document"
+                            <Button Content="&#xE107;" Width="30" Height="30" FontWeight="Bold" ToolTip="Delete document" 
                                     Style="{DynamicResource ButtonTableStyle}"
                                     Cursor="Hand" Click="OnDeleteBook" Background="White" BorderBrush="{x:Null}" Foreground="Black"
                                     FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"/>

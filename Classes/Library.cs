@@ -76,7 +76,8 @@ namespace I2P_Project.Classes
                 Address = adress,
                 PhoneNumber = phone,
                 IsDeleted = false,
-                UserType = (isLibrarian ? 5 : 0) // TODO Заменить на enum
+                UserType = (isLibrarian ? 5 : 0), // TODO Заменить на enum
+                LibrarianType = 0
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();

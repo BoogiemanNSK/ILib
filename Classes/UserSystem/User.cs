@@ -6,7 +6,7 @@ namespace I2P_Project.Classes.UserSystem
     abstract class User
     {
         /// <summary> Row from Users table, for access in constant time </summary>
-        private Users _current;
+        protected Users _current;
                 
         public User(string login)
         {

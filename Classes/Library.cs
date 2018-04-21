@@ -910,7 +910,7 @@ namespace I2P_Project.Classes
         public int OverdueTime(int userID, int docID)
         {
             Checkouts testCheck = GetCheckout(userID, docID);
-            return (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
+            return (int)testCheck.TimeToBack.Subtract(DateTime.Now).TotalDays;
         }
 
         private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)

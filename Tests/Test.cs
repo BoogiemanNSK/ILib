@@ -9,6 +9,13 @@ namespace I2P_Project.Tests
 {
     class Test
     {
+        private Admin admin;
+
+        public Test()
+        {
+            SDM.LMS.ClearDB();
+            admin = new Admin("admin");
+        }
         
         public void Test1()
         {
@@ -18,6 +25,8 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             Student st = new Student("st");
             Librarian lb = new Librarian("lb");
+
+            admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
             
             lb.AddAV("b", "b", 0, 2);
             DocClass b = new DocClass("b");
@@ -39,7 +48,7 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             Student st = new Student("st");
             Librarian lb = new Librarian("lb");
-            
+
             DocClass A = new DocClass("A");
             
             st.CheckOut(A.ID);
@@ -53,18 +62,19 @@ namespace I2P_Project.Tests
         public void Test3()
         {
             SDM.LMS.ClearDB();
-            
+
             SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
             SDM.LMS.RegisterUser("ft", "ft", "ft", "ft", "ft", false);
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             Student st = new Student("st");
             Faculty ft = new Faculty("ft");
             Librarian lb = new Librarian("lb");
-            
-            lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1);
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+
+			lb.AddBook("b", "b", "B", 0, "B", "B", 0, false, 1);
             DocClass b = new DocClass("b");
-            
-            ft.CheckOut(b.ID);
+			
+			ft.CheckOut(b.ID);
 
             Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
             Debug.Assert(SDM.LMS.GetUser(ft.PersonID) != null);
@@ -85,8 +95,9 @@ namespace I2P_Project.Tests
             Student st = new Student("st");
             Faculty ft = new Faculty("ft");
             Librarian lb = new Librarian("lb");
-            
-            lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1);
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1);
             DocClass b = new DocClass("b");
             
             st.CheckOut(b.ID);
@@ -97,7 +108,7 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
             Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(ft.PersonID, b.ID) / 7 == 2);
+            Debug.Assert(SDM.LMS.OverdueTime(st.PersonID, b.ID) / 7 == 2);
         }
 
         public void Test5()
@@ -112,8 +123,9 @@ namespace I2P_Project.Tests
             Student st1 = new Student("st1");
             Student st2 = new Student("st2");
             Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            lb.AddAV("a", "a", 0, 2);
+			lb.AddAV("a", "a", 0, 2);
             DocClass a = new DocClass("a");
             
             st.CheckOut(a.ID);
@@ -139,8 +151,9 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             Student st = new Student("st");
             Librarian lb = new Librarian("lb");
-            
-            lb.AddAV("b", "B", 0, 2);
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+
+			lb.AddAV("b", "B", 0, 2);
             DocClass b = new DocClass("b");
             
             st.CheckOut(b.ID);
@@ -163,8 +176,9 @@ namespace I2P_Project.Tests
             Student p1 = new Student("p1");
             Student p2 = new Student("p2");
             Librarian lb = new Librarian("lb");
-            
-            lb.AddAV("b1", "B", 0, 2);
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+
+			lb.AddAV("b1", "B", 0, 2);
             DocClass b1 = new DocClass("b1");
             
             p1.CheckOut(b1.ID);
@@ -189,8 +203,9 @@ namespace I2P_Project.Tests
             Faculty f = new Faculty("f");
             Student s = new Student("s");
             Librarian lb = new Librarian("lb");
-            
-            lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1);
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1);
             DocClass b = new DocClass("b");
             
             s.CheckOut(b.ID);
@@ -214,8 +229,9 @@ namespace I2P_Project.Tests
             Faculty f = new Faculty("f");
             Student s = new Student("s");
             Librarian lb = new Librarian("lb");
-            
-            lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1);
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1);
             DocClass b = new DocClass("b");
             
             s.CheckOut(b.ID);
@@ -237,8 +253,9 @@ namespace I2P_Project.Tests
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             Student st = new Student("st");
             Librarian lb = new Librarian("lb");
-            
-            lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1);
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1);
             lb.AddBook("a", "A", "A", 0, "A", "A", 0, false, 0);
             DocClass b = new DocClass("b");
             DocClass a = new DocClass("a");
@@ -261,8 +278,9 @@ namespace I2P_Project.Tests
             
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            lb.AddBook
+			lb.AddBook
                 (
                     "Introduction to Algorithms",
                     "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
@@ -338,8 +356,9 @@ namespace I2P_Project.Tests
             
             Librarian lb = new Librarian("lb");
             Student p2 = new Student("Nadia Teixeira");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            DocClass b1 = new DocClass("Introduction to Algorithms");
+			DocClass b1 = new DocClass("Introduction to Algorithms");
             DocClass b3 = new DocClass("The Mythical Man-month");
             
             lb.ModifyAV(b1.ID, b1.Title, b1.Autors, b1.Price, b1.Quantity - 2);
@@ -358,9 +377,7 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
             Faculty p1 = new Faculty("Sergey Afonso");
             Student p3 = new Student("Elvira Espindola");
-
-            lb.ShowUserCard(p1.PersonID);
-            lb.ShowUserCard(p3.PersonID);
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
             
             // TODO Под вопросом
             List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
@@ -375,9 +392,7 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
             Student p2 = new Student("Nadia Teixeira");
             Student p3 = new Student("Elvira Espindola");
-
-            lb.ShowUserCard(p2.PersonID);
-            lb.ShowUserCard(p3.PersonID);
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
             List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
             Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0, CheckedOutInfo));
@@ -404,16 +419,14 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
             Faculty p1 = new Faculty("Sergey Afonso");
             Student p3 = new Student("Elvira Espindola");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            DocClass b1 = new DocClass("Introduction to Algorithms");
+			DocClass b1 = new DocClass("Introduction to Algorithms");
             DocClass b2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
 
             p1.CheckOut(b1.ID);
             p3.CheckOut(b1.ID);
             p1.CheckOut(b2.ID);
-
-            lb.ShowUserCard(p1.PersonID);
-            lb.ShowUserCard(p3.PersonID);
 
             List<CheckedOut> CheckedOutInfo = new List<CheckedOut>
             {
@@ -436,8 +449,9 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
             Faculty p1 = new Faculty("Sergey Afonso");
             Student p2 = new Student("Nadia Teixeira");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            DocClass b1 = new DocClass("Introduction to Algorithms");
+			DocClass b1 = new DocClass("Introduction to Algorithms");
             DocClass b2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
             DocClass b3 = new DocClass("The Mythical Man-month");
             DocClass av1 = new DocClass("Null References: The Billion Dollar Mistake");
@@ -450,9 +464,6 @@ namespace I2P_Project.Tests
             p2.CheckOut(b1.ID);
             p2.CheckOut(b2.ID);
             p2.CheckOut(av2.ID);
-            
-            lb.ShowUserCard(p1.PersonID);
-            lb.ShowUserCard(p2.PersonID);
 
             List<CheckedOut> CheckedOutInfo = new List<CheckedOut>
             {
@@ -466,6 +477,7 @@ namespace I2P_Project.Tests
             {
                 new CheckedOut { CheckOutTime = DateTime.Now.AddDays(28).Day, DocumentCheckedOut = "Introduction to Algorithms" },
                 new CheckedOut { CheckOutTime = DateTime.Now.AddDays(28).Day, DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software" },
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(28).Day, DocumentCheckedOut = "The Mythical Man-month" },
                 new CheckedOut { CheckOutTime = DateTime.Now.AddDays(14).Day, DocumentCheckedOut = "Null References: The Billion Dollar Mistake" }
             };
             Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1, CheckedOutInfo));
@@ -478,8 +490,9 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
             Faculty p1 = new Faculty("Sergey Afonso");
             Student p2 = new Student("Nadia Teixeira");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            DocClass b1 = new DocClass("Introduction to Algorithms");
+			DocClass b1 = new DocClass("Introduction to Algorithms");
             DocClass b2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
             DocClass av1 = new DocClass("Null References: The Billion Dollar Mistake");
 
@@ -487,24 +500,21 @@ namespace I2P_Project.Tests
             p1.CheckOut(b2.ID, new int[] { 02, 02, 2018 });
             p2.CheckOut(b1.ID, new int[] { 05, 02, 2018 });
             p2.CheckOut(av1.ID, new int[] { 17, 02, 2018 });
-            
-            lb.ShowOverdue(p1.PersonID);
-            lb.ShowOverdue(p2.PersonID);
-            
-            DateTime timeToBack = new DateTime(2018, 02, 05).AddDays(21);
-            List<OverdueInfo> overdueInfos = new List<OverdueInfo>
-            {
-                new OverdueInfo { Overdue = (int)DateTime.Now.Subtract(timeToBack).TotalDays, DocumentChekedOut = "Introduction to Algorithms" },
-                new OverdueInfo { Overdue = (int)DateTime.Now.Subtract(timeToBack).TotalDays, DocumentChekedOut = "Null References: The Billion Dollar Mistake" }
-            };
-            Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 0, overdueInfos));
 
-            timeToBack = new DateTime(2018, 02, 02).AddDays(28);
-            overdueInfos = new List<OverdueInfo>()
+            DateTime now = new DateTime(2018, 03, 05);
+
+            List<OverdueInfo> overdueInfos = new List<OverdueInfo>()
             {
-                new OverdueInfo { Overdue = (int)DateTime.Now.Subtract(timeToBack).TotalDays, DocumentChekedOut = "Introduction to Algorithms" }
+                new OverdueInfo { Overdue = (int)now.Subtract(new DateTime(2018, 02, 02).AddDays(28)).TotalDays, DocumentChekedOut = "Design Patterns: Elements of Reusable Object-Oriented Software" }
             };
-            Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1, overdueInfos));
+            Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1, overdueInfos, now));
+
+            overdueInfos = new List<OverdueInfo>
+            {
+                new OverdueInfo { Overdue = (int)now.Subtract(new DateTime(2018, 02, 05).AddDays(21)).TotalDays, DocumentChekedOut = "Introduction to Algorithms" },
+                new OverdueInfo { Overdue = (int)now.Subtract(new DateTime(2018, 02, 17).AddDays(14)).TotalDays, DocumentChekedOut = "Null References: The Billion Dollar Mistake" }
+            };
+            Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 0, overdueInfos, now));
         }
 
         public void Test19()
@@ -519,8 +529,9 @@ namespace I2P_Project.Tests
 
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
             Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            lb.AddBook
+			lb.AddBook
                 (
                     "Introduction to Algorithms",
                     "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
@@ -589,17 +600,18 @@ namespace I2P_Project.Tests
             DocClass d1 = new DocClass("Introduction to Algorithms");
             DocClass d2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
 
-            p1.CheckOut(d1.ID, new int[] { 07, 03, 2018 });
-            p1.CheckOut(d2.ID, new int[] { 07, 03, 2018 });
+            p1.CheckOut(d1.ID, new int[] { 05, 03, 2018 });
+            p1.CheckOut(d2.ID, new int[] { 05, 03, 2018 });
             p1.ReturnDoc(d2.ID);
 
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d1.ID) == 100);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d1.ID, new DateTime(2018, 04, 02)) == 0);
         }
 
         public void Test21()
         {
             Initial();
-            int[] timeCheat = { 07, 03, 2018 };
+            int[] timeCheat = { 05, 03, 2018 };
+            DateTime Now = new DateTime(2018, 04, 02);
 
             Faculty p1 = new Faculty("p1");
             Student s = new Student("s");
@@ -617,18 +629,18 @@ namespace I2P_Project.Tests
 
             Debug.Assert(SDM.LMS.OverdueTime(p1.PersonID, d1.ID) == 1);
             Debug.Assert(SDM.LMS.OverdueTime(p1.PersonID, d2.ID) == 1);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d1.ID) == 100);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d2.ID) == 100);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d1.ID, Now) == 100);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d2.ID, Now) == 100);
 
             Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, d1.ID) == 8);
             Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, d2.ID) == 15);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(s.PersonID, d1.ID) == 800);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(s.PersonID, d2.ID) == 1500);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(s.PersonID, d1.ID, Now) == 800);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(s.PersonID, d2.ID, Now) == 1500);
 
             Debug.Assert(SDM.LMS.OverdueTime(v.PersonID, d1.ID) == 22);
             Debug.Assert(SDM.LMS.OverdueTime(v.PersonID, d2.ID) == 22);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(v.PersonID, d1.ID) == 2200);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(v.PersonID, d2.ID) == 1700);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(v.PersonID, d1.ID, Now) == 2200);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(v.PersonID, d2.ID, Now) == 1700);
         }
 
         public void Test22()
@@ -665,8 +677,9 @@ namespace I2P_Project.Tests
             Faculty p1 = new Faculty("p1");
             Student s = new Student("s");
             VisitingProfessor v = new VisitingProfessor("v");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            DocClass d1 = new DocClass("Introduction to Algorithms");
+			DocClass d1 = new DocClass("Introduction to Algorithms");
             DocClass d2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
 
             p1.CheckOut(d1.ID, timeCheat);
@@ -734,8 +747,9 @@ namespace I2P_Project.Tests
             Test26();
             
             Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            DocClass d3 = new DocClass("Null References: The Billion Dollar Mistake");
+			DocClass d3 = new DocClass("Null References: The Billion Dollar Mistake");
             
             lb.OutstandingRequest(d3.ID);
 

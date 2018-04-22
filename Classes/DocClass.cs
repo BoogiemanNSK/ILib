@@ -10,9 +10,9 @@ namespace I2P_Project.Classes
 
         public DocClass(string title)
         {
-            _current = SDM.LMS.GetDocByTitle(title);
+            _current = SDM.LMS.GetDocByTitle(title) ??
+                new Document() { Id = -1, Title = "", Price = 0, Quantity = 0, IsRequested = false, Queue = "", DocType = -1 };
         }
-
         /// <summary> Getters from DB </summary>
         public int ID { get { return _current.Id; } }
         public string Title { get { return _current.Title; } }
@@ -20,5 +20,13 @@ namespace I2P_Project.Classes
         public int Price { get { return _current.Price; } }
         public int DocType { get { return _current.DocType; } }
         public int Quantity { get { return _current.Quantity; } }
+
+		
     }
+	public enum DocType
+	{
+		Book,
+		Journal,
+		AV
+	}
 }

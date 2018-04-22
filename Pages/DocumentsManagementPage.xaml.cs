@@ -14,7 +14,14 @@ namespace I2P_Project.Pages
         public DocumentsManagementPage()
         {
             InitializeComponent();
-            updateTable();
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            if (lb.LibrarianType < 2) {
+                DeleteColumn.Visibility = Visibility.Hidden;
+            }
+            if (lb.LibrarianType < 1) {
+                AddBookButton.Visibility = Visibility.Hidden;
+            }
+            UpdateTable();
         }
 
         private void OnAddBook(object sender, RoutedEventArgs e)
@@ -23,7 +30,7 @@ namespace I2P_Project.Pages
             page.ShowDialog();
         }
 
-        public void updateTable()
+        public void UpdateTable()
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
@@ -45,10 +52,22 @@ namespace I2P_Project.Pages
         {
             if (dgLibrarianDocuments.SelectedIndex != -1 && dgLibrarianDocuments.SelectedItems[0] != null)
             {
-                DocumentsTable doc_row = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
-                AddDocPage page =  new AddDocPage(this, false, doc_row.docID);
+                DocumentsTable docRow = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
+                Window page = null;
+                switch (docRow.docType) {
+                    case "Book":
+                        page = new ModifyBookPage(docRow.docID, this);
+                        break;
+                    case "Journal":
+                        page = new ModifyJournalPage(docRow.docID, this);
+                        break;
+                    case "AV":
+                        page = new ModifyAVPage(docRow.docID, this);
+                        break;
+                    default:
+                        throw new Exception("Unhandled doc type!");
+                }
                 page.ShowDialog();
-                
             }
         }
 
@@ -61,11 +80,10 @@ namespace I2P_Project.Pages
                     try
                     {
                         Librarian lib = (Librarian)SDM.CurrentUser;
-                        //remove document
                         DocumentsTable doc_row = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
                         int doc_id = doc_row.docID;
                         lib.DeleteDoc(doc_id);
-                        updateTable();
+                        UpdateTable();
                     }
                     catch (Exception exc)
                     {
@@ -79,13 +97,12 @@ namespace I2P_Project.Pages
 
         private void OnRequestBook(object sender, RoutedEventArgs e)
         {
-
             DocumentsTable docRow = dgLibrarianDocuments.SelectedItems[0] as DocumentsTable;
 
             Librarian lb = (Librarian)SDM.CurrentUser;
             lb.OutstandingRequest(docRow.docID);
 
-            updateTable();
+            UpdateTable();
             MessageBox.Show("You have successfully deleted users queue for that document.", "Success!", MessageBoxButton.OK);
         }
     }

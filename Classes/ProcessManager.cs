@@ -1,60 +1,49 @@
 ﻿using I2P_Project.Pages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Threading;
-
-/// <summary>
-/// Uses for long operations. Shows loading page.
-/// </summary>
 
 namespace I2P_Project.Classes
 {
+    /// <summary> Uses for long operations. Shows loading page. </summary>
     class ProcessManager
     {
         private Thread thread;
         private WaitWindow window;
 
-        /// <summary>
-        /// Starts waiting thread
-        /// </summary>
+        /// <summary> Starts waiting thread </summary>
         public void BeginWaiting()
         {
-            this.thread = new Thread(this.RunThread);
-            this.thread.IsBackground = true;
-            this.thread.SetApartmentState(ApartmentState.STA);
-            this.thread.Start();
+            thread = new Thread(RunThread);
+            thread.IsBackground = true;
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
 
-        /// <summary>
-        /// Ends Waiting flow
-        /// </summary>
+        /// <summary> Ends Waiting flow </summary>
         public void EndWaiting()
         {
-            if (this.window != null)
+            if (window != null)
             {
-                this.window.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(() =>
+                window.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(() =>
                 {
-                    this.window.Close();
+                    window.Close();
                 }));
             }
-            this.thread.Abort();
+            thread.Abort();
         }
 
         private void RunThread()  // Opens WaitWindow
         {
-            this.window = new WaitWindow();
-            this.window.Closed += new EventHandler(waitingWindow_Closed);
+            window = new WaitWindow();
+            window.Closed += new EventHandler(WaitingWindowClosed);
             try
             {
-                this.window.ShowDialog(); // Fix "Поток находился в процессе прерывания" если выпадет исключение, пишите в чат.
+                window.ShowDialog(); // Fix "Поток находился в процессе прерывания" если выпадет исключение, пишите в чат.
             } catch { }
         }
 
-        private void waitingWindow_Closed(object sender, EventArgs e)  // When WaitWindow is closed, flow shutdowns
+        private void WaitingWindowClosed(object sender, EventArgs e)  // When WaitWindow is closed, flow shutdowns
         {
             Dispatcher.CurrentDispatcher.InvokeShutdown();
         }

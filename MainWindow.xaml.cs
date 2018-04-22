@@ -1,19 +1,8 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Pages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace I2P_Project
 {
@@ -77,18 +66,31 @@ namespace I2P_Project
                 case 0: // Student
                 case 1: // Instructor
                 case 2: // TA
-                case 3: // Proffesor
-                case 4: // Visiting proffesor
+                case 3: // Visiting proffesor
+                case 4: // Proffesor
                     li_page_LibrarianHome.Visibility = Visibility.Collapsed;
                     li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
                     li_page_UsersManagement.Visibility = Visibility.Collapsed;
+                    li_page_LibrariansManagement.Visibility = Visibility.Collapsed;
+                    li_page_AdminHome.Visibility = Visibility.Collapsed;
                     li_page_userHome.IsChecked = true;
                     break;
                 case 5:  // Librarian
                     li_page_userHome.Visibility = Visibility.Collapsed;
                     li_page_UserLibrary.Visibility = Visibility.Collapsed;
                     li_page_UserMyBooks.Visibility = Visibility.Collapsed;
+                    li_page_LibrariansManagement.Visibility = Visibility.Collapsed;
+                    li_page_AdminHome.Visibility = Visibility.Collapsed;
                     li_page_LibrarianHome.IsChecked = true;
+                    break;
+                case 6: // Admin
+                    li_page_LibrarianHome.Visibility = Visibility.Collapsed;
+                    li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
+                    li_page_UsersManagement.Visibility = Visibility.Collapsed;
+                    li_page_userHome.Visibility = Visibility.Collapsed;
+                    li_page_UserLibrary.Visibility = Visibility.Collapsed;
+                    li_page_UserMyBooks.Visibility = Visibility.Collapsed;
+                    li_page_AdminHome.IsChecked = true;
                     break;
             }
 
@@ -133,6 +135,18 @@ namespace I2P_Project
             ChangePage("DocumentsManagementPage.xaml");
         }
 
+        private void Page_AdminHome_Click(object sender, RoutedEventArgs e)  // Admin open Home page
+        {
+            CloseMenuAfterClick();
+            ChangePage("PageHome.xaml");
+        }
+
+        private void Page_LibrariansManagement_Click(object sender, RoutedEventArgs e)  // Admin open Librarians Management page
+        {
+            CloseMenuAfterClick();
+            ChangePage("LibrariansManagementPage.xaml");
+        }
+
         private void ChangePage(string page_name)  // Changes page on page viewer
         {
             string link = "/I2P-Project;component/Pages/" + page_name;
@@ -146,11 +160,6 @@ namespace I2P_Project
                 CloseTaskMenu();
                 taskMenu = !taskMenu;
             }
-        }
-
-        private void btn_Notifications_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("ToDo! Notification system");
         }
 
     }

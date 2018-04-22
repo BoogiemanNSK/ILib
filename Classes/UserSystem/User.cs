@@ -6,11 +6,12 @@ namespace I2P_Project.Classes.UserSystem
     abstract class User
     {
         /// <summary> Row from Users table, for access in constant time </summary>
-        private Users _current;
+        protected Users _current;
                 
         public User(string login)
         {
-            _current = SDM.LMS.GetUserByLogin(login);
+            _current = SDM.LMS.GetUserByLogin(login) ?? 
+                new Users() { Id = -1, Login = "", Password = "", IsDeleted = true, UserType = -1, LibrarianType = -1 };
         }
 
         /// <summary> Getters from DB </summary>
@@ -20,4 +21,14 @@ namespace I2P_Project.Classes.UserSystem
         public int PersonID { get { return _current.Id;  } }
         public int UserType { get { return _current.UserType; } }
     }
+	public enum UserType
+	{
+		Student,
+		Instructor,
+		TA,
+		VisitingProfessor,
+		Professor,
+		Librarian,
+		Admin
+	}
 }

@@ -33,11 +33,11 @@
         <Label Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Right" Content="Phone Number" FontSize="14"/>
         <TextBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="190" Height="30"
                  Name="UserPhoneNumber" FontSize="14" VerticalContentAlignment="Center" Style="{DynamicResource TextBoxDesign}"/>
-        <Label Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Right" Content="User Type" FontSize="14"/>
+        <Label Name="UserTypeTitle" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Right" Content="User Type" FontSize="14"/>
         <ComboBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="190" Height="30" Name="UserType"
                   FontSize="14" VerticalContentAlignment="Center"/>
         <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Width="130" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnModifyUserClick" Content="Modify user"
+            <Button Name="ModifyButtonContent" Width="130" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnModifyUserClick" Content="Modify User"
                     Style="{DynamicResource ButtonStyle}"/>
             <Button Width="130" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnBackClick" Content="Cancel" Style="{DynamicResource ButtonStyle}"/>
         </StackPanel>        

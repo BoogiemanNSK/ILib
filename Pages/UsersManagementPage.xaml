@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         mc:Ignorable="d"
         d:DesignHeight="480" d:DesignWidth="905"
         Title="UsersManagementPage" FontFamily="/I2P-Project;component/Fonts/#Panton">
@@ -28,10 +29,12 @@
             <Button Margin="7,5" HorizontalAlignment="Center" Click="OnAddUser" Width="33" Content="&#xE1E2;" Background="#FF078CD1"
                     BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
                     Style="{DynamicResource ButtonStyle}"/>
-            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
-                     VerticalContentAlignment="Center"/>
-            <Button Width="92" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" 
-                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+            <toolkit:AutoCompleteBox HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Height="30" VerticalContentAlignment="Center"
+                                     FilterMode="Contains" x:Name="txt_searchUser" FontSize="16" Margin="5" Populating="txt_searchUser_Populating"
+                                     DropDownClosed="txt_searchUser_DropDownClosed"/>
+            <Button x:Name="btn_searchUser" Width="92" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;"
+                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" 
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}" Click="btn_searchUser_Click"/>
         </StackPanel>
 
         <DataGrid Grid.Row="3" Grid.Column="1" Name="UsersTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True"

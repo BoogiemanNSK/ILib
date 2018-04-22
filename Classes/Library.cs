@@ -906,11 +906,11 @@ namespace I2P_Project.Classes
             return test.Single();
         }
 
-        public int OverdueTime(int userID, int docID)
+        public int OverdueTime(int userID, int docID, DateTime Now)
         {
             Checkouts testCheck = GetCheckout(userID, docID);
-            int days = (int)testCheck.TimeToBack.Subtract(DateTime.Now).TotalDays;
-            return days + 1;
+            int days = (int) Math.Round(Now.Subtract(testCheck.TimeToBack).TotalDays);
+            return days;
         }
 
         private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
@@ -980,7 +980,7 @@ namespace I2P_Project.Classes
         {
             Checkouts testCheck = GetCheckout(userID, docID);
 
-            int overduedTime = (int)Now.Subtract(testCheck.TimeToBack).TotalDays;
+            int overduedTime = OverdueTime(userID, docID, Now);
             if (overduedTime > 0) {
                 int docPrice = GetDoc(docID).Price;
                 return (overduedTime * 100 > docPrice ? docPrice : overduedTime * 100);

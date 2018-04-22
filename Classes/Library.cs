@@ -602,6 +602,179 @@ namespace I2P_Project.Classes
             return temp_table;
         }
 
+        /// <summary>
+        /// Loads all books into autocomplete box to make searching more simpler
+        /// Usage: UserHomePage.xaml.cs
+        /// </summary>
+        public List<String> GetSearchBooks()
+        {
+            List<String> temp_list = new List<String>();
+            var load_user_docs = from b in db.Documents
+                                 select new
+                                 {
+                                     b.Title,
+                                     b.Autors,
+                                     b.Publisher
+                                 };
+
+            foreach (var element in load_user_docs)
+            {
+                string temp_row = element.Title.ToString() + "\n" + Convert.ToString(element.Autors) + ", " + Convert.ToString(element.Publisher);
+                temp_list.Add(temp_row);
+            }
+            return temp_list;
+        }
+
+        /// <summary>
+        /// Overloaded method for return a list of all found docs
+        /// Usage: UserHomePage.xaml, DocumentsManagementPage.xaml
+        /// </summary>
+        public ObservableCollection<Pages.DocumentsTable> GetDocsTable(string keyword)  // method overloading
+        {
+            ObservableCollection<Pages.DocumentsTable> temp_table = new ObservableCollection<Pages.DocumentsTable>();
+            var load_user_docs = from b in db.Documents
+                                 where b.Title.Contains(keyword) || b.Autors.Contains(keyword) || b.Publisher.Contains(keyword)
+                                 select new
+                                 {
+                                     b.Id,
+                                     b.Title,
+                                     b.Autors,
+                                     b.DocType,
+                                     b.Price,
+                                     b.Quantity
+                                 };
+            foreach (var element in load_user_docs)
+            {
+                Pages.DocumentsTable row = new Pages.DocumentsTable
+                {
+                    docID = element.Id,
+                    docAutors = element.Autors,
+                    docTitle = element.Title,
+                    docType = SDM.Strings.DOC_TYPES[element.DocType],
+                    docPrice = element.Price,
+                    docQuantity = element.Quantity
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
+        /// <summary>
+        /// Loads all books into autocomplete box to make searching more simpler
+        /// Usage: MyBooks.xaml.cs
+        /// </summary>
+        public List<String> GetSearchUserBooks()
+        {
+            List<String> temp_list = new List<String>();
+            var load_user_books = from c in db.Checkouts
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  where c.UserID == SDM.CurrentUser.PersonID && c.IsReturned == false
+                                  select new
+                                  {
+                                      b.Title,
+                                      b.Autors,
+                                      b.Publisher
+                                  };
+
+            foreach (var element in load_user_books)
+            {
+                string temp_row = element.Title.ToString() + "\n" + Convert.ToString(element.Autors) + ", " + Convert.ToString(element.Publisher);
+                temp_list.Add(temp_row);
+            }
+            return temp_list;
+        }
+
+        /// <summary>
+        /// Returns collection of current logged searched user books
+        /// Usage: MyBooks.xaml 
+        /// </summary>
+        public ObservableCollection<Pages.MyBooksTable> GetUserBooks(string keyword)
+        {
+            ObservableCollection<Pages.MyBooksTable> temp_table = new ObservableCollection<Pages.MyBooksTable>();
+            var load_user_books = from c in db.Checkouts
+                                  join b in db.Documents on c.BookID equals b.Id
+                                  where c.UserID == SDM.CurrentUser.PersonID && c.IsReturned == false &&
+                                  (b.Title.Contains(keyword) || b.Autors.Contains(keyword) || b.Publisher.Contains(keyword))
+                                  select new
+                                  {
+                                      c.CheckID,
+                                      c.BookID,
+                                      b.Title,
+                                      b.Autors,
+                                      b.Price,
+                                      c.DateTaked,
+                                      c.TimeToBack
+                                  };
+            foreach (var element in load_user_books)
+            {
+                Pages.MyBooksTable row = new Pages.MyBooksTable
+                {
+                    checkID = element.CheckID,
+                    docID = element.BookID,
+                    docTitle = element.Title,
+                    docAutors = element.Autors,
+                    docPrice = element.Price,
+                    docFine = GetUserFineForDoc(SDM.CurrentUser.PersonID, element.BookID),
+                    checkDateTaked = (DateTime)element.DateTaked,
+                    checkTimeToBack = element.TimeToBack
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
+
+        /// <summary>
+        /// Loads all users into autocomplete box to make searching more simpler
+        /// Usage: UsersManagementPage.xaml.cs
+        /// </summary>
+        public List<String> GetSearchUser()
+        {
+            List<String> temp_list = new List<String>();
+            var load_users = from p in db.Users
+                             where p.UserType != 5 // TODO Заменить на enum
+                             select new
+                             {
+                                 p.Login,
+                                 p.Name,
+                                 p.PhoneNumber
+                             };
+
+            foreach (var element in load_users)
+            {
+                string temp_row = element.Login.ToString() + "\n" + Convert.ToString(element.Name) + ", " + Convert.ToString(element.PhoneNumber);
+                temp_list.Add(temp_row);
+            }
+            return temp_list;
+        }
+
+        /// <summary>
+        /// Returns found collection of all patrons only
+        /// Usage: UserManagementPage.xaml
+        /// </summary>
+        public ObservableCollection<Pages.LibrarianUserView> LibrarianViewUserTable(string keyword)
+        {
+            ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
+            var load_users = from p in db.Users
+                             where p.UserType != 5 && 
+                             (p.Login.Contains(keyword) || p.Name.Contains(keyword) || p.PhoneNumber.Contains(keyword))
+                             select new
+                             {
+                                 p.Id,
+                                 p.Login
+                             };
+            foreach (var element in load_users)
+            {
+                Pages.LibrarianUserView row = new Pages.LibrarianUserView
+                {
+                    userID = element.Id,
+                    userLogin = element.Login,
+                    docsNumber = GetUserBooksNumber(element.Id),
+                    userFine = GetUserFine(element.Id)
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
         #endregion
         
         #region DB Existence Check

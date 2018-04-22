@@ -527,7 +527,7 @@ namespace I2P_Project.Classes
                     LibrarianID = element.Id,
                     LibrarianLogin = element.Login,
                     LibrarianName = element.Name,
-                    LibrarianType = element.LibrarianType
+                    LibrarianType = "Priv" + (element.LibrarianType + 1)
                 };
                 temp_table.Add(row);
             }

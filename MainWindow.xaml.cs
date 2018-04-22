@@ -72,6 +72,7 @@ namespace I2P_Project
                     li_page_DocumentsManagement.Visibility = Visibility.Collapsed;
                     li_page_UsersManagement.Visibility = Visibility.Collapsed;
                     li_page_LibrariansManagement.Visibility = Visibility.Collapsed;
+                    li_page_AdminHome.Visibility = Visibility.Collapsed;
                     li_page_userHome.IsChecked = true;
                     break;
                 case 5:  // Librarian
@@ -79,6 +80,7 @@ namespace I2P_Project
                     li_page_UserLibrary.Visibility = Visibility.Collapsed;
                     li_page_UserMyBooks.Visibility = Visibility.Collapsed;
                     li_page_LibrariansManagement.Visibility = Visibility.Collapsed;
+                    li_page_AdminHome.Visibility = Visibility.Collapsed;
                     li_page_LibrarianHome.IsChecked = true;
                     break;
                 case 6: // Admin

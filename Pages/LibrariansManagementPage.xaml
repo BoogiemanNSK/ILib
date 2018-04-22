@@ -22,7 +22,7 @@
 
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Center" Content="Users"/>
+        <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Center" Content="Librarians"/>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Margin="7,5" HorizontalAlignment="Center" Click="OnAddLibrarian" Width="33" Content="&#xE1E2;" Background="#FF078CD1"
                     BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"

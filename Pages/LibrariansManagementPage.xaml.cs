@@ -5,9 +5,7 @@ using System.Windows.Controls;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for LibrariansManagementPage.xaml
-    /// </summary>
+    /// <summary> Interaction logic for LibrariansManagementPage.xaml </summary>
     public partial class LibrariansManagementPage : Page
     {
         public LibrariansManagementPage()
@@ -55,6 +53,6 @@ namespace I2P_Project.Pages
         public int LibrarianID { get; set; }
         public string LibrarianLogin { get; set; }
         public string LibrarianName { get; set; }
-        public int LibrarianType { get; set; }
+        public string LibrarianType { get; set; }
     }
 }

@@ -7,16 +7,15 @@ using System.Windows;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for ModifyUserPage.xaml
-    /// </summary>
+    /// <summary> Interaction logic for ModifyUserPage.xaml </summary>
     public partial class ModifyUserPage : Window
     {
-        private int userID;
+        private int _userID;
+        private int _userType;
 
         public ModifyUserPage(int ID)
         {
-            userID = ID;
+            _userID = ID;
             InitializeComponent();
 
             Users user = SDM.LMS.GetUser(ID);
@@ -24,8 +23,9 @@ namespace I2P_Project.Pages
             UserName.Text = user.Name;
             UserAdress.Text = user.Address;
             UserPhoneNumber.Text = user.PhoneNumber;
+            _userType = user.UserType;
 
-            if (user.UserType == (int) I2P_Project.Classes.UserSystem.UserType.Librarian) {
+            if (_userType == (int)Classes.UserSystem.UserType.Librarian) {
                 Title = "Modify Librarian";
                 UserTypeTitle.Content = "Librarian Type";
                 ModifyButtonContent.Content = "Modify Librarian";
@@ -33,7 +33,7 @@ namespace I2P_Project.Pages
                 UserType.SelectedIndex = user.LibrarianType;
             } else {
                 UserType.ItemsSource = SDM.Strings.USER_TYPES.Take(SDM.Strings.USER_TYPES.Length - 1);
-                UserType.SelectedIndex = user.UserType;
+                UserType.SelectedIndex = _userType;
             }
         }
 
@@ -43,11 +43,11 @@ namespace I2P_Project.Pages
             {
                 if (UserName.Text.Length == 0 || UserAdress.Text.Length == 0 || UserPhoneNumber.Text.Length == 0) throw new Exception();
 
-                if (userID == 5) {
+                if (_userType == 5) {
                     Admin admin = (Admin)SDM.CurrentUser;
                     admin.ModifyLibrarian
                         (
-                            userID,
+                            _userID,
                             UserName.Text,
                             UserAdress.Text,
                             UserPhoneNumber.Text,
@@ -58,13 +58,13 @@ namespace I2P_Project.Pages
                     Librarian lib = (Librarian)SDM.CurrentUser;
                     lib.ModifyUser
                         (
-                            userID,
+                            _userID,
                             UserName.Text,
                             UserAdress.Text,
                             UserPhoneNumber.Text,
                             UserType.SelectedIndex
                         );
-                    UserCard page = new UserCard(userID);
+                    UserCard page = new UserCard(_userID);
                     Close();
                     page.ShowDialog();
                 }
@@ -77,11 +77,11 @@ namespace I2P_Project.Pages
 
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
-            if (userID == 5) {
+            if (_userType == 5) {
                 Close();
             }
             else {
-                UserCard page = new UserCard(userID);
+                UserCard page = new UserCard(_userID);
                 Close();
                 page.ShowDialog();
             }

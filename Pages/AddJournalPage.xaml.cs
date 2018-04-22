@@ -35,7 +35,7 @@ namespace I2P_Project.Pages
                     quantity
                 );
 
-            _previousPage.updateTable();
+            _previousPage.UpdateTable();
             Close();
         }
 

@@ -6,9 +6,7 @@ using System.Windows;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для UserCard.xaml
-    /// </summary>
+    /// <summary> Логика взаимодействия для UserCard.xaml </summary>
     public partial class UserCard : Window
     {
         private int _patronID;
@@ -41,9 +39,18 @@ namespace I2P_Project.Pages
 
         private void OnDeleteUserClick(object sender, RoutedEventArgs e)
         {
-            Close();
-            Librarian lib = (Librarian)SDM.CurrentUser;
-            lib.DeleteUser(_patronID);
+            MessageBoxResult result = MessageBox.Show(SDM.Strings.DELETE_USER_CONFIRMATION_TEXT,
+                SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
+
+            switch (result) {
+                case MessageBoxResult.Yes:
+                    Close();
+                    Librarian lib = (Librarian)SDM.CurrentUser;
+                    lib.DeleteUser(_patronID);
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
         }
 
         private void OnBackClick(object sender, RoutedEventArgs e)

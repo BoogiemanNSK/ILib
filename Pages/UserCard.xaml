@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
-        Title="UserCard" Height="500" Width="500" FontFamily="/I2P-Project;component/Fonts/#Panton" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="UserCard" Height="560" Width="500" FontFamily="/I2P-Project;component/Fonts/#Panton" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -15,11 +15,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition />
+            <RowDefinition Height="160"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition />
             <RowDefinition Height="40"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
         <Label Name="UserLogin" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Height="30" HorizontalAlignment="Center"
@@ -69,11 +69,9 @@
                 <DataGridTextColumn Header="Deadline" Binding="{Binding DeadLine}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Grid.Row="7" Width="150" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnModifyUserClick" Content="Modify"
+        <Button Grid.Row="5" Width="150" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnModifyUserClick" Content="Modify"
                     Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
-            <Button Grid.Row="8" Width="150" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnDeleteUserClick" Content="Delete" Name="DeleteUserButton"
+        <Button Grid.Row="6" Width="150" Height="30" Grid.Column="1" Margin="5,5,5,5" Click="OnDeleteUserClick" Content="Delete" Name="DeleteUserButton"
                     Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
-        </StackPanel>
     </Grid>
 </Window>

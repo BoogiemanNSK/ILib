@@ -43,7 +43,7 @@
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="OnModifyLibrarian" Width="30" Cursor="Hand" Height="30" Content="&#xE121;" Background="White"                                    
+                            <Button Click="OnModifyLibrarian" Width="30" Cursor="Hand" Height="30" Content="&#xE104;" Background="White"                                    
                                     FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" ToolTip="Modify Librarian"
                                     BorderBrush="{x:Null}" Foreground="Black" FontWeight="Bold" FontSize="17" Style="{DynamicResource ButtonTableStyle}"/>
                         </DataTemplate>
@@ -52,7 +52,7 @@
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="OnDeleteLibrarian" Width="30" Cursor="Hand" Height="30" Content="&#xE121;" Background="White"                                    
+                            <Button Click="OnDeleteLibrarian" Width="30" Cursor="Hand" Height="30" Content="&#xE107;" Background="White"                                    
                                     FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" ToolTip="Delete Librarian"
                                     BorderBrush="{x:Null}" Foreground="Black" FontWeight="Bold" FontSize="17" Style="{DynamicResource ButtonTableStyle}"/>
                         </DataTemplate>

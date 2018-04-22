@@ -73,7 +73,7 @@ namespace I2P_Project.Pages
         {
             if (myBooksTable.SelectedIndex == -1) return;
 
-            MessageBoxResult result = MessageBox.Show(SDM.Strings.RETURN_CONFIRMATION_TEXT,
+            MessageBoxResult result = MessageBox.Show(SDM.Strings.RENEW_CONFIRMATION_TEXT,
                 SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
 
             switch (result)

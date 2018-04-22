@@ -37,10 +37,10 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="docID" Binding="{Binding docID}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="*"/>
-                <DataGridTextColumn Header="Author" Binding="{Binding docAutor}" Width="*"/>
+                <DataGridTextColumn Header="Author" Binding="{Binding docAutors}" Width="*"/>
                 <DataGridTextColumn Header="DocType" Binding="{Binding docType}" Width="*"/>
                 <DataGridTextColumn Header="Price" Binding="{Binding docPrice}" Width="*"/>
-                <DataGridTextColumn Header="Publisher" Binding="{Binding docQuantity}" Width="*"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding docQuantity}" Width="*"/>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

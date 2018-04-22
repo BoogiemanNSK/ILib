@@ -2,24 +2,11 @@
 using I2P_Project.Classes.UserSystem;
 using I2P_Project.DataBase;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для UserCard.xaml
-    /// </summary>
+    /// <summary> Логика взаимодействия для UserCard.xaml </summary>
     public partial class UserCard : Window
     {
         private int _patronID;
@@ -27,6 +14,10 @@ namespace I2P_Project.Pages
         public UserCard(int patronID)
         {
             InitializeComponent();
+            Librarian lb = (Librarian)SDM.CurrentUser;
+            if (lb.LibrarianType < 2) {
+                DeleteUserButton.Visibility = Visibility.Hidden;
+            }
             _patronID = patronID;
 
             Users user = SDM.LMS.GetUser(patronID);
@@ -48,9 +39,18 @@ namespace I2P_Project.Pages
 
         private void OnDeleteUserClick(object sender, RoutedEventArgs e)
         {
-            Close();
-            Librarian lib = (Librarian)SDM.CurrentUser;
-            lib.DeleteUser(_patronID);
+            MessageBoxResult result = MessageBox.Show(SDM.Strings.DELETE_USER_CONFIRMATION_TEXT,
+                SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
+
+            switch (result) {
+                case MessageBoxResult.Yes:
+                    Close();
+                    Librarian lib = (Librarian)SDM.CurrentUser;
+                    lib.DeleteUser(_patronID);
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
         }
 
         private void OnBackClick(object sender, RoutedEventArgs e)

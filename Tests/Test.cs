@@ -1,944 +1,539 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
-using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
-using System.Windows;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System;
+
 namespace I2P_Project.Tests
 {
     class Test
     {
+        private Admin admin;
+
+        public Test()
+        {
+            SDM.LMS.ClearDB();
+            admin = new Admin("admin");
+        }
         
-        public void test1()
+        public void Test1()
         {
+            SDM.LMS.ClearDB();
             
-            SDM.LMS.ClearDB();
-
-           
             SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
-
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Student st = new Student("st");
+            Librarian lb = new Librarian("lb");
 
-           
-            SDM.CurrentUser = new Librarian("lb"); // Log In librarian lb
-            Librarian lb = (Librarian)SDM.CurrentUser;
-
-           
-            lb.AddBook("b", "b", "b", 0, "b", "b", 0, false, 2); // Adding Reference book
-
-           
-            SDM.CurrentUser = new Student("st"); // Log In student st
-            Student st = (Student)SDM.CurrentUser;
-
-           
-            st.CheckOut("b");
-
-            Debug.Assert(SDM.LMS.UserExists("lb"));
-            Debug.Assert(SDM.LMS.UserExists("st"));
-            Debug.Assert(SDM.LMS.DocExists("b"));
-            Debug.Assert(SDM.LMS.AmountOfDocs("b", 3));
-            Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
- 
-        }
-        /*
-
-        public void test2()
-        {
-           
-            SDM.LMS.ClearDB();
-
-           
-            SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
-
-           
-            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
-
+            admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
             
-            SDM.CurrentUser = new Student("st"); // Log In student st
-            Student st = (Student)SDM.CurrentUser;
+            lb.AddAV("b", "b", 0, 2);
+            DocClass b = new DocClass("b");
+            
+            st.CheckOut(b.ID);
 
-           
-            st.CheckOut("A");
-
-            Debug.Assert(SDM.LMS.UserExists("lb"));
-            Debug.Assert(SDM.LMS.UserExists("st"));
-            Debug.Assert(!SDM.LMS.DocExists("A"));
-            Debug.Assert(SDM.LMS.GetUserBooks().Count == 0);
+            Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
+            Debug.Assert(b.Quantity == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
         }
 
-        public string test3()
+        public void Test2()
         {
-            string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
-
-            output += "Registering student st in the system...\n";
+            
             SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
-
-            output += "Registering faculty ft in the system...\n";
-            SDM.LMS.RegisterUser("ft", "ft", "ft", "ft", "ft", false);
-
-            output += "Registering librarian lb in the system...\n";
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Student st = new Student("st");
+            Librarian lb = new Librarian("lb");
 
-            output += "Logging In as faculty ft...\n";
-            SDM.CurrentUser = new Faculty("ft"); // Log In student st
-            Faculty ft = (Faculty)SDM.CurrentUser;
+            DocClass A = new DocClass("A");
+            
+            st.CheckOut(A.ID);
 
-            output += "Adding reference book b and copy...\n";
-            SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("b", "B", 0, 0, false);
-
-            output += "Faculty ft checking out book b...\n";
-            ft.CheckOut("b");
-
-            output += "Test passed with no exceptions!\n";
-
-            try
-            {
-                Debug.Assert(SDM.LMS.UserExists("lb"));
-                Debug.Assert(SDM.LMS.UserExists("ft"));
-                Debug.Assert(SDM.LMS.DocExists("b"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 4);
-
-                output = "Test3 OK";
-
-            }
-            catch
-            {
-                output = "Test3 FAIL";
-            }
-
-            return output;
+            Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(A.ID) == null);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 0);
         }
 
-        public string test4()
+        public void Test3()
         {
-            string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
 
-            output += "Registering student st in the system...\n";
             SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
-
-            output += "Registering student st in the system...\n";
             SDM.LMS.RegisterUser("ft", "ft", "ft", "ft", "ft", false);
-
-            output += "Registering librarian lb in the system...\n";
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Student st = new Student("st");
+            Faculty ft = new Faculty("ft");
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            output += "Logging In as student st...\n";
-            SDM.CurrentUser = new Student("st"); // Log In student st
-            Student st = (Student)SDM.CurrentUser;
+			lb.AddBook("b", "b", "B", 0, "B", "B", 0, false, 1);
+            DocClass b = new DocClass("b");
+			
+			ft.CheckOut(b.ID);
 
-            output += "Adding reference book b and copy...\n";
-            SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
-            SDM.LMS.AddDoc("b", "B", 0, 0, true);
-
-            output += "Studebt st checking out book b...\n";
-            st.CheckOut("b");
-
-            output += "Test passed with no exceptions!\n";
-
-            try
-            {
-                Debug.Assert(SDM.LMS.UserExists("lb"));
-                Debug.Assert(SDM.LMS.UserExists("st"));
-                Debug.Assert(SDM.LMS.DocExists("b"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 2);
-
-                output = "Test4 OK";
-
-            }
-            catch
-            {
-                output = "Test4 FAIL";
-            }
-
-            return output;
+            Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(ft.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
+            Debug.Assert(b.Quantity == 0);
+            Debug.Assert(SDM.LMS.GetUserBooks(ft.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.OverdueTime(ft.PersonID, b.ID) / 7 == 4);
         }
 
-        public string test5()
+        public void Test4()
         {
-            string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
-
-            output += "Registering student st in the system...\n";
+            
             SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
+            SDM.LMS.RegisterUser("ft", "ft", "ft", "ft", "ft", false);
+            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Student st = new Student("st");
+            Faculty ft = new Faculty("ft");
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            output += "Registering student st1 in the system...\n";
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1);
+            DocClass b = new DocClass("b");
+            
+            st.CheckOut(b.ID);
+
+            Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(ft.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
+            Debug.Assert(b.Quantity == 0);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.OverdueTime(st.PersonID, b.ID) / 7 == 2);
+        }
+
+        public void Test5()
+        {
+            SDM.LMS.ClearDB();
+            
+            SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
             SDM.LMS.RegisterUser("st1", "st1", "st1", "st1", "st1", false);
-
-            output += "Registering student st2 in the system...\n";
             SDM.LMS.RegisterUser("st2", "st2", "st2", "st2", "st2", false);
-
-            output += "Registering librarian lb in the system...\n";
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Student st = new Student("st");
+            Student st1 = new Student("st1");
+            Student st2 = new Student("st2");
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            output += "Adding reference book A and two copies...\n";
-            SDM.LMS.AddDoc("a", "a", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("a", "a", 0, 0, false);
-            SDM.LMS.AddDoc("a", "a", 0, 0, false);
+			lb.AddAV("a", "a", 0, 2);
+            DocClass a = new DocClass("a");
+            
+            st.CheckOut(a.ID);
+            st1.CheckOut(a.ID);
+            st2.CheckOut(a.ID);
 
-            output += "Logging In as student st...\n";
-            SDM.CurrentUser = new Student("st"); // Log In student st
-            Student st = (Student)SDM.CurrentUser;
-
-            output += "Student st checking out book A...\n";
-            st.CheckOut("a");
-
-            output += "Logging In as student st1...\n";
-            SDM.CurrentUser = new Student("st1"); // Log In student st1
-            Student st1 = (Student)SDM.CurrentUser;
-
-            output += "Student st1 checking out book A...\n";
-            st1.CheckOut("a");
-
-            output += "Logging In as student st2...\n";
-            SDM.CurrentUser = new Student("st2"); // Log In student st2
-            Student st2 = (Student)SDM.CurrentUser;
-
-            output += "Student st2 checking out book A...\n";
-            st2.CheckOut("a");
-
-            try
-            {
-                Debug.Assert(SDM.LMS.UserExists("lb"));
-                Debug.Assert(SDM.LMS.UserExists("st"));
-                Debug.Assert(SDM.LMS.UserExists("st1"));
-                Debug.Assert(SDM.LMS.UserExists("st2"));
-                Debug.Assert(SDM.LMS.DocExists("a"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("a", 3));
-
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 0);
-
-                SDM.CurrentUser = new Student("st1");
-                //   st1 = (Student)SDM.CurrentUser;
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-
-                SDM.CurrentUser = new Student("st");
-                st = (Student)SDM.CurrentUser;
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-
-                output = "Test5 OK";
-
-            }
-            catch
-            {
-                output = "Test5 FAIL";
-            }
-
-            output += "Test passed with no exceptions!\n";
-            return output;
+            Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(st1.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(st2.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(a.ID) != null);
+            Debug.Assert(a.Quantity == 0);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(st1.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(st2.PersonID).Count == 0);
         }
 
-        public string test6()
+        public void Test6()
         {
-            string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
-
-            output += "Registering student st in the system...\n";
+            
             SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
-
-            output += "Registering librarian lb in the system...\n";
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Student st = new Student("st");
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            output += "Logging In as student st...\n";
-            SDM.CurrentUser = new Student("st"); // Log In student st
-            Student st = (Student)SDM.CurrentUser;
+			lb.AddAV("b", "B", 0, 2);
+            DocClass b = new DocClass("b");
+            
+            st.CheckOut(b.ID);
+            st.CheckOut(b.ID);
 
-            output += "Adding reference book b and two copies...\n";
-            SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("b", "B", 0, 0, false);
-            SDM.LMS.AddDoc("b", "B", 0, 0, false);
-
-            output += "Student st checking out book b...\n";
-            st.CheckOut("b");
-
-            output += "Student checking out the book b...\n";
-            st.CheckOut("b");
-
-            output += "Test passed with no exceptions!\n";
-            try
-            {
-                Debug.Assert(SDM.LMS.UserExists("lb"));
-                Debug.Assert(SDM.LMS.UserExists("st"));
-                Debug.Assert(SDM.LMS.DocExists("b"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("b", 3));
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-
-                output = "Test6 OK";
-
-            }
-            catch
-            {
-                output = "Test6 FAIL";
-            }
-
-            return output;
+            Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
+            Debug.Assert(b.Quantity == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
         }
 
-        public string test7()
+        public void Test7()
         {
-            string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
-
-            output += "Registering student 'p1' in the system...\n";
+            
             SDM.LMS.RegisterUser("p1", "p1", "p1", "p1", "p1", false);
-
-            output += "Registering student 'p2' in the system...\n";
             SDM.LMS.RegisterUser("p2", "p2", "p2", "p2", "p2", false);
-
-            output += "Registering librarian lb in the system...\n";
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Student p1 = new Student("p1");
+            Student p2 = new Student("p2");
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            output += "Adding reference book b1 and two copies...\n";
-            SDM.LMS.AddDoc("b1", "B", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("b1", "B", 0, 0, false);
-            SDM.LMS.AddDoc("b1", "B", 0, 0, false);
+			lb.AddAV("b1", "B", 0, 2);
+            DocClass b1 = new DocClass("b1");
+            
+            p1.CheckOut(b1.ID);
+            p2.CheckOut(b1.ID);
 
-            output += "Logging In as student p1...\n";
-            SDM.CurrentUser = new Student("p1"); // Log In student st
-            Student p1 = (Student)SDM.CurrentUser;
-
-            output += "Student p1 checking out book b1...\n";
-            p1.CheckOut("b1");
-
-            output += "Logging In as student p2...\n";
-            SDM.CurrentUser = new Student("p2"); // Log In student st
-            Student p2 = (Student)SDM.CurrentUser;
-
-            output += "Student p2 checking out book b1...\n";
-            p2.CheckOut("b1");
-
-            output += "Test passed with no exceptions!\n";
-            try
-            {
-                Debug.Assert(SDM.LMS.UserExists("lb"));
-                Debug.Assert(SDM.LMS.UserExists("p1"));
-                Debug.Assert(SDM.LMS.UserExists("p2"));
-                Debug.Assert(SDM.LMS.DocExists("b1"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("b1", 3));
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-
-                SDM.CurrentUser = new Student("p1"); // Log In student st
-                p1 = (Student)SDM.CurrentUser;
-
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-
-                output = "Test7 OK";
-
-            }
-            catch
-            {
-                output = "Test7 FAIL";
-            }
-
-            return output;
+            Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(b1.ID) != null);
+            Debug.Assert(b1.Quantity == 0);
+            Debug.Assert(SDM.LMS.GetUserBooks(p1.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(p2.PersonID).Count == 1);
         }
 
-        public string test8()
+        public void Test8()
         {
-            string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
-
-            output += "Registering faculty 'f' in the system...\n";
+            
             SDM.LMS.RegisterUser("f", "f", "f", "f", "f", false);
-
-            output += "Registering student 's' in the system...\n";
             SDM.LMS.RegisterUser("s", "s", "s", "s", "s", false);
-
-            output += "Registering librarian lb in the system...\n";
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Faculty f = new Faculty("f");
+            Student s = new Student("s");
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            output += "Adding reference book b and two copies...\n";
-            SDM.LMS.AddDoc("b", "B", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("b", "B", 0, 0, false);
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1);
+            DocClass b = new DocClass("b");
+            
+            s.CheckOut(b.ID);
 
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
-
-            output += "Logging In as student s...\n";
-            SDM.CurrentUser = new Student("s"); // Log In student st
-            Student s = (Student)SDM.CurrentUser;
-
-            output += "Student s checking out book b...\n";
-            s.CheckOut("b");
-
-            output += "Test passed with no exceptions!\n";
-
-            try
-            {
-                Debug.Assert(SDM.LMS.UserExists("lb"));
-                Debug.Assert(SDM.LMS.UserExists("f"));
-                Debug.Assert(SDM.LMS.UserExists("s"));
-                Debug.Assert(SDM.LMS.DocExists("b"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 3);
-
-                output = "Test8 OK";
-
-            }
-            catch
-            {
-                output = "Test8 FAIL";
-            }
-
-            return output;
+            Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(f.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(s.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
+            Debug.Assert(b.Quantity == 0);
+            Debug.Assert(SDM.LMS.GetUserBooks(s.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, b.ID) / 7 == 3);
         }
 
-        public string test9()
+        public void Test9()
         {
-            string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
-
-            output += "Registering faculty 'f' in the system...\n";
+            
             SDM.LMS.RegisterUser("f", "f", "f", "f", "f", false);
-
-            output += "Registering student 's' in the system...\n";
             SDM.LMS.RegisterUser("s", "s", "s", "s", "s", false);
-
-            output += "Registering librarian lb in the system...\n";
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Faculty f = new Faculty("f");
+            Student s = new Student("s");
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            output += "Adding reference book b and copy...\n";
-            SDM.LMS.AddDoc("b", "B", 0, 0, true); // Adding Reference book
-            SDM.LMS.AddDoc("b", "B", 0, 0, true);
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1);
+            DocClass b = new DocClass("b");
+            
+            s.CheckOut(b.ID);
 
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
-
-            output += "Logging In as student s...\n";
-            SDM.CurrentUser = new Student("s"); // Log In student st
-            Student s = (Student)SDM.CurrentUser;
-
-            output += "Student s checking out book b...\n";
-            s.CheckOut("b");
-
-            output += "Test passed with no exceptions!\n";
-
-            try
-            {
-                Debug.Assert(SDM.LMS.UserExists("lb"));
-                Debug.Assert(SDM.LMS.UserExists("f"));
-                Debug.Assert(SDM.LMS.UserExists("s"));
-                Debug.Assert(SDM.LMS.DocExists("b"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("b", 2));
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-                Debug.Assert((SDM.LMS.GetUserBooks().FirstOrDefault().c_timeToBack.Subtract(SDM.LMS.GetUserBooks().FirstOrDefault().c_dateTaked).TotalDays / 7) == 2);
-
-                output = "Test9 OK";
-
-            }
-            catch
-            {
-                output = "Test9 FAIL";
-            }
-
-            return output;
+            Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(f.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(s.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
+            Debug.Assert(b.Quantity == 0);
+            Debug.Assert(SDM.LMS.GetUserBooks(s.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, b.ID) / 7 == 2);
         }
 
-        public string test10()
+        public void Test10()
         {
-            string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
-
-            output += "Registering student st in the system...\n";
+            
             SDM.LMS.RegisterUser("st", "st", "st", "st", "st", false);
-
-            output += "Registering librarian lb in the system...\n";
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Student st = new Student("st");
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            output += "Adding reference books a and b and copy of a...\n";
-            SDM.LMS.AddDoc("a", "A", 0, 0, false); // Adding Reference book
-            SDM.LMS.AddDoc("a", "A", 0, 0, false);
-            SDM.LMS.AddDoc("b", "B", 0, 0, false);
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1);
+            lb.AddBook("a", "A", "A", 0, "A", "A", 0, false, 0);
+            DocClass b = new DocClass("b");
+            DocClass a = new DocClass("a");
+            
+            st.CheckOut(a.ID);
+            st.CheckOut(b.ID);
 
-            output += "Logging In as student st...\n";
-            SDM.CurrentUser = new Student("st"); // Log In student st
-            Student st = (Student)SDM.CurrentUser;
-
-            output += "Student st checking out book a abd b...\n";
-            st.CheckOut("a");
-            st.CheckOut("b");
-
-            output += "Test passed with no exceptions!\n";
-            try
-            {
-                Debug.Assert(SDM.LMS.UserExists("lb"));
-                Debug.Assert(SDM.LMS.UserExists("st"));
-                Debug.Assert(SDM.LMS.DocExists("b"));
-                Debug.Assert(SDM.LMS.DocExists("a"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("a", 2));
-                Debug.Assert(SDM.LMS.AmountOfDocs("b", 1));
-                Debug.Assert(SDM.LMS.GetUserBooks().Count == 1);
-
-            }
-            catch
-            {
-                output = "Test10 FAIL";
-            }
-
-            return output;
-
+            Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(a.ID) != null);
+            Debug.Assert(b.Quantity == 0);
+            Debug.Assert(a.Quantity == 0);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
         }
-        public string test11()
+
+        public void Test11()
         {
-            string output = "Cleared DB...\n";
             SDM.LMS.ClearDB();
-
-            output += "Registering librarian lb in the system...\n";
+            
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            output += "Adding reference book Introduction to Algorithms and 3 copy of Introduction to Algorithms...\n";
-            for (int i = 0; i < 4; i++)
-            {
-                SDM.LMS.AddBook
-                    (
-                        "Introduction to Algorithms",
-                        "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
-                        "MIT Press",
-                        2009,
-                        "Third Edition",
-                        "Alghorithm techniques and design",
-                        0,
-                        1800,
-                        false
-                    );
-            }
-            for (int i = 0; i < 3; i++)
-            {
-                SDM.LMS.AddBook
-                   (
-                       "Design Patterns: Elements of Reusable Object-Oriented Software",
-                       "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
-                       "Addison-Wesley Professional",
-                       2003,
-                       "First Edition",
-                       "Programm patterns, how to programm well w/o headache",
-                       0,
-                       2000,
-                       true
-                   );
-            }
-            output += "Adding reference book Design Patterns: Elements of Reusable Object-Oriented Software and 2 copy of Introduction to Algorithms...\n";
-            for (int i = 0; i < 2; i++)
-            {
-                SDM.LMS.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", "Some AV", 400);
-                SDM.LMS.AddAV("Information Entropy", "Claude Shannon", "Another AV", 700);
-            }
-            //reference book
-            SDM.LMS.AddBook("The Mythical Man-month", "Brooks,Jr., Frederick P",
-           "Addison-Wesley Longman Publishing Co., Inc.", 1995,
-           "Second edition", "How to do everything and live better",
-           0, 800, false);
-            output += "Adding reference book The Mythical Man-month and copy of Introduction to Algorithms...\n";
-            output += "Adding reference video and copy of Null References: The Billion Dollar Mistake...\n";
-            output += "Adding reference video and copy of Information Entropy...\n";
-            output += "Logging In as librarian lb...\n";
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
+			lb.AddBook
+                (
+                    "Introduction to Algorithms",
+                    "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
+                    "MIT Press",
+                    2009,
+                    "Third Edition",
+                    "Alghorithm techniques and design",
+                    1800,
+                    false,
+                    3
+                );
+            lb.AddBook
+                (
+                    "Design Patterns: Elements of Reusable Object-Oriented Software",
+                    "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
+                    "Addison-Wesley Professional",
+                    2003,
+                    "First Edition",
+                    "Programm patterns, how to programm well w/o headache",
+                    2000,
+                    true,
+                    2
+                );
+            lb.AddBook
+                (
+                    "The Mythical Man-month",
+                    "Brooks,Jr., Frederick P",
+                    "Addison-Wesley Longman Publishing Co., Inc.",
+                    1995,
+                    "Second edition",
+                    "How to do everything and live better",
+                    800,
+                    false,
+                    1
+                );
+            lb.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 400, 1);
+            lb.AddAV("Information Entropy", "Claude Shannon", 700, 1);
+            DocClass b1 = new DocClass("Introduction to Algorithms");
+            DocClass b2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
+            DocClass b3 = new DocClass("The Mythical Man-month");
+            DocClass av1 = new DocClass("Null References: The Billion Dollar Mistake");
+            DocClass av2 = new DocClass("Information Entropy");
 
-            output += "Registering patrons Sergey Afonso, Nadia Teixeira, Elvira Espindola...\n";
             lb.RegisterUser("Sergey Afonso", "Sergey Afonso", "Sergey Afonso", "Via Margutta, 3", "30001", false);
-            //lb.UpgradeUser("Sergey Afonso");
             lb.RegisterUser("Nadia Teixeira", "Nadia Teixeira", "Nadia Teixeira", "Via Sacra, 13", "30002", false);
             lb.RegisterUser("Elvira Espindola", "Elvira Espindola", "Elvira Espindola", "Via del Corso, 22", "30003", false);
-            //Assertions for auto-tests
-            try
-            {
-                Debug.Assert(SDM.LMS.DocExists("Introduction to Algorithms"));
-                //included reference book
-                Debug.Assert(SDM.LMS.AmountOfDocs("Introduction to Algorithms", 4));
-                Debug.Assert(SDM.LMS.DocExists("Design Patterns: Elements of Reusable Object-Oriented Software"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("Design Patterns: Elements of Reusable Object-Oriented Software", 3));
-                Debug.Assert(SDM.LMS.DocExists("The Mythical Man-month"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 1));
-                Debug.Assert(SDM.LMS.DocExists("Null References: The Billion Dollar Mistake"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("Null References: The Billion Dollar Mistake", 2));
-                Debug.Assert(SDM.LMS.DocExists("Information Entropy"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("Information Entropy", 2));
-                Debug.Assert(SDM.LMS.CheckLogin("Sergey Afonso"));
-                Debug.Assert(SDM.LMS.CheckLogin("Nadia Teixeira"));
-                Debug.Assert(SDM.LMS.CheckLogin("Elvira Espindola"));
-            }
-            catch
-            {
-                return "Test11 not passed";
-            }
-            return output;
+            Student p1 = new Student("Sergey Afonso");
+            Student p2 = new Student("Nadia Teixeira");
+            Student p3 = new Student("Elvira Espindola");
+
+            lb.ModifyUser(p1.PersonID, p1.Name, p1.Adress, p1.PhoneNumber, p1.UserType + 1);
+
+            Debug.Assert(SDM.LMS.GetDoc(b1.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(b2.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(b3.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(av1.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(av2.ID) != null);
+
+            Debug.Assert(b1.Quantity == 3);
+            Debug.Assert(b2.Quantity == 2);
+            Debug.Assert(b3.Quantity == 1);
+            Debug.Assert(av1.Quantity == 1);
+            Debug.Assert(av2.Quantity == 1);
+
+            Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p3.PersonID) != null);
         }
 
-        public string test12()
+        public void Test12()
         {
-            string output = "";
-            output += "Running TC11...\n";
+            Test11();
+            
+            Librarian lb = new Librarian("lb");
+            Student p2 = new Student("Nadia Teixeira");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            test11();
+			DocClass b1 = new DocClass("Introduction to Algorithms");
+            DocClass b3 = new DocClass("The Mythical Man-month");
+            
+            lb.ModifyAV(b1.ID, b1.Title, b1.Autors, b1.Price, b1.Quantity - 2);
+            lb.ModifyAV(b3.ID, b3.Title, b3.Autors, b3.Price, b3.Quantity - 1);
+            lb.DeleteUser(p2.PersonID);
 
-            output += "Logging In as librarian lb...\n";
-            Librarian lb = (Librarian)SDM.CurrentUser;
-
-            output += "Obtaining ID of Nadia Teixeira patron...\n";
-            int idp2 = SDM.LMS.GetPatronByName("Nadia Teixeira").userID;
-
-            output += "Removing Introduction to Algorithms & The Mythical Man-month documents and Nadia Teixeira patron...\n";
-            lb.DeleteDoc("Introduction to Algorithms");
-            lb.DeleteDoc("The Mythical Man-month");
-            lb.DeleteUser(idp2);
-            //Assertions for auto-tests
-            try
-            {
-                Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("Introduction to Algorithms", 4 - 1));
-                Debug.Assert(SDM.LMS.AmountOfDocs("The Mythical Man-month", 0));
-            }
-            catch
-            {
-                return "Test12 not passed";
-            }
-            return output;
+            Debug.Assert(SDM.LMS.GetUser(p2.PersonID) == null);
+            Debug.Assert(b1.Quantity == 1);
+            Debug.Assert(b3.Quantity == 0);
         }
 
-        public string test13()
+        public void Test13()
         {
-            string output = "Cleared DB...\n";
-
-            output += "Running TC11...\n";
-
-            test11();
-
-            output += "Logging In as librarian lb...\n";
-            Librarian lb = (Librarian)SDM.CurrentUser;
-
-            //lb.UpgradeUser("Sergey Afonso");
-            output += "Creating new window with user card of Sergey Afonso...\n";
-            // output += lb.ShowUserCard("Sergey Afonso") + "...\n";
-
-            output += "Creating new window with user card of Elvira Espindola...\n";
-            //output += lb.ShowUserCard("Elvira Espindola") + "...\n";
-            //Assertions for auto-tests
-            try
-            {
-                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
-                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1, CheckedOutInfo));
-            }
-            catch
-            {
-                return "Test13 not passed";
-            }
-            return output;
+            Test11();
+            
+            Librarian lb = new Librarian("lb");
+            Faculty p1 = new Faculty("Sergey Afonso");
+            Student p3 = new Student("Elvira Espindola");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+            
+            // TODO Под вопросом
+            List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
+            Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1, CheckedOutInfo));
+            Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0, CheckedOutInfo));
         }
 
-        public string test14()
+        public void Test14()
         {
-            string output = "Cleared DB...\n";
-            SDM.LMS.ClearDB();
+            Test12();
 
-            output += "Running TC12...\n";
+            Librarian lb = new Librarian("lb");
+            Student p2 = new Student("Nadia Teixeira");
+            Student p3 = new Student("Elvira Espindola");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            test12();
-
-            output += "Logging In as librarian lb...\n";
-            Librarian lb = (Librarian)SDM.CurrentUser;
-
-            output += "Creating new window with user card of Nadia Teixeira...\n";
-            //output += lb.ShowUserCard("Nadia Teixeira") + "...\n";
-
-            output += "Creating new window with user card of Elvira Espindola...\n";
-            //output += lb.ShowUserCard("Elvira Espindola") + "...\n";
-            try
-            {
-                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
-                Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1, CheckedOutInfo));
-            }
-            catch
-            {
-                return "Test14 not passed";
-            }
-            return output;
+            List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
+            Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0, CheckedOutInfo));
+            Debug.Assert(SDM.LMS.GetUser(p2.PersonID) == null);
         }
 
-        public string test15()
+        public void Test15()
         {
-            string output = "Cleared DB...\n";
-            SDM.LMS.ClearDB();
+            Test12();
+            
+            Student p2 = new Student("Nadia Teixeira");
 
-            output += "Running TC12...\n";
+            DocClass b1 = new DocClass("Introduction to Algorithms");
 
-            test12();
+            p2.CheckOut(b1.ID);
 
-            output += "Checking existence of Nadia Teixeira...\n";
-            if (SDM.LMS.CheckLogin("Nadia Teixeira"))
-            {
-                SDM.CurrentUser = new Student("Nadia Teixeira");
-                Student p2 = (Student)SDM.CurrentUser;
-                p2.CheckOut("Introduction to Algorithms");
-                output += "Successfully checked...\n";
-            }
-            else
-                output += "There is no such patron Nadia Teixeira...\n";
-            try
-            {
-                Debug.Assert(!SDM.LMS.CheckLogin("Nadia Teixeira"));
-            }
-            catch
-            {
-                return "Test15 not passed";
-            }
-            return output;
+            Debug.Assert(SDM.LMS.GetUser(p2.PersonID) == null);
         }
 
-        public string test16()
+        public void Test16()
         {
-            string output = "Cleared DB...\n";
-            SDM.LMS.ClearDB();
+            Test11();
 
-            output += "Running TC12...\n";
+            Librarian lb = new Librarian("lb");
+            Faculty p1 = new Faculty("Sergey Afonso");
+            Student p3 = new Student("Elvira Espindola");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            test11();
+			DocClass b1 = new DocClass("Introduction to Algorithms");
+            DocClass b2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
 
-            output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Faculty("Sergey Afonso");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut(b1.ID);
+            p3.CheckOut(b1.ID);
+            p1.CheckOut(b2.ID);
 
-            output += "Checking Introduction to Algorithms out by Sergey Afonso patron...\n";
-            p1.CheckOut("Introduction to Algorithms");
-
-            output += "Logging In as Elvira Espindola patron...\n";
-            SDM.CurrentUser = new Student("Elvira Espindola");
-            Student p3 = (Student)SDM.CurrentUser;
-
-            output += "Introduction to Algorithms out by Elvira Espindola patron...\n";
-            p3.CheckOut("Introduction to Algorithms");
-
-            output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Faculty("Sergey Afonso");
-            p1 = (Faculty)SDM.CurrentUser;
-
-            output += "Checking Design Patterns: Elements of Reusable Object-Oriented Software out by Sergey Afonso patron...\n";
-            p1.CheckOut("Design Patterns: Elements of Reusable Object-Oriented Software");
-
-            output += "Logging In as librarian...\n";
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
-
-            output += "Creating new window with user card of Sergey Afonso...\n";
-            //output += lb.ShowUserCard("Sergey Afonso") + "...\n";
-
-            output += "Creating new window with user card of Elvira Espindola...\n";
-            //output += lb.ShowUserCard("Elvira Espindola") + "...\n";
-            try
+            List<CheckedOut> CheckedOutInfo = new List<CheckedOut>
             {
-                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
-                CheckedOut temp = new CheckedOut();
-                temp.CheckOutTime = DateTime.Now.AddDays(21).Day;
-                temp.DocumentCheckedOut = "Introduction to Algorithms";
-                CheckedOutInfo.Add(temp);
-                Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 1, CheckedOutInfo));
-                CheckedOutInfo = new List<CheckedOut>();
-                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
-                temp.DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
-                CheckedOutInfo.Insert(0, temp);
-                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
-                temp.DocumentCheckedOut = "Introduction to Algorithms";
-                CheckedOutInfo.Add(temp);
-                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(21).Day, DocumentCheckedOut = "Introduction to Algorithms" }
+            };
+            Debug.Assert(SDM.LMS.CheckUserInfo("Elvira Espindola", "Via del Corso, 22", "30003", 0, CheckedOutInfo));
 
-            }
-            catch
+            CheckedOutInfo = new List<CheckedOut>
             {
-                return "Test16 not passed";
-            }
-            return output;
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(28).Day, DocumentCheckedOut = "Introduction to Algorithms" },
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(28).Day, DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software" }
+            };
+            Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1, CheckedOutInfo));
         }
 
-        public string test17()
+        public void Test17()
         {
-            string output = "Cleared DB...\n";
-            SDM.LMS.ClearDB();
+            Test11();
 
-            output += "Running TC11...\n";
+            Librarian lb = new Librarian("lb");
+            Faculty p1 = new Faculty("Sergey Afonso");
+            Student p2 = new Student("Nadia Teixeira");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            test11();
+			DocClass b1 = new DocClass("Introduction to Algorithms");
+            DocClass b2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
+            DocClass b3 = new DocClass("The Mythical Man-month");
+            DocClass av1 = new DocClass("Null References: The Billion Dollar Mistake");
+            DocClass av2 = new DocClass("Information Entropy");
 
-            output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Faculty("Sergey Afonso");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
+            p1.CheckOut(b1.ID);
+            p1.CheckOut(b2.ID);
+            p1.CheckOut(b3.ID);
+            p1.CheckOut(av1.ID);
+            p2.CheckOut(b1.ID);
+            p2.CheckOut(b2.ID);
+            p2.CheckOut(av2.ID);
 
-            output += " Checking out Introduction to Algorithms, Design Patterns: Elements of Reusable Object-Oriented Software, The Mythical Man-month, Null References: The Billion Dollar Mistake by Sergey Afonso patron...\n";
-            p1.CheckOut("Introduction to Algorithms");
-            p1.CheckOut("Design Patterns: Elements of Reusable Object-Oriented Software");
-            p1.CheckOut("The Mythical Man-month");
-            p1.CheckOut("Null References: The Billion Dollar Mistake");
-
-            output += "Logging In as Nadia Teixeira patron...\n";
-            SDM.CurrentUser = new Student("Nadia Teixeira");
-            Student p2 = (Student)SDM.CurrentUser;
-
-            output += " Checking out Introduction to Algorithms, Design Patterns: Elements of Reusable Object-Oriented Software, Information Entropy...\n";
-            p2.CheckOut("Introduction to Algorithms");
-            p2.CheckOut("Design Patterns: Elements of Reusable Object-Oriented Software");
-            p2.CheckOut("Information Entropy");
-
-            output += "Logging In as librarian...\n";
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
-
-            output += "Creating new window with user card of Sergey Afonso...\n";
-            // output += lb.ShowUserCard("Sergey Afonso") + "...\n";
-
-            output += "Creating new window with user card of Elvira Espindola...\n";
-            //  output += lb.ShowUserCard("Nadia Teixeira") + "...\n";
-            try
+            List<CheckedOut> CheckedOutInfo = new List<CheckedOut>
             {
-                List<CheckedOut> CheckedOutInfo = new List<CheckedOut>();
-                CheckedOut temp = new CheckedOut();
-                temp.CheckOutTime = DateTime.Now.AddDays(21).Day;
-                temp.DocumentCheckedOut = "Introduction to Algorithms";
-                CheckedOutInfo.Add(temp);
-                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
-                temp.DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
-                CheckedOutInfo.Add(temp);
-                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
-                temp.DocumentCheckedOut = "Information Entropy";
-                CheckedOutInfo.Add(temp);
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(21).Day, DocumentCheckedOut = "Introduction to Algorithms" },
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(14).Day, DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software" },
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(14).Day, DocumentCheckedOut = "Information Entropy" }
+            };
+            Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 0, CheckedOutInfo));
 
-                Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 1, CheckedOutInfo));
-
-                CheckedOutInfo = new List<CheckedOut>();
-                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
-                temp.DocumentCheckedOut = "Introduction to Algorithms";
-                CheckedOutInfo.Add(temp);
-                temp.CheckOutTime = DateTime.Now.AddDays(28).Day;
-                temp.DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software";
-                CheckedOutInfo.Add(temp);
-                temp.CheckOutTime = DateTime.Now.AddDays(14).Day;
-                temp.DocumentCheckedOut = "Null References: The Billion Dollar Mistake";
-                CheckedOutInfo.Add(temp);
-
-                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, CheckedOutInfo));
-
-            }
-            catch
+            CheckedOutInfo = new List<CheckedOut>
             {
-                return "Test17 not passed";
-            }
-            return output;
-
-        }
-        
-
-        public string test18()
-        {
-            string output = "";
-            output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Faculty("Sergey Afonso");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
-
-            output += "breaking through space and time to February 2nd 2018...\n";
-            int[] timeCheat = { 09, 02, 2018 };
-            p1.CheckOut("Design Patterns: Elements of Reusable Object-Oriented Software", timeCheat);
-
-            output += "Logging In as Nadia Teixeira patron...\n";
-            SDM.CurrentUser = new Student("Nadia Teixeira");
-            Student p2 = (Student)SDM.CurrentUser;
-
-            output += "breaking through space and time to February 5th 2018...\n";
-            timeCheat[0] = 05;
-            p2.CheckOut("Introduction to Algorithms", timeCheat);
-
-            output += "Logging In as Sergey Afonso patron...\n";
-            SDM.CurrentUser = new Faculty("Sergey Afonso");
-            p1 = (Faculty)SDM.CurrentUser;
-
-            output += "breaking through space and time to February 9th 2018...\n";
-            timeCheat[0] = 09;
-            p1.CheckOut("Introduction to Algorithms", timeCheat);
-
-            output += "Logging In as Nadia Teixeira patron...\n";
-            SDM.CurrentUser = new Student("Nadia Teixeira");
-            p2 = (Student)SDM.CurrentUser;
-
-            output += "breaking through space and time to February 17th 2018...\n";
-            timeCheat[0] = 17;
-            p2.CheckOut("Null References: The Billion Dollar Mistake", timeCheat);
-
-            output += "Logging In as librarian...\n";
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
-
-            output += "Creating new window with overdue info of Sergey Afonso...\n";
-            //lb.ShowOverdue("Sergey Afonso");
-
-            output += "Creating new window with overdue info of Nadia Teixeira...\n";
-            //lb.ShowOverdue("Nadia Teixeira");
-            try
-            {
-                List<OverdueInfo> overdueInfos = new List<OverdueInfo>();
-                OverdueInfo temp = new OverdueInfo();
-                DateTime timetoback = new DateTime(2018, 02, 05).AddDays(21);
-                DateTime assumingTime = new DateTime(2018, 03, 05);
-
-                temp.overdue = (int)DateTime.Now.Subtract(timetoback).TotalDays;
-                temp.DocumentChekedOut = "Introduction to Algorithms";
-                overdueInfos.Add(temp);
-                timetoback = new DateTime(2018, 02, 17).AddDays(14);
-                temp.overdue = (int)DateTime.Now.Subtract(timetoback).TotalDays;
-                temp.DocumentChekedOut = "Null References: The Billion Dollar Mistake";
-                overdueInfos.Add(temp);
-
-                Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 1, overdueInfos));
-
-                overdueInfos = new List<OverdueInfo>();
-                temp = new OverdueInfo();
-                timetoback = new DateTime(2018, 02, 02).AddDays(28);
-                temp.overdue = (int)DateTime.Now.Subtract(timetoback).TotalDays;
-                temp.DocumentChekedOut = "Introduction to Algorithms";
-                overdueInfos.Add(temp);
-
-                Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 2, overdueInfos));
-
-            }
-            catch
-            {
-                return "Test18 not passed";
-            }
-            return output;
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(28).Day, DocumentCheckedOut = "Introduction to Algorithms" },
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(28).Day, DocumentCheckedOut = "Design Patterns: Elements of Reusable Object-Oriented Software" },
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(28).Day, DocumentCheckedOut = "The Mythical Man-month" },
+                new CheckedOut { CheckOutTime = DateTime.Now.AddDays(14).Day, DocumentCheckedOut = "Null References: The Billion Dollar Mistake" }
+            };
+            Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1, CheckedOutInfo));
         }
 
-        public string test19()
+        public void Test18()
         {
-            string output = "Cleared DB...\n";
-            SDM.LMS.ClearDB();
+            Test11();
 
-            output += "Running TC11...\n";
+            Librarian lb = new Librarian("lb");
+            Faculty p1 = new Faculty("Sergey Afonso");
+            Student p2 = new Student("Nadia Teixeira");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            test11();
+			DocClass b1 = new DocClass("Introduction to Algorithms");
+            DocClass b2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
+            DocClass av1 = new DocClass("Null References: The Billion Dollar Mistake");
 
-            output += "Logging In as librarian lb...\n";
-            Librarian lb = (Librarian)SDM.CurrentUser;
+            p1.CheckOut(b1.ID, new int[] { 09, 02, 2018 });
+            p1.CheckOut(b2.ID, new int[] { 02, 02, 2018 });
+            p2.CheckOut(b1.ID, new int[] { 05, 02, 2018 });
+            p2.CheckOut(av1.ID, new int[] { 17, 02, 2018 });
+
+            DateTime now = new DateTime(2018, 03, 05);
+
+            List<OverdueInfo> overdueInfos = new List<OverdueInfo>()
+            {
+                new OverdueInfo { Overdue = (int)now.Subtract(new DateTime(2018, 02, 02).AddDays(28)).TotalDays, DocumentChekedOut = "Design Patterns: Elements of Reusable Object-Oriented Software" }
+            };
+            Debug.Assert(SDM.LMS.CheckUserInfo("Sergey Afonso", "Via Margutta, 3", "30001", 1, overdueInfos, now));
+
+            overdueInfos = new List<OverdueInfo>
+            {
+                new OverdueInfo { Overdue = (int)now.Subtract(new DateTime(2018, 02, 05).AddDays(21)).TotalDays, DocumentChekedOut = "Introduction to Algorithms" },
+                new OverdueInfo { Overdue = (int)now.Subtract(new DateTime(2018, 02, 17).AddDays(14)).TotalDays, DocumentChekedOut = "Null References: The Billion Dollar Mistake" }
+            };
+            Debug.Assert(SDM.LMS.CheckUserInfo("Nadia Teixeira", "Via Sacra, 13", "30002", 0, overdueInfos, now));
+        }
+
+        public void Test19()
+        {
+            Test11();
             Environment.Exit(0);
-
-            return output;
         }
-        */
-        public void initial()
+
+        public void Initial()
         {
-            //AddBooks
             SDM.LMS.ClearDB();
+
             SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
-            SDM.LMS.AddBook
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+
+			lb.AddBook
                 (
-                    "d1",
+                    "Introduction to Algorithms",
                     "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
                     "MIT Press",
                     2009,
@@ -948,9 +543,9 @@ namespace I2P_Project.Tests
                     false,
                     3
                 );
-            SDM.LMS.AddBook
+            lb.AddBook
                 (
-                    "d2",
+                    "Design Patterns: Elements of Reusable Object-Oriented Software",
                     "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm",
                     "Addison-Wesley Professional",
                     2003,
@@ -960,295 +555,270 @@ namespace I2P_Project.Tests
                     true,
                     3
                 );
-            SDM.LMS.AddAV("d3", "Tony Hoare", 700, 2);
-            SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
+            lb.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 700, 2);
+            DocClass d1 = new DocClass("Introduction to Algorithms");
+            DocClass d2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
+            DocClass d3 = new DocClass("Null References: The Billion Dollar Mistake");
+            
             lb.RegisterUser("p1", "p1", "p1", "Via Margutta, 3", "30001", false);
-            lb.UpgradeUser("p1",4);
             lb.RegisterUser("p2", "p2", "p2", "Via Sacra, 13", "30002", false);
-            lb.UpgradeUser("p2",4);
             lb.RegisterUser("p3", "p3", "p3", "Via del Corso, 22", "30003", false);
-            lb.UpgradeUser("p3",4);
-            SDM.CurrentUser = new Faculty("p1");
-            SDM.LMS.RegisterUser("s", "s", "s", "s", "s", false);
-            SDM.LMS.RegisterUser("v", "v", "v", "v", "v", false);
-            lb.UpgradeUser("v", 3);
-            //Assertions for auto-tests
-            try
-            {
-                Debug.Assert(SDM.LMS.DocExists("d1"));
-                //included reference book
-                Debug.Assert(SDM.LMS.AmountOfDocs("d1", 3));
-                Debug.Assert(SDM.LMS.DocExists("d2"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("d2", 3));
-                Debug.Assert(SDM.LMS.DocExists("d3"));
-                Debug.Assert(SDM.LMS.AmountOfDocs("d3", 2));
-                Debug.Assert(SDM.LMS.CheckLogin("p1"));
-                Debug.Assert(SDM.LMS.CheckLogin("p2"));
-                Debug.Assert(SDM.LMS.CheckLogin("p3"));
-                Debug.Assert(SDM.LMS.CheckLogin("s"));
-                Debug.Assert(SDM.LMS.CheckLogin("v"));
-            }
-            catch
-            {
-                return;
-            }
+            lb.RegisterUser("s", "s", "s", "s", "s", false);
+            lb.RegisterUser("v", "v", "v", "v", "v", false);
+            Student p1 = new Student("p1");
+            Student p2 = new Student("p2");
+            Student p3 = new Student("p3");
+            Student s = new Student("s");
+            Student v = new Student("v");
 
+            lb.ModifyUser(p1.PersonID, p1.Name, p1.Adress, p1.PhoneNumber, 4);
+            lb.ModifyUser(p2.PersonID, p2.Name, p2.Adress, p2.PhoneNumber, 4);
+            lb.ModifyUser(p3.PersonID, p3.Name, p3.Adress, p3.PhoneNumber, 4);
+            lb.ModifyUser(v.PersonID, v.Name, v.Adress, v.PhoneNumber, 3);
+
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID) != null);
+
+            Debug.Assert(d1.Quantity == 3);
+            Debug.Assert(d2.Quantity == 3);
+            Debug.Assert(d3.Quantity == 2);
+
+            Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p3.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(s.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(v.PersonID) != null);
         }
 
-        public void test20()
+        public void Test20()
         {
-            initial();
-            int[] timeCheat = { 07, 03, 2018 }; //compensates april 4th not april 2nd
-            SDM.CurrentUser = new Faculty("p1");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
-            p1.CheckOut("d1", timeCheat);
-            p1.CheckOut("d2", timeCheat);
-            p1.ReturnDoc(SDM.LMS.GetDocID("d2"));
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
+            Initial();
 
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d1")) == 100);
+            Faculty p1 = new Faculty("p1");
+
+            DocClass d1 = new DocClass("Introduction to Algorithms");
+            DocClass d2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
+
+            p1.CheckOut(d1.ID, new int[] { 05, 03, 2018 });
+            p1.CheckOut(d2.ID, new int[] { 05, 03, 2018 });
+            p1.ReturnDoc(d2.ID);
+
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d1.ID, new DateTime(2018, 04, 02)) == 0);
         }
 
-        public void test21()
+        public void Test21()
         {
-            initial();
-            int[] timeCheat = { 07, 03, 2018 };//compensates april 4th not april 2nd
+            Initial();
+            int[] timeCheat = { 05, 03, 2018 };
+            DateTime Now = new DateTime(2018, 04, 02);
 
+            Faculty p1 = new Faculty("p1");
+            Student s = new Student("s");
+            VisitingProfessor v = new VisitingProfessor("v");
 
-            SDM.CurrentUser = new Faculty("p1");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
-            p1.CheckOut("d1", timeCheat);
-            p1.CheckOut("d2", timeCheat);
+            DocClass d1 = new DocClass("Introduction to Algorithms");
+            DocClass d2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
 
-            SDM.CurrentUser = new Student("s");
-            Student s = (Student)SDM.CurrentUser;
-            s.CheckOut("d1", timeCheat);
-            s.CheckOut("d2", timeCheat);
+            p1.CheckOut(d1.ID, timeCheat);
+            p1.CheckOut(d2.ID, timeCheat);
+            s.CheckOut(d1.ID, timeCheat);
+            s.CheckOut(d2.ID, timeCheat);
+            v.CheckOut(d1.ID, timeCheat);
+            v.CheckOut(d2.ID, timeCheat);
 
-            SDM.CurrentUser = new VisitingProfessor("v");
-            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
-            v.CheckOut("d1", timeCheat);
-            v.CheckOut("d2", timeCheat);
+            Debug.Assert(SDM.LMS.OverdueTime(p1.PersonID, d1.ID) == 1);
+            Debug.Assert(SDM.LMS.OverdueTime(p1.PersonID, d2.ID) == 1);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d1.ID, Now) == 100);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d2.ID, Now) == 100);
 
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
+            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, d1.ID) == 8);
+            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, d2.ID) == 15);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(s.PersonID, d1.ID, Now) == 800);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(s.PersonID, d2.ID, Now) == 1500);
 
-            Debug.Assert(SDM.LMS.OverdueTime(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d1")) == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d2")) == 1);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d1")) == 100);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d2")) == 100);
-
-            int i = SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d1"));
-
-            Debug.Assert(SDM.LMS.OverdueTime(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d1")) == 8);
-            Debug.Assert(SDM.LMS.OverdueTime(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d2")) == 15);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d1")) == 800);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d2")) == 1500);
-
-            Debug.Assert(SDM.LMS.OverdueTime(SDM.LMS.GetPatronByName("v").userID, SDM.LMS.GetDocID("d1")) == 22);
-            Debug.Assert(SDM.LMS.OverdueTime(SDM.LMS.GetPatronByName("v").userID, SDM.LMS.GetDocID("d2")) == 22);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("v").userID, SDM.LMS.GetDocID("d1")) == 2200);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(SDM.LMS.GetPatronByName("v").userID, SDM.LMS.GetDocID("d2")) == 1700);
+            Debug.Assert(SDM.LMS.OverdueTime(v.PersonID, d1.ID) == 22);
+            Debug.Assert(SDM.LMS.OverdueTime(v.PersonID, d2.ID) == 22);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(v.PersonID, d1.ID, Now) == 2200);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(v.PersonID, d2.ID, Now) == 1700);
         }
 
-        public void test22()
+        public void Test22()
         {
-            initial();
+            Initial();
             int[] timeCheat = { 02, 04, 2018 };
-
-
-            SDM.CurrentUser = new Faculty("p1");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
-            p1.CheckOut("d1", timeCheat);
             
+            Faculty p1 = new Faculty("p1");
+            Student s = new Student("s");
+            VisitingProfessor v = new VisitingProfessor("v");
 
-            SDM.CurrentUser = new Student("s");
-            Student s = (Student)SDM.CurrentUser;
-            s.CheckOut("d2", timeCheat);
+            DocClass d1 = new DocClass("Introduction to Algorithms");
+            DocClass d2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
+
+            p1.CheckOut(d1.ID, timeCheat);
+            s.CheckOut(d2.ID, timeCheat);
+            v.CheckOut(d2.ID, timeCheat);
+
+            p1.RenewDoc(d1.ID, timeCheat);
+            s.RenewDoc(d2.ID, timeCheat);
+            v.RenewDoc(d2.ID, timeCheat);
             
-
-            SDM.CurrentUser = new VisitingProfessor("v");
-            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
-            v.CheckOut("d2", timeCheat);
-
-            SDM.CurrentUser = new Faculty("p1");
-            p1 = (Faculty)SDM.CurrentUser;
-            p1.RenewDoc(SDM.LMS.GetDocID("d1"), timeCheat);
-
-            SDM.CurrentUser = new Student("s");
-            s = (Student)SDM.CurrentUser;
-            s.RenewDoc(SDM.LMS.GetDocID("d2"), timeCheat);
-
-            SDM.CurrentUser = new VisitingProfessor("v");
-            v = (VisitingProfessor)SDM.CurrentUser;
-            v.RenewDoc(SDM.LMS.GetDocID("d2"), timeCheat);
-
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
-
-            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d1")).Day == 30); 
-
-            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d2")).Day == 16);
-
-            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("v").userID, SDM.LMS.GetDocID("d2")).Day == 9);
-
+            Debug.Assert(SDM.LMS.GetCheckout(p1.PersonID, d1.ID).TimeToBack.Day == 30);
+            Debug.Assert(SDM.LMS.GetCheckout(s.PersonID, d2.ID).TimeToBack.Day == 16);
+            Debug.Assert(SDM.LMS.GetCheckout(v.PersonID, d2.ID).TimeToBack.Day == 9);
         }
 
-        public void test23()
+        public void Test23()
         {
-            initial();
+            Initial();
             int[] timeCheat = { 31, 03, 2018 };
 
+            Librarian lb = new Librarian("lb");
+            Faculty p1 = new Faculty("p1");
+            Student s = new Student("s");
+            VisitingProfessor v = new VisitingProfessor("v");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            SDM.CurrentUser = new Faculty("p1");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
-            p1.CheckOut("d1", timeCheat);
-            
+			DocClass d1 = new DocClass("Introduction to Algorithms");
+            DocClass d2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
 
-            SDM.CurrentUser = new Student("s");
-            Student s = (Student)SDM.CurrentUser;
-            s.CheckOut("d2", timeCheat);
-            
+            p1.CheckOut(d1.ID, timeCheat);
+            s.CheckOut(d2.ID, timeCheat);
+            v.CheckOut(d2.ID, timeCheat);
+            lb.OutstandingRequest(d2.ID);
 
-            SDM.CurrentUser = new VisitingProfessor("v");
-            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
-            v.CheckOut("d2", timeCheat);
-            
-            SDM.LMS.SetOutstandingRequest(SDM.LMS.GetDocID("d2"));
             timeCheat = new int[] { 02, 04, 2018 };
+            p1.RenewDoc(d1.ID,timeCheat);
+            s.RenewDoc(d2.ID);
+            v.RenewDoc(d2.ID);
 
-            SDM.CurrentUser = new Faculty("p1");
-            p1 = (Faculty)SDM.CurrentUser;
-            p1.RenewDoc(SDM.LMS.GetDocID("d1"),timeCheat);
-
-            SDM.CurrentUser = new Student("s");
-            s = (Student)SDM.CurrentUser;
-            s.RenewDoc(SDM.LMS.GetDocID("d2"));
-
-            SDM.CurrentUser = new VisitingProfessor("v");
-            v = (VisitingProfessor)SDM.CurrentUser;
-            v.RenewDoc(SDM.LMS.GetDocID("d2"));
-
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
-            int j = SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d2")).Day;
-
-            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("p1").userID, SDM.LMS.GetDocID("d1")).Day == 30);
-
-            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("s").userID, SDM.LMS.GetDocID("d2")).Day == System.DateTime.Now.Day);
-
-            Debug.Assert(SDM.LMS.CheckoutTimeToBack(SDM.LMS.GetPatronByName("v").userID, SDM.LMS.GetDocID("d2")).Day == System.DateTime.Now.Day);
-
+            Debug.Assert(SDM.LMS.GetCheckout(p1.PersonID, d1.ID).TimeToBack.Day == 30);
+            Debug.Assert(SDM.LMS.GetCheckout(s.PersonID, d2.ID).TimeToBack.Day == DateTime.Now.Day);
+            Debug.Assert(SDM.LMS.GetCheckout(v.PersonID, d2.ID).TimeToBack.Day == DateTime.Now.Day);
         }
 
 
-        public void test25()
+        public void Test25()
         {
-            initial();
-            SDM.CurrentUser = new Faculty("p1");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
+            Initial();
             int[] dateCheat = { 02, 04, 2018 };
-            p1.CheckOut("d3", dateCheat);
-            SDM.CurrentUser = new Student("s");
-            Student s = (Student)SDM.CurrentUser;
-            s.CheckOut("d3", dateCheat);
-            SDM.CurrentUser = new VisitingProfessor("v");
-            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
-            v.CheckOut("d3", dateCheat);
-            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
+
+            Faculty p1 = new Faculty("p1");
+            Student s = new Student("s");
+            VisitingProfessor v = new VisitingProfessor("v");
+
+            DocClass d3 = new DocClass("Null References: The Billion Dollar Mistake");
+
+            p1.CheckOut(d3.ID, dateCheat);
+            s.CheckOut(d3.ID, dateCheat);
+            v.CheckOut(d3.ID, dateCheat);
+
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(d3.ID);
+            Debug.Assert(pq.Pop() == v.PersonID);
         }
 
-        public void test26()
+        public void Test26()
         {
-            initial();
-            SDM.CurrentUser = new Faculty("p1");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
+            Initial();
             int[] dateCheat = { 02, 04, 2018 };
-            p1.CheckOut("d3",dateCheat);
-            SDM.CurrentUser = new Faculty("p2");
-            Faculty p2 = (Faculty)SDM.CurrentUser;
-            p2.CheckOut("d3", dateCheat);
-            SDM.CurrentUser = new Student("s");
-            Student s = (Student)SDM.CurrentUser;
-            s.CheckOut("d3", dateCheat);
-            SDM.CurrentUser = new VisitingProfessor("v");
-            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
-            v.CheckOut("d3", dateCheat);
-            SDM.CurrentUser = new Faculty("p3");
-            Faculty p3 = (Faculty)SDM.CurrentUser;
-            p3.CheckOut("d3", dateCheat);
-            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
-            int check = pq.Pop();
-            int id = SDM.LMS.GetUserID("v");
-            check = pq.Pop();
-            id = SDM.LMS.GetUserID("p3");
-            Debug.Assert(check == id);
-        }
-        public void test27()
-        {
-            test26();
-            SDM.CurrentUser = new Librarian("lb");
-            Librarian lb = (Librarian)SDM.CurrentUser;
-            int docid = SDM.LMS.GetDocID("d3");
-            lb.OutstandingRequest(docid);
-            Debug.Assert(SDM.LMS.ExistQueueForDoc(docid));
+
+            Student p1 = new Student("p1");
+            Student p2 = new Student("p2");
+            Student p3 = new Student("p3");
+            Student s = new Student("s");
+            Student v = new Student("v");
+
+            DocClass d3 = new DocClass("Null References: The Billion Dollar Mistake");
+
+            p1.CheckOut(d3.ID,dateCheat);
+            p2.CheckOut(d3.ID, dateCheat);
+            s.CheckOut(d3.ID, dateCheat);
+            v.CheckOut(d3.ID, dateCheat);
+            p3.CheckOut(d3.ID, dateCheat);
+
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(d3.ID);
+            Debug.Assert(pq.Pop() == s.PersonID);
+            Debug.Assert(pq.Pop() == v.PersonID);
+            Debug.Assert(pq.Pop() == p3.PersonID);
         }
 
-        public void test28()
+        public void Test27()
         {
-            test26();
-            SDM.CurrentUser = new Faculty("p2");
-            Faculty p2 = (Faculty)SDM.CurrentUser;
-            p2.ReturnDoc(SDM.LMS.GetDocID("d3"));
+            Test26();
+            
+            Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
-            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p2");
+			DocClass d3 = new DocClass("Null References: The Billion Dollar Mistake");
+            
+            lb.OutstandingRequest(d3.ID);
+
+            Debug.Assert(SDM.LMS.ExistQueueForDoc(d3.ID));
+        }
+
+        public void Test28()
+        {
+            Test26();
+            
+            Faculty p2 = new Faculty("p2");
+            Student p3 = new Student("p3");
+            Student s = new Student("s");
+            Student v = new Student("v");
+
+            DocClass d3 = new DocClass("Null References: The Billion Dollar Mistake");
+
+            p2.ReturnDoc(d3.ID);
+
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(d3.ID);
+            Debug.Assert(pq.Pop() == s.PersonID);
+            Debug.Assert(pq.Pop() == v.PersonID);
+            Debug.Assert(pq.Pop() == p3.PersonID);
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckoutsList("p2");
             Debug.Assert(checkedOuts.Capacity == 0);
         }
 
-        public void test29()
+        public void Test29()
         {
-            test26();
-            SDM.CurrentUser = new Faculty("p1");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
+            Test26();
             int[] dateCheat = { 02, 04, 2018 };
-            p1.RenewDoc(SDM.LMS.GetDocID("d3"),dateCheat);
-            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p1");
+
+            Faculty p1 = new Faculty("p1");
+            Faculty p2 = new Faculty("p2");
+            Student p3 = new Student("p3");
+            Student s = new Student("s");
+            Student v = new Student("v");
+
+            DocClass d3 = new DocClass("Null References: The Billion Dollar Mistake");
+            
+            p1.RenewDoc(d3.ID,dateCheat);
+
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckoutsList("p1");
             Debug.Assert(checkedOuts.First().CheckOutTime == 16);
             Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d3");
-            PriorityQueue<int> pq = SDM.LMS.LoadPQ(SDM.LMS.GetDocID("d3"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("s"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("v"));
-            Debug.Assert(pq.Pop() == SDM.LMS.GetUserID("p3"));
+            PriorityQueue<int> pq = SDM.LMS.LoadPQ(d3.ID);
+            Debug.Assert(pq.Pop() == s.PersonID);
+            Debug.Assert(pq.Pop() == v.PersonID);
+            Debug.Assert(pq.Pop() == p3.PersonID);
         }
 
-        public void test30()
+        public void Test30()
         {
-            initial();
-            SDM.CurrentUser = new Faculty("p1");
-            Faculty p1 = (Faculty)SDM.CurrentUser;
-            int[] dateCheat = { 26, 03, 2018 };
-            p1.CheckOut("d1", dateCheat);
-            dateCheat = new int[] { 29, 03, 2018 };
-            p1.RenewDoc(SDM.LMS.GetDocID("d1"), dateCheat);
-            SDM.CurrentUser = new VisitingProfessor("v");
-            VisitingProfessor v = (VisitingProfessor)SDM.CurrentUser;
-            dateCheat = new int[] { 29, 03, 2018 };
-            v.CheckOut("d1", dateCheat);
-            dateCheat = new int[] { 30, 03, 2018 };
-            v.RenewDoc(SDM.LMS.GetDocID("d1"),dateCheat);
-            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckout("p1");
+            Initial();
+            
+            Faculty p1 = new Faculty("p1");
+            VisitingProfessor v = new VisitingProfessor("v");
+
+            DocClass d1 = new DocClass("Introduction to Algorithms");
+
+            p1.CheckOut(d1.ID, new int[] { 26, 03, 2018 });
+            p1.RenewDoc(d1.ID, new int[] { 29, 03, 2018 });
+            v.CheckOut(d1.ID, new int[] { 29, 03, 2018 });
+            v.RenewDoc(d1.ID, new int[] { 30, 03, 2018 });
+
+            List<CheckedOut> checkedOuts = SDM.LMS.GetCheckoutsList("p1");
             Debug.Assert(checkedOuts.First().CheckOutTime == 26);
             Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d1");
-            checkedOuts = SDM.LMS.GetCheckout("v");
+            checkedOuts = SDM.LMS.GetCheckoutsList("v");
             Debug.Assert(checkedOuts.First().CheckOutTime == 6);
             Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d1");
         }

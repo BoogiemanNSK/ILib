@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using I2P_Project.Classes.UserSystem;
 using I2P_Project.Classes;
 
@@ -29,7 +18,7 @@ namespace I2P_Project.Pages
             InitializeComponent();
         }
 
-        private void OnAddBookClick(object sender, RoutedEventArgs e)
+        private void OnAddJournalClick(object sender, RoutedEventArgs e)
         {
             Librarian currentUser = (Librarian)SDM.CurrentUser;
             int price = Convert.ToInt32(PriceTB.Text);
@@ -46,7 +35,7 @@ namespace I2P_Project.Pages
                     quantity
                 );
 
-            _previousPage.updateTable();
+            _previousPage.UpdateTable();
             Close();
         }
 

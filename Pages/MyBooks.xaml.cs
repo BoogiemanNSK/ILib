@@ -1,19 +1,8 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace I2P_Project.Pages
 {
@@ -35,7 +24,7 @@ namespace I2P_Project.Pages
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
-            myBooksTable.ItemsSource = SDM.LMS.GetUserBooks();
+            myBooksTable.ItemsSource = SDM.LMS.GetUserBooks(SDM.CurrentUser.PersonID);
             pm.EndWaiting();
         }
 
@@ -94,7 +83,7 @@ namespace I2P_Project.Pages
         {
             if (myBooksTable.SelectedIndex == -1) return;
 
-            MessageBoxResult result = MessageBox.Show(SDM.Strings.RETURN_CONFIRMATION_TEXT,
+            MessageBoxResult result = MessageBox.Show(SDM.Strings.RENEW_CONFIRMATION_TEXT,
                 SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
 
             switch (result)

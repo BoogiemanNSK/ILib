@@ -1,18 +1,8 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using XamlAnimatedGif;
 
 namespace I2P_Project.Pages
@@ -96,6 +86,15 @@ namespace I2P_Project.Pages
             }
             else
                 MessageBox.Show(SDM.Strings.USER_NOT_FOUND_TEXT);
+        }
+
+        private void AdminLogInClick(object sender, RoutedEventArgs e)
+        {
+            // TODO Зарегать как-то админа или типо того
+            SDM.CurrentUser = new Admin("admin");
+            MainWindow mw = new MainWindow();
+            mw.Show();
+            Close();
         }
 
         // Front-end by Valeriy Borisov

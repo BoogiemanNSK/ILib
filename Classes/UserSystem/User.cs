@@ -1,29 +1,17 @@
 ﻿using I2P_Project.DataBase;
-using System.Linq;
 
 namespace I2P_Project.Classes.UserSystem
 {
     /// <summary> User abstract class </summary>
     abstract class User
     {
-        /// <summary> Link to DB for methods usage </summary>
-        protected LMSDataBase uDB;
-
-        /// <summary> First that we know about user is his login, all other info is taken from DB using it </summary>
-        private string _login;
         /// <summary> Row from Users table, for access in constant time </summary>
-        private Users _current;
+        protected Users _current;
                 
         public User(string login)
         {
-            _login = login;
-            uDB = new LMSDataBase(SDM.Strings.CONNECTION_STRING);
-            SDM.LMS.ConnectToDB(uDB);
-
-            var getUser = (from p in uDB.Users
-                           where (p.Login == login)
-                           select p);
-            _current = getUser.Single();
+            _current = SDM.LMS.GetUserByLogin(login) ?? 
+                new Users() { Id = -1, Login = "", Password = "", IsDeleted = true, UserType = -1, LibrarianType = -1 };
         }
 
         /// <summary> Getters from DB </summary>
@@ -33,4 +21,14 @@ namespace I2P_Project.Classes.UserSystem
         public int PersonID { get { return _current.Id;  } }
         public int UserType { get { return _current.UserType; } }
     }
+	public enum UserType
+	{
+		Student,
+		Instructor,
+		TA,
+		VisitingProfessor,
+		Professor,
+		Librarian,
+		Admin
+	}
 }

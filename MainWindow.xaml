@@ -55,11 +55,6 @@
                 HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="32"
                 Click="btn_Menu_Click" Margin="0,-13.2,0,0" Style="{DynamicResource ButtonStyle}"/>
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Height="29.863" Margin="0,0,0,0.137">
-<<<<<<< HEAD
-            <Button Visibility="Hidden" x:Name="btn_Notifications" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Width="30" Click="btn_Notifications_Click"
-                    Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="14.667" Style="{DynamicResource ButtonStyle}" Content="&#xE1FA;"/>
-=======
->>>>>>> 1d0555ac1a581699b6ef9b012d9e04bcea510b75
             <Button x:Name="btn_Close" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Width="30" Content="&#xE07D;" Click="btnClose_Click"
                     Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="21.333" Style="{DynamicResource ButtonStyle}"/>
         </StackPanel>

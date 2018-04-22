@@ -775,8 +775,65 @@ namespace I2P_Project.Classes
             }
             return temp_table;
         }
+
+        /// <summary>
+        /// Returns collection of all librarians only for AutoCompleteBox
+        /// Usage: LibrariansManagementPage.xaml
+        /// </summary>
+        public List<String> GetSearchLibrarian()
+        {
+            List<String> temp_list = new List<String>();
+            var load_users = from p in db.Users
+                             where p.UserType == (int)UserType.Librarian && !p.IsDeleted
+                             select new
+                             {
+                                 p.Id,
+                                 p.Login,
+                                 p.Name,
+                                 p.LibrarianType,
+                                 p.PhoneNumber
+                             };
+
+            foreach (var element in load_users)
+            {
+                string temp_row = element.Login.ToString() + "\n" + Convert.ToString(element.Name) + ", " + Convert.ToString(element.PhoneNumber);
+                temp_list.Add(temp_row);
+            }
+            return temp_list;
+        }
+
+        /// <summary>
+        /// Returns collection of found librarians only
+        /// Usage: LibrariansManagementPage.xaml
+        /// </summary>
+        public ObservableCollection<Pages.AdminUserView> AdminViewUserTable(string keyword)
+        {
+            ObservableCollection<Pages.AdminUserView> temp_table = new ObservableCollection<Pages.AdminUserView>();
+            var load_users = from p in db.Users
+                             where (p.UserType == (int)UserType.Librarian && !p.IsDeleted) &&
+                             (p.Login.Contains(keyword) || p.Name.Contains(keyword) || p.PhoneNumber.Contains(keyword))
+                             select new
+                             {
+                                 p.Id,
+                                 p.Login,
+                                 p.Name,
+                                 p.LibrarianType                               
+                             };
+            foreach (var element in load_users)
+            {
+                Pages.AdminUserView row = new Pages.AdminUserView
+                {
+                    LibrarianID = element.Id,
+                    LibrarianLogin = element.Login,
+                    LibrarianName = element.Name,
+                    LibrarianType = "Priv" + (element.LibrarianType + 1)
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
         #endregion
-        
+
         #region DB Existence Check
 
         /// <summary> Checks if there exist a user with given login </summary>

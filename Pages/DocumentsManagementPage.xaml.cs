@@ -3,6 +3,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using I2P_Project.Classes.UserSystem;
+using System.Collections.Generic;
 
 namespace I2P_Project.Pages
 {
@@ -11,6 +12,7 @@ namespace I2P_Project.Pages
     /// </summary>
     public partial class DocumentsManagementPage : Page
     {
+        List<String> searched_docs = new List<String>(); // Data for autocomplete box
         public DocumentsManagementPage()
         {
             InitializeComponent();
@@ -22,6 +24,7 @@ namespace I2P_Project.Pages
                 AddBookButton.Visibility = Visibility.Hidden;
             }
             UpdateTable();
+            searched_docs = LoadACB();
         }
 
         private void OnAddBook(object sender, RoutedEventArgs e)
@@ -38,14 +41,13 @@ namespace I2P_Project.Pages
             pm.EndWaiting();
         }
 
-        private void myBooksTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /// <summary> Updates table according to keyword </summary>
+        private void UpdateTableAfterSearch()
         {
-
-        }
-
-        private void OnSearch(object sender, RoutedEventArgs e)
-        {
-
+            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+            pm.BeginWaiting(); // Starts Loading Flow
+            dgLibrarianDocuments.ItemsSource = SDM.LMS.GetDocsTable(txt_searchDocument.Text);
+            pm.EndWaiting();
         }
 
         private void OnModifyBook(object sender, RoutedEventArgs e)
@@ -104,6 +106,40 @@ namespace I2P_Project.Pages
 
             UpdateTable();
             MessageBox.Show("You have successfully deleted users queue for that document.", "Success!", MessageBoxButton.OK);
+        }
+
+        /// <summary> Search doc method doc </summary>
+        private void txt_searchDocument_Populating(object sender, PopulatingEventArgs e)
+        {
+            txt_searchDocument.ItemsSource = searched_docs;
+        }
+
+        /// <summary> First load documents for auto complete box </summary>
+        private List<String> LoadACB()
+        {
+            List<String> temp = SDM.LMS.GetSearchBooks();
+            return temp;
+        }
+
+        /// <summary> Select one of all drop down options </summary>
+        private void txt_searchDocument_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
+        {
+            string txt = txt_searchDocument.Text;
+            txt = txt.Split('\n')[0];
+            txt_searchDocument.Text = txt;
+        }
+
+        /// <summary> Search book by keyword in AutoCompleteBox </summary>
+        private void btn_searchDoc_Click(object sender, RoutedEventArgs e)
+        {
+            if (txt_searchDocument.Text == "")
+            {
+                UpdateTable();
+            }
+            else
+            {
+                UpdateTableAfterSearch();
+            }
         }
     }
 

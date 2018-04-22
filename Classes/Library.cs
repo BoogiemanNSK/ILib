@@ -239,6 +239,13 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
+        public void RemoveCheckout(int docID, int userID)
+        {
+            var recordToRemove = GetCheckout(userID, docID);
+            db.Checkouts.DeleteOnSubmit(recordToRemove);
+            db.SubmitChanges();
+        }
+
         /// <summary> Clears DB (for test cases only) </summary>
         public void ClearDB()
         {
@@ -451,7 +458,6 @@ namespace I2P_Project.Classes
                                   {
                                       b.Id,
                                       b.Title,
-                                      b.Quantity,
                                       b.DocType,
                                       c.DateTaked,
                                       c.TimeToBack,
@@ -466,12 +472,11 @@ namespace I2P_Project.Classes
                     {
                         docID = element.Id,
                         docTitle = element.Title,
-                        quantity = element.Quantity,
                         docType = SDM.Strings.DOC_TYPES[element.DocType],
                         dateTaked = (DateTime)element.DateTaked,
                         timeToBack = element.TimeToBack,
-                        fine = (passedDays * 50 > element.Price ?
-                            element.Price : passedDays * 50)
+                        fine = (passedDays * 100 > element.Price ?
+                            element.Price : passedDays * 100)
                     };
                     temp_table.Add(row);
                 }

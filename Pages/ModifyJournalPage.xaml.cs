@@ -51,7 +51,7 @@ namespace I2P_Project.Pages
             } catch {
                 MessageBox.Show("The row is empty", "Error");
             }
-            prevPage.updateTable();
+            prevPage.UpdateTable();
             Close();
         }
 

@@ -40,10 +40,19 @@ namespace I2P_Project.Pages
         private void OnDeleteLibrarian(object sender, RoutedEventArgs e)
         {
             if (LibrariansTable.SelectedItem != null) {
-                AdminUserView selectedLibrarian = LibrariansTable.SelectedItem as AdminUserView;
-                Admin lib = (Admin)SDM.CurrentUser;
-                lib.DeleteLibrarian(selectedLibrarian.LibrarianID);
-                UpdateTable();
+                MessageBoxResult result = MessageBox.Show(SDM.Strings.DELETE_LIBRARIAN_CONFIRMATION_TEXT,
+                SDM.Strings.ATTENTION_TEXT, MessageBoxButton.YesNo);
+
+                switch (result) {
+                    case MessageBoxResult.Yes:
+                        AdminUserView selectedLibrarian = LibrariansTable.SelectedItem as AdminUserView;
+                        Admin lib = (Admin)SDM.CurrentUser;
+                        lib.DeleteLibrarian(selectedLibrarian.LibrarianID);
+                        UpdateTable();
+                        break;
+                    case MessageBoxResult.No:
+                        break;
+                }
             }
         }
     }

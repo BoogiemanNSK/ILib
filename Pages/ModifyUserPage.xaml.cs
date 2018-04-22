@@ -32,7 +32,7 @@ namespace I2P_Project.Pages
                 UserType.ItemsSource = new string[] { "Priv1", "Priv2", "Priv3" };
                 UserType.SelectedIndex = user.LibrarianType;
             } else {
-                UserType.ItemsSource = SDM.Strings.USER_TYPES.Take(SDM.Strings.USER_TYPES.Length - 1);
+                UserType.ItemsSource = SDM.Strings.USER_TYPES.Take(SDM.Strings.USER_TYPES.Length - 2);
                 UserType.SelectedIndex = _userType;
             }
         }

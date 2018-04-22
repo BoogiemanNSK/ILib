@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Height="270" Width="390" WindowStartupLocation="CenterScreen" Title="Modify AV" ResizeMode="NoResize">
+        Height="240" Width="390" WindowStartupLocation="CenterScreen" Title="Modify AV" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -18,12 +18,11 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
             <RowDefinition Height="40"/>
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Label FontSize="20" Content="Add" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
+        <Label FontSize="20" Content="Modify" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
         <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Title" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
         <TextBox Grid.Row="1" Grid.Column="2" TextWrapping="Wrap" Name="TitleTB" FontFamily="/I2P-Project;component/Fonts/#Panton" Margin="5,5,5,5"/>
         <Label Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Autors" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
@@ -32,9 +31,7 @@
         <TextBox Grid.Row="3" Grid.Column="2" TextWrapping="Wrap" Name="PriceTB" FontFamily="/I2P-Project;component/Fonts/#Panton" Margin="5,5,5,5"/>
         <Label Content="Amount" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
         <TextBox Grid.Row="4" Grid.Column="2" TextWrapping="Wrap" Name="CopiesTB" FontFamily="/I2P-Project;component/Fonts/#Panton" Margin="5,5,5,5"/>
-        <Label Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Set Icon" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
-        <Button Grid.Row="5" Grid.Column="2" Content="Select..." x:Name="btn_SetImage" Margin="5,5,5,5" ToolTip="Select image as book icon"/>
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" HorizontalAlignment="Center">
             <Button Width="150" Margin="7,7,7,7" Click="OnModifyAVClick" Content="Add" FontFamily="/I2P-Project;component/Fonts/#Panton" Style="{DynamicResource ButtonStyle}"/>
             <Button Width="150" Margin="7,7,7,7" Click="OnBackClick" Content="Back" FontFamily="/I2P-Project;component/Fonts/#Panton" Style="{DynamicResource ButtonStyle}"/>
         </StackPanel>

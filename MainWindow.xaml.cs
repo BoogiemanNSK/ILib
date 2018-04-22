@@ -162,10 +162,5 @@ namespace I2P_Project
             }
         }
 
-        private void btn_Notifications_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("ToDo! Notification system");
-        }
-
     }
 }

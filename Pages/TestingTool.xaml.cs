@@ -63,8 +63,65 @@ namespace I2P_Project.Pages
                         TestOutput.Text += "Tests are passed, restart system for test 19";
                     } catch
                     {
-                        TestOutput.Text += "Tests not passed";
+                        TestOutput.Text += "Tests are not passed";
                     }
+                    UpdateTables();
+                    break;
+                case "Delivery 1":
+                    try {
+                        test.Test1();
+                        test.Test2();
+                        test.Test3();
+                        test.Test4();
+                        test.Test5();
+                        test.Test6();
+                        test.Test7();
+                        test.Test8();
+                        test.Test9();
+                        test.Test10();
+                        TestOutput.Text += "Tests are passed";
+                    } catch {
+                        TestOutput.Text += "Tests are not passed";
+                    }
+                    UpdateTables();
+                    break;
+                case "Delivery 2":
+                    try { 
+                        test.Test10();
+                        test.Test11();
+                        test.Test12();
+                        test.Test13();
+                        test.Test14();
+                        test.Test15();
+                        test.Test16();
+                        test.Test17();
+                        test.Test18();
+                        TestOutput.Text += "Tests are passed, restart the system for 19th test";
+                    } catch {
+                        TestOutput.Text += "Tests are not passed";
+                    }
+                    UpdateTables();
+                    break;
+                case "Delivery 3":
+                    try { 
+                        test.Test20();
+                        test.Test21();
+                        test.Test22();
+                        test.Test23();
+                        test.Test25();
+                        test.Test26();
+                        test.Test27();
+                        test.Test28();
+                        test.Test29();
+                        test.Test30();
+                        TestOutput.Text += "Tests are passed";
+                    } catch {
+                        TestOutput.Text += "Tests are not passed";
+                    }
+                    UpdateTables();
+                    break;
+                case "Delivery 4":
+
                     UpdateTables();
                     break;
                 case "1":
@@ -194,7 +251,7 @@ namespace I2P_Project.Pages
         {
             UserTable ut_row = UserTable.SelectedItems[0] as UserTable;
             int user_id = ut_row.userID;
-            DocumentsTable.ItemsSource = SDM.LMS.TestDocsTableUsersBooks(user_id);
+            DocumentsTable.ItemsSource = SDM.LMS.GetUserBooks(user_id);
         }
 
         private void OnOverall(object sender, RoutedEventArgs e) // Shows books without user

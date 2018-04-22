@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
         Title="TestingTool" Height="700" Width="640" WindowStartupLocation="CenterScreen" FontFamily="/I2P-Project;component/Fonts/#Panton">
     <Grid>
@@ -52,17 +51,22 @@
                 <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="Auto"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="Auto"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="Auto"/>
-                <DataGridTextColumn Header="Owner ID" Binding="{Binding docPrice}" Width="Auto"/>
-                <DataGridTextColumn Header="Owner ID" Binding="{Binding docQuantity}" Width="Auto"/>
-                <DataGridTextColumn Header="Taked" Binding="{Binding dateTaked}" Width="Auto"/>
-                <DataGridTextColumn Header="Deadline" Binding="{Binding timeToBack}" Width="Auto"/>
+                <DataGridTextColumn Header="Authors" Binding="{Binding docAutors}" Width="Auto"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding docPrice}" Width="Auto"/>
+                <DataGridTextColumn Header="Fine" Binding="{Binding docFine}" Width="Auto"/>
+                <DataGridTextColumn Header="Taked" Binding="{Binding checkDateTaked}" Width="Auto"/>
+                <DataGridTextColumn Header="Deadline" Binding="{Binding checkTimeToBack}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
 
         <Label Grid.Row="7" HorizontalAlignment="Center" Content="Select the test case:"/>
 
-        <ComboBox Grid.Row="8" Name="TestNumber" Width="120" Margin="0,2,0,2" IsEditable="True" MaxDropDownHeight="75">
+        <ComboBox Grid.Row="8" Name="TestNumber" Width="120" Margin="0,2,0,2" IsEditable="True" MaxDropDownHeight="300" IsDropDownOpen="False">
             <ListBoxItem Content="Test all"/>
+            <ListBoxItem Content="Delivery 1"/>
+            <ListBoxItem Content="Delivery 2"/>
+            <ListBoxItem Content="Delivery 3"/>
+            <ListBoxItem Content="Delivery 4"/>
             <ListBoxItem Content="1"/>
             <ListBoxItem Content="2"/>
             <ListBoxItem Content="3"/>

@@ -297,7 +297,6 @@ namespace I2P_Project.Classes
             book.Price = price;
             book.IsBestseller = isBestseller;
             book.Quantity = quantity;
-            book.DocType = (int) DocType.Book;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, book);
             db.SubmitChanges();
         }
@@ -313,7 +312,6 @@ namespace I2P_Project.Classes
             journal.IssueEditor = issueEditor;
             journal.Price = price;
             journal.Quantity = quantity;
-            journal.DocType = (int) DocType.Journal;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, journal);
             db.SubmitChanges();
         }
@@ -326,7 +324,6 @@ namespace I2P_Project.Classes
             AV.Autors = autors;
             AV.Price = price;
             AV.Quantity = quantity;
-            AV.DocType = (int) DocType.AV;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, AV);
             db.SubmitChanges();
         }
@@ -910,7 +907,8 @@ namespace I2P_Project.Classes
         public int OverdueTime(int userID, int docID)
         {
             Checkouts testCheck = GetCheckout(userID, docID);
-            return (int)testCheck.TimeToBack.Subtract(DateTime.Now).TotalDays;
+            int days = (int)testCheck.TimeToBack.Subtract(DateTime.Now).TotalDays;
+            return days + 1;
         }
 
         private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
@@ -947,10 +945,11 @@ namespace I2P_Project.Classes
             return res;
         }
 
-        public List<OverdueInfo> GetOverdues(string Name)
+        public List<OverdueInfo> GetOverdues(string Name, DateTime Now)
         {
             Users user = GetUser(Name);
             List<OverdueInfo> res = new List<OverdueInfo>();
+
             var load_user_books = from c in db.Checkouts
                                   where c.UserID == user.Id
                                   join b in db.Documents on c.BookID equals b.Id
@@ -961,7 +960,7 @@ namespace I2P_Project.Classes
                                   };
             foreach (var element in load_user_books)
             {
-                int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
+                int passedDays = (int)Now.Subtract(element.TimeToBack).TotalDays;
                 if (passedDays > 0)
                 {
                     OverdueInfo pair = new OverdueInfo
@@ -975,6 +974,19 @@ namespace I2P_Project.Classes
             return res;
         }
 
+        public int GetUserFineForDoc(int userID, int docID, DateTime Now)
+        {
+            Checkouts testCheck = GetCheckout(userID, docID);
+
+            int overduedTime = (int)Now.Subtract(testCheck.TimeToBack).TotalDays;
+            if (overduedTime > 0) {
+                int docPrice = GetDoc(docID).Price;
+                return (overduedTime * 100 > docPrice ? docPrice : overduedTime * 100);
+            }
+
+            return 0;
+        }
+
         public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
         {
             Users user = GetUser(Name);
@@ -984,10 +996,10 @@ namespace I2P_Project.Classes
                 && user.UserType == UserType && EqualCheckouts(checkout, checkover);
         }
 
-        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues)
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues, DateTime DateCheat)
         {
             Users user = GetUser(Name);
-            List<OverdueInfo> checkoverdues = GetOverdues(Name);
+            List<OverdueInfo> checkoverdues = GetOverdues(Name, DateCheat);
 
             return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
                 && user.UserType == UserType && EqualOverdues(overdues, checkoverdues);

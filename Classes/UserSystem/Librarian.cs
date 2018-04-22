@@ -95,30 +95,6 @@
 
         #endregion
 
-        #region TESTING
-
-        public void ShowUserCard(int userID)
-        {
-            var patron = SDM.LMS.GetUser(userID);
-            if (patron != null)
-            {
-                Pages.UserCard card = new Pages.UserCard(userID);
-                card.Show();
-            }
-        }
-
-        public void ShowOverdue(int userID)
-        {
-            var patron = SDM.LMS.GetUser(userID);
-            if (patron != null)
-            {
-                Pages.OverdueInfo doc = new Pages.OverdueInfo(userID);
-                doc.Show();
-            }
-        }
-
-        #endregion
-
     }
     
     public struct CheckedOut

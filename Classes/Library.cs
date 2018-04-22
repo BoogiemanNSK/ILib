@@ -76,7 +76,8 @@ namespace I2P_Project.Classes
                 Address = adress,
                 PhoneNumber = phone,
                 IsDeleted = false,
-                UserType = (isLibrarian ? 5 : 0) // TODO Заменить на enum
+                UserType = (int) (isLibrarian ? UserType.Librarian : UserType.Student), 
+                LibrarianType = 0
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
@@ -97,7 +98,7 @@ namespace I2P_Project.Classes
                     Edition = edition,
                     Description = description,
                     Price = price,
-                    DocType = 0,
+                    DocType = (int) DocType.Book,
                     IsBestseller = isBestseller,
                     IsRequested = false,
                     Quantity = quantity,
@@ -132,7 +133,7 @@ namespace I2P_Project.Classes
                     IssueTitle = issueTitle,
                     IssueEditor = issueEditor,
                     Price = price,
-                    DocType = 1,
+                    DocType = (int) DocType.Journal,
                     IsRequested = false,
                     Quantity = quantity,
                     Queue = ""
@@ -163,7 +164,7 @@ namespace I2P_Project.Classes
                     Title = title,
                     Autors = autors,
                     Price = price,
-                    DocType = 2,
+                    DocType = (int) DocType.AV,
                     IsRequested = false,
                     Quantity = quantity,
                     Queue = ""
@@ -238,17 +239,40 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
         }
 
+        public void RemoveCheckout(int docID, int userID)
+        {
+            var recordToRemove = GetCheckout(userID, docID);
+            db.Checkouts.DeleteOnSubmit(recordToRemove);
+            db.SubmitChanges();
+        }
+
         /// <summary> Clears DB (for test cases only) </summary>
         public void ClearDB()
         {
             db.ExecuteCommand("DELETE FROM documents");
             db.ExecuteCommand("DELETE FROM users");
             db.ExecuteCommand("DELETE FROM checkouts");
+            GenerateAdmin();
+        }
+
+        private void GenerateAdmin()
+        {
+            Users admin = new Users {
+                Login = "admin",
+                Password = "admin",
+                Name = "Administrator",
+                Address = "Asministration",
+                PhoneNumber = ":)",
+                IsDeleted = false,
+                UserType = 6,
+                LibrarianType = 0
+            };
+            db.Users.InsertOnSubmit(admin);
+            db.SubmitChanges();
         }
 
         #endregion
-
-        // TODO Заменить числа на enumы
+        
         #region DB Updating
 
         /// <summary> Updates user info </summary>
@@ -258,7 +282,11 @@ namespace I2P_Project.Classes
             user.Name = userName;
             user.Address = userAdress;
             user.PhoneNumber = userPhoneNumber;
-            user.UserType = userType;
+            if (user.UserType == (int) UserType.Librarian) {
+                user.LibrarianType = userType;
+            } else {
+                user.UserType = userType;
+            }
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
             db.SubmitChanges();
         }
@@ -276,7 +304,6 @@ namespace I2P_Project.Classes
             book.Price = price;
             book.IsBestseller = isBestseller;
             book.Quantity = quantity;
-            book.DocType = 0;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, book);
             db.SubmitChanges();
         }
@@ -292,7 +319,6 @@ namespace I2P_Project.Classes
             journal.IssueEditor = issueEditor;
             journal.Price = price;
             journal.Quantity = quantity;
-            journal.DocType = 1;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, journal);
             db.SubmitChanges();
         }
@@ -305,7 +331,6 @@ namespace I2P_Project.Classes
             AV.Autors = autors;
             AV.Price = price;
             AV.Quantity = quantity;
-            AV.DocType = 2;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, AV);
             db.SubmitChanges();
         }
@@ -433,7 +458,6 @@ namespace I2P_Project.Classes
                                   {
                                       b.Id,
                                       b.Title,
-                                      b.Quantity,
                                       b.DocType,
                                       c.DateTaked,
                                       c.TimeToBack,
@@ -448,12 +472,11 @@ namespace I2P_Project.Classes
                     {
                         docID = element.Id,
                         docTitle = element.Title,
-                        quantity = element.Quantity,
                         docType = SDM.Strings.DOC_TYPES[element.DocType],
                         dateTaked = (DateTime)element.DateTaked,
                         timeToBack = element.TimeToBack,
-                        fine = (passedDays * 50 > element.Price ?
-                            element.Price : passedDays * 50)
+                        fine = (passedDays * 100 > element.Price ?
+                            element.Price : passedDays * 100)
                     };
                     temp_table.Add(row);
                 }
@@ -469,7 +492,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                             where p.UserType != 5 && !p.IsDeleted // TODO Заменить на enum
+                             where p.UserType < (int) UserType.Librarian && !p.IsDeleted
                              select new
                              {
                                  p.Id,
@@ -487,7 +510,34 @@ namespace I2P_Project.Classes
                 temp_table.Add(row);
             }
             return temp_table;
-        }      
+        }
+
+        /// <summary>
+        /// Returns collection of all librarians only
+        /// Usage: LibrariansManagementPage.xaml
+        /// </summary>
+        public ObservableCollection<Pages.AdminUserView> AdminViewUserTable()
+        {
+            ObservableCollection<Pages.AdminUserView> temp_table = new ObservableCollection<Pages.AdminUserView>();
+            var load_users = from p in db.Users
+                             where p.UserType ==(int) UserType.Librarian && !p.IsDeleted
+                             select new {
+                                 p.Id,
+                                 p.Login,
+                                 p.Name,
+                                 p.LibrarianType
+                             };
+            foreach (var element in load_users) {
+                Pages.AdminUserView row = new Pages.AdminUserView {
+                    LibrarianID = element.Id,
+                    LibrarianLogin = element.Login,
+                    LibrarianName = element.Name,
+                    LibrarianType = "Priv" + (element.LibrarianType + 1)
+                };
+                temp_table.Add(row);
+            }
+            return temp_table;
+        }
 
         /// <summary>
         /// Return a list of all docs registered in system
@@ -616,7 +666,7 @@ namespace I2P_Project.Classes
         /// <summary> Returns document row from given title </summary>
         public Document GetDocByTitle(string Title)
         {
-            var test = from d in db.Documents where d.Title.Equals(Title) select d;
+            var test = from d in db.Documents where d.Title == Title select d;
             if (!test.Any()) return null;
             return test.Single();
         }
@@ -862,7 +912,8 @@ namespace I2P_Project.Classes
         public int OverdueTime(int userID, int docID)
         {
             Checkouts testCheck = GetCheckout(userID, docID);
-            return (int)DateTime.Now.Subtract(testCheck.TimeToBack).TotalDays;
+            int days = (int)testCheck.TimeToBack.Subtract(DateTime.Now).TotalDays;
+            return days + 1;
         }
 
         private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
@@ -899,10 +950,11 @@ namespace I2P_Project.Classes
             return res;
         }
 
-        public List<OverdueInfo> GetOverdues(string Name)
+        public List<OverdueInfo> GetOverdues(string Name, DateTime Now)
         {
             Users user = GetUser(Name);
             List<OverdueInfo> res = new List<OverdueInfo>();
+
             var load_user_books = from c in db.Checkouts
                                   where c.UserID == user.Id
                                   join b in db.Documents on c.BookID equals b.Id
@@ -913,7 +965,7 @@ namespace I2P_Project.Classes
                                   };
             foreach (var element in load_user_books)
             {
-                int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
+                int passedDays = (int)Now.Subtract(element.TimeToBack).TotalDays;
                 if (passedDays > 0)
                 {
                     OverdueInfo pair = new OverdueInfo
@@ -927,6 +979,19 @@ namespace I2P_Project.Classes
             return res;
         }
 
+        public int GetUserFineForDoc(int userID, int docID, DateTime Now)
+        {
+            Checkouts testCheck = GetCheckout(userID, docID);
+
+            int overduedTime = (int)Now.Subtract(testCheck.TimeToBack).TotalDays;
+            if (overduedTime > 0) {
+                int docPrice = GetDoc(docID).Price;
+                return (overduedTime * 100 > docPrice ? docPrice : overduedTime * 100);
+            }
+
+            return 0;
+        }
+
         public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
         {
             Users user = GetUser(Name);
@@ -936,10 +1001,10 @@ namespace I2P_Project.Classes
                 && user.UserType == UserType && EqualCheckouts(checkout, checkover);
         }
 
-        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues)
+        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues, DateTime DateCheat)
         {
             Users user = GetUser(Name);
-            List<OverdueInfo> checkoverdues = GetOverdues(Name);
+            List<OverdueInfo> checkoverdues = GetOverdues(Name, DateCheat);
 
             return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
                 && user.UserType == UserType && EqualOverdues(overdues, checkoverdues);
@@ -983,7 +1048,7 @@ namespace I2P_Project.Classes
         public ObservableCollection<Pages.UserTable> TestUsersTable()
         {
             ObservableCollection<Pages.UserTable> temp_table = new ObservableCollection<Pages.UserTable>();
-            var load_users = from u in db.Users where !u.IsDeleted
+            var load_users = from u in db.Users where u.UserType < 6 && !u.IsDeleted
                              select new
                              {
                                  u.Id,

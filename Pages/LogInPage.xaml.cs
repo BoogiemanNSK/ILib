@@ -88,6 +88,15 @@ namespace I2P_Project.Pages
                 MessageBox.Show(SDM.Strings.USER_NOT_FOUND_TEXT);
         }
 
+        private void AdminLogInClick(object sender, RoutedEventArgs e)
+        {
+            // TODO Зарегать как-то админа или типо того
+            SDM.CurrentUser = new Admin("admin");
+            MainWindow mw = new MainWindow();
+            mw.Show();
+            Close();
+        }
+
         // Front-end by Valeriy Borisov
         public int animation_id = 0;
         private void SelectAnimation()

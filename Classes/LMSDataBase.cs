@@ -217,6 +217,7 @@
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
         private int _id;
         private int _userType;
+        private int _librarianType;
         private bool _IsDeleted;
         private string _name;
         private string _address;
@@ -232,6 +233,8 @@
         partial void OnidChanged();
         partial void OnuserTypeChanging(int value);
         partial void OnuserTypeChanged();
+        partial void OnlibrarianTypeChanging(int value);
+        partial void OnlibrarianTypeChanged();
         partial void OnIsDeletedChanging(bool value);
         partial void OnIsDeletedChanged();
         partial void OnnameChanging(string value);
@@ -281,6 +284,20 @@
                     _userType = value;
                     SendPropertyChanged("userType");
                     OnuserTypeChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_librarianType", DbType = "Int NOT NULL")]
+        public int LibrarianType {
+            get => _librarianType;
+            set {
+                if ((_librarianType != value)) {
+                    OnlibrarianTypeChanging(value);
+                    SendPropertyChanging();
+                    _librarianType = value;
+                    SendPropertyChanged("librarianType");
+                    OnlibrarianTypeChanged();
                 }
             }
         }

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:I2P_Project.Pages"
         mc:Ignorable="d"
         d:DesignHeight="480" d:DesignWidth="905"
         Title="UsersManagementPage" FontFamily="/I2P-Project;component/Fonts/#Panton">
@@ -25,7 +24,7 @@
 
         <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Center" Content="Users"/>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Margin="7,5" HorizontalAlignment="Center" Click="OnAddUser" Width="33" Content="&#xE1E2;" Background="#FF078CD1"
+            <Button Margin="7,5" HorizontalAlignment="Center" Click="OnAddUser" Width="33" Content="&#xE1E2;" Background="#FF078CD1" Name="AddUserButton"
                     BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
                     Style="{DynamicResource ButtonStyle}"/>
             <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 

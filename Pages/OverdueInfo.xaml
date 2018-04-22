@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="OverdueInfo" Height="300" Width="420" FontFamily="/I2P-Project;component/Fonts/#Panton" WindowStartupLocation="CenterScreen"
+        Title="OverdueInfo" Height="300" Width="540" FontFamily="/I2P-Project;component/Fonts/#Panton" WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     <Grid>
 
@@ -20,9 +20,8 @@
         <DataGrid Grid.Row="1" Name="OverduedDocsTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True"
                   FontWeight="Bold" Margin="6.8,11.5">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Doc ID" Binding="{Binding docID}" Width="*"/>
+                <DataGridTextColumn Header="Doc ID" Binding="{Binding docID}" Visibility="Hidden" Width="*"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="*"/>
-                <DataGridTextColumn Header="Is Reference?" Binding="{Binding isReference}" Width="*"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="*"/>
                 <DataGridTextColumn Header="Taked" Binding="{Binding dateTaked}" Width="*"/>
                 <DataGridTextColumn Header="Deadline" Binding="{Binding timeToBack}" Width="*"/>
@@ -30,6 +29,6 @@
             </DataGrid.Columns>
         </DataGrid>
         
-        <Button Click="OnBackClick" Grid.Row="2" Content="Cancel" Width="50" Style="{DynamicResource ButtonStyle}"/>
+        <Button Click="OnBackClick" Grid.Row="2" Content="Close" Width="100" Style="{DynamicResource ButtonStyle}"/>
     </Grid>
 </Window>

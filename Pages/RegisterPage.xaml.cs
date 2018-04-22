@@ -4,9 +4,7 @@ using I2P_Project.Classes;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for RegisterPage.xaml
-    /// </summary>
+    /// <summary> Interaction logic for RegisterPage.xaml </summary>
     public partial class RegisterPage : Window
     {
         private bool _register;
@@ -29,6 +27,11 @@ namespace I2P_Project.Pages
             if (LoginTB.Text == "" || PasswordTB.Password == "" || NameTB.Text == "" || AdressTB.Text == "" || PhoneNumberTB.Text == "")
             {
                 MessageBox.Show("Not all fields are filled out!", "Warning");
+                return;
+            }
+            if (!ValidMail(AdressTB.Text))
+            {
+                MessageBox.Show("Invalid e-mail!", "Warning");
                 return;
             }
 
@@ -75,6 +78,15 @@ namespace I2P_Project.Pages
             {
                 OnRegisterProcess();
             }
+        }
+
+        private bool ValidMail(string mail)
+        {
+            string[] mail_parts = mail.Split('@');
+            if (mail_parts.Length != 2 || mail_parts[0].Length < 1 || mail_parts[1].Length < 1) { return false; }
+            mail_parts = mail_parts[1].Split('.');
+            if (mail_parts.Length != 2 || mail_parts[0].Length < 1 || mail_parts[1].Length < 1) { return false; }
+            return true;
         }
     }
 }

@@ -4,9 +4,7 @@ using System.Windows.Controls;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для PageHome.xaml
-    /// </summary>
+    /// <summary> Логика взаимодействия для PageHome.xaml </summary>
     public partial class PageHome : Page
     {
         public PageHome()

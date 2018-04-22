@@ -3,9 +3,7 @@ using System.Windows;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для WaitWindow.xaml
-    /// </summary>
+    /// <summary> Логика взаимодействия для WaitWindow.xaml </summary>
     public partial class WaitWindow : Window
     {
         public WaitWindow()

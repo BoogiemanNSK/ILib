@@ -6,12 +6,9 @@ using System.Windows.Controls;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for MyBooks.xaml
-    /// </summary>
+    /// <summary> Interaction logic for MyBooks.xaml </summary>
     public partial class MyBooks : Page
     {
-
         public MyBooks()
         {
             InitializeComponent();

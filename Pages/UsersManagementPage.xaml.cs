@@ -5,9 +5,7 @@ using I2P_Project.Classes.UserSystem;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for UsersManagementPage.xaml
-    /// </summary>
+    /// <summary> Interaction logic for UsersManagementPage.xaml </summary>
     public partial class UsersManagementPage : Page
     {
         public UsersManagementPage()
@@ -55,7 +53,6 @@ namespace I2P_Project.Pages
                 modifyUser.ShowDialog();
             }
         }
-
     }
 
     class LibrarianUserView

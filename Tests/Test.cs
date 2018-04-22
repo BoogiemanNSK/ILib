@@ -82,7 +82,8 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
             Debug.Assert(SDM.LMS.GetUserBooks(ft.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(ft.PersonID, b.ID, DateTime.Now) / 7 == 4);
+			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(ft.PersonID, b.ID);
+			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime) checkouts.DateTaked).TotalDays / 7 == 4);
         }
 
         public void Test4()
@@ -108,8 +109,9 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
             Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(st.PersonID, b.ID, DateTime.Now) / 7 == 2);
-        }
+			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(st.PersonID, b.ID);
+			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime)checkouts.DateTaked).TotalDays / 7 == 2);
+		}
 
         public void Test5()
         {
@@ -216,8 +218,9 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
             Debug.Assert(SDM.LMS.GetUserBooks(s.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, b.ID, DateTime.Now) / 7 == 3);
-        }
+			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(s.PersonID, b.ID);
+			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime)checkouts.DateTaked).TotalDays / 7 == 3);
+		}
 
         public void Test9()
         {
@@ -242,8 +245,9 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
             Debug.Assert(SDM.LMS.GetUserBooks(s.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, b.ID, DateTime.Now) / 7 == 2);
-        }
+			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(s.PersonID, b.ID);
+			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime)checkouts.DateTaked).TotalDays / 7 == 2);
+		}
 
         public void Test10()
         {

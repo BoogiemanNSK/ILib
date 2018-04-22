@@ -1,5 +1,7 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 

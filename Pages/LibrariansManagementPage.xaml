@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-        mc:Ignorable="d" 
+        mc:Ignorable="d"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         d:DesignHeight="480" d:DesignWidth="905"
         Title="LibrariansManagementPage" FontFamily="/I2P-Project;component/Fonts/#Panton">
 
@@ -27,9 +28,11 @@
             <Button Margin="7,5" HorizontalAlignment="Center" Click="OnAddLibrarian" Width="33" Content="&#xE1E2;" Background="#FF078CD1"
                     BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
                     Style="{DynamicResource ButtonStyle}"/>
-            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
-                     VerticalContentAlignment="Center"/>
-            <Button Width="92" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" 
+            <toolkit:AutoCompleteBox HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Height="30" VerticalContentAlignment="Center"
+                                     FilterMode="Contains" x:Name="txt_searchLibrarian" FontSize="16" Margin="5" Populating="txt_searchLibrarian_Populating"
+                                     DropDownClosed="txt_searchLibrarian_DropDownClosed"/>
+            <Button x:Name="btn_searchLibrarian" Width="92" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" Click="btn_searchLibrarian_Click"
+                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" 
                     Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
         </StackPanel>
 

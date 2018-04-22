@@ -1,11 +1,8 @@
 ﻿namespace I2P_Project.Classes.UserSystem
 {
-
     class Admin : User
     {
-        public Admin(string login) : base(login) {
-
-        }
+        public Admin(string login) : base(login) { }
 
         /// <summary> Registers a new user in the system </summary>
         public bool RegisterLibrarian(string login, string password, string name, string address, string phone)
@@ -24,7 +21,5 @@
         {
             SDM.LMS.RemoveUser(librarianID);
         }
-
     }
-
 }

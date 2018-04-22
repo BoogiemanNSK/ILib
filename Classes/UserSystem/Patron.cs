@@ -3,7 +3,6 @@ using System;
 
 namespace I2P_Project.Classes.UserSystem
 {
-
     abstract class Patron : User
     {
         public Patron(string login) : base(login) {}
@@ -74,5 +73,4 @@ namespace I2P_Project.Classes.UserSystem
             return inQueue;
         }
     }
-
 }

@@ -6,9 +6,7 @@ using I2P_Project.Classes.UserSystem;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для DocumentsManagementPage.xaml
-    /// </summary>
+    /// <summary> Логика взаимодействия для DocumentsManagementPage.xaml </summary>
     public partial class DocumentsManagementPage : Page
     {
         public DocumentsManagementPage()

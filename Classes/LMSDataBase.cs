@@ -1,10 +1,10 @@
-﻿namespace I2P_Project.DataBase
-{
-    using System.Data.Linq;
-    using System.Data.Linq.Mapping;
-    using System.ComponentModel;
-    using System;
+﻿using System.Data.Linq;
+using System.Data.Linq.Mapping;
+using System.ComponentModel;
+using System;
 
+namespace I2P_Project.DataBase
+{
     [Database(Name = "MainDB")]
     public partial class LMSDataBase : DataContext
     {

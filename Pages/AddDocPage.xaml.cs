@@ -2,9 +2,7 @@
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для AddBookPage.xaml
-    /// </summary>
+    /// <summary> Логика взаимодействия для AddBookPage.xaml </summary>
     public partial class AddDocPage : Window
     {
         private DocumentsManagementPage _previousPage;

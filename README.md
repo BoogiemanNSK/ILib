@@ -42,17 +42,28 @@ For users:
 	c) If the book is bestseller deadline for everyone is 2 weeks
 	d) AV materials and journals can only be checked out for 2 weeks for everyone
  - Please be advised that for overduing docs you have to pay the fine, specified by system
-
+ - Ask the librarian to confirm your status as Faculty or Visiting Professor
+ 
 ************************************************
 
 For librarians:
  - To use the system as librarian you have to register AND fill serial number field at registration page
  - Serial number can be obtained from system developers
  - After logging in as librarian you will be able to:
-	a) Check overdued documents
-	b) Manage patrons
-	c) Adding / deleting / modifying documents
-	
+	1'st lvl) Check overdued documents and user checkouts
+	2'nd lvl) (in addition to prev lvl) Adding documents and patrons to library
+	3'rd lvl) (in addition to prev lvl) deleting documents and patrons of the library
+- Only Admin could give you lvl(privileges) ;)
+
+************************************************
+
+For admin:
+ - You are the onwer of the system, you shouldn't register
+ - After loggin in as admin you will able to:
+	a) Add/delete/modify information about librarians
+	b) Assign priviileges(lvl) to librarians
+ - The greater the potential, the greater the responsibility. 
+ 
 ************************************************
 
 System Developers:

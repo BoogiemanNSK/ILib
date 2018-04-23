@@ -493,7 +493,8 @@ namespace I2P_Project.Classes
                              select new
                              {
                                  p.Id,
-                                 p.Login
+                                 p.Login,
+                                 p.Address
                              };
             foreach (var element in load_users)
             {
@@ -501,6 +502,7 @@ namespace I2P_Project.Classes
                 {
                     userID = element.Id,
                     userLogin = element.Login,
+                    userMail = element.Address,
                     docsNumber = GetUserBooksNumber(element.Id),
                     userFine = GetUserFine(element.Id)
                 };
@@ -522,6 +524,7 @@ namespace I2P_Project.Classes
                                  p.Id,
                                  p.Login,
                                  p.Name,
+                                 p.Address,
                                  p.LibrarianType
                              };
             foreach (var element in load_users) {
@@ -529,6 +532,7 @@ namespace I2P_Project.Classes
                     LibrarianID = element.Id,
                     LibrarianLogin = element.Login,
                     LibrarianName = element.Name,
+                    LibrarianMail = element.Address,
                     LibrarianType = "Priv" + (element.LibrarianType + 1)
                 };
                 temp_table.Add(row);
@@ -753,11 +757,12 @@ namespace I2P_Project.Classes
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
                              where p.UserType != 5 && 
-                             (p.Login.Contains(keyword) || p.Name.Contains(keyword) || p.PhoneNumber.Contains(keyword))
+                             (p.Login.Contains(keyword) || p.Name.Contains(keyword) || p.PhoneNumber.Contains(keyword) || p.Address.Contains(keyword))
                              select new
                              {
                                  p.Id,
-                                 p.Login
+                                 p.Login,
+                                 p.Address
                              };
             foreach (var element in load_users)
             {
@@ -765,6 +770,7 @@ namespace I2P_Project.Classes
                 {
                     userID = element.Id,
                     userLogin = element.Login,
+                    userMail = element.Address,
                     docsNumber = GetUserBooksNumber(element.Id),
                     userFine = GetUserFine(element.Id)
                 };
@@ -808,12 +814,13 @@ namespace I2P_Project.Classes
             ObservableCollection<Pages.AdminUserView> temp_table = new ObservableCollection<Pages.AdminUserView>();
             var load_users = from p in db.Users
                              where (p.UserType == (int)UserType.Librarian && !p.IsDeleted) &&
-                             (p.Login.Contains(keyword) || p.Name.Contains(keyword) || p.PhoneNumber.Contains(keyword))
+                             (p.Login.Contains(keyword) || p.Name.Contains(keyword) || p.PhoneNumber.Contains(keyword) || p.Address.Contains(keyword))
                              select new
                              {
                                  p.Id,
                                  p.Login,
                                  p.Name,
+                                 p.Address,
                                  p.LibrarianType                               
                              };
             foreach (var element in load_users)
@@ -823,6 +830,7 @@ namespace I2P_Project.Classes
                     LibrarianID = element.Id,
                     LibrarianLogin = element.Login,
                     LibrarianName = element.Name,
+                    LibrarianMail = element.Address,
                     LibrarianType = "Priv" + (element.LibrarianType + 1)
                 };
                 temp_table.Add(row);

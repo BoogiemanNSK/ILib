@@ -105,6 +105,7 @@ namespace I2P_Project.Pages
     {
         public int userID { get; set; }
         public string userLogin { get; set; }
+        public string userMail { get; set; }
         public int docsNumber { get; set; }
         public int userFine { get; set; }
     }

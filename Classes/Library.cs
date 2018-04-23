@@ -384,7 +384,7 @@ namespace I2P_Project.Classes
                 if (c.TimeToBack.CompareTo(DateTime.Now) > 0)
                     c.TimeToBack = DateTime.Now;
                 SendNotificationToUser(GetUser(c.UserID).Address, SDM.Strings.MAIL_RETURN_BOOK_TITLE, SDM.Strings.MAIL_RETURN_BOOK_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
-				log.Write(GetUser(c.UserID).Name + " ")
+				log.Write(GetUser(c.UserID).Name + " ");
 			}
 
             doc.Queue = "";

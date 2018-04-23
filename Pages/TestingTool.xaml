@@ -97,6 +97,16 @@
             <ListBoxItem Content="28"/>
             <ListBoxItem Content="29"/>
             <ListBoxItem Content="30"/>
+            <ListBoxItem Content="31"/>
+            <ListBoxItem Content="32"/>
+            <ListBoxItem Content="33"/>
+            <ListBoxItem Content="34"/>
+            <ListBoxItem Content="35"/>
+            <ListBoxItem Content="36"/>
+            <ListBoxItem Content="37"/>
+            <ListBoxItem Content="38"/>
+            <ListBoxItem Content="39"/>
+            <ListBoxItem Content="40"/>
         </ComboBox>
 
         <Button Grid.Row="9" Click="OnTest" Height="25" Width="120" HorizontalAlignment="Center" Margin="0,2,0,2">Test</Button>

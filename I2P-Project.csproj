@@ -98,6 +98,7 @@
     <Compile Include="Classes\Cryptography.cs" />
     <Compile Include="Classes\DocClass.cs" />
     <Compile Include="Classes\LMSDataBase.cs" />
+    <Compile Include="Classes\Logger.cs" />
     <Compile Include="Classes\PriorityQueue.cs" />
     <Compile Include="Classes\ProcessManager.cs" />
     <Compile Include="Classes\SDM.cs" />

@@ -89,19 +89,21 @@
         /// <summary> Sets an outstanding request for the document (deletes queue) </summary>
         public void OutstandingRequest(int docID)
         {
-            SDM.LMS.SetOutstandingRequest(PersonID, docID);
+            if (LibrarianType > 1) {
+                SDM.LMS.SetOutstandingRequest(PersonID, docID);
+            }
         }
 
         #endregion
     }
-    
+    /// <summary> Structure to take information about users checkouts/// </summary>
     public struct CheckedOut
     {
         public string DocumentCheckedOut { get; set; }   
         public int CheckOutTime { get; set; }
     }
-
-    public struct OverdueInfo
+	/// <summary> Structure to take information about users overdue /// </summary>
+	public struct OverdueInfo
     {
         public string DocumentChekedOut { get; set; }
         public int Overdue { get; set; }

@@ -15,6 +15,7 @@ namespace I2P_Project.Tests
         {
             SDM.LMS.ClearDB();
             admin = new Admin("admin");
+            SDM.CurrentUser = admin;
         }
         
         public void Test1()

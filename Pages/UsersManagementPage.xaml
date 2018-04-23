@@ -40,8 +40,9 @@
         <DataGrid Grid.Row="3" Grid.Column="1" Name="UsersTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True"
                   FontWeight="Bold">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="User ID" Binding="{Binding userID}" Width="*"/>
+                <DataGridTextColumn Header="User ID" Binding="{Binding userID}" Width="*" Visibility="Hidden"/>
                 <DataGridTextColumn Header="Login" Binding="{Binding userLogin}" Width="*"/>
+                <DataGridTextColumn Header="E-Mail" Binding="{Binding userMail}" Width="*"/>
                 <DataGridTextColumn Header="Docs Number" Binding="{Binding docsNumber}" Width="*"/>
                 <DataGridTextColumn Header="Fine" Binding="{Binding userFine}" Width="*"/>
                 <DataGridTemplateColumn CanUserResize="False">

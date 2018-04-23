@@ -7,12 +7,11 @@ using System.Windows.Controls;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for MyBooks.xaml
-    /// </summary>
+    /// <summary> Interaction logic for MyBooks.xaml </summary>
     public partial class MyBooks : Page
     {
         List<String> searched_books = new List<String>(); // Data for autocomplete box
+        
         public MyBooks()
         {
             InitializeComponent();

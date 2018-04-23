@@ -6,12 +6,9 @@ using System.Windows;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for ModifyAVPage.xaml
-    /// </summary>
+    /// <summary> Interaction logic for ModifyAVPage.xaml </summary>
     public partial class ModifyAVPage : Window
     {
-
         private int _docID;
         DocumentsManagementPage prevPage;
 
@@ -35,7 +32,7 @@ namespace I2P_Project.Pages
                 Librarian lib = (Librarian)SDM.CurrentUser;
                 int price = Convert.ToInt32(PriceTB.Text);
                 int quantity = Convert.ToInt32(CopiesTB.Text);
-                SDM.LMS.ModifyAV
+                lib.ModifyAV
                     (
                     _docID,
                     TitleTB.Text,

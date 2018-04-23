@@ -39,9 +39,10 @@
         <DataGrid Grid.Row="3" Grid.Column="1" Name="LibrariansTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True"
                   FontWeight="Bold">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Librarian ID" Binding="{Binding LibrarianID}" Width="*"/>
+                <DataGridTextColumn Header="Librarian ID" Binding="{Binding LibrarianID}" Width="*" Visibility="Hidden"/>
                 <DataGridTextColumn Header="Login" Binding="{Binding LibrarianLogin}" Width="*"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding LibrarianName}" Width="*"/>
+                <DataGridTextColumn Header="E-Mail" Binding="{Binding LibrarianMail}" Width="*"/>
                 <DataGridTextColumn Header="Librarian Type" Binding="{Binding LibrarianType}" Width="*"/>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>

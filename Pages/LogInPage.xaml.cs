@@ -7,9 +7,7 @@ using XamlAnimatedGif;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для LogInPage.xaml
-    /// </summary>
+    /// <summary> Логика взаимодействия для LogInPage.xaml </summary>
     public partial class LogInPage : Window
     {
         public LogInPage()
@@ -31,8 +29,7 @@ namespace I2P_Project.Pages
             mw.Show();
             Close();
         }
-
-        // TODO Заменить на enum
+        
         private void SetCurrentUser()
         {
             int userType = new Student(LoginTB.Text).UserType;
@@ -90,7 +87,6 @@ namespace I2P_Project.Pages
 
         private void AdminLogInClick(object sender, RoutedEventArgs e)
         {
-            // TODO Зарегать как-то админа или типо того
             SDM.CurrentUser = new Admin("admin");
             MainWindow mw = new MainWindow();
             mw.Show();

@@ -112,6 +112,7 @@ namespace I2P_Project.Pages
         public int LibrarianID { get; set; }
         public string LibrarianLogin { get; set; }
         public string LibrarianName { get; set; }
+        public string LibrarianMail { get; set; }
         public string LibrarianType { get; set; }
     }
 }

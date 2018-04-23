@@ -1,7 +1,6 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
 using I2P_Project.DataBase;
-using System;
 using System.Linq;
 using System.Windows;
 
@@ -39,39 +38,37 @@ namespace I2P_Project.Pages
 
         private void OnModifyUserClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (UserName.Text.Length == 0 || UserAdress.Text.Length == 0 || UserPhoneNumber.Text.Length == 0) throw new Exception();
-
-                if (_userType == 5) {
-                    Admin admin = (Admin)SDM.CurrentUser;
-                    admin.ModifyLibrarian
-                        (
-                            _userID,
-                            UserName.Text,
-                            UserAdress.Text,
-                            UserPhoneNumber.Text,
-                            UserType.SelectedIndex
-                        );
-                    Close();
-                } else {
-                    Librarian lib = (Librarian)SDM.CurrentUser;
-                    lib.ModifyUser
-                        (
-                            _userID,
-                            UserName.Text,
-                            UserAdress.Text,
-                            UserPhoneNumber.Text,
-                            UserType.SelectedIndex
-                        );
-                    UserCard page = new UserCard(_userID);
-                    Close();
-                    page.ShowDialog();
-                }
-            }
-            catch
-            {
+            if (UserName.Text.Length == 0 || UserAdress.Text.Length == 0 || UserPhoneNumber.Text.Length == 0) {
                 MessageBox.Show("One of fields is not filled!", "Error");
+            }
+            if (!ValidMail(UserAdress.Text)) {
+                MessageBox.Show("Invalid e-mail!", "Error");
+            }
+
+            if (_userType == 5) {
+                Admin admin = (Admin)SDM.CurrentUser;
+                admin.ModifyLibrarian
+                    (
+                        _userID,
+                        UserName.Text,
+                        UserAdress.Text,
+                        UserPhoneNumber.Text,
+                        UserType.SelectedIndex
+                    );
+                Close();
+            } else {
+                Librarian lib = (Librarian)SDM.CurrentUser;
+                lib.ModifyUser
+                    (
+                        _userID,
+                        UserName.Text,
+                        UserAdress.Text,
+                        UserPhoneNumber.Text,
+                        UserType.SelectedIndex
+                    );
+                UserCard page = new UserCard(_userID);
+                Close();
+                page.ShowDialog();
             }
         }
 
@@ -85,7 +82,15 @@ namespace I2P_Project.Pages
                 Close();
                 page.ShowDialog();
             }
-            
+        }
+
+        private bool ValidMail(string mail)
+        {
+            string[] mail_parts = mail.Split('@');
+            if (mail_parts.Length != 2 || mail_parts[0].Length < 1 || mail_parts[1].Length < 1) { return false; }
+            mail_parts = mail_parts[1].Split('.');
+            if (mail_parts.Length != 2 || mail_parts[0].Length < 1 || mail_parts[1].Length < 1) { return false; }
+            return true;
         }
     }
 }

@@ -39,7 +39,7 @@
         <DataGrid Grid.Row="3" Grid.Column="1" Name="dgLibrarianDocuments" CanUserAddRows="false" CanUserDeleteRows="False"
                   AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="*"/>
+                <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="*" Visibility="Hidden"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="*"/>
                 <DataGridTextColumn Header="Autors" Binding="{Binding docAutors}" Width="*"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="*"/>

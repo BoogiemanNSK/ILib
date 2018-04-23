@@ -7,9 +7,7 @@ using System.Collections.Generic;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для DocumentsManagementPage.xaml
-    /// </summary>
+    /// <summary> Логика взаимодействия для DocumentsManagementPage.xaml </summary>
     public partial class DocumentsManagementPage : Page
     {
         List<String> searched_docs = new List<String>(); // Data for autocomplete box

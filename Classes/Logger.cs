@@ -12,18 +12,36 @@ namespace I2P_Project.Classes
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string path = (Path.GetDirectoryName(executable));
             _file = path + "\\Log.txt";
-            File.WriteAllText(_file, "");
 
-            Write("Log");
-            using (StreamWriter file = new StreamWriter(_file, true)) {
-                file.WriteLine("----------------------------------------------------------------------------");
+            if (File.Exists(_file)) {
+                Separator();
+                Space();
+                Space();
             }
+
+            Separator();
+            Write("Log");
+            Separator();
         }
 
         public void Write(string text)
         {
             using (StreamWriter file = new StreamWriter(_file, true)) {
-                file.WriteLine(DateTime.Now.ToString() + " | " + text);
+                file.WriteLine("| " + DateTime.Now.ToString() + " | " + text);
+            }
+        }
+
+        private void Separator()
+        {
+            using (StreamWriter file = new StreamWriter(_file, true)) {
+                file.WriteLine("----------------------------------------------------------------------------");
+            }
+        }
+
+        private void Space()
+        {
+            using (StreamWriter file = new StreamWriter(_file, true)) {
+                file.WriteLine("");
             }
         }
     }

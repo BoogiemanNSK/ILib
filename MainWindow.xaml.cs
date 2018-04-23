@@ -11,12 +11,20 @@ namespace I2P_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static bool taskMenu;  // task menu is open or closed?
+        public static bool taskMenu;  // Task menu is open or closed?
 
         public MainWindow()
         {
             InitializeComponent();
             OnLoadWindow();
+        }
+
+        private void btnLog_Click(object sender, RoutedEventArgs e)
+        {
+            string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string path = (System.IO.Path.GetDirectoryName(executable));
+            string file = path + "\\Log.txt";
+            System.Diagnostics.Process.Start(file);
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -73,6 +81,7 @@ namespace I2P_Project
                     li_page_UsersManagement.Visibility = Visibility.Collapsed;
                     li_page_LibrariansManagement.Visibility = Visibility.Collapsed;
                     li_page_AdminHome.Visibility = Visibility.Collapsed;
+                    btn_Log.Visibility = Visibility.Collapsed;
                     li_page_userHome.IsChecked = true;
                     break;
                 case 5:  // Librarian
@@ -81,6 +90,7 @@ namespace I2P_Project
                     li_page_UserMyBooks.Visibility = Visibility.Collapsed;
                     li_page_LibrariansManagement.Visibility = Visibility.Collapsed;
                     li_page_AdminHome.Visibility = Visibility.Collapsed;
+                    btn_Log.Visibility = Visibility.Collapsed;
                     li_page_LibrarianHome.IsChecked = true;
                     break;
                 case 6: // Admin

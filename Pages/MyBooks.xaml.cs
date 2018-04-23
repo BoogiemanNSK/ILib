@@ -1,6 +1,7 @@
 ﻿using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,10 +10,13 @@ namespace I2P_Project.Pages
     /// <summary> Interaction logic for MyBooks.xaml </summary>
     public partial class MyBooks : Page
     {
+        List<String> searched_books = new List<String>(); // Data for autocomplete box
+        
         public MyBooks()
         {
             InitializeComponent();
             UpdateUI();
+            searched_books = LoadACB();
         }
 
         /// <summary> Updates table of user`s docs </summary>
@@ -21,6 +25,15 @@ namespace I2P_Project.Pages
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
             myBooksTable.ItemsSource = SDM.LMS.GetUserBooks(SDM.CurrentUser.PersonID);
+            pm.EndWaiting();
+        }
+
+        /// <summary> Updates table according to keyword </summary>
+        private void UpdateTableAfterSearch()
+        {
+            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+            pm.BeginWaiting(); // Starts Loading Flow
+            myBooksTable.ItemsSource = SDM.LMS.GetUserBooks(txt_searchMyBooks.Text);
             pm.EndWaiting();
         }
 
@@ -105,6 +118,40 @@ namespace I2P_Project.Pages
                     break;
                 case MessageBoxResult.No:
                     break;
+            }
+        }
+
+        /// <summary> First load documents for auto complete box </summary>
+        private List<String> LoadACB()
+        {
+            List<String> temp = SDM.LMS.GetSearchUserBooks();
+            return temp;
+        }
+
+        /// <summary> Search doc method doc </summary>
+        private void txt_searchMyBooks_Populating(object sender, PopulatingEventArgs e)
+        {
+            txt_searchMyBooks.ItemsSource = searched_books;
+        }
+
+        /// <summary> Select one of all drop down options </summary>
+        private void txt_searchMyBooks_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
+        {
+            string txt = txt_searchMyBooks.Text;
+            txt = txt.Split('\n')[0];
+            txt_searchMyBooks.Text = txt;
+        }
+
+        /// <summary> Search book by keyword in AutoCompleteBox </summary>
+        private void btn_SearchBook_Click(object sender, RoutedEventArgs e)
+        {
+            if (txt_searchMyBooks.Text == "")
+            {
+                UpdateUI();
+            }
+            else
+            {
+                UpdateTableAfterSearch();
             }
         }
     }

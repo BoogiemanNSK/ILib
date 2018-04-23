@@ -14,7 +14,11 @@ namespace I2P_Project.Classes
         /// <summary> Starts waiting thread </summary>
         public void BeginWaiting()
         {
-            thread = new Thread(RunThread);
+            try
+            {
+                thread = new Thread(RunThread);
+            }
+            catch (ThreadAbortException) { }
             thread.IsBackground = true;
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
@@ -30,17 +34,13 @@ namespace I2P_Project.Classes
                     window.Close();
                 }));
             }
-            thread.Abort();
         }
 
         private void RunThread()  // Opens WaitWindow
         {
             window = new WaitWindow();
             window.Closed += new EventHandler(WaitingWindowClosed);
-            try
-            {
-                window.ShowDialog(); // Fix "Поток находился в процессе прерывания" если выпадет исключение, пишите в чат.
-            } catch { }
+            window.ShowDialog(); // Fix "Поток находился в процессе прерывания" если выпадет исключение, пишите в чат.
         }
 
         private void WaitingWindowClosed(object sender, EventArgs e)  // When WaitWindow is closed, flow shutdowns

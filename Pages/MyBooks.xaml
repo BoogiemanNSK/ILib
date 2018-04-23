@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:I2P_Project.Pages"
         d:DesignHeight="480" d:DesignWidth="905"
         mc:Ignorable="d"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         Title="MyBooks">
     <Grid>
 
@@ -24,10 +25,13 @@
 
         <Label Content="My documents" Grid.Column="1" Grid.Row="1" FontSize="16" HorizontalAlignment="Center" FontFamily="/I2P-Project;component/Fonts/#Panton"/>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
-                     VerticalContentAlignment="Center"/>
-            <Button Width="95" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
-                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+            <toolkit:AutoCompleteBox HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Height="30" VerticalContentAlignment="Center"
+                                     FilterMode="Contains" x:Name="txt_searchMyBooks" FontSize="16" Margin="5" Populating="txt_searchMyBooks_Populating"
+                                     DropDownClosed="txt_searchMyBooks_DropDownClosed"/>
+            <Button x:Name="btn_SearchBook" Width="95" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;"
+                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14"
+                    Style="{DynamicResource ButtonStyle}" Click="btn_SearchBook_Click"/>
         </StackPanel>
         
         <DataGrid Grid.Column="1" Name="myBooksTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False"

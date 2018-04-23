@@ -23,7 +23,7 @@
                              Foreground="White" Click="Page_userHome_Click"/>
             <RadioButton x:Name="li_page_UserLibrary" Content="&#xE14D;  Library" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
                              Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180" Style="{DynamicResource MenuButtonStyle}"
-                             Foreground="White" Click="Page_userLibrary_Click" />
+                             Foreground="White" Click="Page_userLibrary_Click"/>
             <RadioButton x:Name="li_page_UserMyBooks" Content="&#xE1D3;  My Books" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
                              Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180" Style="{DynamicResource MenuButtonStyle}"
                              Foreground="White" Click="Page_userMyBooks_Click"/>

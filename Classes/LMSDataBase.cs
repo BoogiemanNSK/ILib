@@ -436,6 +436,7 @@ namespace I2P_Project.DataBase
         private string _IssueEditor;
         private string _PublishedIn;
         private string _Queue;
+        private string _Tags;
         private bool _IsBestseller;
         private bool _IsRequested;
         private int _PublishYear;
@@ -467,6 +468,8 @@ namespace I2P_Project.DataBase
         partial void OnPublishedInChanged();
         partial void OnQueueChanging(string value);
         partial void OnQueueChanged();
+        partial void OnTagsChanging(string value);
+        partial void OnTagsChanged();
         partial void OnIsBestsellerChanging(bool value);
         partial void OnIsBestsellerChanged();
         partial void OnIsRequestedChanging(bool value);
@@ -654,6 +657,20 @@ namespace I2P_Project.DataBase
                     _Queue = value;
                     SendPropertyChanged("Queue");
                     OnQueueChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_Tags", DbType = "NVarChar(MAX) NULL")]
+        public string Tags {
+            get => _Tags;
+            set {
+                if ((_Tags != value)) {
+                    OnTagsChanging(value);
+                    SendPropertyChanging();
+                    _Tags = value;
+                    SendPropertyChanged("Tags");
+                    OnTagsChanged();
                 }
             }
         }

@@ -909,7 +909,8 @@ namespace I2P_Project.Tests
 			Debug.Assert(SDM.LMS.GetUser(v.PersonID) != null);
 
 		}
-		public void Test36()
+
+        public void Test36()
 		{
 			Initial_del_4();
 			// Test34();
@@ -923,5 +924,45 @@ namespace I2P_Project.Tests
 			DocClass d1 = new DocClass("Introduction to Algorithms");
 
 		}
-	}
+
+        public void Test41()
+        {
+            Initial_del_4();
+
+            string titleSearch = "Algorithms";
+            var test = SDM.LMS.GetDocsTable(titleSearch);
+
+            Debug.Assert(test.Count == 2);
+        }
+
+        public void Test42()
+        {
+            Initial_del_4();
+
+            string titleSearch = "Algorithms";
+            //var test = SDM.LMS.GetDocsTableByKeyword(titleSearch);
+
+            //Debug.Assert(test.Count == 3);
+        }
+
+        public void Test43()
+        {
+            Initial_del_4();
+
+            string titleSearch = "Algorithms AND Programming";
+            var test = SDM.LMS.GetDocsTable(titleSearch);
+
+            Debug.Assert(test.Count == 0);
+        }
+
+        public void Test44()
+        {
+            Initial_del_4();
+
+            string titleSearch = "Algorithms OR Programming";
+            var test = SDM.LMS.GetDocsTable(titleSearch);
+
+            Debug.Assert(test.Count == 3);
+        }
+    }
 }

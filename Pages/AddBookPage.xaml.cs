@@ -5,9 +5,7 @@ using I2P_Project.Classes;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для AddBookPage.xaml
-    /// </summary>
+    /// <summary> Логика взаимодействия для AddBookPage.xaml </summary>
     public partial class AddBookPage : Window
     {
         private DocumentsManagementPage _previousPage;

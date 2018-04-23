@@ -7,9 +7,7 @@ using I2P_Project.Classes.UserSystem;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for UsersManagementPage.xaml
-    /// </summary>
+    /// <summary> Interaction logic for UsersManagementPage.xaml </summary>
     public partial class UsersManagementPage : Page
     {
         List<String> searched_users = new List<String>(); // Data for autocomplete box

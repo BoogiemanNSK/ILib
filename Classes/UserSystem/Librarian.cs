@@ -1,6 +1,5 @@
 ﻿namespace I2P_Project.Classes.UserSystem
 {
-
     class Librarian : User
     {
         public Librarian(string login) : base(login) {}
@@ -94,7 +93,6 @@
         }
 
         #endregion
-
     }
     
     public struct CheckedOut
@@ -108,5 +106,4 @@
         public string DocumentChekedOut { get; set; }
         public int Overdue { get; set; }
     }
-
 }

@@ -38,7 +38,7 @@ namespace I2P_Project.Pages
                 int price = Convert.ToInt32(PriceTB.Text);
                 int quantity = Convert.ToInt32(CopiesTB.Text);
                 bool isBestseller = IsBestsellerCB.SelectedIndex == 0;
-                SDM.LMS.ModifyBook
+                lib.ModifyBook
                     (
                     _docID,
                     TitleTB.Text,

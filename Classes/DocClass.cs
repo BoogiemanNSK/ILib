@@ -23,6 +23,7 @@ namespace I2P_Project.Classes
 
 		
     }
+
 	public enum DocType
 	{
 		Book,

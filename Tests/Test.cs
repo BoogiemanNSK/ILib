@@ -82,7 +82,8 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
             Debug.Assert(SDM.LMS.GetUserBooks(ft.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(ft.PersonID, b.ID) / 7 == 4);
+			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(ft.PersonID, b.ID);
+			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime) checkouts.DateTaked).TotalDays / 7 == 4);
         }
 
         public void Test4()
@@ -108,8 +109,9 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
             Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(st.PersonID, b.ID) / 7 == 2);
-        }
+			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(st.PersonID, b.ID);
+			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime)checkouts.DateTaked).TotalDays / 7 == 2);
+		}
 
         public void Test5()
         {
@@ -216,8 +218,9 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
             Debug.Assert(SDM.LMS.GetUserBooks(s.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, b.ID) / 7 == 3);
-        }
+			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(s.PersonID, b.ID);
+			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime)checkouts.DateTaked).TotalDays / 7 == 3);
+		}
 
         public void Test9()
         {
@@ -242,8 +245,9 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
             Debug.Assert(SDM.LMS.GetUserBooks(s.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, b.ID) / 7 == 2);
-        }
+			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(s.PersonID, b.ID);
+			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime)checkouts.DateTaked).TotalDays / 7 == 2);
+		}
 
         public void Test10()
         {
@@ -626,20 +630,20 @@ namespace I2P_Project.Tests
             s.CheckOut(d2.ID, timeCheat);
             v.CheckOut(d1.ID, timeCheat);
             v.CheckOut(d2.ID, timeCheat);
+			
+			Debug.Assert(SDM.LMS.OverdueTime(p1.PersonID, d1.ID, Now) == 0);
+            Debug.Assert(SDM.LMS.OverdueTime(p1.PersonID, d2.ID, Now) == 0);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d1.ID, Now) == 0);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d2.ID, Now) == 0);
 
-            Debug.Assert(SDM.LMS.OverdueTime(p1.PersonID, d1.ID) == 1);
-            Debug.Assert(SDM.LMS.OverdueTime(p1.PersonID, d2.ID) == 1);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d1.ID, Now) == 100);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(p1.PersonID, d2.ID, Now) == 100);
+            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, d1.ID, Now ) == 7);
+            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, d2.ID, Now) == 14);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(s.PersonID, d1.ID, Now) == 700);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(s.PersonID, d2.ID, Now) == 1400);
 
-            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, d1.ID) == 8);
-            Debug.Assert(SDM.LMS.OverdueTime(s.PersonID, d2.ID) == 15);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(s.PersonID, d1.ID, Now) == 800);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(s.PersonID, d2.ID, Now) == 1500);
-
-            Debug.Assert(SDM.LMS.OverdueTime(v.PersonID, d1.ID) == 22);
-            Debug.Assert(SDM.LMS.OverdueTime(v.PersonID, d2.ID) == 22);
-            Debug.Assert(SDM.LMS.GetUserFineForDoc(v.PersonID, d1.ID, Now) == 2200);
+            Debug.Assert(SDM.LMS.OverdueTime(v.PersonID, d1.ID, Now) == 21);
+            Debug.Assert(SDM.LMS.OverdueTime(v.PersonID, d2.ID, Now) == 21);
+            Debug.Assert(SDM.LMS.GetUserFineForDoc(v.PersonID, d1.ID, Now) == 2100);
             Debug.Assert(SDM.LMS.GetUserFineForDoc(v.PersonID, d2.ID, Now) == 1700);
         }
 
@@ -688,13 +692,15 @@ namespace I2P_Project.Tests
             lb.OutstandingRequest(d2.ID);
 
             timeCheat = new int[] { 02, 04, 2018 };
-            p1.RenewDoc(d1.ID,timeCheat);
-            s.RenewDoc(d2.ID);
-            v.RenewDoc(d2.ID);
+			DateTime Now = new DateTime(2018, 04, 14);
+			p1.RenewDoc(d1.ID,timeCheat);
+            s.RenewDoc(d2.ID, timeCheat);
+            v.RenewDoc(d2.ID, timeCheat);
 
             Debug.Assert(SDM.LMS.GetCheckout(p1.PersonID, d1.ID).TimeToBack.Day == 30);
-            Debug.Assert(SDM.LMS.GetCheckout(s.PersonID, d2.ID).TimeToBack.Day == DateTime.Now.Day);
-            Debug.Assert(SDM.LMS.GetCheckout(v.PersonID, d2.ID).TimeToBack.Day == DateTime.Now.Day);
+            Debug.Assert(SDM.LMS.GetCheckout(s.PersonID, d2.ID).TimeToBack.Day == Now.Day);
+			Now = new DateTime(2018, 04, 07);
+            Debug.Assert(SDM.LMS.GetCheckout(v.PersonID, d2.ID).TimeToBack.Day == Now.Day);
         }
 
 
@@ -753,7 +759,7 @@ namespace I2P_Project.Tests
             
             lb.OutstandingRequest(d3.ID);
 
-            Debug.Assert(SDM.LMS.ExistQueueForDoc(d3.ID));
+            Debug.Assert(!SDM.LMS.ExistQueueForDoc(d3.ID));
         }
 
         public void Test28()
@@ -774,7 +780,7 @@ namespace I2P_Project.Tests
             Debug.Assert(pq.Pop() == v.PersonID);
             Debug.Assert(pq.Pop() == p3.PersonID);
             List<CheckedOut> checkedOuts = SDM.LMS.GetCheckoutsList("p2");
-            Debug.Assert(checkedOuts.Capacity == 0);
+            Debug.Assert(checkedOuts.Count == 1);
         }
 
         public void Test29()
@@ -794,7 +800,7 @@ namespace I2P_Project.Tests
 
             List<CheckedOut> checkedOuts = SDM.LMS.GetCheckoutsList("p1");
             Debug.Assert(checkedOuts.First().CheckOutTime == 16);
-            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d3");
+            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "Null References: The Billion Dollar Mistake");
             PriorityQueue<int> pq = SDM.LMS.LoadPQ(d3.ID);
             Debug.Assert(pq.Pop() == s.PersonID);
             Debug.Assert(pq.Pop() == v.PersonID);
@@ -817,10 +823,10 @@ namespace I2P_Project.Tests
 
             List<CheckedOut> checkedOuts = SDM.LMS.GetCheckoutsList("p1");
             Debug.Assert(checkedOuts.First().CheckOutTime == 26);
-            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d1");
+            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "Introduction to Algorithms");
             checkedOuts = SDM.LMS.GetCheckoutsList("v");
-            Debug.Assert(checkedOuts.First().CheckOutTime == 6);
-            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "d1");
+            Debug.Assert(checkedOuts.First().CheckOutTime == 5);
+            Debug.Assert(checkedOuts.First().DocumentCheckedOut == "Introduction to Algorithms");
         }
     }
 }

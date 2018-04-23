@@ -5,9 +5,7 @@ using System.Windows;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for AddLibrarianPage.xaml
-    /// </summary>
+    /// <summary> Interaction logic for AddLibrarianPage.xaml </summary>
     public partial class AddLibrarianPage : Window
     {
         public AddLibrarianPage()

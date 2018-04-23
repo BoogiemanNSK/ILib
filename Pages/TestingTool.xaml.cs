@@ -4,9 +4,7 @@ using System.Windows;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for TestingTool.xaml
-    /// </summary>
+    /// <summary> Interaction logic for TestingTool.xaml </summary>
     public partial class TestingTool : Window
     {
         private Test test;

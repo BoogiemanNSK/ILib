@@ -6,9 +6,7 @@ using System.Windows;
 
 namespace I2P_Project.Pages
 {
-    /// <summary>
-    /// Interaction logic for ModifyJournalPage.xaml
-    /// </summary>
+    /// <summary> Interaction logic for ModifyJournalPage.xaml </summary>
     public partial class ModifyJournalPage : Window
     {
         private int _docID;
@@ -37,7 +35,7 @@ namespace I2P_Project.Pages
                 Librarian lib = (Librarian)SDM.CurrentUser;
                 int price = Convert.ToInt32(PriceTB.Text);
                 int quantity = Convert.ToInt32(CopiesTB.Text);
-                SDM.LMS.ModifyJournal
+                lib.ModifyJournal
                     (
                     _docID,
                     TitleTB.Text,

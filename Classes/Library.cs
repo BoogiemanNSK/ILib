@@ -26,7 +26,6 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Connecting to Data Base </summary>
-        /// <param name="db"></param>
         public void ConnectToDB(LMSDataBase db)
         {
             // Trying to connect to Azure cloud database
@@ -53,15 +52,13 @@ namespace I2P_Project.Classes
                 db.SubmitChanges();
             }
         }
-
-        // TODO Формальные поправки
+        
         #region DB Addition
 
         /// <summary> Registers new user in data base </summary>
         public bool RegisterUser(string login, string password, string name, string adress, string phone, bool isLibrarian)
         {
             if (CheckLogin(login)) return false;
-            // TODO Проверять правильность вводимого мейла (adress)
 
             using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
             {
@@ -1139,11 +1136,11 @@ namespace I2P_Project.Classes
             return test.Single();
         }
 
-        public int OverdueTime(int userID, int docID)
+        public int OverdueTime(int userID, int docID, DateTime Now)
         {
             Checkouts testCheck = GetCheckout(userID, docID);
-            int days = (int)testCheck.TimeToBack.Subtract(DateTime.Now).TotalDays;
-            return days + 1;
+            int days = (int) Math.Round(Now.Subtract(testCheck.TimeToBack).TotalDays);
+            return days;
         }
 
         private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
@@ -1213,7 +1210,7 @@ namespace I2P_Project.Classes
         {
             Checkouts testCheck = GetCheckout(userID, docID);
 
-            int overduedTime = (int)Now.Subtract(testCheck.TimeToBack).TotalDays;
+            int overduedTime = OverdueTime(userID, docID, Now);
             if (overduedTime > 0) {
                 int docPrice = GetDoc(docID).Price;
                 return (overduedTime * 100 > docPrice ? docPrice : overduedTime * 100);
@@ -1303,6 +1300,5 @@ namespace I2P_Project.Classes
         }
 
         #endregion
-
     }
 }

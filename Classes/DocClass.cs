@@ -23,7 +23,7 @@ namespace I2P_Project.Classes
 
 		
     }
-
+	/// <summary> Structure to choose DocType(for not hardcoded one) /// </summary>
 	public enum DocType
 	{
 		Book,

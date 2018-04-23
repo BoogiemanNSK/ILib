@@ -1137,31 +1137,35 @@ namespace I2P_Project.Classes
             // Special for me
             RegisterUser("zhychek1", "lolcore", "Toha", "zhychek1@yandex.ru", "+79648350370", true);
         }
-
+		/// <summary>
+		/// Get user by his name(test function)
+		/// </summary>
+		/// <param name="Name"></param>
+		/// <returns></returns>
         public Users GetUser(string Name)
         {
             var test = from u in db.Users where u.Name == Name && !u.IsDeleted select u;
             return test.Single();
         }
-
+		/// <summary> Return how many days the user has overdued /// </summary>
         public int OverdueTime(int userID, int docID, DateTime Now)
         {
             Checkouts testCheck = GetCheckout(userID, docID);
             int days = (int) Math.Round(Now.Subtract(testCheck.TimeToBack).TotalDays);
             return days;
         }
-
-        private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
+		/// <summary> Method for assertion. Return equality of checkouts /// </summary>
+		private bool EqualCheckouts(List<CheckedOut> checkedOuts, List<CheckedOut> neededInfo)
         {
             return new HashSet<CheckedOut>(checkedOuts).SetEquals(neededInfo);
         }
-
-        private bool EqualOverdues(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
+		/// <summary> Method for assertion. Return equality of overdues /// </summary>
+		private bool EqualOverdues(List<OverdueInfo> overdue, List<OverdueInfo> neededInfo)
         {
             return new HashSet<OverdueInfo>(overdue).SetEquals(neededInfo);
         }
-        
-        public List<CheckedOut> GetCheckoutsList(string Name)
+		/// <summary> Method for assertion. Return list of books, which were taken by user./// </summary>
+		public List<CheckedOut> GetCheckoutsList(string Name)
         {
             Users user = GetUser(Name);
             List<CheckedOut> res = new List<CheckedOut>();
@@ -1184,8 +1188,8 @@ namespace I2P_Project.Classes
             }
             return res;
         }
-
-        public List<OverdueInfo> GetOverdues(string Name, DateTime Now)
+		/// <summary> Method for assertion. Return list of overdueinfo,(books which were overdue by user)./// </summary>
+		public List<OverdueInfo> GetOverdues(string Name, DateTime Now)
         {
             Users user = GetUser(Name);
             List<OverdueInfo> res = new List<OverdueInfo>();
@@ -1213,8 +1217,9 @@ namespace I2P_Project.Classes
             }
             return res;
         }
-
-        public int GetUserFineForDoc(int userID, int docID, DateTime Now)
+		/// <summary> Method for assertion. Return amount of rubles,
+		/// which user must give for this book(docID)./// </summary>
+		public int GetUserFineForDoc(int userID, int docID, DateTime Now)
         {
             Checkouts testCheck = GetCheckout(userID, docID);
 
@@ -1227,7 +1232,8 @@ namespace I2P_Project.Classes
             return 0;
         }
 
-        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
+		/// <summary> Method for assertion. Return equality of params in BD and given params./// </summary>
+		public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<CheckedOut> checkout)
         {
             Users user = GetUser(Name);
             List<CheckedOut> checkover = GetCheckoutsList(Name);
@@ -1235,8 +1241,8 @@ namespace I2P_Project.Classes
             return user.Address.Equals(Adress) && user.PhoneNumber.Equals(Phone)
                 && user.UserType == UserType && EqualCheckouts(checkout, checkover);
         }
-
-        public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues, DateTime DateCheat)
+		/// <summary> Method for assertion. Return equality of params in BD and given params./// </summary>
+		public bool CheckUserInfo(string Name, string Adress, string Phone, int UserType, List<OverdueInfo> overdues, DateTime DateCheat)
         {
             Users user = GetUser(Name);
             List<OverdueInfo> checkoverdues = GetOverdues(Name, DateCheat);

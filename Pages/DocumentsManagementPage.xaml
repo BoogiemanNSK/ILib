@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:I2P_Project.Pages"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         mc:Ignorable="d"
         d:DesignHeight="480" d:DesignWidth="905"
         Title="DocumentsManagementPage" FontFamily="/I2P-Project;component/Fonts/#Panton">
@@ -26,17 +26,19 @@
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Click="OnAddBook" Width="32" Content="&#xE109;" Margin="5,5,5,5" Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White"
                     FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Style="{DynamicResource ButtonStyle}"
-                    ToolTip="Add document"/>
-            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
-                     VerticalContentAlignment="Center"/>
-            <Button Click="OnSearch" Width="95" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
+                    ToolTip="Add document" Name="AddBookButton"/>
+            <toolkit:AutoCompleteBox HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Height="30" VerticalContentAlignment="Center"
+                                     FilterMode="Contains" x:Name="txt_searchDocument" FontSize="16" Margin="5" Populating="txt_searchDocument_Populating"
+                                     DropDownClosed="txt_searchDocument_DropDownClosed"/>
+            <Button x:Name="btn_searchDoc" Width="95" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" Click="btn_searchDoc_Click"
+                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
                     Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
         </StackPanel>
 
         <DataGrid Grid.Row="3" Grid.Column="1" Name="dgLibrarianDocuments" CanUserAddRows="false" CanUserDeleteRows="False"
-                  AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold" SelectionChanged="myBooksTable_SelectionChanged">
+                  AutoGenerateColumns="False" IsReadOnly="True" FontWeight="Bold">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="*"/>
+                <DataGridTextColumn Header="Document ID" Binding="{Binding docID}" Width="*" Visibility="Hidden"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="*"/>
                 <DataGridTextColumn Header="Autors" Binding="{Binding docAutors}" Width="*"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding docType}" Width="*"/>
@@ -53,7 +55,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn CanUserResize="False">
+                <DataGridTemplateColumn x:Name="RequestColumn" CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="&#xE13C;" Width="30" Height="30" FontWeight="Bold" ToolTip="Set outstanding request"
@@ -63,10 +65,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn CanUserResize="False">
+                <DataGridTemplateColumn x:Name="DeleteColumn" CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="&#xE107;" Width="30" Height="30" FontWeight="Bold" ToolTip="Delete document"
+                            <Button Content="&#xE107;" Width="30" Height="30" FontWeight="Bold" ToolTip="Delete document" 
                                     Style="{DynamicResource ButtonTableStyle}"
                                     Cursor="Hand" Click="OnDeleteBook" Background="White" BorderBrush="{x:Null}" Foreground="Black"
                                     FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"/>

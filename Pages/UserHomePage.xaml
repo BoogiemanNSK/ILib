@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:I2P_Project.Pages"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         mc:Ignorable="d"
         d:DesignHeight="480" d:DesignWidth="905"
         Title="UserHomePage" FontFamily="/I2P-Project;component/Fonts/#Panton">
@@ -24,10 +25,11 @@
 
         <Label Grid.Row="1" Grid.Column="1" FontSize="16" Content="Library" HorizontalAlignment="Center"/>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <TextBox HorizontalAlignment="Right" FontSize="16" Margin="5" VerticalAlignment="Center" Width="250" Name="SearchTB" Height="30" 
-                     VerticalContentAlignment="Center"/>
-            <Button Width="95" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
-                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+            <toolkit:AutoCompleteBox HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Height="30" VerticalContentAlignment="Center"
+                                     FilterMode="Contains" x:Name="txt_searchBook" FontSize="16" Margin="5" Populating="txt_searchBook_Populating"
+                                     DropDownClosed="txt_searchBook_DropDownClosed"/>
+            <Button x:Name="btn_SearchBook" Width="95" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}" Click="btn_SearchBook_Click"/>
         </StackPanel>
         
         <DataGrid Grid.Column="1" Name="docTable" CanUserAddRows="false" CanUserDeleteRows="False" Grid.Row="3" AutoGenerateColumns="False"
@@ -35,10 +37,10 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="docID" Binding="{Binding docID}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding docTitle}" Width="*"/>
-                <DataGridTextColumn Header="Author" Binding="{Binding docAutor}" Width="*"/>
+                <DataGridTextColumn Header="Author" Binding="{Binding docAutors}" Width="*"/>
                 <DataGridTextColumn Header="DocType" Binding="{Binding docType}" Width="*"/>
                 <DataGridTextColumn Header="Price" Binding="{Binding docPrice}" Width="*"/>
-                <DataGridTextColumn Header="Publisher" Binding="{Binding docQuantity}" Width="*"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding docQuantity}" Width="*"/>
                 <DataGridTemplateColumn CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -1,10 +1,10 @@
-﻿namespace I2P_Project.DataBase
-{
-    using System.Data.Linq;
-    using System.Data.Linq.Mapping;
-    using System.ComponentModel;
-    using System;
+﻿using System.Data.Linq;
+using System.Data.Linq.Mapping;
+using System.ComponentModel;
+using System;
 
+namespace I2P_Project.DataBase
+{
     [Database(Name = "MainDB")]
     public partial class LMSDataBase : DataContext
     {
@@ -217,6 +217,8 @@
         private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
         private int _id;
         private int _userType;
+        private int _librarianType;
+        private bool _IsDeleted;
         private string _name;
         private string _address;
         private string _phoneNumber;
@@ -231,6 +233,10 @@
         partial void OnidChanged();
         partial void OnuserTypeChanging(int value);
         partial void OnuserTypeChanged();
+        partial void OnlibrarianTypeChanging(int value);
+        partial void OnlibrarianTypeChanged();
+        partial void OnIsDeletedChanging(bool value);
+        partial void OnIsDeletedChanged();
         partial void OnnameChanging(string value);
         partial void OnnameChanged();
         partial void OnaddressChanging(string value);
@@ -278,6 +284,34 @@
                     _userType = value;
                     SendPropertyChanged("userType");
                     OnuserTypeChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_librarianType", DbType = "Int NOT NULL")]
+        public int LibrarianType {
+            get => _librarianType;
+            set {
+                if ((_librarianType != value)) {
+                    OnlibrarianTypeChanging(value);
+                    SendPropertyChanging();
+                    _librarianType = value;
+                    SendPropertyChanged("librarianType");
+                    OnlibrarianTypeChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_IsDeleted", DbType = "Bit NULL")]
+        public bool IsDeleted {
+            get => _IsDeleted;
+            set {
+                if ((_IsDeleted != value)) {
+                    OnIsDeletedChanging(value);
+                    SendPropertyChanging();
+                    _IsDeleted = value;
+                    SendPropertyChanged("IsDeleted");
+                    OnIsDeletedChanged();
                 }
             }
         }
@@ -403,6 +437,7 @@
         private string _PublishedIn;
         private string _Queue;
         private bool _IsBestseller;
+        private bool _IsRequested;
         private int _PublishYear;
         private int _Price;
         private int _Quantity;
@@ -434,6 +469,8 @@
         partial void OnQueueChanged();
         partial void OnIsBestsellerChanging(bool value);
         partial void OnIsBestsellerChanged();
+        partial void OnIsRequestedChanging(bool value);
+        partial void OnIsRequestedChanged();
         partial void OnPublishYearChanging(int value);
         partial void OnPublishYearChanged();
         partial void OnPriceChanging(int value);
@@ -634,6 +671,20 @@
                     _IsBestseller = value;
                     SendPropertyChanged("IsBestseller");
                     OnIsBestsellerChanged();
+                }
+            }
+        }
+
+        [Column(Storage = "_IsRequested", DbType = "Bit NULL")]
+        public bool IsRequested {
+            get => _IsRequested;
+            set {
+                if ((_IsRequested != value)) {
+                    OnIsRequestedChanging(value);
+                    SendPropertyChanging();
+                    _IsRequested = value;
+                    SendPropertyChanged("IsRequested");
+                    OnIsRequestedChanged();
                 }
             }
         }

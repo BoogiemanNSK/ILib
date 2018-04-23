@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace I2P_Project.Classes
 {
     class Cryptography
     {
-        /// <summary>
-        /// Hashing function
-        /// </summary>
+        /// <summary> Hashing function </summary>
         public string GetHash(MD5 md5_hash, string input)
         {
             byte[] data = md5_hash.ComputeHash(Encoding.UTF8.GetBytes(input));
@@ -23,9 +18,7 @@ namespace I2P_Project.Classes
             return str_builder.ToString();
         }
 
-        /// <summary>
-        /// Compares hashing string with input
-        /// </summary>
+        /// <summary> Compares hashing string with input </summary>
         public bool VerifyHash(MD5 md5_hash, string input, string hashed)
         {
             string hash_of_input = GetHash(md5_hash, input);

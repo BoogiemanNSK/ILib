@@ -2,27 +2,21 @@
 using I2P_Project.Classes.UserSystem;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace I2P_Project.Pages
 {
     /// <summary> Interaction logic for UserHomePage.xaml </summary>
     public partial class UserHomePage : Page
     {
+        List<String> searched_books = new List<String>(); // Data for autocomplete box
+
         public UserHomePage()
         {
             InitializeComponent();
             UpdateUI();
+            searched_books = LoadACB();
         }
 
         /// <summary> Updates table of all docs </summary>
@@ -31,6 +25,15 @@ namespace I2P_Project.Pages
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
             docTable.ItemsSource = SDM.LMS.GetDocsTable();
+            pm.EndWaiting();
+        }
+
+        /// <summary> Updates table according to keyword </summary>
+        private void UpdateTableAfterSearch()
+        {
+            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+            pm.BeginWaiting(); // Starts Loading Flow
+            docTable.ItemsSource = SDM.LMS.GetDocsTable(txt_searchBook.Text);
             pm.EndWaiting();
         }
 
@@ -55,6 +58,39 @@ namespace I2P_Project.Pages
                     break;
             }
         }
-    }
 
+        /// <summary> Search doc method doc </summary>
+        private void txt_searchBook_Populating(object sender, PopulatingEventArgs e)
+        { 
+            txt_searchBook.ItemsSource = searched_books;
+        }
+
+        /// <summary> First load documents for auto complete box </summary>
+        private List<String> LoadACB()
+        {
+            List<String> temp = SDM.LMS.GetSearchBooks();
+            return temp;
+        }
+
+        /// <summary> Select one of all drop down options </summary>
+        private void txt_searchBook_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
+        {
+            string txt = txt_searchBook.Text;
+            txt = txt.Split('\n')[0];
+            txt_searchBook.Text = txt;
+        }
+
+        /// <summary> Search book by keyword in AutoCompleteBox </summary>
+        private void btn_SearchBook_Click(object sender, RoutedEventArgs e)
+        {
+            if(txt_searchBook.Text == "")
+            {
+                UpdateUI();
+            }
+            else
+            {
+                UpdateTableAfterSearch();
+            }
+        }
+    }
 }

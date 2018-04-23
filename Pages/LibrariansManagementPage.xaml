@@ -1,0 +1,68 @@
+﻿<Page x:Class="I2P_Project.Pages.LibrariansManagementPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        mc:Ignorable="d"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+        d:DesignHeight="480" d:DesignWidth="905"
+        Title="LibrariansManagementPage" FontFamily="/I2P-Project;component/Fonts/#Panton">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Center" Content="Librarians"/>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="7,5" HorizontalAlignment="Center" Click="OnAddLibrarian" Width="33" Content="&#xE1E2;" Background="#FF078CD1"
+                    BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol"
+                    Style="{DynamicResource ButtonStyle}"/>
+            <toolkit:AutoCompleteBox HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Height="30" VerticalContentAlignment="Center"
+                                     FilterMode="Contains" x:Name="txt_searchLibrarian" FontSize="16" Margin="5" Populating="txt_searchLibrarian_Populating"
+                                     DropDownClosed="txt_searchLibrarian_DropDownClosed"/>
+            <Button x:Name="btn_searchLibrarian" Width="92" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" Click="btn_searchLibrarian_Click"
+                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" 
+                    Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="3" Grid.Column="1" Name="LibrariansTable" CanUserAddRows="false" CanUserDeleteRows="False" AutoGenerateColumns="False" IsReadOnly="True"
+                  FontWeight="Bold">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Librarian ID" Binding="{Binding LibrarianID}" Width="*" Visibility="Hidden"/>
+                <DataGridTextColumn Header="Login" Binding="{Binding LibrarianLogin}" Width="*"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding LibrarianName}" Width="*"/>
+                <DataGridTextColumn Header="E-Mail" Binding="{Binding LibrarianMail}" Width="*"/>
+                <DataGridTextColumn Header="Librarian Type" Binding="{Binding LibrarianType}" Width="*"/>
+                <DataGridTemplateColumn CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="OnModifyLibrarian" Width="30" Cursor="Hand" Height="30" Content="&#xE104;" Background="White"                                    
+                                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" ToolTip="Modify Librarian"
+                                    BorderBrush="{x:Null}" Foreground="Black" FontWeight="Bold" FontSize="17" Style="{DynamicResource ButtonTableStyle}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="OnDeleteLibrarian" Width="30" Cursor="Hand" Height="30" Content="&#xE107;" Background="White"                                    
+                                    FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" ToolTip="Delete Librarian"
+                                    BorderBrush="{x:Null}" Foreground="Black" FontWeight="Bold" FontSize="17" Style="{DynamicResource ButtonTableStyle}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

@@ -61,6 +61,12 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -73,6 +79,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\WPFToolkit.3.5.50211.1\lib\WPFToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="XamlAnimatedGif, Version=1.1.10.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\XamlAnimatedGif.1.1.10\lib\net45\XamlAnimatedGif.dll</HintPath>
     </Reference>
@@ -87,12 +96,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\Cryptography.cs" />
+    <Compile Include="Classes\DocClass.cs" />
     <Compile Include="Classes\LMSDataBase.cs" />
+    <Compile Include="Classes\Logger.cs" />
     <Compile Include="Classes\PriorityQueue.cs" />
     <Compile Include="Classes\ProcessManager.cs" />
     <Compile Include="Classes\SDM.cs" />
     <Compile Include="Classes\Library.cs" />
     <Compile Include="Classes\StringConstants.cs" />
+    <Compile Include="Classes\UserSystem\Admin.cs" />
     <Compile Include="Classes\UserSystem\Faculty.cs" />
     <Compile Include="Classes\UserSystem\Librarian.cs" />
     <Compile Include="Classes\UserSystem\Patron.cs" />
@@ -111,11 +123,23 @@
     <Compile Include="Pages\AddBookPage.xaml.cs">
       <DependentUpon>AddBookPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AddLibrarianPage.xaml.cs">
+      <DependentUpon>AddLibrarianPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\DocumentsManagementPage.xaml.cs">
       <DependentUpon>DocumentsManagementPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ModifyDocsPage.xaml.cs">
-      <DependentUpon>ModifyDocsPage.xaml</DependentUpon>
+    <Compile Include="Pages\LibrariansManagementPage.xaml.cs">
+      <DependentUpon>LibrariansManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ModifyAVPage.xaml.cs">
+      <DependentUpon>ModifyAVPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ModifyBookPage.xaml.cs">
+      <DependentUpon>ModifyBookPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ModifyJournalPage.xaml.cs">
+      <DependentUpon>ModifyJournalPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\OverdueInfo.xaml.cs">
       <DependentUpon>OverdueInfo.xaml</DependentUpon>
@@ -157,7 +181,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\AddLibrarianPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\DocumentsManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\LibrariansManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,9 +197,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ModifyDocsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Pages\ModifyAVPage.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ModifyBookPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ModifyJournalPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ModifyUserPage.xaml">
       <SubType>Designer</SubType>
@@ -279,10 +319,6 @@
     <Resource Include="Sprites\back.png" />
   </ItemGroup>
   <ItemGroup Condition="$(VisualStudioVersion) == '15.0'">
-    <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=13.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>$(SSDTPath)\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTesting, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.dll</HintPath>
       <Private>True</Private>

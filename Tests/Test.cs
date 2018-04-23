@@ -829,5 +829,99 @@ namespace I2P_Project.Tests
             Debug.Assert(checkedOuts.First().CheckOutTime == 5);
             Debug.Assert(checkedOuts.First().DocumentCheckedOut == "Introduction to Algorithms");
         }
-    }
+		public void Initial_del_4()
+		{
+
+			SDM.LMS.ClearDB();
+
+			SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
+			Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+
+			lb.AddBook
+				(
+					"Introduction to Algorithms",
+					"Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein",
+					"MIT Press",
+					2009,
+					"Third Edition",
+					"Alghorithm techniques and design",
+					5000,
+					false,
+					3
+				);
+			lb.AddBook
+				(
+					"Algorithms + Data Structures = Programs",
+					"Niklaus Wirth",
+					"Prentice Hall PTR",
+					1978,
+					"First Edition",
+					"",
+					5000,
+					false,
+					3
+				);
+			lb.AddBook
+				(
+					"The Art of Computer Programming",
+					"Donald E. Knuth",
+					"Addison Wesley Longman Publishing Co., Inc.",
+					1997,
+					"Third Edition",
+					"",
+					5000,
+					false,
+					3
+				);
+			DocClass d1 = new DocClass("Introduction to Algorithms");
+			DocClass d2 = new DocClass("Algorithms + Data Structures = Programs");
+			DocClass d3 = new DocClass("The Art of Computer Programming");
+
+			lb.RegisterUser("p1", "p1", "p1", "Via Margutta, 3", "30001", false);
+			lb.RegisterUser("p2", "p2", "p2", "Via Sacra, 13", "30002", false);
+			lb.RegisterUser("p3", "p3", "p3", "Via del Corso, 22", "30003", false);
+			lb.RegisterUser("s", "s", "s", "s", "s", false);
+			lb.RegisterUser("v", "v", "v", "v", "v", false);
+			Student p1 = new Student("p1");
+			Student p2 = new Student("p2");
+			Student p3 = new Student("p3");
+			Student s = new Student("s");
+			Student v = new Student("v");
+
+			lb.ModifyUser(p1.PersonID, p1.Name, p1.Adress, p1.PhoneNumber, 4);
+			lb.ModifyUser(p2.PersonID, p2.Name, p2.Adress, p2.PhoneNumber, 4);
+			lb.ModifyUser(p3.PersonID, p3.Name, p3.Adress, p3.PhoneNumber, 4);
+			lb.ModifyUser(v.PersonID, v.Name, v.Adress, v.PhoneNumber, 3);
+
+			Debug.Assert(SDM.LMS.GetDoc(d1.ID) != null);
+			Debug.Assert(SDM.LMS.GetDoc(d2.ID) != null);
+			Debug.Assert(SDM.LMS.GetDoc(d3.ID) != null);
+
+			Debug.Assert(d1.Quantity == 3);
+			Debug.Assert(d2.Quantity == 3);
+			Debug.Assert(d3.Quantity == 2);
+
+			Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
+			Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
+			Debug.Assert(SDM.LMS.GetUser(p3.PersonID) != null);
+			Debug.Assert(SDM.LMS.GetUser(s.PersonID) != null);
+			Debug.Assert(SDM.LMS.GetUser(v.PersonID) != null);
+
+		}
+		public void Test36()
+		{
+			Initial_del_4();
+			// Test34();
+			Faculty p1 = new Faculty("p1");
+			Faculty p2 = new Faculty("p2");
+			Student s = new Student("s");
+			VisitingProfessor v = new VisitingProfessor("v");
+			Faculty p3 = new Faculty("p3");
+			Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+			DocClass d1 = new DocClass("Introduction to Algorithms");
+
+		}
+	}
 }

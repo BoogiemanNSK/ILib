@@ -89,7 +89,9 @@
         /// <summary> Sets an outstanding request for the document (deletes queue) </summary>
         public void OutstandingRequest(int docID)
         {
-            SDM.LMS.SetOutstandingRequest(PersonID, docID);
+            if (LibrarianType > 1) {
+                SDM.LMS.SetOutstandingRequest(PersonID, docID);
+            }
         }
 
         #endregion

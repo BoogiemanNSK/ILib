@@ -20,6 +20,7 @@ namespace I2P_Project.Pages
             }
             if (lb.LibrarianType < 1) {
                 AddBookButton.Visibility = Visibility.Hidden;
+                RequestColumn.Visibility = Visibility.Hidden;
             }
             UpdateTable();
             searched_docs = LoadACB();

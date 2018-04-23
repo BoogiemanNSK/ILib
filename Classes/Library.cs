@@ -16,11 +16,13 @@ namespace I2P_Project.Classes
     /// </summary>
     class Library
     {
+        private Logger log;
         private LMSDataBase db;
 
         /// <summary> Initializing DB </summary>
         public Library()
         {
+            log = new Logger();
             db = new LMSDataBase(SDM.Strings.CONNECTION_STRING);
             ConnectToDB(db);
         }
@@ -32,6 +34,7 @@ namespace I2P_Project.Classes
             try
             {
                 db.SubmitChanges();
+                log.Write("System connected to Azure DB");
             }
             // If connection failed, establishing a local DB
             catch
@@ -50,6 +53,7 @@ namespace I2P_Project.Classes
                 }
 
                 db.SubmitChanges();
+                log.Write("System created local DB and connected to it");
             }
         }
         
@@ -60,10 +64,10 @@ namespace I2P_Project.Classes
         {
             if (CheckLogin(login)) return false;
 
-            using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
+            using (System.Security.Cryptography.MD5 md5Hash = System.Security.Cryptography.MD5.Create())
             {
                 Cryptography cpt = new Cryptography();
-                password = cpt.GetHash(md5_hash, password);  // Hashing password string by MD5
+                password = cpt.GetHash(md5Hash, password);  // Hashing password string by MD5
             }
 
             Users newUser = new Users {
@@ -78,15 +82,18 @@ namespace I2P_Project.Classes
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " registered user " + newUser.Login);
             return true;
         }
 
+        /// <summary> Adds new book to the system or increments quantity of existing </summary>
         public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
         {
             bool notExist = (GetDocByTitle(title) == null);
+            Document newDoc;
             if (notExist)
             {
-                Document newDoc = new Document
+                newDoc = new Document
                 {
                     Title = title,
                     Autors = autors,
@@ -108,21 +115,24 @@ namespace I2P_Project.Classes
                 var test = (from p in db.Documents
                             where (p.Title == title)
                             select p);
-                Document newDoc = test.Single();
+                newDoc = test.Single();
                 if (newDoc.Quantity == 0) {
                     NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
                 }
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " added book " + newDoc.Title);
         }
 
+        /// <summary> Adds new journal to the system or increments quantity of existing </summary>
         public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
         {
             bool notExist = (GetDocByTitle(title) == null);
+            Document newDoc;
             if (notExist)
             {
-                Document newDoc = new Document
+                newDoc = new Document
                 {
                     Title = title,
                     Autors = autors,
@@ -142,21 +152,24 @@ namespace I2P_Project.Classes
                 var test = (from p in db.Documents
                             where (p.Title == title)
                             select p);
-                Document newDoc = test.Single();
+                newDoc = test.Single();
                 if (newDoc.Quantity == 0) {
                     NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
                 }
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " added journal " + newDoc.Title);
         }
 
+        /// <summary> Adds new AV to the system or increments quantity of existing </summary>
         public void AddAV(string title, string autors, int price, int quantity)
         {
             bool notExist = (GetDocByTitle(title) == null);
+            Document newDoc;
             if (notExist)
             {
-                Document newDoc = new Document
+                newDoc = new Document
                 {
                     Title = title,
                     Autors = autors,
@@ -173,13 +186,14 @@ namespace I2P_Project.Classes
                 var test = (from p in db.Documents
                             where (p.Title == title)
                             select p);
-                Document newDoc = test.Single();
+                newDoc = test.Single();
                 if (newDoc.Quantity == 0) {
                     NotifyNextUser(newDoc.Id, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(newDoc.Title, SDM.Strings.DOC_TYPES[newDoc.DocType]));
                 }
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " added AV " + newDoc.Title);
         }
 
         /// <summary>
@@ -187,7 +201,7 @@ namespace I2P_Project.Classes
         /// Start timer for check out and get reference for book on it's owner.
         /// DateCheat format - dd mm yyyy
         /// </summary>
-        public void SetCheckOut(int patronID,int docID, int weeks, params int[] DateCheat)
+        public void SetCheckOut(int patronID, int docID, int weeks, params int[] DateCheat)
         {
             DateTime time;
             if (DateCheat.Length == 0)
@@ -206,6 +220,7 @@ namespace I2P_Project.Classes
 
             db.Checkouts.InsertOnSubmit(chk);
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " set check out for " + GetDoc(docID).Title);
         }
 
         #endregion
@@ -216,56 +231,35 @@ namespace I2P_Project.Classes
         public void RemoveUser(int patronID)
         {
             // Deleting user
-            var user_to_remove = GetUser(patronID);
-            user_to_remove.IsDeleted = true;
+            var userToRemove = GetUser(patronID);
+            userToRemove.IsDeleted = true;
 
             // Deleting user`s checkouts
-            var checkouts_to_remove = (from c in db.Checkouts
+            var checkoutsToRemove = (from c in db.Checkouts
                                        where c.UserID == patronID
                                        select c);
-            db.Checkouts.DeleteAllOnSubmit(checkouts_to_remove);
+            db.Checkouts.DeleteAllOnSubmit(checkoutsToRemove);
 
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " removed user " + userToRemove.Login);
         }
 
         /// <summary> Deletes registered doc from the system by ID </summary>
-        internal void RemoveDocument(int doc_id)
+        internal void RemoveDocument(int docID)
         {
-            var record_to_remove = GetDoc(doc_id);
-            db.Documents.DeleteOnSubmit(record_to_remove);
+            var recordToRemove = GetDoc(docID);
+            db.Documents.DeleteOnSubmit(recordToRemove);
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " removed doc " + recordToRemove.Title);
         }
 
+        /// <summary> Deletes checkout from the system by user and doc ID </summary>
         public void RemoveCheckout(int docID, int userID)
         {
             var recordToRemove = GetCheckout(userID, docID);
             db.Checkouts.DeleteOnSubmit(recordToRemove);
             db.SubmitChanges();
-        }
-
-        /// <summary> Clears DB (for test cases only) </summary>
-        public void ClearDB()
-        {
-            db.ExecuteCommand("DELETE FROM documents");
-            db.ExecuteCommand("DELETE FROM users");
-            db.ExecuteCommand("DELETE FROM checkouts");
-            GenerateAdmin();
-        }
-
-        private void GenerateAdmin()
-        {
-            Users admin = new Users {
-                Login = "admin",
-                Password = "admin",
-                Name = "Administrator",
-                Address = "Asministration",
-                PhoneNumber = ":)",
-                IsDeleted = false,
-                UserType = 6,
-                LibrarianType = 0
-            };
-            db.Users.InsertOnSubmit(admin);
-            db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " removed checkout for " + GetDoc(docID).Title);
         }
 
         #endregion
@@ -286,6 +280,7 @@ namespace I2P_Project.Classes
             }
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about user " + user.Login);
         }
         
         /// <summary> Updates book info </summary>
@@ -303,6 +298,7 @@ namespace I2P_Project.Classes
             book.Quantity = quantity;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, book);
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about book " + title);
         }
         
         /// <summary> Updates journal info </summary>
@@ -318,6 +314,7 @@ namespace I2P_Project.Classes
             journal.Quantity = quantity;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, journal);
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about journal " + title);
         }
         
         /// <summary> Updates AV info </summary>
@@ -330,12 +327,14 @@ namespace I2P_Project.Classes
             AV.Quantity = quantity;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, AV);
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about AV " + title);
         }
-        
+
+        /// <summary> Renews doc according to defined rules </summary>
         public string RenewDoc(int userID, int docID, params int[] DateCheat)
         {
             DateTime time;
-            Users CurrentUser = GetUser(userID);
+            Users currentUser = GetUser(userID);
             Checkouts c = GetCheckout(userID, docID);
             Document doc = GetDoc(docID);
 
@@ -346,17 +345,18 @@ namespace I2P_Project.Classes
 
             if (doc.IsRequested)
                 return SDM.Strings.DOC_IS_REQUESTED;
-            else if (c.IsRenewed && CurrentUser.UserType != 3)
+            else if (c.IsRenewed && currentUser.UserType != 3)
                 return SDM.Strings.DOC_ALREADY_RENEWED;
             else if (ExistQueueForDoc(docID))
                 return SDM.Strings.DOC_IN_QUEUE;
-            else if (GetUserFineForDoc(CurrentUser.Id, docID) > 0)
+            else if (GetUserFineForDoc(currentUser.Id, docID) > 0)
                 return SDM.Strings.USER_HAVE_FINE;
             else {
                 c.TimeToBack = time.Add(c.TimeToBack.Subtract((DateTime)c.DateTaked));
                 c.DateTaked = time;
                 c.IsRenewed = true;
                 db.SubmitChanges();
+                log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " renewed " + doc.Title);
                 return SDM.Strings.SUCCESSFUL_RENEW;
             }
         }
@@ -364,9 +364,7 @@ namespace I2P_Project.Classes
         /// <summary> Sets an outstanding request for a doc </summary>
         public void SetOutstandingRequest(int userID, int docID)
         {
-            var doc = (from d in db.Documents
-                       where d.Id == docID
-                       select d).Single();
+            var doc = GetDoc(docID);
 
             NotifyNextUser(docID, SDM.Strings.MAIL_BOOK_REQUESTED_TITLE, SDM.Strings.MAIL_BOOK_REQUESTED_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             while (doc.Queue.Length > 0) {
@@ -390,13 +388,15 @@ namespace I2P_Project.Classes
 
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " set outstanding request for " + doc.Title);
         }
 
+        /// <summary> Updates deadline (fine payed) </summary>
         public void UpdateDeadline(int userID, int docID, DateTime newDeadline)
         {
-            var test = from c in db.Checkouts where (c.UserID == userID && c.BookID == docID) select c;
-            test.Single().TimeToBack = newDeadline;
+            GetCheckout(userID, docID).TimeToBack = newDeadline;
             db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated deadline for " + GetDoc(docID).Title);
         }
 
         #endregion
@@ -409,7 +409,7 @@ namespace I2P_Project.Classes
         /// </summary>
         public ObservableCollection<Pages.MyBooksTable> GetUserBooks(int userID)
         {
-            ObservableCollection<Pages.MyBooksTable> temp_table = new ObservableCollection<Pages.MyBooksTable>();
+            ObservableCollection<Pages.MyBooksTable> tempTable = new ObservableCollection<Pages.MyBooksTable>();
             var load_user_books = from c in db.Checkouts
                                   join b in db.Documents on c.BookID equals b.Id
                                   where c.UserID == userID && c.IsReturned == false
@@ -436,9 +436,10 @@ namespace I2P_Project.Classes
                     checkDateTaked = (DateTime)element.DateTaked,
                     checkTimeToBack = element.TimeToBack
                 };
-                temp_table.Add(row);
+                tempTable.Add(row);
             }
-            return temp_table;
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded table of " + GetUser(userID) + " docs");
+            return tempTable;
         }
 
         /// <summary>
@@ -447,8 +448,8 @@ namespace I2P_Project.Classes
         /// </summary>
         public ObservableCollection<Pages.OverdueInfoTable> OverdueInfo(int userID)
         {
-            ObservableCollection<Pages.OverdueInfoTable> temp_table = new ObservableCollection<Pages.OverdueInfoTable>();
-            var load_user_books = from c in db.Checkouts
+            ObservableCollection<Pages.OverdueInfoTable> tempTable = new ObservableCollection<Pages.OverdueInfoTable>();
+            var loadUserBooks = from c in db.Checkouts
                                   join b in db.Documents on c.BookID equals b.Id
                                   where c.UserID == userID
                                   select new
@@ -460,7 +461,7 @@ namespace I2P_Project.Classes
                                       c.TimeToBack,
                                       b.Price
                                   };
-            foreach (var element in load_user_books)
+            foreach (var element in loadUserBooks)
             {
                 int passedDays = (int)DateTime.Now.Subtract(element.TimeToBack).TotalDays;
                 if (passedDays > 0)
@@ -475,10 +476,11 @@ namespace I2P_Project.Classes
                         fine = (passedDays * 100 > element.Price ?
                             element.Price : passedDays * 100)
                     };
-                    temp_table.Add(row);
+                    tempTable.Add(row);
                 }
             }
-            return temp_table;
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded overdue info about " + GetUser(userID));
+            return tempTable;
         }
 
         /// <summary>
@@ -487,8 +489,8 @@ namespace I2P_Project.Classes
         /// </summary>
         public ObservableCollection<Pages.LibrarianUserView> LibrarianViewUserTable()
         {
-            ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
-            var load_users = from p in db.Users
+            ObservableCollection<Pages.LibrarianUserView> tempTable = new ObservableCollection<Pages.LibrarianUserView>();
+            var loadUsers = from p in db.Users
                              where p.UserType < (int) UserType.Librarian && !p.IsDeleted
                              select new
                              {
@@ -496,7 +498,7 @@ namespace I2P_Project.Classes
                                  p.Login,
                                  p.Address
                              };
-            foreach (var element in load_users)
+            foreach (var element in loadUsers)
             {
                 Pages.LibrarianUserView row = new Pages.LibrarianUserView
                 {
@@ -506,9 +508,10 @@ namespace I2P_Project.Classes
                     docsNumber = GetUserBooksNumber(element.Id),
                     userFine = GetUserFine(element.Id)
                 };
-                temp_table.Add(row);
+                tempTable.Add(row);
             }
-            return temp_table;
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded users table");
+            return tempTable;
         }
 
         /// <summary>
@@ -517,8 +520,8 @@ namespace I2P_Project.Classes
         /// </summary>
         public ObservableCollection<Pages.AdminUserView> AdminViewUserTable()
         {
-            ObservableCollection<Pages.AdminUserView> temp_table = new ObservableCollection<Pages.AdminUserView>();
-            var load_users = from p in db.Users
+            ObservableCollection<Pages.AdminUserView> tempTable = new ObservableCollection<Pages.AdminUserView>();
+            var loadUsers = from p in db.Users
                              where p.UserType ==(int) UserType.Librarian && !p.IsDeleted
                              select new {
                                  p.Id,
@@ -527,7 +530,7 @@ namespace I2P_Project.Classes
                                  p.Address,
                                  p.LibrarianType
                              };
-            foreach (var element in load_users) {
+            foreach (var element in loadUsers) {
                 Pages.AdminUserView row = new Pages.AdminUserView {
                     LibrarianID = element.Id,
                     LibrarianLogin = element.Login,
@@ -535,9 +538,10 @@ namespace I2P_Project.Classes
                     LibrarianMail = element.Address,
                     LibrarianType = "Priv" + (element.LibrarianType + 1)
                 };
-                temp_table.Add(row);
+                tempTable.Add(row);
             }
-            return temp_table;
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded librarians table");
+            return tempTable;
         }
 
         /// <summary>
@@ -546,8 +550,8 @@ namespace I2P_Project.Classes
         /// </summary>
         public ObservableCollection<Pages.DocumentsTable> GetDocsTable()
         {
-            ObservableCollection<Pages.DocumentsTable> temp_table = new ObservableCollection<Pages.DocumentsTable>();
-            var load_user_docs = from b in db.Documents
+            ObservableCollection<Pages.DocumentsTable> tempTable = new ObservableCollection<Pages.DocumentsTable>();
+            var loadUserDocs = from b in db.Documents
                                  select new
                                  {
                                      b.Id,
@@ -557,7 +561,7 @@ namespace I2P_Project.Classes
                                      b.Price,
                                      b.Quantity
                                  };
-            foreach (var element in load_user_docs)
+            foreach (var element in loadUserDocs)
             {
                 Pages.DocumentsTable row = new Pages.DocumentsTable
                 {
@@ -568,9 +572,10 @@ namespace I2P_Project.Classes
                     docPrice = element.Price,
                     docQuantity = element.Quantity
                 };
-                temp_table.Add(row);
+                tempTable.Add(row);
             }
-            return temp_table;
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded documents table");
+            return tempTable;
         }
 
         /// <summary>
@@ -579,8 +584,8 @@ namespace I2P_Project.Classes
         /// </summary>
         public ObservableCollection<Pages.UserDocsTable> GetUserDocsFromLibrarian(int patronID)
         {
-            ObservableCollection<Pages.UserDocsTable> temp_table = new ObservableCollection<Pages.UserDocsTable>();
-            var load_user_books = from c in db.Checkouts where c.UserID == patronID
+            ObservableCollection<Pages.UserDocsTable> tempTable = new ObservableCollection<Pages.UserDocsTable>();
+            var loadUserBooks = from c in db.Checkouts where c.UserID == patronID
                                   join b in db.Documents on c.BookID equals b.Id
                                   select new
                                   {
@@ -589,7 +594,7 @@ namespace I2P_Project.Classes
                                       c.DateTaked,
                                       c.TimeToBack
                                   };
-            foreach (var element in load_user_books)
+            foreach (var element in loadUserBooks)
             {
                 Pages.UserDocsTable row = new Pages.UserDocsTable
                 {
@@ -598,9 +603,10 @@ namespace I2P_Project.Classes
                     DateTaked = (DateTime)element.DateTaked,
                     DeadLine = element.TimeToBack
                 };
-                temp_table.Add(row);
+                tempTable.Add(row);
             }
-            return temp_table;
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded docs of " + GetUser(patronID).Login);
+            return tempTable;
         }
 
         /// <summary>
@@ -609,8 +615,8 @@ namespace I2P_Project.Classes
         /// </summary>
         public List<String> GetSearchBooks()
         {
-            List<String> temp_list = new List<String>();
-            var load_user_docs = from b in db.Documents
+            List<String> tempList = new List<String>();
+            var loadUserDocs = from b in db.Documents
                                  select new
                                  {
                                      b.Title,
@@ -618,12 +624,12 @@ namespace I2P_Project.Classes
                                      b.Publisher
                                  };
 
-            foreach (var element in load_user_docs)
+            foreach (var element in loadUserDocs)
             {
-                string temp_row = element.Title.ToString() + "\n" + Convert.ToString(element.Autors) + ", " + Convert.ToString(element.Publisher);
-                temp_list.Add(temp_row);
+                string tempRow = element.Title.ToString() + "\n" + Convert.ToString(element.Autors) + ", " + Convert.ToString(element.Publisher);
+                tempList.Add(tempRow);
             }
-            return temp_list;
+            return tempList;
         }
 
         /// <summary>
@@ -632,8 +638,8 @@ namespace I2P_Project.Classes
         /// </summary>
         public ObservableCollection<Pages.DocumentsTable> GetDocsTable(string keyword)  // method overloading
         {
-            ObservableCollection<Pages.DocumentsTable> temp_table = new ObservableCollection<Pages.DocumentsTable>();
-            var load_user_docs = from b in db.Documents
+            ObservableCollection<Pages.DocumentsTable> tempTable = new ObservableCollection<Pages.DocumentsTable>();
+            var loadUserDocs = from b in db.Documents
                                  where b.Title.Contains(keyword) || b.Autors.Contains(keyword) || b.Publisher.Contains(keyword)
                                  select new
                                  {
@@ -644,7 +650,7 @@ namespace I2P_Project.Classes
                                      b.Price,
                                      b.Quantity
                                  };
-            foreach (var element in load_user_docs)
+            foreach (var element in loadUserDocs)
             {
                 Pages.DocumentsTable row = new Pages.DocumentsTable
                 {
@@ -655,9 +661,10 @@ namespace I2P_Project.Classes
                     docPrice = element.Price,
                     docQuantity = element.Quantity
                 };
-                temp_table.Add(row);
+                tempTable.Add(row);
             }
-            return temp_table;
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for docs with " + keyword + " keyword");
+            return tempTable;
         }
 
         /// <summary>
@@ -666,8 +673,8 @@ namespace I2P_Project.Classes
         /// </summary>
         public List<String> GetSearchUserBooks()
         {
-            List<String> temp_list = new List<String>();
-            var load_user_books = from c in db.Checkouts
+            List<String> tempList = new List<String>();
+            var loadUserBooks = from c in db.Checkouts
                                   join b in db.Documents on c.BookID equals b.Id
                                   where c.UserID == SDM.CurrentUser.PersonID && c.IsReturned == false
                                   select new
@@ -677,12 +684,12 @@ namespace I2P_Project.Classes
                                       b.Publisher
                                   };
 
-            foreach (var element in load_user_books)
+            foreach (var element in loadUserBooks)
             {
-                string temp_row = element.Title.ToString() + "\n" + Convert.ToString(element.Autors) + ", " + Convert.ToString(element.Publisher);
-                temp_list.Add(temp_row);
+                string tempRow = element.Title.ToString() + "\n" + Convert.ToString(element.Autors) + ", " + Convert.ToString(element.Publisher);
+                tempList.Add(tempRow);
             }
-            return temp_list;
+            return tempList;
         }
 
         /// <summary>
@@ -721,6 +728,7 @@ namespace I2P_Project.Classes
                 };
                 temp_table.Add(row);
             }
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for docs with " + keyword + " keyword");
             return temp_table;
         }
 
@@ -732,7 +740,7 @@ namespace I2P_Project.Classes
         {
             List<String> temp_list = new List<String>();
             var load_users = from p in db.Users
-                             where p.UserType != 5 // TODO Заменить на enum
+                             where p.UserType < (int)UserType.Librarian
                              select new
                              {
                                  p.Login,
@@ -756,7 +764,7 @@ namespace I2P_Project.Classes
         {
             ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
             var load_users = from p in db.Users
-                             where p.UserType != 5 && 
+                             where p.UserType < (int)UserType.Librarian && 
                              (p.Login.Contains(keyword) || p.Name.Contains(keyword) || p.PhoneNumber.Contains(keyword) || p.Address.Contains(keyword))
                              select new
                              {
@@ -776,6 +784,7 @@ namespace I2P_Project.Classes
                 };
                 temp_table.Add(row);
             }
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for users with " + keyword + " keyword");
             return temp_table;
         }
 
@@ -835,8 +844,10 @@ namespace I2P_Project.Classes
                 };
                 temp_table.Add(row);
             }
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for librarians with " + keyword + " keyword");
             return temp_table;
         }
+
         #endregion
 
         #region DB Existence Check
@@ -1078,8 +1089,34 @@ namespace I2P_Project.Classes
         }
 
         #endregion
-        
+
         #region TESTING
+
+        /// <summary> Clears DB (for test cases only) </summary>
+        public void ClearDB()
+        {
+            db.ExecuteCommand("DELETE FROM documents");
+            db.ExecuteCommand("DELETE FROM users");
+            db.ExecuteCommand("DELETE FROM checkouts");
+            GenerateAdmin();
+        }
+
+        /// <summary> Generates admin in the system, if DB was cleared </summary>
+        private void GenerateAdmin()
+        {
+            Users admin = new Users {
+                Login = "admin",
+                Password = "admin",
+                Name = "Administrator",
+                Address = "Asministration",
+                PhoneNumber = ":)",
+                IsDeleted = false,
+                UserType = 6,
+                LibrarianType = 0
+            };
+            db.Users.InsertOnSubmit(admin);
+            db.SubmitChanges();
+        }
 
         // [TEST]
         /// <summary> First generate for show functionality </summary>

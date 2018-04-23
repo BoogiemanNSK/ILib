@@ -1,0 +1,9 @@
+4/23/2018 12:13:08 PM | Log
+----------------------------------------------------------------------------
+4/23/2018 12:13:09 PM | System connected to Azure DB
+4/23/2018 12:13:22 PM | Librarian DanielFaraday28 uploaded users table
+4/23/2018 12:13:26 PM | Librarian DanielFaraday28 uploaded documents table
+4/23/2018 12:13:41 PM | Librarian DanielFaraday28 searched for docs with Introduction to Algorithms keyword
+4/23/2018 12:13:57 PM | Librarian DanielFaraday28 updated info about book Introduction to Algorithms
+4/23/2018 12:13:57 PM | Librarian DanielFaraday28 uploaded documents table
+4/23/2018 12:14:01 PM | Librarian DanielFaraday28 uploaded users table

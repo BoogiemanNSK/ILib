@@ -15,6 +15,7 @@ namespace I2P_Project.Classes.UserSystem
         }
 
         /// <summary> Getters from DB </summary>
+        public string Login { get { return _current.Login; } }
         public string Name { get { return _current.Name; } }
         public string Adress { get { return _current.Address; } }
         public string PhoneNumber { get { return _current.PhoneNumber; } }

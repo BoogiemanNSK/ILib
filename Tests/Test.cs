@@ -910,7 +910,8 @@ namespace I2P_Project.Tests
 			Debug.Assert(SDM.LMS.GetUser(v.PersonID) != null);
 
 		}
-		public void Test36()
+
+        public void Test36()
 		{
 			//Test34();
 			Faculty p1 = new Faculty("p1");
@@ -984,7 +985,7 @@ namespace I2P_Project.Tests
 			Debug.Assert(text.Contains("l1 placed an outstanding request on document d3"));
 
 		}
-
+      
 		public void Test39()
 		{
 			Test37();
@@ -1018,5 +1019,45 @@ namespace I2P_Project.Tests
 			Debug.Assert(text.Contains("v was notifed that document d3 is not longer available and he's removed from the waiting list"));
 			Debug.Assert(text.Contains("p3 was notifed that document d3 is not longer available and he's removed from the waiting list"));
 		}
+  
+    public void Test41()
+        {
+            Initial_del_4();
+
+            string titleSearch = "Algorithms";
+            var test = SDM.LMS.GetDocsTable(titleSearch);
+
+            Debug.Assert(test.Count == 2);
+        }
+
+        public void Test42()
+        {
+            Initial_del_4();
+
+            string titleSearch = "Algorithms";
+            //var test = SDM.LMS.GetDocsTableByKeyword(titleSearch);
+
+            //Debug.Assert(test.Count == 3);
+        }
+
+        public void Test43()
+        {
+            Initial_del_4();
+
+            string titleSearch = "Algorithms AND Programming";
+            var test = SDM.LMS.GetDocsTable(titleSearch);
+
+            Debug.Assert(test.Count == 0);
+        }
+
+        public void Test44()
+        {
+            Initial_del_4();
+
+            string titleSearch = "Algorithms OR Programming";
+            var test = SDM.LMS.GetDocsTable(titleSearch);
+
+            Debug.Assert(test.Count == 3);
+        }
 	}
 }

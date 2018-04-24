@@ -82,8 +82,11 @@ namespace I2P_Project.Classes
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " registered user " + newUser.Login);
-            return true;
+			if (!isLibrarian)
+				log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created patron " + newUser.Login);
+			else
+				log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created librarian " + newUser.Login);
+			return true;
         }
 
         /// <summary> Adds new book to the system or increments quantity of existing </summary>
@@ -122,7 +125,7 @@ namespace I2P_Project.Classes
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " added book " + newDoc.Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + " copies of " + newDoc.Title);
         }
 
         /// <summary> Adds new journal to the system or increments quantity of existing </summary>
@@ -159,7 +162,7 @@ namespace I2P_Project.Classes
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " added journal " + newDoc.Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + " copies of " + newDoc.Title);
         }
 
         /// <summary> Adds new AV to the system or increments quantity of existing </summary>
@@ -193,7 +196,7 @@ namespace I2P_Project.Classes
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " added AV " + newDoc.Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + " copies of " + newDoc.Title);
         }
 
         /// <summary>
@@ -220,7 +223,7 @@ namespace I2P_Project.Classes
 
             db.Checkouts.InsertOnSubmit(chk);
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " set check out for " + GetDoc(docID).Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " checked out " + GetDoc(docID).Title);
         }
 
         #endregion
@@ -362,12 +365,14 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Sets an outstanding request for a doc </summary>
-        public void SetOutstandingRequest(int userID, int docID)
+        public void SetOutstandingRequest(int docID)
         {
             var doc = GetDoc(docID);
 
             NotifyNextUser(docID, SDM.Strings.MAIL_BOOK_REQUESTED_TITLE, SDM.Strings.MAIL_BOOK_REQUESTED_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             while (doc.Queue.Length > 0) {
+                log.Write(GetUser(Convert.ToInt32(doc.Queue.Split('|')[0])).Name + " was notifed that document " +
+                    GetDoc(docID).Title + " is not longer available and he's removed from the waiting list");
                 PopFromPQ(docID);
                 NotifyNextUser(docID, SDM.Strings.MAIL_BOOK_REQUESTED_TITLE, SDM.Strings.MAIL_BOOK_REQUESTED_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             }
@@ -381,18 +386,20 @@ namespace I2P_Project.Classes
                 if (c.TimeToBack.CompareTo(DateTime.Now) > 0)
                     c.TimeToBack = DateTime.Now;
                 SendNotificationToUser(GetUser(c.UserID).Address, SDM.Strings.MAIL_RETURN_BOOK_TITLE, SDM.Strings.MAIL_RETURN_BOOK_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
-            }
+				log.Write(GetUser(c.UserID).Name + " was notifed to return the respective books");
+			}
 
             doc.Queue = "";
             doc.IsRequested = true;
 
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " set outstanding request for " + doc.Title);
-        }
+			log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " placed an outstanding request on document " + doc.Title);
+			log.Write("Waiting list for document " + doc.Title + " was deleted" );
+		}
 
-        /// <summary> Updates deadline (fine payed) </summary>
-        public void UpdateDeadline(int userID, int docID, DateTime newDeadline)
+		/// <summary> Updates deadline (fine payed) </summary>
+		public void UpdateDeadline(int userID, int docID, DateTime newDeadline)
         {
             GetCheckout(userID, docID).TimeToBack = newDeadline;
             db.SubmitChanges();
@@ -1105,8 +1112,10 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Generates admin in the system, if DB was cleared </summary>
-        private void GenerateAdmin()
+        public void GenerateAdmin()
         {
+            if (GetUserByLogin("admin") != null)
+                return;
             Users admin = new Users {
                 Login = "admin",
                 Password = "admin",
@@ -1187,7 +1196,13 @@ namespace I2P_Project.Classes
             var test = from u in db.Users where u.Name == Name && !u.IsDeleted select u;
             return test.Single();
         }
-		/// <summary> Return how many days the user has overdued /// </summary>
+
+        public bool CheckAdmin()
+        {
+            var test = from u in db.Users where u.UserType == (int)UserType.Admin select u;
+            return test.Count() == 1;
+        }
+        /// <summary> Return how many days the user has overdued /// </summary>
         public int OverdueTime(int userID, int docID, DateTime Now)
         {
             Checkouts testCheck = GetCheckout(userID, docID);

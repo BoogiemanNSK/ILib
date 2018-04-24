@@ -90,7 +90,7 @@
         public void OutstandingRequest(int docID)
         {
             if (LibrarianType > 1) {
-                SDM.LMS.SetOutstandingRequest(PersonID, docID);
+                SDM.LMS.SetOutstandingRequest(docID);
             }
         }
 

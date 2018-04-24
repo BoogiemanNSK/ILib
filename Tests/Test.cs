@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using System.IO;
 
 namespace I2P_Project.Tests
 {
@@ -831,12 +832,13 @@ namespace I2P_Project.Tests
         }
 		public void Initial_del_4()
 		{
-
 			SDM.LMS.ClearDB();
 
 			SDM.LMS.RegisterUser("lb", "lb", "lb", "lb", "lb", true);
 			Librarian lb = new Librarian("lb");
 			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+
+            SDM.CurrentUser = lb;
 
 			lb.AddBook
 				(
@@ -900,7 +902,7 @@ namespace I2P_Project.Tests
 
 			Debug.Assert(d1.Quantity == 3);
 			Debug.Assert(d2.Quantity == 3);
-			Debug.Assert(d3.Quantity == 2);
+			Debug.Assert(d3.Quantity == 3);
 
 			Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
 			Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
@@ -910,22 +912,289 @@ namespace I2P_Project.Tests
 
 		}
 
+        public void Test31()
+        {
+            SDM.LMS.ClearDB();
+            SDM.LMS.GenerateAdmin();
+
+            Debug.Assert(SDM.LMS.CheckAdmin());
+        }
+
+        public void Test32()
+        {
+            SDM.LMS.ClearDB();
+            SDM.LMS.GenerateAdmin();
+
+            SDM.LMS.RegisterUser("lb1", "lb1", "lb1", "lb1", "lb1", true);
+            Librarian lb1 = new Librarian("lb1");
+            admin.ModifyLibrarian(lb1.PersonID, "lb1", "lb1", "lb1", 0);
+
+            SDM.LMS.RegisterUser("lb2", "lb2", "lb2", "lb2", "lb2", true);
+            Librarian lb2 = new Librarian("lb2");
+            admin.ModifyLibrarian(lb2.PersonID, "lb2", "lb2", "lb2", 1);
+
+            SDM.LMS.RegisterUser("lb3", "lb3", "lb3", "lb3", "lb3", true);
+            Librarian lb3 = new Librarian("lb3");
+            admin.ModifyLibrarian(lb3.PersonID, "lb3", "lb3", "lb3", 2);
+
+            Debug.Assert(SDM.LMS.GetUser(lb1.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(lb2.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(lb3.PersonID) != null);
+
+        }
+
+        public void Test33()
+        {
+            Test32();
+
+            Librarian lb1 = new Librarian("lb1");
+            Librarian lb2 = new Librarian("lb2");
+            Librarian lb3 = new Librarian("lb3");
+
+            SDM.CurrentUser = lb1;
+
+            lb1.AddBook("d1", "d1", "d1", 2018, "d1", "d1", 2000, false, 3);
+            lb1.AddBook("d2", "d2", "d2", 2018, "d2", "d2", 2000, false, 3);
+            lb1.AddBook("d3", "d3", "d3", 2018, "d3", "d3", 2000, false, 3);
+
+            DocClass d1 = new DocClass("d1");
+            DocClass d2 = new DocClass("d2");
+            DocClass d3 = new DocClass("d3");
+
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID) == null);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID) == null);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID) == null);
+        }
+      
+        public void Test34()
+        {
+            Test32();
+
+            Librarian lb1 = new Librarian("lb1");
+            Librarian lb2 = new Librarian("lb2");
+            Librarian lb3 = new Librarian("lb3");
+
+            SDM.CurrentUser = lb2;
+
+            lb2.AddBook("d1", "d1", "d1", 2018, "d1", "d1", 2000, false, 3);
+            lb2.AddBook("d2", "d2", "d2", 2018, "d2", "d2", 2000, false, 3);
+            lb2.AddBook("d3", "d3", "d3", 2018, "d3", "d3", 2000, false, 3);
+
+            DocClass d1 = new DocClass("d1");
+            DocClass d2 = new DocClass("d2");
+            DocClass d3 = new DocClass("d3");
+
+            lb2.RegisterUser("p1", "p1", "p1", "Via Margutta, 3", "30001", false);
+            lb2.RegisterUser("p2", "p2", "p2", "Via Sacra, 13", "30002", false);
+            lb2.RegisterUser("p3", "p3", "p3", "Via del Corso, 22", "30003", false);
+            lb2.RegisterUser("s", "s", "s", "s", "s", false);
+            lb2.RegisterUser("v", "v", "v", "v", "v", false);
+
+            Student p1 = new Student("p1");
+            Student p2 = new Student("p2");
+            Student p3 = new Student("p3");
+            Student s = new Student("s");
+            Student v = new Student("v");
+
+            Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p3.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(s.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(v.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID).Quantity == 3);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID).Quantity == 3);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID).Quantity == 3);
+
+        }
+
+        public void Test35()
+        {
+            Test34();
+            Librarian lb3 = new Librarian("lb3");
+            DocClass d1 = new DocClass("d1");
+            DocClass d2 = new DocClass("d2");
+            DocClass d3 = new DocClass("d3");
+            Student p1 = new Student("p1");
+            Student p2 = new Student("p2");
+            Student p3 = new Student("p3");
+            Student s = new Student("s");
+            Student v = new Student("v");
+            lb3.ModifyAV(d1.ID, d1.Title, d1.Autors, d1.Price, d1.Quantity - 1);
+
+            Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p3.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(s.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(v.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID).Quantity == 2);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID).Quantity == 3);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID).Quantity == 3);
+        }
+      
         public void Test36()
 		{
-			Initial_del_4();
-			// Test34();
+			Test34();
+
+            Faculty p1 = new Faculty("p1");
+			Faculty p2 = new Faculty("p2");
+			Student s = new Student("s");
+			VisitingProfessor v = new VisitingProfessor("v");
+			Faculty p3 = new Faculty("p3");
+			Librarian lb1 = new Librarian("lb1");
+
+			DocClass d1 = new DocClass("d1");
+			DocClass d2 = new DocClass("d2");
+			DocClass d3 = new DocClass("d3");
+
+            SDM.CurrentUser = p1;
+			p1.CheckOut(d3.ID);
+
+            SDM.CurrentUser = p2;
+			p2.CheckOut(d3.ID);
+
+            SDM.CurrentUser = s;
+			s.CheckOut(d3.ID);
+
+            SDM.CurrentUser = v;
+			v.CheckOut(d3.ID);
+
+            SDM.CurrentUser = p3;
+			p3.CheckOut(d3.ID);
+
+            SDM.CurrentUser = lb1;
+			lb1.OutstandingRequest(d3.ID);
+
+            Debug.Assert(!d3.IsRequested);
+            Debug.Assert(SDM.LMS.ExistQueueForDoc(d3.ID));
+		}
+
+		public void Test37()
+		{
+			Test34();
+
 			Faculty p1 = new Faculty("p1");
 			Faculty p2 = new Faculty("p2");
 			Student s = new Student("s");
 			VisitingProfessor v = new VisitingProfessor("v");
 			Faculty p3 = new Faculty("p3");
-			Librarian lb = new Librarian("lb");
-			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
-			DocClass d1 = new DocClass("Introduction to Algorithms");
+			Librarian lb3 = new Librarian("lb3");
+            
+			DocClass d1 = new DocClass("d1");
+			DocClass d2 = new DocClass("d2");
+			DocClass d3 = new DocClass("d3");
 
+            SDM.CurrentUser = p1;
+            p1.CheckOut(d3.ID);
+
+            SDM.CurrentUser = p2;
+            p2.CheckOut(d3.ID);
+
+            SDM.CurrentUser = s;
+            s.CheckOut(d3.ID);
+
+            SDM.CurrentUser = v;
+            v.CheckOut(d3.ID);
+
+            SDM.CurrentUser = p3;
+            p3.CheckOut(d3.ID);
+
+            SDM.CurrentUser = lb3;
+            lb3.OutstandingRequest(d3.ID);
+
+            Debug.Assert(d3.IsRequested);
+			Debug.Assert(!SDM.LMS.ExistQueueForDoc(d3.ID));
 		}
 
-        public void Test41()
+		public void Test38()
+		{
+			Test36();
+			string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+			string path = (Path.GetDirectoryName(executable));
+			string file = path + "\\Log.txt";
+			string text = File.ReadAllText(file);
+
+			Debug.Assert(text.Contains("admin created librarian lb1"));
+			Debug.Assert(text.Contains("admin created librarian lb2"));
+			Debug.Assert(text.Contains("admin created librarian lb3"));
+			Debug.Assert(text.Contains("lb2 created 3 copies of d1"));
+			Debug.Assert(text.Contains("lb2 created 3 copies of d2"));
+			Debug.Assert(text.Contains("lb2 created 3 copies of d3"));
+			Debug.Assert(text.Contains("lb2 created patron s"));
+			Debug.Assert(text.Contains("lb2 created patron p1"));
+			Debug.Assert(text.Contains("lb2 created patron p2"));
+			Debug.Assert(text.Contains("lb2 created patron p3"));
+			Debug.Assert(text.Contains("lb2 created patron v"));
+			Debug.Assert(text.Contains("lb2 created patron s"));
+			Debug.Assert(text.Contains("p1 checked out d3"));
+			Debug.Assert(text.Contains("p2 checked out d3"));
+			Debug.Assert(text.Contains("s checked out d3"));
+
+            // It is in test, but how can they check out d3, if there's no availible copies
+			// Debug.Assert(text.Contains("v checked out d3"));
+			// Debug.Assert(text.Contains("p3 checked out d3"));
+
+            // This should not happen, according to tests
+            // Debug.Assert(text.Contains("lb1 placed an outstanding request on document d3"));
+		}
+      
+		public void Test39()
+		{
+			Test37();
+			string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+			string path = (Path.GetDirectoryName(executable));
+			string file = path + "\\Log.txt";
+			string text = File.ReadAllText(file);
+
+			Debug.Assert(text.Contains("admin created librarian lb1"));
+			Debug.Assert(text.Contains("admin created librarian lb2"));
+			Debug.Assert(text.Contains("admin created librarian lb3"));
+			Debug.Assert(text.Contains("lb2 created 3 copies of d1"));
+			Debug.Assert(text.Contains("lb2 created 3 copies of d2"));
+			Debug.Assert(text.Contains("lb2 created 3 copies of d3"));
+			Debug.Assert(text.Contains("lb2 created patron s"));
+			Debug.Assert(text.Contains("lb2 created patron p1"));
+			Debug.Assert(text.Contains("lb2 created patron p2"));
+			Debug.Assert(text.Contains("lb2 created patron p3"));
+			Debug.Assert(text.Contains("lb2 created patron v"));
+			Debug.Assert(text.Contains("lb2 created patron s"));
+			Debug.Assert(text.Contains("p1 checked out d3"));
+			Debug.Assert(text.Contains("p2 checked out d3"));
+			Debug.Assert(text.Contains("s checked out d3"));
+
+            // It is in test, but how can they check out d3, if there's no availible copies
+            // Debug.Assert(text.Contains("v checked out d3"));
+            // Debug.Assert(text.Contains("p3 checked out d3"));
+
+            Debug.Assert(text.Contains("lb3 placed an outstanding request on document d3"));
+			Debug.Assert(text.Contains("Waiting list for document d3 was deleted"));
+			Debug.Assert(text.Contains("p1 was notifed to return the respective books"));
+			Debug.Assert(text.Contains("p2 was notifed to return the respective books"));
+            Debug.Assert(text.Contains("s was notifed to return the respective books"));
+
+            // d3 is of quantity 3, so s also was able to check it out
+            // Debug.Assert(text.Contains("s was notifed that document d3 is not longer available and he's removed from the waiting list"));
+
+            Debug.Assert(text.Contains("v was notifed that document d3 is not longer available and he's removed from the waiting list"));
+			Debug.Assert(text.Contains("p3 was notifed that document d3 is not longer available and he's removed from the waiting list"));
+		}
+  
+		public void Test40()
+		{
+			Initial_del_4();
+
+			string titleSearch = "Algorithms to Algorithms";
+			var test = SDM.LMS.GetDocsTable(titleSearch);
+
+			Debug.Assert(test.Count == 1);
+		}
+
+		public void Test41()
         {
             Initial_del_4();
 
@@ -940,9 +1209,9 @@ namespace I2P_Project.Tests
             Initial_del_4();
 
             string titleSearch = "Algorithms";
-            //var test = SDM.LMS.GetDocsTableByKeyword(titleSearch);
+            var test = SDM.LMS.GetDocsTable(titleSearch);
 
-            //Debug.Assert(test.Count == 3);
+            Debug.Assert(test.Count == 3);
         }
 
         public void Test43()
@@ -964,5 +1233,5 @@ namespace I2P_Project.Tests
 
             Debug.Assert(test.Count == 3);
         }
-    }
+	}
 }

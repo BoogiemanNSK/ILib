@@ -26,7 +26,7 @@ namespace I2P_Project.Pages
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
-            UsersTable.ItemsSource = SDM.LMS.LibrarianViewUserTable();
+            UsersTable.ItemsSource = SDM.LMS.LibrarianViewUserTable(3, "");
             pm.EndWaiting();
         }
 
@@ -35,7 +35,10 @@ namespace I2P_Project.Pages
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
-            UsersTable.ItemsSource = SDM.LMS.LibrarianViewUserTable(txt_searchUser.Text);
+            int flags = 0;
+            flags += ((bool)cb_ByLogin.IsChecked ? 1 << 1 : 0);
+            flags += ((bool)cb_ByMail.IsChecked  ? 1 << 0 : 0);
+            UsersTable.ItemsSource = SDM.LMS.LibrarianViewUserTable(flags, txt_searchUser.Text);
             pm.EndWaiting();
         }
 

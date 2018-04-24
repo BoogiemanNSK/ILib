@@ -18,7 +18,7 @@ namespace I2P_Project.Pages
 
         private void UpdateTables()
         {
-            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTable();
+            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTable(7, "");
             UserTable.ItemsSource = SDM.LMS.TestUsersTable();
         }
 
@@ -337,12 +337,12 @@ namespace I2P_Project.Pages
         {
             UserTable ut_row = UserTable.SelectedItems[0] as UserTable;
             int user_id = ut_row.userID;
-            DocumentsTable.ItemsSource = SDM.LMS.GetUserBooks(user_id);
+            DocumentsTable.ItemsSource = SDM.LMS.GetUserBooks(user_id, 7, "");
         }
 
         private void OnOverall(object sender, RoutedEventArgs e) // Shows books without user
         {
-            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTable(); 
+            DocumentsTable.ItemsSource = SDM.LMS.GetDocsTable(7, ""); 
         }
 
         private void OnExit(object sender, RoutedEventArgs e)

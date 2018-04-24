@@ -30,7 +30,8 @@ namespace I2P_Project.Pages
                     IssueTitleTB.Text,
                     IssueEditorTB.Text,
                     price,
-                    quantity
+                    quantity,
+                    TagsTB.Text
                 );
 
             _previousPage.UpdateTable();

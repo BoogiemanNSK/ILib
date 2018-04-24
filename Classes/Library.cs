@@ -90,14 +90,13 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Adds new book to the system or increments quantity of existing </summary>
-        public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
+        public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity, string tags)
         {
             bool notExist = (GetDocByTitle(title) == null);
             Document newDoc;
             if (notExist)
             {
-                newDoc = new Document
-                {
+                newDoc = new Document {
                     Title = title,
                     Autors = autors,
                     Publisher = publisher,
@@ -105,11 +104,12 @@ namespace I2P_Project.Classes
                     Edition = edition,
                     Description = description,
                     Price = price,
-                    DocType = (int) DocType.Book,
+                    DocType = (int)DocType.Book,
                     IsBestseller = isBestseller,
                     IsRequested = false,
                     Quantity = quantity,
-                    Queue = ""
+                    Queue = "",
+                    Tags = tags
                 };
                 db.Documents.InsertOnSubmit(newDoc);
             }
@@ -129,7 +129,7 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Adds new journal to the system or increments quantity of existing </summary>
-        public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
+        public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity, string tags)
         {
             bool notExist = (GetDocByTitle(title) == null);
             Document newDoc;
@@ -146,7 +146,8 @@ namespace I2P_Project.Classes
                     DocType = (int) DocType.Journal,
                     IsRequested = false,
                     Quantity = quantity,
-                    Queue = ""
+                    Queue = "",
+                    Tags = tags
                 };
                 db.Documents.InsertOnSubmit(newDoc);
             }
@@ -166,7 +167,7 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Adds new AV to the system or increments quantity of existing </summary>
-        public void AddAV(string title, string autors, int price, int quantity)
+        public void AddAV(string title, string autors, int price, int quantity, string tags)
         {
             bool notExist = (GetDocByTitle(title) == null);
             Document newDoc;
@@ -180,7 +181,8 @@ namespace I2P_Project.Classes
                     DocType = (int) DocType.AV,
                     IsRequested = false,
                     Quantity = quantity,
-                    Queue = ""
+                    Queue = "",
+                    Tags = tags
                 };
                 db.Documents.InsertOnSubmit(newDoc);
             }
@@ -287,7 +289,7 @@ namespace I2P_Project.Classes
         }
         
         /// <summary> Updates book info </summary>
-        public void ModifyBook(int docID, string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
+        public void ModifyBook(int docID, string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity, string tags)
         {
             Document book = GetDoc(docID);
             book.Title = title;
@@ -299,13 +301,14 @@ namespace I2P_Project.Classes
             book.Price = price;
             book.IsBestseller = isBestseller;
             book.Quantity = quantity;
+            book.Tags = tags;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, book);
             db.SubmitChanges();
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about book " + title);
         }
         
         /// <summary> Updates journal info </summary>
-        public void ModifyJournal(int docID, string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
+        public void ModifyJournal(int docID, string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity, string tags)
         {
             Document journal = GetDoc(docID);
             journal.Title = title;
@@ -315,19 +318,21 @@ namespace I2P_Project.Classes
             journal.IssueEditor = issueEditor;
             journal.Price = price;
             journal.Quantity = quantity;
+            journal.Tags = tags;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, journal);
             db.SubmitChanges();
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about journal " + title);
         }
         
         /// <summary> Updates AV info </summary>
-        public void ModifyAV(int docID, string title, string autors, int price, int quantity)
+        public void ModifyAV(int docID, string title, string autors, int price, int quantity, string tags)
         {
             Document AV = GetDoc(docID);
             AV.Title = title;
             AV.Autors = autors;
             AV.Price = price;
             AV.Quantity = quantity;
+            AV.Tags = tags;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, AV);
             db.SubmitChanges();
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about AV " + title);
@@ -411,10 +416,10 @@ namespace I2P_Project.Classes
         #region DB Output
 
         /// <summary>
-        /// Returns collection of current logged user books
+        /// Returns collection of current logged user books with searched keyword and flag filters
         /// Usage: MyBooks.xaml 
         /// </summary>
-        public ObservableCollection<Pages.MyBooksTable> GetUserBooks(int userID)
+        public ObservableCollection<Pages.MyBooksTable> GetUserBooks(int userID, int flags, string keyword)
         {
             ObservableCollection<Pages.MyBooksTable> tempTable = new ObservableCollection<Pages.MyBooksTable>();
             var load_user_books = from c in db.Checkouts
@@ -427,23 +432,29 @@ namespace I2P_Project.Classes
                                       b.Title,
                                       b.Autors,
                                       b.Price,
+                                      b.Tags,
                                       c.DateTaked,
                                       c.TimeToBack
                                   };
             foreach (var element in load_user_books)
             {
-                Pages.MyBooksTable row = new Pages.MyBooksTable
-                {
-                    checkID = element.CheckID,
-                    docID = element.BookID,
-                    docTitle = element.Title,
-                    docAutors = element.Autors,
-                    docPrice = element.Price,
-                    docFine = GetUserFineForDoc(userID, element.BookID),
-                    checkDateTaked = (DateTime)element.DateTaked,
-                    checkTimeToBack = element.TimeToBack
-                };
-                tempTable.Add(row);
+                if (Match((flags >> 2) % 2, element.Title, keyword) ||
+                     Match((flags >> 1) % 2, element.Autors, keyword) ||
+                     Match(flags % 2, element.Tags, keyword)) {
+
+                    Pages.MyBooksTable row = new Pages.MyBooksTable {
+                        checkID = element.CheckID,
+                        docID = element.BookID,
+                        docTitle = element.Title,
+                        docAutors = element.Autors,
+                        docPrice = element.Price,
+                        docFine = GetUserFineForDoc(userID, element.BookID),
+                        checkDateTaked = (DateTime)element.DateTaked,
+                        checkTimeToBack = element.TimeToBack
+                    };
+                    tempTable.Add(row);
+
+                }
             }
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded table of " + GetUser(userID) + " docs");
             return tempTable;
@@ -491,10 +502,10 @@ namespace I2P_Project.Classes
         }
 
         /// <summary>
-        /// Returns collection of all patrons only
+        /// Returns collection of all patrons with given keyword and flag filters
         /// Usage: UserManagementPage.xaml
         /// </summary>
-        public ObservableCollection<Pages.LibrarianUserView> LibrarianViewUserTable()
+        public ObservableCollection<Pages.LibrarianUserView> LibrarianViewUserTable(int flags, string keyword)
         {
             ObservableCollection<Pages.LibrarianUserView> tempTable = new ObservableCollection<Pages.LibrarianUserView>();
             var loadUsers = from p in db.Users
@@ -507,30 +518,34 @@ namespace I2P_Project.Classes
                              };
             foreach (var element in loadUsers)
             {
-                Pages.LibrarianUserView row = new Pages.LibrarianUserView
-                {
-                    userID = element.Id,
-                    userLogin = element.Login,
-                    userMail = element.Address,
-                    docsNumber = GetUserBooksNumber(element.Id),
-                    userFine = GetUserFine(element.Id)
-                };
-                tempTable.Add(row);
+                if (Match((flags >> 1) % 2, element.Login, keyword) ||
+                    Match(flags % 2, element.Address, keyword)) {
+
+                    Pages.LibrarianUserView row = new Pages.LibrarianUserView {
+                        userID = element.Id,
+                        userLogin = element.Login,
+                        userMail = element.Address,
+                        docsNumber = GetUserBooksNumber(element.Id),
+                        userFine = GetUserFine(element.Id)
+                    };
+                    tempTable.Add(row);
+
+                }
             }
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded users table");
             return tempTable;
         }
 
         /// <summary>
-        /// Returns collection of all librarians only
+        /// Returns collection of all librarians with given keyword and flag filters
         /// Usage: LibrariansManagementPage.xaml
         /// </summary>
-        public ObservableCollection<Pages.AdminUserView> AdminViewUserTable()
+        public ObservableCollection<Pages.AdminUserView> AdminViewUserTable(int flags, string keyword)
         {
             ObservableCollection<Pages.AdminUserView> tempTable = new ObservableCollection<Pages.AdminUserView>();
             var loadUsers = from p in db.Users
-                             where p.UserType ==(int) UserType.Librarian && !p.IsDeleted
-                             select new {
+                             where p.UserType == (int)UserType.Librarian && !p.IsDeleted
+                            select new {
                                  p.Id,
                                  p.Login,
                                  p.Name,
@@ -538,48 +553,60 @@ namespace I2P_Project.Classes
                                  p.LibrarianType
                              };
             foreach (var element in loadUsers) {
-                Pages.AdminUserView row = new Pages.AdminUserView {
-                    LibrarianID = element.Id,
-                    LibrarianLogin = element.Login,
-                    LibrarianName = element.Name,
-                    LibrarianMail = element.Address,
-                    LibrarianType = "Priv" + (element.LibrarianType + 1)
-                };
-                tempTable.Add(row);
+                if (Match((flags >> 2) % 2, element.Login, keyword) ||
+                    Match((flags >> 1) % 2, element.Name, keyword) ||
+                    Match(flags % 2, element.Address, keyword)) {
+
+                    Pages.AdminUserView row = new Pages.AdminUserView {
+                        LibrarianID = element.Id,
+                        LibrarianLogin = element.Login,
+                        LibrarianName = element.Name,
+                        LibrarianMail = element.Address,
+                        LibrarianType = "Priv" + (element.LibrarianType + 1)
+                    };
+                    tempTable.Add(row);
+
+                }
             }
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded librarians table");
             return tempTable;
         }
 
         /// <summary>
-        /// Return a list of all docs registered in system
+        /// Return a list of all docs registered in system with given keyword and flag filters
         /// Usage: UserHomePage.xaml, DocumentsManagementPage.xaml, TestingTool.xaml
         /// </summary>
-        public ObservableCollection<Pages.DocumentsTable> GetDocsTable()
+        public ObservableCollection<Pages.DocumentsTable> GetDocsTable(int flags, string keyword)
         {
             ObservableCollection<Pages.DocumentsTable> tempTable = new ObservableCollection<Pages.DocumentsTable>();
             var loadUserDocs = from b in db.Documents
-                                 select new
+                               select new
                                  {
                                      b.Id,
                                      b.Title,
                                      b.Autors,
                                      b.DocType,
                                      b.Price,
+                                     b.Tags,
                                      b.Quantity
                                  };
             foreach (var element in loadUserDocs)
             {
-                Pages.DocumentsTable row = new Pages.DocumentsTable
-                {
-                    docID = element.Id,
-                    docAutors = element.Autors,
-                    docTitle = element.Title,
-                    docType = SDM.Strings.DOC_TYPES[element.DocType],
-                    docPrice = element.Price,
-                    docQuantity = element.Quantity
-                };
-                tempTable.Add(row);
+                if (Match((flags >> 2) % 2, element.Title, keyword) ||
+                    Match((flags >> 1) % 2, element.Autors, keyword) ||
+                    Match(flags % 2, element.Tags, keyword)) {
+
+                    Pages.DocumentsTable row = new Pages.DocumentsTable {
+                        docID = element.Id,
+                        docAutors = element.Autors,
+                        docTitle = element.Title,
+                        docType = SDM.Strings.DOC_TYPES[element.DocType],
+                        docPrice = element.Price,
+                        docQuantity = element.Quantity
+                    };
+                    tempTable.Add(row);
+
+                }
             }
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded documents table");
             return tempTable;
@@ -640,41 +667,6 @@ namespace I2P_Project.Classes
         }
 
         /// <summary>
-        /// Overloaded method for return a list of all found docs
-        /// Usage: UserHomePage.xaml, DocumentsManagementPage.xaml
-        /// </summary>
-        public ObservableCollection<Pages.DocumentsTable> GetDocsTable(string keyword)  // method overloading
-        {
-            ObservableCollection<Pages.DocumentsTable> tempTable = new ObservableCollection<Pages.DocumentsTable>();
-            var loadUserDocs = from b in db.Documents
-                                 where b.Title.Contains(keyword) || b.Autors.Contains(keyword) || b.Publisher.Contains(keyword)
-                                 select new
-                                 {
-                                     b.Id,
-                                     b.Title,
-                                     b.Autors,
-                                     b.DocType,
-                                     b.Price,
-                                     b.Quantity
-                                 };
-            foreach (var element in loadUserDocs)
-            {
-                Pages.DocumentsTable row = new Pages.DocumentsTable
-                {
-                    docID = element.Id,
-                    docAutors = element.Autors,
-                    docTitle = element.Title,
-                    docType = SDM.Strings.DOC_TYPES[element.DocType],
-                    docPrice = element.Price,
-                    docQuantity = element.Quantity
-                };
-                tempTable.Add(row);
-            }
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for docs with " + keyword + " keyword");
-            return tempTable;
-        }
-
-        /// <summary>
         /// Loads all books into autocomplete box to make searching more simpler
         /// Usage: MyBooks.xaml.cs
         /// </summary>
@@ -700,46 +692,6 @@ namespace I2P_Project.Classes
         }
 
         /// <summary>
-        /// Returns collection of current logged searched user books
-        /// Usage: MyBooks.xaml 
-        /// </summary>
-        public ObservableCollection<Pages.MyBooksTable> GetUserBooks(string keyword)
-        {
-            ObservableCollection<Pages.MyBooksTable> temp_table = new ObservableCollection<Pages.MyBooksTable>();
-            var load_user_books = from c in db.Checkouts
-                                  join b in db.Documents on c.BookID equals b.Id
-                                  where c.UserID == SDM.CurrentUser.PersonID && c.IsReturned == false &&
-                                  (b.Title.Contains(keyword) || b.Autors.Contains(keyword) || b.Publisher.Contains(keyword))
-                                  select new
-                                  {
-                                      c.CheckID,
-                                      c.BookID,
-                                      b.Title,
-                                      b.Autors,
-                                      b.Price,
-                                      c.DateTaked,
-                                      c.TimeToBack
-                                  };
-            foreach (var element in load_user_books)
-            {
-                Pages.MyBooksTable row = new Pages.MyBooksTable
-                {
-                    checkID = element.CheckID,
-                    docID = element.BookID,
-                    docTitle = element.Title,
-                    docAutors = element.Autors,
-                    docPrice = element.Price,
-                    docFine = GetUserFineForDoc(SDM.CurrentUser.PersonID, element.BookID),
-                    checkDateTaked = (DateTime)element.DateTaked,
-                    checkTimeToBack = element.TimeToBack
-                };
-                temp_table.Add(row);
-            }
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for docs with " + keyword + " keyword");
-            return temp_table;
-        }
-
-        /// <summary>
         /// Loads all users into autocomplete box to make searching more simpler
         /// Usage: UsersManagementPage.xaml.cs
         /// </summary>
@@ -761,38 +713,6 @@ namespace I2P_Project.Classes
                 temp_list.Add(temp_row);
             }
             return temp_list;
-        }
-
-        /// <summary>
-        /// Returns found collection of all patrons only
-        /// Usage: UserManagementPage.xaml
-        /// </summary>
-        public ObservableCollection<Pages.LibrarianUserView> LibrarianViewUserTable(string keyword)
-        {
-            ObservableCollection<Pages.LibrarianUserView> temp_table = new ObservableCollection<Pages.LibrarianUserView>();
-            var load_users = from p in db.Users
-                             where p.UserType < (int)UserType.Librarian && 
-                             (p.Login.Contains(keyword) || p.Name.Contains(keyword) || p.PhoneNumber.Contains(keyword) || p.Address.Contains(keyword))
-                             select new
-                             {
-                                 p.Id,
-                                 p.Login,
-                                 p.Address
-                             };
-            foreach (var element in load_users)
-            {
-                Pages.LibrarianUserView row = new Pages.LibrarianUserView
-                {
-                    userID = element.Id,
-                    userLogin = element.Login,
-                    userMail = element.Address,
-                    docsNumber = GetUserBooksNumber(element.Id),
-                    userFine = GetUserFine(element.Id)
-                };
-                temp_table.Add(row);
-            }
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for users with " + keyword + " keyword");
-            return temp_table;
         }
 
         /// <summary>
@@ -821,38 +741,10 @@ namespace I2P_Project.Classes
             return temp_list;
         }
 
-        /// <summary>
-        /// Returns collection of found librarians only
-        /// Usage: LibrariansManagementPage.xaml
-        /// </summary>
-        public ObservableCollection<Pages.AdminUserView> AdminViewUserTable(string keyword)
+        private bool Match(int flag, string s, string part)
         {
-            ObservableCollection<Pages.AdminUserView> temp_table = new ObservableCollection<Pages.AdminUserView>();
-            var load_users = from p in db.Users
-                             where (p.UserType == (int)UserType.Librarian && !p.IsDeleted) &&
-                             (p.Login.Contains(keyword) || p.Name.Contains(keyword) || p.PhoneNumber.Contains(keyword) || p.Address.Contains(keyword))
-                             select new
-                             {
-                                 p.Id,
-                                 p.Login,
-                                 p.Name,
-                                 p.Address,
-                                 p.LibrarianType                               
-                             };
-            foreach (var element in load_users)
-            {
-                Pages.AdminUserView row = new Pages.AdminUserView
-                {
-                    LibrarianID = element.Id,
-                    LibrarianLogin = element.Login,
-                    LibrarianName = element.Name,
-                    LibrarianMail = element.Address,
-                    LibrarianType = "Priv" + (element.LibrarianType + 1)
-                };
-                temp_table.Add(row);
-            }
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for librarians with " + keyword + " keyword");
-            return temp_table;
+            if (s != null && flag == 1 && s.Contains(part)) return true;
+            return false;
         }
 
         #endregion
@@ -1142,7 +1034,8 @@ namespace I2P_Project.Classes
                     "Alghorithm techniques and design",
                     1800,
                     false,
-                    1
+                    1,
+                    ""
                 );
             AddBook
                 (
@@ -1154,7 +1047,8 @@ namespace I2P_Project.Classes
                     "Programm patterns, how to programm well w/o headache",
                     2000,
                     true,
-                    1
+                    1,
+                    ""
                 );
 
             // Adding reference book
@@ -1168,12 +1062,13 @@ namespace I2P_Project.Classes
                     "How to do everything and live better",
                     800,
                     false,
-                    0
+                    0,
+                    ""
                 );
 
             // Adding two AV's
-            AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 400, 0);
-            AddAV("Information Entropy", "Claude Shannon", 700, 0);
+            AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 400, 0, "");
+            AddAV("Information Entropy", "Claude Shannon", 700, 0, "");
 
             // Registering 3 users
             RegisterUser("p1", "p1", "Sergey Afonso", "Via Margutta, 3", "30001", false);

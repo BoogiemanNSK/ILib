@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:I2P_Project.Pages"
         xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         mc:Ignorable="d"
         d:DesignHeight="480" d:DesignWidth="905"
@@ -32,6 +31,10 @@
             <toolkit:AutoCompleteBox HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Height="30" VerticalContentAlignment="Center"
                                      FilterMode="Contains" x:Name="txt_searchUser" FontSize="16" Margin="5" Populating="txt_searchUser_Populating"
                                      DropDownClosed="txt_searchUser_DropDownClosed"/>
+            <ComboBox Text="Search by..." x:Name="cb_SearchType" Height="30" Width="130" FontSize="16" IsReadOnly="True">
+                <CheckBox Name="cb_ByLogin" IsChecked="True" Content="By Login"/>
+                <CheckBox Name="cb_ByMail" IsChecked="True" Content="By E-Mail"/>
+            </ComboBox>
             <Button x:Name="btn_searchUser" Width="92" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;"
                     FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" 
                     Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}" Click="btn_searchUser_Click"/>

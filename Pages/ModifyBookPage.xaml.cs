@@ -27,6 +27,7 @@ namespace I2P_Project.Pages
             PriceTB.AppendText(doc.Price.ToString());
             IsBestsellerCB.SelectedIndex = doc.IsBestseller ? 0 : 1;
             CopiesTB.AppendText(doc.Quantity.ToString());
+            TagsTB.AppendText(doc.Tags);
 
             prevPage = page;
         }
@@ -49,7 +50,8 @@ namespace I2P_Project.Pages
                     DescriptionTB.Text,
                     price,
                     isBestseller,
-                    quantity
+                    quantity,
+                    TagsTB.Text
                     );
             } catch {
                 MessageBox.Show("The row is empty", "Error");

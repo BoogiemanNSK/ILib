@@ -23,7 +23,7 @@ namespace I2P_Project.Pages
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
-            LibrariansTable.ItemsSource = SDM.LMS.AdminViewUserTable();
+            LibrariansTable.ItemsSource = SDM.LMS.AdminViewUserTable(7, "");
             pm.EndWaiting();
         }
 
@@ -32,7 +32,11 @@ namespace I2P_Project.Pages
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
-            LibrariansTable.ItemsSource = SDM.LMS.AdminViewUserTable(txt_searchLibrarian.Text);
+            int flags = 0;
+            flags += ((bool)cb_ByLogin.IsChecked ? 1 << 2 : 0);
+            flags += ((bool)cb_ByName.IsChecked  ? 1 << 1 : 0);
+            flags += ((bool)cb_ByMail.IsChecked  ? 1 << 0 : 0);
+            LibrariansTable.ItemsSource = SDM.LMS.AdminViewUserTable(flags, txt_searchLibrarian.Text);
             pm.EndWaiting();
         }
 

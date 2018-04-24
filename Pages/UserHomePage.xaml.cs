@@ -24,7 +24,7 @@ namespace I2P_Project.Pages
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
-            docTable.ItemsSource = SDM.LMS.GetDocsTable();
+            docTable.ItemsSource = SDM.LMS.GetDocsTable(7, "");
             pm.EndWaiting();
         }
 
@@ -33,7 +33,11 @@ namespace I2P_Project.Pages
         {
             ProcessManager pm = new ProcessManager(); // Process Manager for long operations
             pm.BeginWaiting(); // Starts Loading Flow
-            docTable.ItemsSource = SDM.LMS.GetDocsTable(txt_searchBook.Text);
+            int flags = 0;
+            flags += ((bool)cb_ByTitle.IsChecked   ? 1 << 2 : 0);
+            flags += ((bool)cb_ByAuthors.IsChecked ? 1 << 1 : 0);
+            flags += ((bool)cb_ByTags.IsChecked    ? 1 << 0 : 0);
+            docTable.ItemsSource = SDM.LMS.GetDocsTable(flags, txt_searchBook.Text);
             pm.EndWaiting();
         }
 

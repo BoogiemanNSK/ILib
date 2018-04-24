@@ -634,9 +634,7 @@ namespace I2P_Project.Classes
 
             foreach (var element in loadUserDocs)
             {
-                string temp = element.Tags.Replace('|',' ');  // keyword separator
-                string tempRow = element.Title.ToString() + "\n" + Convert.ToString(element.Autors) + ", " + Convert.ToString(element.Publisher) + "\n" +
-                    Convert.ToString(temp);
+                string tempRow = element.Title.ToString() + "\n" + Convert.ToString(element.Autors) + ", " + Convert.ToString(element.Publisher);
                 tempList.Add(tempRow);
             }
             return tempList;
@@ -674,6 +672,117 @@ namespace I2P_Project.Classes
                 tempTable.Add(row);
             }
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for docs with " + keyword + " keyword");
+            return tempTable;
+        }
+
+        /// <summary>
+        /// Overloaded method for return a list of all found docs by keyword
+        /// Usage: UserHomePage.xaml, DocumentsManagementPage.xaml
+        /// </summary>
+        public ObservableCollection<Pages.DocumentsTable> GetDocsTableByKeyword(string keyword_1)
+        {
+            ObservableCollection<Pages.DocumentsTable> tempTable = new ObservableCollection<Pages.DocumentsTable>();
+            var loadUserDocs = from b in db.Documents
+                               where b.Tags.Contains(keyword_1)
+                               select new
+                               {
+                                   b.Id,
+                                   b.Title,
+                                   b.Autors,
+                                   b.DocType,
+                                   b.Price,
+                                   b.Quantity
+                               };
+            foreach (var element in loadUserDocs)
+            {
+                Pages.DocumentsTable row = new Pages.DocumentsTable
+                {
+                    docID = element.Id,
+                    docAutors = element.Autors,
+                    docTitle = element.Title,
+                    docType = SDM.Strings.DOC_TYPES[element.DocType],
+                    docPrice = element.Price,
+                    docQuantity = element.Quantity
+                };
+                tempTable.Add(row);
+            }
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for docs with " + keyword_1 + " keyword");
+            return tempTable;
+        }
+
+        /// <summary>
+        /// Overloaded method for return a list of all found docs by simple expression of keywords
+        /// Usage: UserHomePage.xaml, DocumentsManagementPage.xaml
+        /// </summary>
+        public ObservableCollection<Pages.DocumentsTable> GetDocsTableByKeyword(string keyword_1, string keyword_2, bool operation)
+        {  // operations: 0 - AND, 1 - OR
+            ObservableCollection<Pages.DocumentsTable> tempTable = new ObservableCollection<Pages.DocumentsTable>();
+            var loadUserDocs = from b in db.Documents // Fisrt load all documents
+                               select new
+                               {
+                                   b.Id,
+                                   b.Title,
+                                   b.Autors,
+                                   b.DocType,
+                                   b.Price,
+                                   b.Quantity,
+                                   b.Tags
+                               };
+            if (!operation) // AND
+            {
+                var load_result = from r in loadUserDocs  // Then search according to keywords
+                                  where r.Tags.Contains(keyword_1) && r.Tags.Contains(keyword_2)
+                                  select new
+                                  {
+                                      r.Id,
+                                      r.Title,
+                                      r.Autors,
+                                      r.DocType,
+                                      r.Price,
+                                      r.Quantity
+                                  };
+                foreach (var element in load_result)
+                {
+                    Pages.DocumentsTable row = new Pages.DocumentsTable
+                    {
+                        docID = element.Id,
+                        docAutors = element.Autors,
+                        docTitle = element.Title,
+                        docType = SDM.Strings.DOC_TYPES[element.DocType],
+                        docPrice = element.Price,
+                        docQuantity = element.Quantity
+                    };
+                    tempTable.Add(row);
+                }
+            }
+            else  // OR
+            {
+                var load_result = from r in loadUserDocs  // Then search according to keywords
+                                  where r.Tags.Contains(keyword_1) || r.Tags.Contains(keyword_2)
+                                  select new
+                                  {
+                                      r.Id,
+                                      r.Title,
+                                      r.Autors,
+                                      r.DocType,
+                                      r.Price,
+                                      r.Quantity
+                                  };
+                foreach (var element in load_result)
+                {
+                    Pages.DocumentsTable row = new Pages.DocumentsTable
+                    {
+                        docID = element.Id,
+                        docAutors = element.Autors,
+                        docTitle = element.Title,
+                        docType = SDM.Strings.DOC_TYPES[element.DocType],
+                        docPrice = element.Price,
+                        docQuantity = element.Quantity
+                    };
+                    tempTable.Add(row);
+                }
+            }
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " searched for docs with " + keyword_1 + " keywordы");
             return tempTable;
         }
 

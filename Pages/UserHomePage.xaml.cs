@@ -78,20 +78,55 @@ namespace I2P_Project.Pages
         /// <summary> Search book by keyword in AutoCompleteBox </summary>
         private void btn_SearchBook_Click(object sender, RoutedEventArgs e)
         {
-            switch(cb_SearchType.SelectedIndex)  // select search type
+            if (txt_searchBook.Text == "")
             {
-                case 0: // standard search
-                    if(txt_searchBook.Text == "")
-                    {
-                        UpdateUI();
-                    }
-                    else
-                    {
+                UpdateUI();
+            }
+            else
+            {
+                switch (cb_SearchType.SelectedIndex)  // select search type
+                {
+                    case 0: // standard search
                         UpdateTableAfterSearch();
-                    }
-                    break;
-                case 1: // search by keyword
-                    break;
+                        break;
+                    case 1: // search by keyword
+                        if (txt_searchBook.Text.Contains("AND") || txt_searchBook.Text.Contains("OR"))
+                        {
+                            bool operation;
+                            string[] income;
+                            string keyword_1 = ""; string keyword_2 = "";
+
+                            if (txt_searchBook.Text.Contains("AND"))  // read the operation and parse request
+                            {
+                                operation = false;
+                                string temp = txt_searchBook.Text;
+                                temp = temp.Replace(" AND ", "|");
+                                income = temp.Split('|');
+                            }
+                            else
+                            {
+                                operation = true;
+                                string temp = txt_searchBook.Text;
+                                temp = temp.Replace(" OR ", "|");
+                                income = temp.Split('|');
+                            }
+                            keyword_1 = income[0];
+                            keyword_2 = income[1];
+
+                            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+                            pm.BeginWaiting(); // Starts Loading Flow
+                            docTable.ItemsSource = SDM.LMS.GetDocsTableByKeyword(keyword_1, keyword_2, operation);
+                            pm.EndWaiting();
+                        }
+                        else
+                        {
+                            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+                            pm.BeginWaiting(); // Starts Loading Flow
+                            docTable.ItemsSource = SDM.LMS.GetDocsTableByKeyword(txt_searchBook.Text);
+                            pm.EndWaiting();
+                        }
+                        break;
+                }
             }
         }
 

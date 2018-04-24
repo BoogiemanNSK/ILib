@@ -58,6 +58,20 @@ namespace I2P_Project.Pages
                         test.Test28();
                         test.Test29();
                         test.Test30();
+                        test.Test31();
+                        test.Test32();
+                        test.Test33();
+                        test.Test34();
+                        test.Test35();
+                        test.Test36();
+                        test.Test37();
+                        test.Test38();
+                        test.Test39();
+                        //test.Test40();
+                        test.Test41();
+                        test.Test42();
+                        test.Test43();
+                        test.Test44();
                         TestOutput.Text += "Tests are passed, restart system for test 19";
                     } catch
                     {
@@ -126,10 +140,10 @@ namespace I2P_Project.Pages
                         test.Test34();
                         test.Test35();
                         test.Test36();
-                        /*  test.Test37();
+                        test.Test37();
                         test.Test38();
                         test.Test39();
-                        test.Test40(); */
+                        //test.Test40();
                         test.Test41();
                         test.Test42();
                         test.Test43();
@@ -280,7 +294,7 @@ namespace I2P_Project.Pages
                     test.Test36();
                     UpdateTables();
                     break;
-           /*     case "37":
+                case "37":
                     test.Test37();
                     UpdateTables();
                     break;
@@ -292,10 +306,10 @@ namespace I2P_Project.Pages
                     test.Test39();
                     UpdateTables();
                     break;
-                case "40":
+                /*case "40":
                     test.Test40();
                     UpdateTables();
-                    break; */
+                    break;*/
                 case "41":
                     test.Test41();
                     UpdateTables();

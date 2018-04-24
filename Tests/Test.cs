@@ -1104,7 +1104,6 @@ namespace I2P_Project.Tests
 			Debug.Assert(text.Contains("v checked out d3"));
 			Debug.Assert(text.Contains("p3 checked out d3"));
 			Debug.Assert(text.Contains("l1 placed an outstanding request on document d3"));
-
 		}
       
 		public void Test39()
@@ -1141,7 +1140,7 @@ namespace I2P_Project.Tests
 			Debug.Assert(text.Contains("p3 was notifed that document d3 is not longer available and he's removed from the waiting list"));
 		}
   
-    public void Test41()
+        public void Test41()
         {
             Initial_del_4();
 

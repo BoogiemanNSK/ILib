@@ -415,3 +415,11 @@
 | 4/23/2018 7:54:32 PM | Admin admin updated info about user v
 | 4/23/2018 7:54:35 PM | Admin admin updated info about user lb
 | 4/23/2018 7:54:35 PM | Admin admin uploaded documents table
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 8:53:40 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 8:53:41 AM | System connected to Azure DB
+| 4/24/2018 8:53:47 AM | Admin admin uploaded documents table

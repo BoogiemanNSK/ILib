@@ -423,3 +423,653 @@
 ----------------------------------------------------------------------------
 | 4/24/2018 8:53:41 AM | System connected to Azure DB
 | 4/24/2018 8:53:47 AM | Admin admin uploaded documents table
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 10:47:30 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 10:47:31 AM | System connected to Azure DB
+| 4/24/2018 10:47:39 AM | Admin admin uploaded documents table
+| 4/24/2018 10:47:49 AM | Admin admin created librarian lb1
+| 4/24/2018 10:47:49 AM | Admin admin updated info about user lb1
+| 4/24/2018 10:47:50 AM | Admin admin created librarian lb2
+| 4/24/2018 10:47:51 AM | Admin admin updated info about user lb2
+| 4/24/2018 10:47:51 AM | Admin admin created librarian lb3
+| 4/24/2018 10:47:53 AM | Admin admin updated info about user lb3
+| 4/24/2018 10:47:55 AM | Admin admin created librarian lb1
+| 4/24/2018 10:47:56 AM | Admin admin updated info about user lb1
+| 4/24/2018 10:47:57 AM | Admin admin created librarian lb2
+| 4/24/2018 10:47:58 AM | Admin admin updated info about user lb2
+| 4/24/2018 10:47:58 AM | Admin admin created librarian lb3
+| 4/24/2018 10:47:59 AM | Admin admin updated info about user lb3
+| 4/24/2018 10:48:03 AM | Admin admin created librarian lb1
+| 4/24/2018 10:48:04 AM | Admin admin updated info about user lb1
+| 4/24/2018 10:48:04 AM | Admin admin created librarian lb2
+| 4/24/2018 10:48:05 AM | Admin admin updated info about user lb2
+| 4/24/2018 10:48:06 AM | Admin admin created librarian lb3
+| 4/24/2018 10:48:07 AM | Admin admin updated info about user lb3
+| 4/24/2018 10:48:08 AM | Admin admin created 3copies of d1
+| 4/24/2018 10:48:09 AM | Admin admin created 3copies of d2
+| 4/24/2018 10:48:10 AM | Admin admin created 3copies of d3
+| 4/24/2018 10:48:11 AM | Admin admin registered user p1
+| 4/24/2018 10:48:11 AM | Admin admin registered user p2
+| 4/24/2018 10:48:12 AM | Admin admin registered user p3
+| 4/24/2018 10:48:12 AM | Admin admin registered user s
+| 4/24/2018 10:48:13 AM | Admin admin registered user v
+| 4/24/2018 10:48:18 AM | Admin admin created librarian lb1
+| 4/24/2018 10:48:19 AM | Admin admin updated info about user lb1
+| 4/24/2018 10:48:19 AM | Admin admin created librarian lb2
+| 4/24/2018 10:48:20 AM | Admin admin updated info about user lb2
+| 4/24/2018 10:48:21 AM | Admin admin created librarian lb3
+| 4/24/2018 10:48:22 AM | Admin admin updated info about user lb3
+| 4/24/2018 10:48:23 AM | Admin admin created 3copies of d1
+| 4/24/2018 10:48:24 AM | Admin admin created 3copies of d2
+| 4/24/2018 10:48:24 AM | Admin admin created 3copies of d3
+| 4/24/2018 10:48:25 AM | Admin admin registered user p1
+| 4/24/2018 10:48:26 AM | Admin admin registered user p2
+| 4/24/2018 10:48:26 AM | Admin admin registered user p3
+| 4/24/2018 10:48:27 AM | Admin admin registered user s
+| 4/24/2018 10:48:27 AM | Admin admin registered user v
+| 4/24/2018 10:48:32 AM | Admin admin updated info about AV d1
+| 4/24/2018 10:48:36 AM | Admin admin created librarian lb1
+| 4/24/2018 10:48:37 AM | Admin admin updated info about user lb1
+| 4/24/2018 10:48:37 AM | Admin admin created librarian lb2
+| 4/24/2018 10:48:38 AM | Admin admin updated info about user lb2
+| 4/24/2018 10:48:38 AM | Admin admin created librarian lb3
+| 4/24/2018 10:48:39 AM | Admin admin updated info about user lb3
+| 4/24/2018 10:48:41 AM | Admin admin created 3copies of d1
+| 4/24/2018 10:48:42 AM | Admin admin created 3copies of d2
+| 4/24/2018 10:48:42 AM | Admin admin created 3copies of d3
+| 4/24/2018 10:48:43 AM | Admin admin registered user p1
+| 4/24/2018 10:48:44 AM | Admin admin registered user p2
+| 4/24/2018 10:48:44 AM | Admin admin registered user p3
+| 4/24/2018 10:48:44 AM | Admin admin registered user s
+| 4/24/2018 10:48:45 AM | Admin admin registered user v
+| 4/24/2018 10:48:57 AM | Admin admin uploaded documents table
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 10:50:00 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 10:50:01 AM | System connected to Azure DB
+| 4/24/2018 10:50:08 AM | Admin admin uploaded documents table
+| 4/24/2018 10:50:21 AM | Admin admin created librarian lb1
+| 4/24/2018 10:50:21 AM | Admin admin updated info about user lb1
+| 4/24/2018 10:50:22 AM | Admin admin created librarian lb2
+| 4/24/2018 10:50:23 AM | Admin admin updated info about user lb2
+| 4/24/2018 10:50:23 AM | Admin admin created librarian lb3
+| 4/24/2018 10:50:24 AM | Admin admin updated info about user lb3
+| 4/24/2018 10:50:26 AM | Admin admin created 3copies of d1
+| 4/24/2018 10:50:26 AM | Admin admin created 3copies of d2
+| 4/24/2018 10:50:26 AM | Admin admin created 3copies of d3
+| 4/24/2018 10:50:27 AM | Admin admin registered user p1
+| 4/24/2018 10:50:28 AM | Admin admin registered user p2
+| 4/24/2018 10:50:28 AM | Admin admin registered user p3
+| 4/24/2018 10:50:29 AM | Admin admin registered user s
+| 4/24/2018 10:50:29 AM | Admin admin registered user v
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 10:58:13 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 10:58:14 AM | System connected to Azure DB
+| 4/24/2018 10:58:53 AM | Admin admin uploaded documents table
+| 4/24/2018 10:59:03 AM | Admin admin created librarian lb1
+| 4/24/2018 10:59:04 AM | Admin admin updated info about user lb1
+| 4/24/2018 10:59:04 AM | Admin admin created librarian lb2
+| 4/24/2018 10:59:05 AM | Admin admin updated info about user lb2
+| 4/24/2018 10:59:05 AM | Admin admin created librarian lb3
+| 4/24/2018 10:59:07 AM | Admin admin updated info about user lb3
+| 4/24/2018 10:59:09 AM | Admin admin created 3copies of d1
+| 4/24/2018 10:59:10 AM | Admin admin created 3copies of d2
+| 4/24/2018 10:59:10 AM | Admin admin created 3copies of d3
+| 4/24/2018 10:59:11 AM | Admin admin registered user p1
+| 4/24/2018 10:59:11 AM | Admin admin registered user p2
+| 4/24/2018 10:59:12 AM | Admin admin registered user p3
+| 4/24/2018 10:59:12 AM | Admin admin registered user s
+| 4/24/2018 10:59:13 AM | Admin admin registered user v
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 11:02:24 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 11:02:25 AM | System connected to Azure DB
+| 4/24/2018 11:02:33 AM | Admin admin uploaded documents table
+| 4/24/2018 11:02:49 AM | Admin admin created librarian lb1
+| 4/24/2018 11:02:50 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:02:50 AM | Admin admin created librarian lb2
+| 4/24/2018 11:02:51 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:02:52 AM | Admin admin created librarian lb3
+| 4/24/2018 11:02:53 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:02:55 AM | Admin admin created 3copies of d1
+| 4/24/2018 11:02:55 AM | Admin admin created 3copies of d2
+| 4/24/2018 11:02:56 AM | Admin admin created 3copies of d3
+| 4/24/2018 11:02:57 AM | Admin admin registered user p1
+| 4/24/2018 11:02:57 AM | Admin admin registered user p2
+| 4/24/2018 11:02:58 AM | Admin admin registered user p3
+| 4/24/2018 11:02:58 AM | Admin admin registered user s
+| 4/24/2018 11:02:59 AM | Admin admin registered user v
+| 4/24/2018 11:03:05 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:03:05 AM | Admin admin set check out for d3
+| 4/24/2018 11:03:06 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:03:06 AM | Admin admin set check out for d3
+| 4/24/2018 11:03:08 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:03:08 AM | Admin admin set check out for d3
+| 4/24/2018 11:03:10 AM | Admin admin uploaded documents table
+| 4/24/2018 11:03:53 AM | Admin admin created librarian lb1
+| 4/24/2018 11:03:54 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:03:55 AM | Admin admin created librarian lb2
+| 4/24/2018 11:03:56 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:03:56 AM | Admin admin created librarian lb3
+| 4/24/2018 11:03:57 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:03:59 AM | Admin admin created 3copies of d1
+| 4/24/2018 11:03:59 AM | Admin admin created 3copies of d2
+| 4/24/2018 11:04:00 AM | Admin admin created 3copies of d3
+| 4/24/2018 11:04:01 AM | Admin admin registered user p1
+| 4/24/2018 11:04:01 AM | Admin admin registered user p2
+| 4/24/2018 11:04:01 AM | Admin admin registered user p3
+| 4/24/2018 11:04:02 AM | Admin admin registered user s
+| 4/24/2018 11:04:03 AM | Admin admin registered user v
+| 4/24/2018 11:04:08 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:04:09 AM | Admin admin set check out for d3
+| 4/24/2018 11:04:10 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:04:10 AM | Admin admin set check out for d3
+| 4/24/2018 11:04:11 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:04:11 AM | Admin admin set check out for d3
+| 4/24/2018 11:04:16 AM | p1 
+| 4/24/2018 11:04:17 AM | p2 
+| 4/24/2018 11:04:18 AM | s 
+| 4/24/2018 11:04:19 AM | Admin admin placed an outstanding request on document d3
+| 4/24/2018 11:04:19 AM | Waiting list for document d3 was deleted
+| 4/24/2018 11:04:19 AM | Admin admin uploaded documents table
+| 4/24/2018 11:04:32 AM | Admin admin created librarian lb1
+| 4/24/2018 11:04:33 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:04:34 AM | Admin admin created librarian lb2
+| 4/24/2018 11:04:35 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:04:35 AM | Admin admin created librarian lb3
+| 4/24/2018 11:04:36 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:04:38 AM | Admin admin created librarian lb1
+| 4/24/2018 11:04:39 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:04:39 AM | Admin admin created librarian lb2
+| 4/24/2018 11:04:40 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:04:41 AM | Admin admin created librarian lb3
+| 4/24/2018 11:04:41 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:04:46 AM | Admin admin created librarian lb1
+| 4/24/2018 11:04:47 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:04:47 AM | Admin admin created librarian lb2
+| 4/24/2018 11:04:48 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:04:49 AM | Admin admin created librarian lb3
+| 4/24/2018 11:04:49 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:04:51 AM | Admin admin created 3copies of d1
+| 4/24/2018 11:04:51 AM | Admin admin created 3copies of d2
+| 4/24/2018 11:04:52 AM | Admin admin created 3copies of d3
+| 4/24/2018 11:04:53 AM | Admin admin registered user p1
+| 4/24/2018 11:04:53 AM | Admin admin registered user p2
+| 4/24/2018 11:04:54 AM | Admin admin registered user p3
+| 4/24/2018 11:04:55 AM | Admin admin registered user s
+| 4/24/2018 11:04:55 AM | Admin admin registered user v
+| 4/24/2018 11:05:00 AM | Admin admin created librarian lb1
+| 4/24/2018 11:05:01 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:05:01 AM | Admin admin created librarian lb2
+| 4/24/2018 11:05:02 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:05:03 AM | Admin admin created librarian lb3
+| 4/24/2018 11:05:04 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:05:05 AM | Admin admin created 3copies of d1
+| 4/24/2018 11:05:06 AM | Admin admin created 3copies of d2
+| 4/24/2018 11:05:06 AM | Admin admin created 3copies of d3
+| 4/24/2018 11:05:07 AM | Admin admin registered user p1
+| 4/24/2018 11:05:08 AM | Admin admin registered user p2
+| 4/24/2018 11:05:08 AM | Admin admin registered user p3
+| 4/24/2018 11:05:08 AM | Admin admin registered user s
+| 4/24/2018 11:05:09 AM | Admin admin registered user v
+| 4/24/2018 11:05:14 AM | Admin admin updated info about AV d1
+| 4/24/2018 11:05:17 AM | Admin admin created librarian lb1
+| 4/24/2018 11:05:18 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:05:19 AM | Admin admin created librarian lb2
+| 4/24/2018 11:05:19 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:05:20 AM | Admin admin created librarian lb3
+| 4/24/2018 11:05:21 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:05:23 AM | Admin admin created 3copies of d1
+| 4/24/2018 11:05:24 AM | Admin admin created 3copies of d2
+| 4/24/2018 11:05:24 AM | Admin admin created 3copies of d3
+| 4/24/2018 11:05:26 AM | Admin admin registered user p1
+| 4/24/2018 11:05:26 AM | Admin admin registered user p2
+| 4/24/2018 11:05:27 AM | Admin admin registered user p3
+| 4/24/2018 11:05:27 AM | Admin admin registered user s
+| 4/24/2018 11:05:28 AM | Admin admin registered user v
+| 4/24/2018 11:06:44 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:06:45 AM | Admin admin set check out for d3
+| 4/24/2018 11:06:46 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:06:47 AM | Admin admin set check out for d3
+| 4/24/2018 11:06:47 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:06:48 AM | Admin admin set check out for d3
+| 4/24/2018 11:06:51 AM | Admin admin created librarian lb1
+| 4/24/2018 11:06:51 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:06:52 AM | Admin admin created librarian lb2
+| 4/24/2018 11:06:53 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:06:53 AM | Admin admin created librarian lb3
+| 4/24/2018 11:06:54 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:06:57 AM | Admin admin created 3copies of d1
+| 4/24/2018 11:06:57 AM | Admin admin created 3copies of d2
+| 4/24/2018 11:06:57 AM | Admin admin created 3copies of d3
+| 4/24/2018 11:06:59 AM | Admin admin registered user p1
+| 4/24/2018 11:06:59 AM | Admin admin registered user p2
+| 4/24/2018 11:06:59 AM | Admin admin registered user p3
+| 4/24/2018 11:07:00 AM | Admin admin registered user s
+| 4/24/2018 11:07:00 AM | Admin admin registered user v
+| 4/24/2018 11:07:06 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:07:07 AM | Admin admin set check out for d3
+| 4/24/2018 11:07:07 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:07:08 AM | Admin admin set check out for d3
+| 4/24/2018 11:07:08 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:07:09 AM | Admin admin set check out for d3
+| 4/24/2018 11:07:14 AM | p1 
+| 4/24/2018 11:07:14 AM | p2 
+| 4/24/2018 11:07:15 AM | s 
+| 4/24/2018 11:07:16 AM | Admin admin placed an outstanding request on document d3
+| 4/24/2018 11:07:16 AM | Waiting list for document d3 was deleted
+| 4/24/2018 11:07:17 AM | Admin admin created librarian lb1
+| 4/24/2018 11:07:18 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:07:19 AM | Admin admin created librarian lb2
+| 4/24/2018 11:07:20 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:07:21 AM | Admin admin created librarian lb3
+| 4/24/2018 11:07:21 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:07:23 AM | Admin admin created 3copies of d1
+| 4/24/2018 11:07:24 AM | Admin admin created 3copies of d2
+| 4/24/2018 11:07:24 AM | Admin admin created 3copies of d3
+| 4/24/2018 11:07:25 AM | Admin admin registered user p1
+| 4/24/2018 11:07:25 AM | Admin admin registered user p2
+| 4/24/2018 11:07:26 AM | Admin admin registered user p3
+| 4/24/2018 11:07:26 AM | Admin admin registered user s
+| 4/24/2018 11:07:27 AM | Admin admin registered user v
+| 4/24/2018 11:07:33 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:07:34 AM | Admin admin set check out for d3
+| 4/24/2018 11:07:35 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:07:36 AM | Admin admin set check out for d3
+| 4/24/2018 11:07:37 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:07:37 AM | Admin admin set check out for d3
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 11:10:33 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 11:10:35 AM | System connected to Azure DB
+| 4/24/2018 11:10:41 AM | Admin admin uploaded documents table
+| 4/24/2018 11:10:51 AM | Admin admin created librarian lb1
+| 4/24/2018 11:10:52 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:10:52 AM | Admin admin created librarian lb2
+| 4/24/2018 11:10:53 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:10:53 AM | Admin admin created librarian lb3
+| 4/24/2018 11:10:54 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:10:57 AM | Admin admin created 3copies of d1
+| 4/24/2018 11:10:57 AM | Admin admin created 3copies of d2
+| 4/24/2018 11:10:57 AM | Admin admin created 3copies of d3
+| 4/24/2018 11:10:58 AM | Admin admin registered user p1
+| 4/24/2018 11:10:59 AM | Admin admin registered user p2
+| 4/24/2018 11:11:00 AM | Admin admin registered user p3
+| 4/24/2018 11:11:00 AM | Admin admin registered user s
+| 4/24/2018 11:11:01 AM | Admin admin registered user v
+| 4/24/2018 11:11:07 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:11:07 AM | Admin admin set check out for d3
+| 4/24/2018 11:11:08 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:11:08 AM | Admin admin set check out for d3
+| 4/24/2018 11:11:09 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:11:09 AM | Admin admin set check out for d3
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 11:13:08 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 11:13:09 AM | System connected to Azure DB
+| 4/24/2018 11:13:19 AM | Admin admin uploaded documents table
+| 4/24/2018 11:13:27 AM | Admin admin created librarian lb1
+| 4/24/2018 11:13:28 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:13:28 AM | Admin admin created librarian lb2
+| 4/24/2018 11:13:29 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:13:30 AM | Admin admin created librarian lb3
+| 4/24/2018 11:13:31 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:13:33 AM | Admin admin created 3 copies of d1
+| 4/24/2018 11:13:34 AM | Admin admin created 3 copies of d2
+| 4/24/2018 11:13:34 AM | Admin admin created 3 copies of d3
+| 4/24/2018 11:13:36 AM | Admin admin registered user p1
+| 4/24/2018 11:13:36 AM | Admin admin registered user p2
+| 4/24/2018 11:13:37 AM | Admin admin registered user p3
+| 4/24/2018 11:13:37 AM | Admin admin registered user s
+| 4/24/2018 11:13:38 AM | Admin admin registered user v
+| 4/24/2018 11:13:44 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:13:44 AM | Admin admin set check out for d3
+| 4/24/2018 11:13:45 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:13:45 AM | Admin admin set check out for d3
+| 4/24/2018 11:13:46 AM | Admin admin updated info about AV d3
+| 4/24/2018 11:13:47 AM | Admin admin set check out for d3
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 11:22:40 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 11:22:41 AM | System connected to Azure DB
+| 4/24/2018 11:22:46 AM | Admin admin uploaded documents table
+| 4/24/2018 11:22:56 AM | Admin admin created librarian lb1
+| 4/24/2018 11:22:57 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:22:57 AM | Admin admin created librarian lb2
+| 4/24/2018 11:22:58 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:22:59 AM | Admin admin created librarian lb3
+| 4/24/2018 11:23:00 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:23:02 AM | Librarian lb2 created 3 copies of d1
+| 4/24/2018 11:23:03 AM | Librarian lb2 created 3 copies of d2
+| 4/24/2018 11:23:03 AM | Librarian lb2 created 3 copies of d3
+| 4/24/2018 11:23:04 AM | Librarian lb2 registered user p1
+| 4/24/2018 11:23:05 AM | Librarian lb2 registered user p2
+| 4/24/2018 11:23:05 AM | Librarian lb2 registered user p3
+| 4/24/2018 11:23:05 AM | Librarian lb2 registered user s
+| 4/24/2018 11:23:06 AM | Librarian lb2 registered user v
+| 4/24/2018 11:23:11 AM | Student p1 updated info about AV d3
+| 4/24/2018 11:23:12 AM | Student p1 checked out d3
+| 4/24/2018 11:23:13 AM | Student p2 updated info about AV d3
+| 4/24/2018 11:23:13 AM | Student p2 checked out d3
+| 4/24/2018 11:23:14 AM | Student s updated info about AV d3
+| 4/24/2018 11:23:14 AM | Student s checked out d3
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 11:24:51 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 11:24:52 AM | System connected to Azure DB
+| 4/24/2018 11:24:57 AM | Admin admin uploaded documents table
+| 4/24/2018 11:25:06 AM | Admin admin created librarian lb1
+| 4/24/2018 11:25:08 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:25:08 AM | Admin admin created librarian lb2
+| 4/24/2018 11:25:09 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:25:10 AM | Admin admin created librarian lb3
+| 4/24/2018 11:25:11 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:25:13 AM | Librarian lb2 created 3 copies of d1
+| 4/24/2018 11:25:13 AM | Librarian lb2 created 3 copies of d2
+| 4/24/2018 11:25:14 AM | Librarian lb2 created 3 copies of d3
+| 4/24/2018 11:25:15 AM | Librarian lb2 registered user p1
+| 4/24/2018 11:25:15 AM | Librarian lb2 registered user p2
+| 4/24/2018 11:25:16 AM | Librarian lb2 registered user p3
+| 4/24/2018 11:25:16 AM | Librarian lb2 registered user s
+| 4/24/2018 11:25:16 AM | Librarian lb2 registered user v
+| 4/24/2018 11:25:23 AM | Student p1 updated info about AV d3
+| 4/24/2018 11:25:23 AM | Student p1 checked out d3
+| 4/24/2018 11:25:24 AM | Student p2 updated info about AV d3
+| 4/24/2018 11:25:25 AM | Student p2 checked out d3
+| 4/24/2018 11:25:25 AM | Student s updated info about AV d3
+| 4/24/2018 11:25:26 AM | Student s checked out d3
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 11:26:19 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 11:26:20 AM | System connected to Azure DB
+| 4/24/2018 11:26:44 AM | Admin admin uploaded documents table
+| 4/24/2018 11:26:51 AM | Admin admin created librarian lb1
+| 4/24/2018 11:26:52 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:26:52 AM | Admin admin created librarian lb2
+| 4/24/2018 11:26:53 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:26:54 AM | Admin admin created librarian lb3
+| 4/24/2018 11:26:55 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:26:57 AM | Librarian lb2 created 3 copies of d1
+| 4/24/2018 11:26:58 AM | Librarian lb2 created 3 copies of d2
+| 4/24/2018 11:26:59 AM | Librarian lb2 created 3 copies of d3
+| 4/24/2018 11:27:00 AM | Librarian lb2 created patron p1
+| 4/24/2018 11:27:01 AM | Librarian lb2 created patron p2
+| 4/24/2018 11:27:01 AM | Librarian lb2 created patron p3
+| 4/24/2018 11:27:01 AM | Librarian lb2 created patron s
+| 4/24/2018 11:27:02 AM | Librarian lb2 created patron v
+| 4/24/2018 11:27:09 AM | Student p1 updated info about AV d3
+| 4/24/2018 11:27:10 AM | Student p1 checked out d3
+| 4/24/2018 11:27:11 AM | Student p2 updated info about AV d3
+| 4/24/2018 11:27:11 AM | Student p2 checked out d3
+| 4/24/2018 11:27:12 AM | Student s updated info about AV d3
+| 4/24/2018 11:27:12 AM | Student s checked out d3
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 11:38:32 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 11:38:34 AM | System connected to Azure DB
+| 4/24/2018 11:38:37 AM | Admin admin uploaded documents table
+| 4/24/2018 11:38:46 AM | Admin admin created librarian lb1
+| 4/24/2018 11:38:47 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:38:47 AM | Admin admin created librarian lb2
+| 4/24/2018 11:38:48 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:38:49 AM | Admin admin created librarian lb3
+| 4/24/2018 11:38:50 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:38:51 AM | Librarian lb2 created 3 copies of d1
+| 4/24/2018 11:38:52 AM | Librarian lb2 created 3 copies of d2
+| 4/24/2018 11:38:52 AM | Librarian lb2 created 3 copies of d3
+| 4/24/2018 11:38:53 AM | Librarian lb2 created patron p1
+| 4/24/2018 11:38:54 AM | Librarian lb2 created patron p2
+| 4/24/2018 11:38:54 AM | Librarian lb2 created patron p3
+| 4/24/2018 11:38:55 AM | Librarian lb2 created patron s
+| 4/24/2018 11:38:55 AM | Librarian lb2 created patron v
+| 4/24/2018 11:39:01 AM | Student p1 updated info about AV d3
+| 4/24/2018 11:39:01 AM | Student p1 checked out d3
+| 4/24/2018 11:39:02 AM | Student p2 updated info about AV d3
+| 4/24/2018 11:39:02 AM | Student p2 checked out d3
+| 4/24/2018 11:39:03 AM | Student s updated info about AV d3
+| 4/24/2018 11:39:03 AM | Student s checked out d3
+| 4/24/2018 11:39:05 AM | Librarian lb1 uploaded documents table
+| 4/24/2018 11:39:14 AM | Librarian lb1 created librarian lb1
+| 4/24/2018 11:39:15 AM | Librarian lb1 updated info about user lb1
+| 4/24/2018 11:39:15 AM | Librarian lb1 created librarian lb2
+| 4/24/2018 11:39:16 AM | Librarian lb1 updated info about user lb2
+| 4/24/2018 11:39:16 AM | Librarian lb1 created librarian lb3
+| 4/24/2018 11:39:17 AM | Librarian lb1 updated info about user lb3
+| 4/24/2018 11:39:19 AM | Librarian lb2 created 3 copies of d1
+| 4/24/2018 11:39:19 AM | Librarian lb2 created 3 copies of d2
+| 4/24/2018 11:39:20 AM | Librarian lb2 created 3 copies of d3
+| 4/24/2018 11:39:22 AM | Librarian lb2 created patron p1
+| 4/24/2018 11:39:22 AM | Librarian lb2 created patron p2
+| 4/24/2018 11:39:23 AM | Librarian lb2 created patron p3
+| 4/24/2018 11:39:23 AM | Librarian lb2 created patron s
+| 4/24/2018 11:39:24 AM | Librarian lb2 created patron v
+| 4/24/2018 11:39:30 AM | Student p1 updated info about AV d3
+| 4/24/2018 11:39:30 AM | Student p1 checked out d3
+| 4/24/2018 11:39:31 AM | Student p2 updated info about AV d3
+| 4/24/2018 11:39:31 AM | Student p2 checked out d3
+| 4/24/2018 11:39:32 AM | Student s updated info about AV d3
+| 4/24/2018 11:39:33 AM | Student s checked out d3
+| 4/24/2018 11:39:37 AM | v was notifed that document d3 is not longer available and he's removed from the waiting list
+| 4/24/2018 11:39:38 AM | p3 was notifed that document d3 is not longer available and he's removed from the waiting list
+| 4/24/2018 11:39:40 AM | p1 was notifed to return the respective books
+| 4/24/2018 11:39:40 AM | p2 was notifed to return the respective books
+| 4/24/2018 11:39:41 AM | s was notifed to return the respective books
+| 4/24/2018 11:39:42 AM | Librarian lb3 placed an outstanding request on document d3
+| 4/24/2018 11:39:42 AM | Waiting list for document d3 was deleted
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 11:43:28 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 11:43:29 AM | System connected to Azure DB
+| 4/24/2018 11:43:33 AM | Admin admin uploaded documents table
+| 4/24/2018 11:43:42 AM | Admin admin created librarian lb1
+| 4/24/2018 11:43:43 AM | Admin admin updated info about user lb1
+| 4/24/2018 11:43:43 AM | Admin admin created librarian lb2
+| 4/24/2018 11:43:44 AM | Admin admin updated info about user lb2
+| 4/24/2018 11:43:44 AM | Admin admin created librarian lb3
+| 4/24/2018 11:43:45 AM | Admin admin updated info about user lb3
+| 4/24/2018 11:43:48 AM | Librarian lb2 created 3 copies of d1
+| 4/24/2018 11:43:49 AM | Librarian lb2 created 3 copies of d2
+| 4/24/2018 11:43:49 AM | Librarian lb2 created 3 copies of d3
+| 4/24/2018 11:43:51 AM | Librarian lb2 created patron p1
+| 4/24/2018 11:43:52 AM | Librarian lb2 created patron p2
+| 4/24/2018 11:43:52 AM | Librarian lb2 created patron p3
+| 4/24/2018 11:43:52 AM | Librarian lb2 created patron s
+| 4/24/2018 11:43:53 AM | Librarian lb2 created patron v
+| 4/24/2018 11:44:00 AM | Student p1 updated info about AV d3
+| 4/24/2018 11:44:02 AM | Student p1 checked out d3
+| 4/24/2018 11:44:03 AM | Student p2 updated info about AV d3
+| 4/24/2018 11:44:04 AM | Student p2 checked out d3
+| 4/24/2018 11:44:05 AM | Student s updated info about AV d3
+| 4/24/2018 11:44:06 AM | Student s checked out d3
+| 4/24/2018 11:44:10 AM | v was notifed that document d3 is not longer available and he's removed from the waiting list
+| 4/24/2018 11:44:12 AM | p3 was notifed that document d3 is not longer available and he's removed from the waiting list
+| 4/24/2018 11:44:14 AM | p1 was notifed to return the respective books
+| 4/24/2018 11:44:15 AM | p2 was notifed to return the respective books
+| 4/24/2018 11:44:15 AM | s was notifed to return the respective books
+| 4/24/2018 11:44:18 AM | Librarian lb3 placed an outstanding request on document d3
+| 4/24/2018 11:44:18 AM | Waiting list for document d3 was deleted
+| 4/24/2018 11:44:18 AM | Librarian lb3 uploaded documents table
+| 4/24/2018 11:44:41 AM | Librarian lb3 uploaded documents table
+| 4/24/2018 11:44:48 AM | Librarian lb3 created librarian lb1
+| 4/24/2018 11:44:48 AM | Librarian lb3 updated info about user lb1
+| 4/24/2018 11:44:49 AM | Librarian lb3 created librarian lb2
+| 4/24/2018 11:44:49 AM | Librarian lb3 updated info about user lb2
+| 4/24/2018 11:44:50 AM | Librarian lb3 created librarian lb3
+| 4/24/2018 11:44:51 AM | Librarian lb3 updated info about user lb3
+| 4/24/2018 11:44:52 AM | Librarian lb3 uploaded documents table
+| 4/24/2018 11:45:00 AM | Librarian lb3 created librarian lb1
+| 4/24/2018 11:45:00 AM | Librarian lb3 updated info about user lb1
+| 4/24/2018 11:45:01 AM | Librarian lb3 created librarian lb2
+| 4/24/2018 11:45:02 AM | Librarian lb3 updated info about user lb2
+| 4/24/2018 11:45:03 AM | Librarian lb3 created librarian lb3
+| 4/24/2018 11:45:03 AM | Librarian lb3 updated info about user lb3
+| 4/24/2018 11:45:05 AM | Librarian lb1 uploaded documents table
+| 4/24/2018 11:45:11 AM | Librarian lb1 created librarian lb1
+| 4/24/2018 11:45:12 AM | Librarian lb1 updated info about user lb1
+| 4/24/2018 11:45:12 AM | Librarian lb1 created librarian lb2
+| 4/24/2018 11:45:13 AM | Librarian lb1 updated info about user lb2
+| 4/24/2018 11:45:14 AM | Librarian lb1 created librarian lb3
+| 4/24/2018 11:45:15 AM | Librarian lb1 updated info about user lb3
+| 4/24/2018 11:45:16 AM | Librarian lb2 created 3 copies of d1
+| 4/24/2018 11:45:17 AM | Librarian lb2 created 3 copies of d2
+| 4/24/2018 11:45:18 AM | Librarian lb2 created 3 copies of d3
+| 4/24/2018 11:45:19 AM | Librarian lb2 created patron p1
+| 4/24/2018 11:45:20 AM | Librarian lb2 created patron p2
+| 4/24/2018 11:45:21 AM | Librarian lb2 created patron p3
+| 4/24/2018 11:45:22 AM | Librarian lb2 created patron s
+| 4/24/2018 11:45:22 AM | Librarian lb2 created patron v
+| 4/24/2018 11:45:25 AM | Librarian lb2 uploaded documents table
+| 4/24/2018 11:45:33 AM | Librarian lb2 created librarian lb1
+| 4/24/2018 11:45:33 AM | Librarian lb2 updated info about user lb1
+| 4/24/2018 11:45:34 AM | Librarian lb2 created librarian lb2
+| 4/24/2018 11:45:35 AM | Librarian lb2 updated info about user lb2
+| 4/24/2018 11:45:35 AM | Librarian lb2 created librarian lb3
+| 4/24/2018 11:45:36 AM | Librarian lb2 updated info about user lb3
+| 4/24/2018 11:45:38 AM | Librarian lb2 created 3 copies of d1
+| 4/24/2018 11:45:39 AM | Librarian lb2 created 3 copies of d2
+| 4/24/2018 11:45:40 AM | Librarian lb2 created 3 copies of d3
+| 4/24/2018 11:45:43 AM | Librarian lb2 created patron p1
+| 4/24/2018 11:45:43 AM | Librarian lb2 created patron p2
+| 4/24/2018 11:45:44 AM | Librarian lb2 created patron p3
+| 4/24/2018 11:45:45 AM | Librarian lb2 created patron s
+| 4/24/2018 11:45:45 AM | Librarian lb2 created patron v
+| 4/24/2018 11:45:51 AM | Librarian lb2 updated info about AV d1
+| 4/24/2018 11:45:53 AM | Librarian lb2 uploaded documents table
+| 4/24/2018 11:46:05 AM | Librarian lb2 created librarian lb1
+| 4/24/2018 11:46:06 AM | Librarian lb2 updated info about user lb1
+| 4/24/2018 11:46:06 AM | Librarian lb2 created librarian lb2
+| 4/24/2018 11:46:07 AM | Librarian lb2 updated info about user lb2
+| 4/24/2018 11:46:07 AM | Librarian lb2 created librarian lb3
+| 4/24/2018 11:46:08 AM | Librarian lb2 updated info about user lb3
+| 4/24/2018 11:46:10 AM | Librarian lb2 created 3 copies of d1
+| 4/24/2018 11:46:10 AM | Librarian lb2 created 3 copies of d2
+| 4/24/2018 11:46:11 AM | Librarian lb2 created 3 copies of d3
+| 4/24/2018 11:46:12 AM | Librarian lb2 created patron p1
+| 4/24/2018 11:46:12 AM | Librarian lb2 created patron p2
+| 4/24/2018 11:46:13 AM | Librarian lb2 created patron p3
+| 4/24/2018 11:46:13 AM | Librarian lb2 created patron s
+| 4/24/2018 11:46:13 AM | Librarian lb2 created patron v
+| 4/24/2018 11:46:20 AM | Student p1 updated info about AV d3
+| 4/24/2018 11:46:21 AM | Student p1 checked out d3
+| 4/24/2018 11:46:22 AM | Student p2 updated info about AV d3
+| 4/24/2018 11:46:22 AM | Student p2 checked out d3
+| 4/24/2018 11:46:23 AM | Student s updated info about AV d3
+| 4/24/2018 11:46:23 AM | Student s checked out d3
+| 4/24/2018 11:46:25 AM | Librarian lb1 uploaded documents table
+| 4/24/2018 11:46:41 AM | Librarian lb1 created librarian lb1
+| 4/24/2018 11:46:41 AM | Librarian lb1 updated info about user lb1
+| 4/24/2018 11:46:42 AM | Librarian lb1 created librarian lb2
+| 4/24/2018 11:46:43 AM | Librarian lb1 updated info about user lb2
+| 4/24/2018 11:46:44 AM | Librarian lb1 created librarian lb3
+| 4/24/2018 11:46:44 AM | Librarian lb1 updated info about user lb3
+| 4/24/2018 11:46:46 AM | Librarian lb2 created 3 copies of d1
+| 4/24/2018 11:46:47 AM | Librarian lb2 created 3 copies of d2
+| 4/24/2018 11:46:47 AM | Librarian lb2 created 3 copies of d3
+| 4/24/2018 11:46:48 AM | Librarian lb2 created patron p1
+| 4/24/2018 11:46:49 AM | Librarian lb2 created patron p2
+| 4/24/2018 11:46:49 AM | Librarian lb2 created patron p3
+| 4/24/2018 11:46:49 AM | Librarian lb2 created patron s
+| 4/24/2018 11:46:50 AM | Librarian lb2 created patron v
+| 4/24/2018 11:46:55 AM | Student p1 updated info about AV d3
+| 4/24/2018 11:46:57 AM | Student p1 checked out d3
+| 4/24/2018 11:46:57 AM | Student p2 updated info about AV d3
+| 4/24/2018 11:46:58 AM | Student p2 checked out d3
+| 4/24/2018 11:46:59 AM | Student s updated info about AV d3
+| 4/24/2018 11:47:00 AM | Student s checked out d3
+| 4/24/2018 11:47:03 AM | v was notifed that document d3 is not longer available and he's removed from the waiting list
+| 4/24/2018 11:47:04 AM | p3 was notifed that document d3 is not longer available and he's removed from the waiting list
+| 4/24/2018 11:47:06 AM | p1 was notifed to return the respective books
+| 4/24/2018 11:47:06 AM | p2 was notifed to return the respective books
+| 4/24/2018 11:47:07 AM | s was notifed to return the respective books
+| 4/24/2018 11:47:08 AM | Librarian lb3 placed an outstanding request on document d3
+| 4/24/2018 11:47:08 AM | Waiting list for document d3 was deleted
+| 4/24/2018 11:47:08 AM | Librarian lb3 uploaded documents table
+| 4/24/2018 11:47:21 AM | Librarian lb3 created librarian lb
+| 4/24/2018 11:47:22 AM | Librarian lb3 updated info about user lb
+| 4/24/2018 11:47:22 AM | Librarian lb created 3 copies of Introduction to Algorithms
+| 4/24/2018 11:47:23 AM | Librarian lb created 3 copies of Algorithms + Data Structures = Programs
+| 4/24/2018 11:47:23 AM | Librarian lb created 3 copies of The Art of Computer Programming
+| 4/24/2018 11:47:25 AM | Librarian lb created patron p1
+| 4/24/2018 11:47:25 AM | Librarian lb created patron p2
+| 4/24/2018 11:47:26 AM | Librarian lb created patron p3
+| 4/24/2018 11:47:26 AM | Librarian lb created patron s
+| 4/24/2018 11:47:26 AM | Librarian lb created patron v
+| 4/24/2018 11:47:29 AM | Librarian lb updated info about user p1
+| 4/24/2018 11:47:30 AM | Librarian lb updated info about user p2
+| 4/24/2018 11:47:30 AM | Librarian lb updated info about user p3
+| 4/24/2018 11:47:31 AM | Librarian lb updated info about user v
+| 4/24/2018 11:47:33 AM | Librarian lb searched for docs with Algorithms to Algorithms keyword
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+| 4/24/2018 11:48:59 AM | Log
+----------------------------------------------------------------------------
+| 4/24/2018 11:49:01 AM | System connected to Azure DB
+| 4/24/2018 11:49:20 AM | Admin admin uploaded documents table
+| 4/24/2018 11:49:30 AM | Admin admin created librarian lb
+| 4/24/2018 11:49:31 AM | Admin admin updated info about user lb
+| 4/24/2018 11:49:32 AM | Librarian lb created 3 copies of Introduction to Algorithms
+| 4/24/2018 11:49:32 AM | Librarian lb created 3 copies of Algorithms + Data Structures = Programs
+| 4/24/2018 11:49:33 AM | Librarian lb created 3 copies of The Art of Computer Programming
+| 4/24/2018 11:49:34 AM | Librarian lb created patron p1
+| 4/24/2018 11:49:34 AM | Librarian lb created patron p2
+| 4/24/2018 11:49:34 AM | Librarian lb created patron p3
+| 4/24/2018 11:49:35 AM | Librarian lb created patron s
+| 4/24/2018 11:49:35 AM | Librarian lb created patron v
+| 4/24/2018 11:49:37 AM | Librarian lb updated info about user p1
+| 4/24/2018 11:49:38 AM | Librarian lb updated info about user p2
+| 4/24/2018 11:49:39 AM | Librarian lb updated info about user p3
+| 4/24/2018 11:49:39 AM | Librarian lb updated info about user v
+| 4/24/2018 11:49:41 AM | Librarian lb searched for docs with Algorithms keyword
+| 4/24/2018 11:49:41 AM | Librarian lb uploaded documents table
+| 4/24/2018 11:49:50 AM | Librarian lb created librarian lb
+| 4/24/2018 11:49:51 AM | Librarian lb updated info about user lb
+| 4/24/2018 11:49:51 AM | Librarian lb created 3 copies of Introduction to Algorithms
+| 4/24/2018 11:49:51 AM | Librarian lb created 3 copies of Algorithms + Data Structures = Programs
+| 4/24/2018 11:49:52 AM | Librarian lb created 3 copies of The Art of Computer Programming
+| 4/24/2018 11:49:54 AM | Librarian lb created patron p1
+| 4/24/2018 11:49:54 AM | Librarian lb created patron p2
+| 4/24/2018 11:49:55 AM | Librarian lb created patron p3
+| 4/24/2018 11:49:55 AM | Librarian lb created patron s
+| 4/24/2018 11:49:56 AM | Librarian lb created patron v
+| 4/24/2018 11:49:58 AM | Librarian lb updated info about user p1
+| 4/24/2018 11:49:59 AM | Librarian lb updated info about user p2
+| 4/24/2018 11:50:00 AM | Librarian lb updated info about user p3
+| 4/24/2018 11:50:01 AM | Librarian lb updated info about user v
+| 4/24/2018 11:50:03 AM | Librarian lb searched for docs with Algorithms keyword

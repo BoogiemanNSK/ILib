@@ -67,7 +67,7 @@ namespace I2P_Project.Pages
                         test.Test37();
                         test.Test38();
                         test.Test39();
-                        //test.Test40();
+                        test.Test40();
                         test.Test41();
                         test.Test42();
                         test.Test43();
@@ -143,7 +143,7 @@ namespace I2P_Project.Pages
                         test.Test37();
                         test.Test38();
                         test.Test39();
-                        //test.Test40();
+                        test.Test40();
                         test.Test41();
                         test.Test42();
                         test.Test43();
@@ -306,10 +306,10 @@ namespace I2P_Project.Pages
                     test.Test39();
                     UpdateTables();
                     break;
-                /*case "40":
+                case "40":
                     test.Test40();
                     UpdateTables();
-                    break;*/
+                    break;
                 case "41":
                     test.Test41();
                     UpdateTables();

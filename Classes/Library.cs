@@ -83,7 +83,7 @@ namespace I2P_Project.Classes
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
 			if (!isLibrarian)
-				log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " registered user " + newUser.Login);
+				log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created patron " + newUser.Login);
 			else
 				log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created librarian " + newUser.Login);
 			return true;
@@ -125,7 +125,7 @@ namespace I2P_Project.Classes
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + "copies of " + newDoc.Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + " copies of " + newDoc.Title);
         }
 
         /// <summary> Adds new journal to the system or increments quantity of existing </summary>
@@ -162,7 +162,7 @@ namespace I2P_Project.Classes
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + "copies of " + newDoc.Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + " copies of " + newDoc.Title);
         }
 
         /// <summary> Adds new AV to the system or increments quantity of existing </summary>
@@ -196,7 +196,7 @@ namespace I2P_Project.Classes
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + "copies of " + newDoc.Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + " copies of " + newDoc.Title);
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace I2P_Project.Classes
 
             db.Checkouts.InsertOnSubmit(chk);
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " set check out for " + GetDoc(docID).Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " checked out " + GetDoc(docID).Title);
         }
 
         #endregion
@@ -365,12 +365,14 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Sets an outstanding request for a doc </summary>
-        public void SetOutstandingRequest(int userID, int docID)
+        public void SetOutstandingRequest(int docID)
         {
             var doc = GetDoc(docID);
 
             NotifyNextUser(docID, SDM.Strings.MAIL_BOOK_REQUESTED_TITLE, SDM.Strings.MAIL_BOOK_REQUESTED_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             while (doc.Queue.Length > 0) {
+                log.Write(GetUser(Convert.ToInt32(doc.Queue.Split('|')[0])).Name + " was notifed that document " +
+                    GetDoc(docID).Title + " is not longer available and he's removed from the waiting list");
                 PopFromPQ(docID);
                 NotifyNextUser(docID, SDM.Strings.MAIL_BOOK_REQUESTED_TITLE, SDM.Strings.MAIL_BOOK_REQUESTED_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
             }
@@ -384,7 +386,7 @@ namespace I2P_Project.Classes
                 if (c.TimeToBack.CompareTo(DateTime.Now) > 0)
                     c.TimeToBack = DateTime.Now;
                 SendNotificationToUser(GetUser(c.UserID).Address, SDM.Strings.MAIL_RETURN_BOOK_TITLE, SDM.Strings.MAIL_RETURN_BOOK_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
-				log.Write(GetUser(c.UserID).Name + " ");
+				log.Write(GetUser(c.UserID).Name + " was notifed to return the respective books");
 			}
 
             doc.Queue = "";

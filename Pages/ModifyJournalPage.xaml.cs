@@ -25,6 +25,7 @@ namespace I2P_Project.Pages
             IssueEditorTB.AppendText(doc.IssueEditor);
             PriceTB.AppendText(doc.Price.ToString());
             CopiesTB.AppendText(doc.Quantity.ToString());
+            TagsTB.AppendText(doc.Tags);
 
             prevPage = page;
         }
@@ -44,7 +45,8 @@ namespace I2P_Project.Pages
                     IssueTitleTB.Text,
                     IssueEditorTB.Text,
                     price,
-                    quantity
+                    quantity,
+                    TagsTB.Text
                     );
             } catch {
                 MessageBox.Show("The row is empty", "Error");

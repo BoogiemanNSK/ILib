@@ -30,7 +30,7 @@ namespace I2P_Project.Tests
 
             admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
             
-            lb.AddAV("b", "b", 0, 2);
+            lb.AddAV("b", "b", 0, 2, "");
             DocClass b = new DocClass("b");
             
             st.CheckOut(b.ID);
@@ -73,7 +73,7 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
 			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-			lb.AddBook("b", "b", "B", 0, "B", "B", 0, false, 1);
+			lb.AddBook("b", "b", "B", 0, "B", "B", 0, false, 1, "");
             DocClass b = new DocClass("b");
 			
 			ft.CheckOut(b.ID);
@@ -100,7 +100,7 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
 			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-			lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1);
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1, "");
             DocClass b = new DocClass("b");
             
             st.CheckOut(b.ID);
@@ -129,7 +129,7 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
 			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-			lb.AddAV("a", "a", 0, 2);
+			lb.AddAV("a", "a", 0, 2, "");
             DocClass a = new DocClass("a");
             
             st.CheckOut(a.ID);
@@ -157,7 +157,7 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
 			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-			lb.AddAV("b", "B", 0, 2);
+			lb.AddAV("b", "B", 0, 2, "");
             DocClass b = new DocClass("b");
             
             st.CheckOut(b.ID);
@@ -182,7 +182,7 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
 			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-			lb.AddAV("b1", "B", 0, 2);
+			lb.AddAV("b1", "B", 0, 2, "");
             DocClass b1 = new DocClass("b1");
             
             p1.CheckOut(b1.ID);
@@ -209,7 +209,7 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
 			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-			lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1);
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1, "");
             DocClass b = new DocClass("b");
             
             s.CheckOut(b.ID);
@@ -236,7 +236,7 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
 			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-			lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1);
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, true, 1, "");
             DocClass b = new DocClass("b");
             
             s.CheckOut(b.ID);
@@ -261,8 +261,8 @@ namespace I2P_Project.Tests
             Librarian lb = new Librarian("lb");
 			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 
-			lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1);
-            lb.AddBook("a", "A", "A", 0, "A", "A", 0, false, 0);
+			lb.AddBook("b", "B", "B", 0, "B", "B", 0, false, 1, "");
+            lb.AddBook("a", "A", "A", 0, "A", "A", 0, false, 0, "");
             DocClass b = new DocClass("b");
             DocClass a = new DocClass("a");
             
@@ -296,7 +296,8 @@ namespace I2P_Project.Tests
                     "Alghorithm techniques and design",
                     1800,
                     false,
-                    3
+                    3,
+                    ""
                 );
             lb.AddBook
                 (
@@ -308,7 +309,8 @@ namespace I2P_Project.Tests
                     "Programm patterns, how to programm well w/o headache",
                     2000,
                     true,
-                    2
+                    2,
+                    ""
                 );
             lb.AddBook
                 (
@@ -320,10 +322,11 @@ namespace I2P_Project.Tests
                     "How to do everything and live better",
                     800,
                     false,
-                    1
+                    1,
+                    ""
                 );
-            lb.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 400, 1);
-            lb.AddAV("Information Entropy", "Claude Shannon", 700, 1);
+            lb.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 400, 1, "");
+            lb.AddAV("Information Entropy", "Claude Shannon", 700, 1, "");
             DocClass b1 = new DocClass("Introduction to Algorithms");
             DocClass b2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
             DocClass b3 = new DocClass("The Mythical Man-month");
@@ -367,8 +370,8 @@ namespace I2P_Project.Tests
 			DocClass b1 = new DocClass("Introduction to Algorithms");
             DocClass b3 = new DocClass("The Mythical Man-month");
             
-            lb.ModifyAV(b1.ID, b1.Title, b1.Autors, b1.Price, b1.Quantity - 2);
-            lb.ModifyAV(b3.ID, b3.Title, b3.Autors, b3.Price, b3.Quantity - 1);
+            lb.ModifyAV(b1.ID, b1.Title, b1.Autors, b1.Price, b1.Quantity - 2, "");
+            lb.ModifyAV(b3.ID, b3.Title, b3.Autors, b3.Price, b3.Quantity - 1, "");
             lb.DeleteUser(p2.PersonID);
 
             Debug.Assert(SDM.LMS.GetUser(p2.PersonID) == null);
@@ -547,7 +550,8 @@ namespace I2P_Project.Tests
                     "Alghorithm techniques and design",
                     5000,
                     false,
-                    3
+                    3,
+                    ""
                 );
             lb.AddBook
                 (
@@ -559,9 +563,10 @@ namespace I2P_Project.Tests
                     "Programm patterns, how to programm well w/o headache",
                     1700,
                     true,
-                    3
+                    3,
+                    ""
                 );
-            lb.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 700, 2);
+            lb.AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 700, 2, "");
             DocClass d1 = new DocClass("Introduction to Algorithms");
             DocClass d2 = new DocClass("Design Patterns: Elements of Reusable Object-Oriented Software");
             DocClass d3 = new DocClass("Null References: The Billion Dollar Mistake");
@@ -850,8 +855,9 @@ namespace I2P_Project.Tests
 					"Alghorithm techniques and design",
 					5000,
 					false,
-					3
-				);
+					3,
+                    "Algorithms, Data Structures, Complexity, Computational Theory"
+                );
 			lb.AddBook
 				(
 					"Algorithms + Data Structures = Programs",
@@ -862,8 +868,9 @@ namespace I2P_Project.Tests
 					"",
 					5000,
 					false,
-					3
-				);
+					3,
+                    "Algorithms, Data Structures, Search Algorithms, Pascal"
+                );
 			lb.AddBook
 				(
 					"The Art of Computer Programming",
@@ -874,8 +881,9 @@ namespace I2P_Project.Tests
 					"",
 					5000,
 					false,
-					3
-				);
+					3,
+                    "Algorithms, Combinatorial Algorithms, Recursion"
+                );
 			DocClass d1 = new DocClass("Introduction to Algorithms");
 			DocClass d2 = new DocClass("Algorithms + Data Structures = Programs");
 			DocClass d3 = new DocClass("The Art of Computer Programming");
@@ -953,9 +961,9 @@ namespace I2P_Project.Tests
 
             SDM.CurrentUser = lb1;
 
-            lb1.AddBook("d1", "d1", "d1", 2018, "d1", "d1", 2000, false, 3);
-            lb1.AddBook("d2", "d2", "d2", 2018, "d2", "d2", 2000, false, 3);
-            lb1.AddBook("d3", "d3", "d3", 2018, "d3", "d3", 2000, false, 3);
+            lb1.AddBook("d1", "d1", "d1", 2018, "d1", "d1", 2000, false, 3, "");
+            lb1.AddBook("d2", "d2", "d2", 2018, "d2", "d2", 2000, false, 3, "");
+            lb1.AddBook("d3", "d3", "d3", 2018, "d3", "d3", 2000, false, 3, "");
 
             DocClass d1 = new DocClass("d1");
             DocClass d2 = new DocClass("d2");
@@ -976,9 +984,9 @@ namespace I2P_Project.Tests
 
             SDM.CurrentUser = lb2;
 
-            lb2.AddBook("d1", "d1", "d1", 2018, "d1", "d1", 2000, false, 3);
-            lb2.AddBook("d2", "d2", "d2", 2018, "d2", "d2", 2000, false, 3);
-            lb2.AddBook("d3", "d3", "d3", 2018, "d3", "d3", 2000, false, 3);
+            lb2.AddBook("d1", "d1", "d1", 2018, "d1", "d1", 2000, false, 3, "");
+            lb2.AddBook("d2", "d2", "d2", 2018, "d2", "d2", 2000, false, 3, "");
+            lb2.AddBook("d3", "d3", "d3", 2018, "d3", "d3", 2000, false, 3, "");
 
             DocClass d1 = new DocClass("d1");
             DocClass d2 = new DocClass("d2");
@@ -1022,7 +1030,7 @@ namespace I2P_Project.Tests
             Student p3 = new Student("p3");
             Student s = new Student("s");
             Student v = new Student("v");
-            lb3.ModifyAV(d1.ID, d1.Title, d1.Autors, d1.Price, d1.Quantity - 1);
+            lb3.ModifyAV(d1.ID, d1.Title, d1.Autors, d1.Price, d1.Quantity - 1, d1.Tags);
 
             Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
             Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);

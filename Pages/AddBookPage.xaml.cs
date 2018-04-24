@@ -33,7 +33,8 @@ namespace I2P_Project.Pages
                     DescriptionTB.Text,
                     price,
                     isBestseller,
-                    quantity
+                    quantity,
+                    TagsTB.Text
                 );
 
             _previousPage.UpdateTable();

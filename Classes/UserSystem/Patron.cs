@@ -29,7 +29,7 @@ namespace I2P_Project.Classes.UserSystem
                 return SDM.Strings.USER_HAVE_FINE;
 
             SDM.LMS.RemoveCheckout(docID, PersonID);
-            SDM.LMS.ModifyAV(docID, doc.Title, doc.Autors, doc.Price, doc.Quantity + 1);
+            SDM.LMS.ModifyAV(docID, doc.Title, doc.Autors, doc.Price, doc.Quantity + 1, doc.Tags);
             SDM.LMS.NotifyNextUser(docID, SDM.Strings.MAIL_BOOK_AVAILIBLE_TITLE, SDM.Strings.MAIL_BOOK_AVAILIBLE_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
 
             return SDM.Strings.SUCCESSFUL_RETURN + " " + doc.Title + "!";

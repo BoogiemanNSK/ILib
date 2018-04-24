@@ -90,14 +90,13 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Adds new book to the system or increments quantity of existing </summary>
-        public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
+        public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity, string tags)
         {
             bool notExist = (GetDocByTitle(title) == null);
             Document newDoc;
             if (notExist)
             {
-                newDoc = new Document
-                {
+                newDoc = new Document {
                     Title = title,
                     Autors = autors,
                     Publisher = publisher,
@@ -105,11 +104,12 @@ namespace I2P_Project.Classes
                     Edition = edition,
                     Description = description,
                     Price = price,
-                    DocType = (int) DocType.Book,
+                    DocType = (int)DocType.Book,
                     IsBestseller = isBestseller,
                     IsRequested = false,
                     Quantity = quantity,
-                    Queue = ""
+                    Queue = "",
+                    Tags = tags
                 };
                 db.Documents.InsertOnSubmit(newDoc);
             }
@@ -129,7 +129,7 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Adds new journal to the system or increments quantity of existing </summary>
-        public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
+        public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity, string tags)
         {
             bool notExist = (GetDocByTitle(title) == null);
             Document newDoc;
@@ -146,7 +146,8 @@ namespace I2P_Project.Classes
                     DocType = (int) DocType.Journal,
                     IsRequested = false,
                     Quantity = quantity,
-                    Queue = ""
+                    Queue = "",
+                    Tags = tags
                 };
                 db.Documents.InsertOnSubmit(newDoc);
             }
@@ -166,7 +167,7 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Adds new AV to the system or increments quantity of existing </summary>
-        public void AddAV(string title, string autors, int price, int quantity)
+        public void AddAV(string title, string autors, int price, int quantity, string tags)
         {
             bool notExist = (GetDocByTitle(title) == null);
             Document newDoc;
@@ -180,7 +181,8 @@ namespace I2P_Project.Classes
                     DocType = (int) DocType.AV,
                     IsRequested = false,
                     Quantity = quantity,
-                    Queue = ""
+                    Queue = "",
+                    Tags = tags
                 };
                 db.Documents.InsertOnSubmit(newDoc);
             }
@@ -287,7 +289,7 @@ namespace I2P_Project.Classes
         }
         
         /// <summary> Updates book info </summary>
-        public void ModifyBook(int docID, string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
+        public void ModifyBook(int docID, string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity, string tags)
         {
             Document book = GetDoc(docID);
             book.Title = title;
@@ -299,13 +301,14 @@ namespace I2P_Project.Classes
             book.Price = price;
             book.IsBestseller = isBestseller;
             book.Quantity = quantity;
+            book.Tags = tags;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, book);
             db.SubmitChanges();
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about book " + title);
         }
         
         /// <summary> Updates journal info </summary>
-        public void ModifyJournal(int docID, string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
+        public void ModifyJournal(int docID, string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity, string tags)
         {
             Document journal = GetDoc(docID);
             journal.Title = title;
@@ -315,19 +318,21 @@ namespace I2P_Project.Classes
             journal.IssueEditor = issueEditor;
             journal.Price = price;
             journal.Quantity = quantity;
+            journal.Tags = tags;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, journal);
             db.SubmitChanges();
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about journal " + title);
         }
         
         /// <summary> Updates AV info </summary>
-        public void ModifyAV(int docID, string title, string autors, int price, int quantity)
+        public void ModifyAV(int docID, string title, string autors, int price, int quantity, string tags)
         {
             Document AV = GetDoc(docID);
             AV.Title = title;
             AV.Autors = autors;
             AV.Price = price;
             AV.Quantity = quantity;
+            AV.Tags = tags;
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, AV);
             db.SubmitChanges();
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about AV " + title);
@@ -1029,7 +1034,8 @@ namespace I2P_Project.Classes
                     "Alghorithm techniques and design",
                     1800,
                     false,
-                    1
+                    1,
+                    ""
                 );
             AddBook
                 (
@@ -1041,7 +1047,8 @@ namespace I2P_Project.Classes
                     "Programm patterns, how to programm well w/o headache",
                     2000,
                     true,
-                    1
+                    1,
+                    ""
                 );
 
             // Adding reference book
@@ -1055,12 +1062,13 @@ namespace I2P_Project.Classes
                     "How to do everything and live better",
                     800,
                     false,
-                    0
+                    0,
+                    ""
                 );
 
             // Adding two AV's
-            AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 400, 0);
-            AddAV("Information Entropy", "Claude Shannon", 700, 0);
+            AddAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 400, 0, "");
+            AddAV("Information Entropy", "Claude Shannon", 700, 0, "");
 
             // Registering 3 users
             RegisterUser("p1", "p1", "Sergey Afonso", "Via Margutta, 3", "30001", false);

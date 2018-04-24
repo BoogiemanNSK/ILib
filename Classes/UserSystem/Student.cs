@@ -26,7 +26,7 @@
             }
             else if (result != "") return result;
             
-            SDM.LMS.ModifyAV(DocID, doc.Title, doc.Autors, doc.Price, doc.Quantity - 1);
+            SDM.LMS.ModifyAV(DocID, doc.Title, doc.Autors, doc.Price, doc.Quantity - 1, doc.Tags);
 
             if (doc.IsBestseller || doc.DocType != 0)
                 SDM.LMS.SetCheckOut(PersonID, doc.Id, 2, DateCheat);

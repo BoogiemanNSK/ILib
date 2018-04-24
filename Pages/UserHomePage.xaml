@@ -26,9 +26,9 @@
         <Label Grid.Row="1" Grid.Column="1" FontSize="16" Content="Library" HorizontalAlignment="Center"/>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <toolkit:AutoCompleteBox HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Height="30" VerticalContentAlignment="Center"
-                                     FilterMode="Contains" x:Name="txt_searchBook" FontSize="16" Margin="5" Populating="txt_searchBook_Populating"
+                                     FilterMode="Contains" x:Name="txt_searchBook" FontSize="16" Margin="5"
                                      DropDownClosed="txt_searchBook_DropDownClosed"/>
-            <ComboBox x:Name="cb_SearchType" Height="30" Width="130" SelectedIndex="0" FontSize="16">
+            <ComboBox x:Name="cb_SearchType" Height="30" Width="130" SelectedIndex="0" FontSize="16" DropDownClosed="cb_SearchType_DropDownClosed">
                 <ComboBoxItem Content="by name" />
                 <ComboBoxItem Content="by keyword"/>
             </ComboBox>

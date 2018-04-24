@@ -621,12 +621,15 @@ namespace I2P_Project.Classes
                                  {
                                      b.Title,
                                      b.Autors,
-                                     b.Publisher
+                                     b.Publisher,
+                                     b.Tags
                                  };
 
             foreach (var element in loadUserDocs)
             {
-                string tempRow = element.Title.ToString() + "\n" + Convert.ToString(element.Autors) + ", " + Convert.ToString(element.Publisher);
+                string temp = element.Tags.Replace('|',' ');  // keyword separator
+                string tempRow = element.Title.ToString() + "\n" + Convert.ToString(element.Autors) + ", " + Convert.ToString(element.Publisher) + "\n" +
+                    Convert.ToString(temp);
                 tempList.Add(tempRow);
             }
             return tempList;

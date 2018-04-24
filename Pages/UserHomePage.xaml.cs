@@ -17,6 +17,7 @@ namespace I2P_Project.Pages
             InitializeComponent();
             UpdateUI();
             searched_books = LoadACB();
+            txt_searchBook.ItemsSource = searched_books;
         }
 
         /// <summary> Updates table of all docs </summary>
@@ -59,12 +60,6 @@ namespace I2P_Project.Pages
             }
         }
 
-        /// <summary> Search doc method doc </summary>
-        private void txt_searchBook_Populating(object sender, PopulatingEventArgs e)
-        {
-            txt_searchBook.ItemsSource = searched_books;
-        }
-
         /// <summary> First load documents for auto complete box </summary>
         private List<String> LoadACB()
         {
@@ -83,13 +78,34 @@ namespace I2P_Project.Pages
         /// <summary> Search book by keyword in AutoCompleteBox </summary>
         private void btn_SearchBook_Click(object sender, RoutedEventArgs e)
         {
-            if(txt_searchBook.Text == "")
+            switch(cb_SearchType.SelectedIndex)  // select search type
             {
-                UpdateUI();
+                case 0: // standard search
+                    if(txt_searchBook.Text == "")
+                    {
+                        UpdateUI();
+                    }
+                    else
+                    {
+                        UpdateTableAfterSearch();
+                    }
+                    break;
+                case 1: // search by keyword
+                    break;
             }
-            else
+        }
+
+        /// <summary> Select one of all drop down options </summary>
+        private void cb_SearchType_DropDownClosed(object sender, EventArgs e)
+        {
+            switch (cb_SearchType.SelectedIndex)
             {
-                UpdateTableAfterSearch();
+                case 0:
+                    txt_searchBook.ItemsSource = searched_books; // enable DropDown
+                    break;
+                case 1:
+                    txt_searchBook.ItemsSource = null;  // disable DropDown
+                    break;
             }
         }
     }

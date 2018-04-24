@@ -82,8 +82,11 @@ namespace I2P_Project.Classes
             };
             db.Users.InsertOnSubmit(newUser);
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " registered user " + newUser.Login);
-            return true;
+			if (!isLibrarian)
+				log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " registered user " + newUser.Login);
+			else
+				log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created librarian " + newUser.Login);
+			return true;
         }
 
         /// <summary> Adds new book to the system or increments quantity of existing </summary>
@@ -122,7 +125,7 @@ namespace I2P_Project.Classes
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " added book " + newDoc.Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + "copies of " + newDoc.Title);
         }
 
         /// <summary> Adds new journal to the system or increments quantity of existing </summary>
@@ -159,7 +162,7 @@ namespace I2P_Project.Classes
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " added journal " + newDoc.Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + "copies of " + newDoc.Title);
         }
 
         /// <summary> Adds new AV to the system or increments quantity of existing </summary>
@@ -193,7 +196,7 @@ namespace I2P_Project.Classes
                 newDoc.Quantity += quantity;
             }
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " added AV " + newDoc.Title);
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " created " + quantity + "copies of " + newDoc.Title);
         }
 
         /// <summary>
@@ -381,18 +384,20 @@ namespace I2P_Project.Classes
                 if (c.TimeToBack.CompareTo(DateTime.Now) > 0)
                     c.TimeToBack = DateTime.Now;
                 SendNotificationToUser(GetUser(c.UserID).Address, SDM.Strings.MAIL_RETURN_BOOK_TITLE, SDM.Strings.MAIL_RETURN_BOOK_TEXT(doc.Title, SDM.Strings.DOC_TYPES[doc.DocType]));
-            }
+				log.Write(GetUser(c.UserID).Name + " ");
+			}
 
             doc.Queue = "";
             doc.IsRequested = true;
 
             db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, doc);
             db.SubmitChanges();
-            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " set outstanding request for " + doc.Title);
-        }
+			log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " placed an outstanding request on document " + doc.Title);
+			log.Write("Waiting list for document " + doc.Title + " was deleted" );
+		}
 
-        /// <summary> Updates deadline (fine payed) </summary>
-        public void UpdateDeadline(int userID, int docID, DateTime newDeadline)
+		/// <summary> Updates deadline (fine payed) </summary>
+		public void UpdateDeadline(int userID, int docID, DateTime newDeadline)
         {
             GetCheckout(userID, docID).TimeToBack = newDeadline;
             db.SubmitChanges();

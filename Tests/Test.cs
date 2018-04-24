@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using System.IO;
 
 namespace I2P_Project.Tests
 {
@@ -912,8 +913,7 @@ namespace I2P_Project.Tests
 
         public void Test36()
 		{
-			Initial_del_4();
-			// Test34();
+			//Test34();
 			Faculty p1 = new Faculty("p1");
 			Faculty p2 = new Faculty("p2");
 			Student s = new Student("s");
@@ -922,10 +922,105 @@ namespace I2P_Project.Tests
 			Librarian lb = new Librarian("lb");
 			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
 			DocClass d1 = new DocClass("Introduction to Algorithms");
+			DocClass d2 = new DocClass("Algorithms + Data Structures = Programs");
+			DocClass d3 = new DocClass("The Art of Computer Programming");
 
+			p1.CheckOut(d1.ID);
+			p2.CheckOut(d2.ID);
+			s.CheckOut(d3.ID);
+			v.CheckOut(d3.ID);
+			p3.CheckOut(d3.ID);
+			lb.OutstandingRequest(d3.ID);
 		}
 
-        public void Test41()
+		public void Test37()
+		{
+			//Test34();
+			Faculty p1 = new Faculty("p1");
+			Faculty p2 = new Faculty("p2");
+			Student s = new Student("s");
+			VisitingProfessor v = new VisitingProfessor("v");
+			Faculty p3 = new Faculty("p3");
+			Librarian lb = new Librarian("lb");
+			admin.ModifyLibrarian(lb.PersonID, "lb", "lb", "lb", 2);
+			DocClass d1 = new DocClass("Introduction to Algorithms");
+			DocClass d2 = new DocClass("Algorithms + Data Structures = Programs");
+			DocClass d3 = new DocClass("The Art of Computer Programming");
+
+			p1.CheckOut(d1.ID);
+			p2.CheckOut(d2.ID);
+			s.CheckOut(d3.ID);
+			v.CheckOut(d3.ID);
+			p3.CheckOut(d3.ID);
+			lb.OutstandingRequest(d3.ID);
+
+			Debug.Assert(!SDM.LMS.ExistQueueForDoc(d3.ID));
+		}
+
+		public void Test38()
+		{
+			Test36();
+			string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+			string path = (System.IO.Path.GetDirectoryName(executable));
+			string file = path + "\\Log.txt";
+			string text = File.ReadAllText(file);
+
+			Debug.Assert(text.Contains("admin1 created librarian l1"));
+			Debug.Assert(text.Contains("admin1 created librarian l2"));
+			Debug.Assert(text.Contains("admin1 created librarian l3"));
+			Debug.Assert(text.Contains("l2 created 3 copies d1"));
+			Debug.Assert(text.Contains("l2 created 3 copies d2"));
+			Debug.Assert(text.Contains("l2 created 3 copies d3"));
+			Debug.Assert(text.Contains("l2 created patron s"));
+			Debug.Assert(text.Contains("l2 created patron p1"));
+			Debug.Assert(text.Contains("l2 created patron p2"));
+			Debug.Assert(text.Contains("l2 created patron p3"));
+			Debug.Assert(text.Contains("l2 created patron v"));
+			Debug.Assert(text.Contains("l2 created patron s"));
+			Debug.Assert(text.Contains("p1 checked out d3"));
+			Debug.Assert(text.Contains("p2 checked out d3"));
+			Debug.Assert(text.Contains("s checked out d3"));
+			Debug.Assert(text.Contains("v checked out d3"));
+			Debug.Assert(text.Contains("p3 checked out d3"));
+			Debug.Assert(text.Contains("l1 placed an outstanding request on document d3"));
+
+		}
+      
+		public void Test39()
+		{
+			Test37();
+			string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+			string path = (System.IO.Path.GetDirectoryName(executable));
+			string file = path + "\\Log.txt";
+			string text = File.ReadAllText(file);
+
+			Debug.Assert(text.Contains("admin1 created librarian l1"));
+			Debug.Assert(text.Contains("admin1 created librarian l2"));
+			Debug.Assert(text.Contains("admin1 created librarian l3"));
+			Debug.Assert(text.Contains("l2 created 3 copies d1"));
+			Debug.Assert(text.Contains("l2 created 3 copies d2"));
+			Debug.Assert(text.Contains("l2 created 3 copies d3"));
+			Debug.Assert(text.Contains("l2 created patron s"));
+			Debug.Assert(text.Contains("l2 created patron p1"));
+			Debug.Assert(text.Contains("l2 created patron p2"));
+			Debug.Assert(text.Contains("l2 created patron p3"));
+			Debug.Assert(text.Contains("l2 created patron v"));
+			Debug.Assert(text.Contains("l2 created patron s"));
+			Debug.Assert(text.Contains("p1 checked out d3"));
+			Debug.Assert(text.Contains("p2 checked out d3"));
+			Debug.Assert(text.Contains("s checked out d3"));
+			Debug.Assert(text.Contains("v checked out d3"));
+			Debug.Assert(text.Contains("p3 checked out d3"));
+			Debug.Assert(text.Contains("l3 placed an outstanding request on document d3"));
+			Debug.Assert(text.Contains("Waiting list for document d3 was deleted."));
+			Debug.Assert(text.Contains("p1 was notifed to return the respective books"));
+			Debug.Assert(text.Contains("p2 was notifed to return the respective books"));
+			Debug.Assert(text.Contains("s was notifed that document d3 is not longer available and he's removed from the waiting list"));
+			Debug.Assert(text.Contains("v was notifed that document d3 is not longer available and he's removed from the waiting list"));
+			Debug.Assert(text.Contains("p3 was notifed that document d3 is not longer available and he's removed from the waiting list"));
+		}
+  
+    public void Test41()
         {
             Initial_del_4();
 
@@ -964,5 +1059,5 @@ namespace I2P_Project.Tests
 
             Debug.Assert(test.Count == 3);
         }
-    }
+	}
 }

@@ -61,7 +61,7 @@ namespace I2P_Project.Pages
 
         /// <summary> Search doc method doc </summary>
         private void txt_searchBook_Populating(object sender, PopulatingEventArgs e)
-        { 
+        {
             txt_searchBook.ItemsSource = searched_books;
         }
 

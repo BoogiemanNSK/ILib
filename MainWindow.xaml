@@ -55,10 +55,10 @@
                 HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="32"
                 Click="btn_Menu_Click" Margin="0,-13.2,0,0" Style="{DynamicResource ButtonStyle}"/>
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Height="29.863" Margin="0,0,0,0.137">
-            <Button x:Name="btn_Log" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Width="30" Content="&#xE1D3;" Click="btnLog_Click"
-                    Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="21.333" Style="{DynamicResource ButtonStyle}"/>
+            <Button x:Name="btn_Log" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Width="30" Content="&#xE1A1;" Click="btnLog_Click"
+                    Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="15" Style="{DynamicResource ButtonStyle}"/>
             <Button x:Name="btn_Close" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" Width="30" Content="&#xE07D;" Click="btnClose_Click"
-                    Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="21.333" Style="{DynamicResource ButtonStyle}"/>
+                    Background="#FF078CD3" BorderBrush="{x:Null}" Foreground="White" FontSize="21.333" Style="{DynamicResource ButtonStyle}" Margin="0,-2,0,0.4"/>
         </StackPanel>
         <Frame x:Name="page_Viewer" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden" Grid.ColumnSpan="2"/>
 

@@ -120,8 +120,16 @@ namespace I2P_Project.Pages
                     break;
                 case "Delivery 4":
                     try {
-                        // Yura's tests
-                        // Anton's tests
+                        test.Test31();
+                        test.Test32();
+                        test.Test33();
+                        test.Test34();
+                        test.Test35();
+                        test.Test36();
+                        /*  test.Test37();
+                        test.Test38();
+                        test.Test39();
+                        test.Test40(); */
                         test.Test41();
                         test.Test42();
                         test.Test43();
@@ -248,6 +256,46 @@ namespace I2P_Project.Pages
                     test.Test30();
                     UpdateTables();
                     break;
+                case "31":
+                    test.Test31();
+                    UpdateTables();
+                    break;
+                case "32":
+                    test.Test32();
+                    UpdateTables();
+                    break;
+                case "33":
+                    test.Test33();
+                    UpdateTables();
+                    break;
+                case "34":
+                    test.Test34();
+                    UpdateTables();
+                    break;
+                case "35":
+                    test.Test35();
+                    UpdateTables();
+                    break;
+                case "36":
+                    test.Test36();
+                    UpdateTables();
+                    break;
+           /*     case "37":
+                    test.Test37();
+                    UpdateTables();
+                    break;
+                case "38":
+                    test.Test38();
+                    UpdateTables();
+                    break;
+                case "39":
+                    test.Test39();
+                    UpdateTables();
+                    break;
+                case "40":
+                    test.Test40();
+                    UpdateTables();
+                    break; */
                 case "41":
                     test.Test41();
                     UpdateTables();

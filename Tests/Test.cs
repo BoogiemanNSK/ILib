@@ -901,7 +901,7 @@ namespace I2P_Project.Tests
 
 			Debug.Assert(d1.Quantity == 3);
 			Debug.Assert(d2.Quantity == 3);
-			Debug.Assert(d3.Quantity == 2);
+			Debug.Assert(d3.Quantity == 3);
 
 			Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
 			Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
@@ -911,6 +911,127 @@ namespace I2P_Project.Tests
 
 		}
 
+        public void Test31()
+        {
+            SDM.LMS.ClearDB();
+            SDM.LMS.GenerateAdmin();
+
+            Debug.Assert(SDM.LMS.CheckAdmin());
+        }
+
+        public void Test32()
+        {
+            SDM.LMS.ClearDB();
+            SDM.LMS.GenerateAdmin();
+
+            SDM.LMS.RegisterUser("lb1", "lb1", "lb1", "lb1", "lb1", true);
+            Librarian lb1 = new Librarian("lb1");
+            admin.ModifyLibrarian(lb1.PersonID, "lb1", "lb1", "lb1", 0);
+
+            SDM.LMS.RegisterUser("lb2", "lb2", "lb2", "lb2", "lb2", true);
+            Librarian lb2 = new Librarian("lb2");
+            admin.ModifyLibrarian(lb2.PersonID, "lb2", "lb2", "lb2", 1);
+
+            SDM.LMS.RegisterUser("lb3", "lb3", "lb3", "lb3", "lb3", true);
+            Librarian lb3 = new Librarian("lb3");
+            admin.ModifyLibrarian(lb3.PersonID, "lb3", "lb3", "lb3", 2);
+
+            Debug.Assert(SDM.LMS.GetUser(lb1.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(lb2.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(lb3.PersonID) != null);
+
+        }
+
+        public void Test33()
+        {
+            Test32();
+
+            Librarian lb1 = new Librarian("lb1");
+            Librarian lb2 = new Librarian("lb2");
+            Librarian lb3 = new Librarian("lb3");
+
+            lb1.AddBook("d1", "d1", "d1", 2018, "d1", "d1", 2000, false, 3);
+            lb1.AddBook("d2", "d2", "d2", 2018, "d2", "d2", 2000, false, 3);
+            lb1.AddBook("d3", "d3", "d3", 2018, "d3", "d3", 2000, false, 3);
+
+            DocClass d1 = new DocClass("d1");
+            DocClass d2 = new DocClass("d2");
+            DocClass d3 = new DocClass("d3");
+
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID) == null);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID) == null);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID) == null);
+        }
+      
+        public void Test34()
+        {
+            Test32();
+
+            Librarian lb1 = new Librarian("lb1");
+            Librarian lb2 = new Librarian("lb2");
+            Librarian lb3 = new Librarian("lb3");
+
+            lb2.AddBook("d1", "d1", "d1", 2018, "d1", "d1", 2000, false, 3);
+            lb2.AddBook("d2", "d2", "d2", 2018, "d2", "d2", 2000, false, 3);
+            lb2.AddBook("d3", "d3", "d3", 2018, "d3", "d3", 2000, false, 3);
+
+            DocClass d1 = new DocClass("d1");
+            DocClass d2 = new DocClass("d2");
+            DocClass d3 = new DocClass("d3");
+
+            lb2.RegisterUser("p1", "p1", "p1", "Via Margutta, 3", "30001", false);
+            lb2.RegisterUser("p2", "p2", "p2", "Via Sacra, 13", "30002", false);
+            lb2.RegisterUser("p3", "p3", "p3", "Via del Corso, 22", "30003", false);
+            lb2.RegisterUser("s", "s", "s", "s", "s", false);
+            lb2.RegisterUser("v", "v", "v", "v", "v", false);
+
+            Student p1 = new Student("p1");
+            Student p2 = new Student("p2");
+            Student p3 = new Student("p3");
+            Student s = new Student("s");
+            Student v = new Student("v");
+
+            Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p3.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(s.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(v.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID).Quantity == 3);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID).Quantity == 3);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID).Quantity == 3);
+
+        }
+
+        public void Test35()
+        {
+            Test34();
+            Librarian lb3 = new Librarian("lb3");
+            DocClass d1 = new DocClass("d1");
+            DocClass d2 = new DocClass("d2");
+            DocClass d3 = new DocClass("d3");
+            Student p1 = new Student("p1");
+            Student p2 = new Student("p2");
+            Student p3 = new Student("p3");
+            Student s = new Student("s");
+            Student v = new Student("v");
+            lb3.ModifyAV(d1.ID, d1.Title, d1.Autors, d1.Price, d1.Quantity - 1);
+
+            Debug.Assert(SDM.LMS.GetUser(p1.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(p3.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(s.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetUser(v.PersonID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID) != null);
+            Debug.Assert(SDM.LMS.GetDoc(d1.ID).Quantity == 2);
+            Debug.Assert(SDM.LMS.GetDoc(d2.ID).Quantity == 3);
+            Debug.Assert(SDM.LMS.GetDoc(d3.ID).Quantity == 3);
+        }
+      
         public void Test36()
 		{
 			//Test34();

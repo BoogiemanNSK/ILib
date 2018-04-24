@@ -1107,8 +1107,10 @@ namespace I2P_Project.Classes
         }
 
         /// <summary> Generates admin in the system, if DB was cleared </summary>
-        private void GenerateAdmin()
+        public void GenerateAdmin()
         {
+            if (GetUserByLogin("admin") != null)
+                return;
             Users admin = new Users {
                 Login = "admin",
                 Password = "admin",
@@ -1189,7 +1191,13 @@ namespace I2P_Project.Classes
             var test = from u in db.Users where u.Name == Name && !u.IsDeleted select u;
             return test.Single();
         }
-		/// <summary> Return how many days the user has overdued /// </summary>
+
+        public bool CheckAdmin()
+        {
+            var test = from u in db.Users where u.UserType == (int)UserType.Admin select u;
+            return test.Count() == 1;
+        }
+        /// <summary> Return how many days the user has overdued /// </summary>
         public int OverdueTime(int userID, int docID, DateTime Now)
         {
             Checkouts testCheck = GetCheckout(userID, docID);

@@ -119,22 +119,23 @@ namespace I2P_Project.Pages
                     UpdateTables();
                     break;
                 case "Delivery 4":
-                    try
-                    {
+                    try {
                         test.Test31();
                         test.Test32();
                         test.Test33();
                         test.Test34();
                         test.Test35();
                         test.Test36();
-                      /*  test.Test37();
+                        /*  test.Test37();
                         test.Test38();
                         test.Test39();
                         test.Test40(); */
+                        test.Test41();
+                        test.Test42();
+                        test.Test43();
+                        test.Test44();
                         TestOutput.Text += "Tests are passed";
-                    }
-                    catch
-                    {
+                    } catch {
                         TestOutput.Text += "Tests are not passed";
                     }
                     UpdateTables();
@@ -295,6 +296,22 @@ namespace I2P_Project.Pages
                     test.Test40();
                     UpdateTables();
                     break; */
+                case "41":
+                    test.Test41();
+                    UpdateTables();
+                    break;
+                case "42":
+                    test.Test42();
+                    UpdateTables();
+                    break;
+                case "43":
+                    test.Test43();
+                    UpdateTables();
+                    break;
+                case "44":
+                    test.Test44();
+                    UpdateTables();
+                    break;
                 default:
                     TestOutput.Text += "No such test found";
                     break;

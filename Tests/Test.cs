@@ -39,7 +39,7 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 1);
-            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID, 7, "").Count == 1);
         }
 
         public void Test2()
@@ -58,7 +58,7 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetUser(lb.PersonID) != null);
             Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
             Debug.Assert(SDM.LMS.GetDoc(A.ID) == null);
-            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 0);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID, 7, "").Count == 0);
         }
 
         public void Test3()
@@ -83,7 +83,7 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
-            Debug.Assert(SDM.LMS.GetUserBooks(ft.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(ft.PersonID, 7, "").Count == 1);
 			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(ft.PersonID, b.ID);
 			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime) checkouts.DateTaked).TotalDays / 7 == 4);
         }
@@ -110,7 +110,7 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
-            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID, 7, "").Count == 1);
 			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(st.PersonID, b.ID);
 			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime)checkouts.DateTaked).TotalDays / 7 == 2);
 		}
@@ -142,9 +142,9 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetUser(st2.PersonID) != null);
             Debug.Assert(SDM.LMS.GetDoc(a.ID) != null);
             Debug.Assert(a.Quantity == 0);
-            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.GetUserBooks(st1.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.GetUserBooks(st2.PersonID).Count == 0);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID, 7, "").Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(st1.PersonID, 7, "").Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(st2.PersonID, 7, "").Count == 0);
         }
 
         public void Test6()
@@ -167,7 +167,7 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetUser(st.PersonID) != null);
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 1);
-            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID, 7, "").Count == 1);
         }
 
         public void Test7()
@@ -193,8 +193,8 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetUser(p2.PersonID) != null);
             Debug.Assert(SDM.LMS.GetDoc(b1.ID) != null);
             Debug.Assert(b1.Quantity == 0);
-            Debug.Assert(SDM.LMS.GetUserBooks(p1.PersonID).Count == 1);
-            Debug.Assert(SDM.LMS.GetUserBooks(p2.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(p1.PersonID, 7, "").Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(p2.PersonID, 7, "").Count == 1);
         }
 
         public void Test8()
@@ -219,7 +219,7 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetUser(s.PersonID) != null);
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
-            Debug.Assert(SDM.LMS.GetUserBooks(s.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(s.PersonID, 7, "").Count == 1);
 			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(s.PersonID, b.ID);
 			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime)checkouts.DateTaked).TotalDays / 7 == 3);
 		}
@@ -246,7 +246,7 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetUser(s.PersonID) != null);
             Debug.Assert(SDM.LMS.GetDoc(b.ID) != null);
             Debug.Assert(b.Quantity == 0);
-            Debug.Assert(SDM.LMS.GetUserBooks(s.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(s.PersonID, 7, "").Count == 1);
 			DataBase.Checkouts checkouts = SDM.LMS.GetCheckout(s.PersonID, b.ID);
 			Debug.Assert(checkouts.TimeToBack.Subtract((DateTime)checkouts.DateTaked).TotalDays / 7 == 2);
 		}
@@ -275,7 +275,7 @@ namespace I2P_Project.Tests
             Debug.Assert(SDM.LMS.GetDoc(a.ID) != null);
             Debug.Assert(b.Quantity == 0);
             Debug.Assert(a.Quantity == 0);
-            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID).Count == 1);
+            Debug.Assert(SDM.LMS.GetUserBooks(st.PersonID, 7, "").Count == 1);
         }
 
         public void Test11()
@@ -1176,10 +1176,6 @@ namespace I2P_Project.Tests
 			Debug.Assert(text.Contains("p1 was notifed to return the respective books"));
 			Debug.Assert(text.Contains("p2 was notifed to return the respective books"));
             Debug.Assert(text.Contains("s was notifed to return the respective books"));
-
-            // d3 is of quantity 3, so s also was able to check it out
-            // Debug.Assert(text.Contains("s was notifed that document d3 is not longer available and he's removed from the waiting list"));
-
             Debug.Assert(text.Contains("v was notifed that document d3 is not longer available and he's removed from the waiting list"));
 			Debug.Assert(text.Contains("p3 was notifed that document d3 is not longer available and he's removed from the waiting list"));
 		}
@@ -1188,8 +1184,8 @@ namespace I2P_Project.Tests
 		{
 			Initial_del_4();
 
-			string titleSearch = "Algorithms to Algorithms";
-			var test = SDM.LMS.GetDocsTable(titleSearch);
+			string titleSearch = "Introduction to Algorithms";
+			var test = SDM.LMS.GetDocsTable(4, titleSearch);
 
 			Debug.Assert(test.Count == 1);
 		}
@@ -1199,7 +1195,7 @@ namespace I2P_Project.Tests
             Initial_del_4();
 
             string titleSearch = "Algorithms";
-            var test = SDM.LMS.GetDocsTable(titleSearch);
+            var test = SDM.LMS.GetDocsTable(4, titleSearch);
 
             Debug.Assert(test.Count == 2);
         }
@@ -1209,7 +1205,7 @@ namespace I2P_Project.Tests
             Initial_del_4();
 
             string titleSearch = "Algorithms";
-            var test = SDM.LMS.GetDocsTable(titleSearch);
+            var test = SDM.LMS.GetDocsTable(1, titleSearch);
 
             Debug.Assert(test.Count == 3);
         }
@@ -1219,7 +1215,7 @@ namespace I2P_Project.Tests
             Initial_del_4();
 
             string titleSearch = "Algorithms AND Programming";
-            var test = SDM.LMS.GetDocsTable(titleSearch);
+            var test = SDM.LMS.GetDocsTable(4, titleSearch);
 
             Debug.Assert(test.Count == 0);
         }
@@ -1229,7 +1225,7 @@ namespace I2P_Project.Tests
             Initial_del_4();
 
             string titleSearch = "Algorithms OR Programming";
-            var test = SDM.LMS.GetDocsTable(titleSearch);
+            var test = SDM.LMS.GetDocsTable(4, titleSearch);
 
             Debug.Assert(test.Count == 3);
         }

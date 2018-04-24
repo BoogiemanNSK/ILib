@@ -1034,7 +1034,7 @@ namespace I2P_Project.Tests
       
         public void Test36()
 		{
-			//Test34();
+			Test34();
 			Faculty p1 = new Faculty("p1");
 			Faculty p2 = new Faculty("p2");
 			Student s = new Student("s");
@@ -1056,7 +1056,7 @@ namespace I2P_Project.Tests
 
 		public void Test37()
 		{
-			//Test34();
+			Test34();
 			Faculty p1 = new Faculty("p1");
 			Faculty p2 = new Faculty("p2");
 			Student s = new Student("s");
@@ -1140,7 +1140,16 @@ namespace I2P_Project.Tests
 			Debug.Assert(text.Contains("p3 was notifed that document d3 is not longer available and he's removed from the waiting list"));
 		}
   
-        public void Test41()
+		public void Test40()
+		{
+			Initial_del_4();
+
+			string titleSearch = "Algorithms to Algorithms";
+			var test = SDM.LMS.GetDocsTable(titleSearch);
+
+			Debug.Assert(test.Count == 1);
+		}
+		public void Test41()
         {
             Initial_del_4();
 

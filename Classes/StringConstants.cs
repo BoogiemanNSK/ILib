@@ -70,6 +70,7 @@ class StringConstants
 
 
     public string SERIAL_NUMBER => "iamlibrarian";
+    public string ADMIN_PASS => "iamadmin";
 
 
     public readonly string[] USER_TYPES = { "Student", "Instructor", "TA", "Visiting Professor", "Professor", "Librarian", "Admin" };

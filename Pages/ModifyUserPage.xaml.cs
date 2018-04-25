@@ -1,4 +1,4 @@
-﻿using I2P_Project.Classes;
+﻿    using I2P_Project.Classes;
 using I2P_Project.Classes.UserSystem;
 using I2P_Project.DataBase;
 using System.Linq;
@@ -40,9 +40,11 @@ namespace I2P_Project.Pages
         {
             if (UserName.Text.Length == 0 || UserAdress.Text.Length == 0 || UserPhoneNumber.Text.Length == 0) {
                 MessageBox.Show("One of fields is not filled!", "Error");
+                return;
             }
             if (!ValidMail(UserAdress.Text)) {
                 MessageBox.Show("Invalid e-mail!", "Error");
+                return;
             }
 
             if (_userType == 5) {

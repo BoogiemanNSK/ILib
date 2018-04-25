@@ -129,6 +129,9 @@
     <Compile Include="Pages\AddLibrarianPage.xaml.cs">
       <DependentUpon>AddLibrarianPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\CheckAdminPassword.xaml.cs">
+      <DependentUpon>CheckAdminPassword.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\DocumentsManagementPage.xaml.cs">
       <DependentUpon>DocumentsManagementPage.xaml</DependentUpon>
     </Compile>
@@ -188,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\AddLibrarianPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CheckAdminPassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

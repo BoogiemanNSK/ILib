@@ -87,10 +87,8 @@ namespace I2P_Project.Pages
 
         private void AdminLogInClick(object sender, RoutedEventArgs e)
         {
-            SDM.CurrentUser = new Admin("admin");
-            MainWindow mw = new MainWindow();
-            mw.Show();
-            Close();
+            CheckAdminPassword passPage = new CheckAdminPassword(this);
+            passPage.ShowDialog();
         }
 
         // Front-end by Valeriy Borisov

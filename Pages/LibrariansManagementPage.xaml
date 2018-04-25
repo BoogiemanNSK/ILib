@@ -31,6 +31,11 @@
             <toolkit:AutoCompleteBox HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Height="30" VerticalContentAlignment="Center"
                                      FilterMode="Contains" x:Name="txt_searchLibrarian" FontSize="16" Margin="5" Populating="txt_searchLibrarian_Populating"
                                      DropDownClosed="txt_searchLibrarian_DropDownClosed"/>
+            <ComboBox Text="Search by..." x:Name="cb_SearchType" Height="30" Width="130" FontSize="16" IsReadOnly="True">
+                <CheckBox Name="cb_ByLogin" IsChecked="True" Content="By Login"/>
+                <CheckBox Name="cb_ByName" IsChecked="True" Content="By Name"/>
+                <CheckBox Name="cb_ByMail" IsChecked="True" Content="By E-Mail"/>
+            </ComboBox>
             <Button x:Name="btn_searchLibrarian" Width="92" Margin="5,5,0,5" HorizontalAlignment="Right" Content="&#xE1A3;" Click="btn_searchLibrarian_Click"
                     FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol" 
                     Background="#FF078CD1" BorderBrush="{x:Null}" Foreground="White" FontWeight="Bold" FontSize="14" Style="{DynamicResource ButtonStyle}"/>

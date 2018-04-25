@@ -21,6 +21,7 @@ namespace I2P_Project.Classes
         public int DocType { get { return _current.DocType; } }
         public int Quantity { get { return _current.Quantity; } }
         public bool IsRequested { get { return _current.IsRequested; } }
+        public string Tags { get { return _current.Tags; } }
 
 		
     }

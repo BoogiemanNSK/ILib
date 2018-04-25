@@ -37,45 +37,45 @@
         #region Documents Management
 
         /// <summary> Adding new book to DB with given parameters </summary>
-        public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
+        public void AddBook(string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity, string tags)
         {
             if (LibrarianType > 0) {
-                SDM.LMS.AddBook(title, autors, publisher, publishYear, edition, description, price, isBestseller, quantity);
+                SDM.LMS.AddBook(title, autors, publisher, publishYear, edition, description, price, isBestseller, quantity, tags);
             }
         }
 
         /// <summary> Adding new journal to DB with given parameters </summary>
-        public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
+        public void AddJournal(string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity, string tags)
         {
             if (LibrarianType > 0) {
-                SDM.LMS.AddJournal(title, autors, publishedIn, issueTitle, issueEditor, price, quantity);
+                SDM.LMS.AddJournal(title, autors, publishedIn, issueTitle, issueEditor, price, quantity, tags);
             }
         }
 
         /// <summary> Adding new AV to DB with given parameters </summary>
-        public void AddAV(string title, string autors, int price, int quantity)
+        public void AddAV(string title, string autors, int price, int quantity, string tags)
         {
             if (LibrarianType > 0) {
-                SDM.LMS.AddAV(title, autors, price, quantity);
+                SDM.LMS.AddAV(title, autors, price, quantity, tags);
             }
         }
 
         /// <summary> Modifies a book with new parameters </summary>
-        public void ModifyBook(int bookID, string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity)
+        public void ModifyBook(int bookID, string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity, string tags)
         {
-            SDM.LMS.ModifyBook(bookID, title, autors, publisher, publishYear, edition, description, price, isBestseller, quantity);
+            SDM.LMS.ModifyBook(bookID, title, autors, publisher, publishYear, edition, description, price, isBestseller, quantity, tags);
         }
 
         /// <summary> Modifies a journal with new parameters </summary>
-        public void ModifyJournal(int journalID, string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity)
+        public void ModifyJournal(int journalID, string title, string autors, string publishedIn, string issueTitle, string issueEditor, int price, int quantity, string tags)
         {
-            SDM.LMS.ModifyJournal(journalID, title, autors, publishedIn, issueTitle, issueEditor, price, quantity);
+            SDM.LMS.ModifyJournal(journalID, title, autors, publishedIn, issueTitle, issueEditor, price, quantity, tags);
         }
 
         /// <summary> Modifies an AV with new parameters </summary>
-        public void ModifyAV(int AVID, string title, string autors, int price, int quantity)
+        public void ModifyAV(int AVID, string title, string autors, int price, int quantity, string tags)
         {
-            SDM.LMS.ModifyAV(AVID, title, autors, price, quantity);
+            SDM.LMS.ModifyAV(AVID, title, autors, price, quantity, tags);
         }
 
         /// <summary> Deletes a doc from the system </summary>

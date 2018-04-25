@@ -26,7 +26,8 @@ namespace I2P_Project.Pages
                     TitleTB.Text,
                     AutorsTB.Text,
                     price,
-                    quantity
+                    quantity,
+                    TagsTB.Text
                 );
 
             _previousPage.UpdateTable();

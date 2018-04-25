@@ -14,6 +14,7 @@ namespace I2P_Project.Classes
                 Strings = new StringConstants();
                 LMS = new Library();
                 isInitialized = true;
+                CurrentUser = new Admin("admin");
             }
         }
 

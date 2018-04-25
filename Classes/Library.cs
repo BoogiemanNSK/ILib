@@ -287,7 +287,42 @@ namespace I2P_Project.Classes
             db.SubmitChanges();
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated info about user " + user.Login);
         }
-        
+
+        /// <summary> Updates user login </summary>
+        public void UpdateUserLogin(int userId, string user_login)
+        {
+            Users user = GetUser(userId);
+            user.Login = user_login;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
+            db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated login to " + user.Login);
+        }
+
+        /// <summary> Updates user name </summary>
+        public void UpdateUserName(int userId, string new_name)
+        {
+            Users user = GetUser(userId);
+            user.Name = new_name;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
+            db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated name to " + user.Name);
+        }
+
+        /// <summary> Updates user password </summary>
+        public void UpdateUserPassword(int userId, string new_password)
+        {
+            Users user = GetUser(userId);
+            using (System.Security.Cryptography.MD5 md5_hash = System.Security.Cryptography.MD5.Create())
+            {
+                Cryptography cpt = new Cryptography();
+                new_password = cpt.GetHash(md5_hash, new_password);  // Hashing password string by MD5
+            }
+            user.Password = new_password;
+            db.Refresh(System.Data.Linq.RefreshMode.KeepChanges, user);
+            db.SubmitChanges();
+            log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " updated password");
+        }
+
         /// <summary> Updates book info </summary>
         public void ModifyBook(int docID, string title, string autors, string publisher, int publishYear, string edition, string description, int price, bool isBestseller, int quantity, string tags)
         {

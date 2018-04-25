@@ -17,6 +17,7 @@ namespace I2P_Project.Pages
             InitializeComponent();
             UpdateUI();
             searched_books = LoadACB();
+            txt_searchBook.ItemsSource = searched_books;
         }
 
         /// <summary> Updates table of all docs </summary>
@@ -63,12 +64,6 @@ namespace I2P_Project.Pages
             }
         }
 
-        /// <summary> Search doc method doc </summary>
-        private void txt_searchBook_Populating(object sender, PopulatingEventArgs e)
-        {
-            txt_searchBook.ItemsSource = searched_books;
-        }
-
         /// <summary> First load documents for auto complete box </summary>
         private List<String> LoadACB()
         {
@@ -87,13 +82,69 @@ namespace I2P_Project.Pages
         /// <summary> Search book by keyword in AutoCompleteBox </summary>
         private void btn_SearchBook_Click(object sender, RoutedEventArgs e)
         {
-            if(txt_searchBook.Text == "")
+            if (txt_searchBook.Text == "")
             {
                 UpdateUI();
             }
             else
             {
-                UpdateTableAfterSearch();
+                switch (cb_SearchType.SelectedIndex)  // select search type
+                {
+                    case 0: // standard search
+                        UpdateTableAfterSearch();
+                        break;
+                    case 1: // search by keyword
+                        if (txt_searchBook.Text.Contains("AND") || txt_searchBook.Text.Contains("OR"))
+                        {
+                            bool operation;
+                            string[] income;
+                            string keyword_1 = ""; string keyword_2 = "";
+
+                            if (txt_searchBook.Text.Contains("AND"))  // read the operation and parse request
+                            {
+                                operation = false;
+                                string temp = txt_searchBook.Text;
+                                temp = temp.Replace(" AND ", "|");
+                                income = temp.Split('|');
+                            }
+                            else
+                            {
+                                operation = true;
+                                string temp = txt_searchBook.Text;
+                                temp = temp.Replace(" OR ", "|");
+                                income = temp.Split('|');
+                            }
+                            keyword_1 = income[0];
+                            keyword_2 = income[1];
+
+                            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+                            pm.BeginWaiting(); // Starts Loading Flow
+                            docTable.ItemsSource = SDM.LMS.GetDocsTableByKeyword(keyword_1, keyword_2, operation);
+                            pm.EndWaiting();
+                        }
+                        else
+                        {
+                            ProcessManager pm = new ProcessManager(); // Process Manager for long operations
+                            pm.BeginWaiting(); // Starts Loading Flow
+                            docTable.ItemsSource = SDM.LMS.GetDocsTableByKeyword(txt_searchBook.Text);
+                            pm.EndWaiting();
+                        }
+                        break;
+                }
+            }
+        }
+
+        /// <summary> Select one of all drop down options </summary>
+        private void cb_SearchType_DropDownClosed(object sender, EventArgs e)
+        {
+            switch (cb_SearchType.SelectedIndex)
+            {
+                case 0:
+                    txt_searchBook.ItemsSource = searched_books; // enable DropDown
+                    break;
+                case 1:
+                    txt_searchBook.ItemsSource = null;  // disable DropDown
+                    break;
             }
         }
     }

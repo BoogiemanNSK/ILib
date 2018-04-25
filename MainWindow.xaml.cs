@@ -157,6 +157,12 @@ namespace I2P_Project
             ChangePage("LibrariansManagementPage.xaml");
         }
 
+        private void Page_SettingsClick(object sender, RoutedEventArgs e)  // Open settings page
+        {
+            CloseMenuAfterClick();
+            ChangePage("SettingsPage.xaml");
+        }
+
         private void ChangePage(string page_name)  // Changes page on page viewer
         {
             string link = "/I2P-Project;component/Pages/" + page_name;
@@ -171,6 +177,5 @@ namespace I2P_Project
                 taskMenu = !taskMenu;
             }
         }
-
     }
 }

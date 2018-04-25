@@ -1,0 +1,57 @@
+﻿<Page x:Class="I2P_Project.Pages.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:I2P_Project.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="480" d:DesignWidth="905"
+      FontFamily="/I2P-Project;component/Fonts/#Panton"
+      Title="Settings">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="210"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Settings" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center" FontSize="34"/>
+
+        <Label Content="Login:" FontSize="16" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBox x:Name="txt_changeLogin" Grid.Column="2" Grid.Row="2" Height="30" Width="210" FontSize="14" Style="{DynamicResource TextBoxDesign}"
+                 VerticalContentAlignment="Center"/>
+        <Button x:Name="btn_changeLogin" Grid.Column="2" Content="Change Login" Grid.Row="3" Height="30" Width="210"
+                Style="{DynamicResource ButtonStyle}" FontSize="16" Click="btn_changeLogin_Click"/>
+
+        <Label Content="Name:" FontSize="16" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBox x:Name="txt_changeName" Grid.Column="2" Grid.Row="5" Height="30" Width="210" FontSize="14" Style="{DynamicResource TextBoxDesign}"
+                 VerticalContentAlignment="Center"/>
+        <Button x:Name="btn_changeName" Grid.Column="2" Content="Change Name" Grid.Row="6" Height="30" Width="210"
+                Style="{DynamicResource ButtonStyle}" FontSize="16" Click="btn_changeName_Click"/>
+
+        <Label Content="New password:" FontSize="16" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <PasswordBox x:Name="txt_newPassword" Grid.Column="2" Grid.Row="8" Height="30" Width="210" FontSize="14" Style="{DynamicResource PasswordBoxDesign}"
+                     VerticalContentAlignment="Center"/>
+        <Label Content="Confirm new password:" FontSize="16" Grid.Row="9" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <PasswordBox x:Name="txt_confPassword" Grid.Column="2" Grid.Row="9" Height="30" Width="210" FontSize="14" Style="{DynamicResource PasswordBoxDesign}"
+                     VerticalContentAlignment="Center"/>
+        <Button x:Name="btn_changePassword" Grid.Column="2" Content="Change Password" Grid.Row="10" Height="30" Width="210"
+                Style="{DynamicResource ButtonStyle}" FontSize="16" Click="btn_changePassword_Click"/>
+    </Grid>
+</Page>

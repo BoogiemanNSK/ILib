@@ -14,22 +14,6 @@ To start the application go to
 ###                                     ###
 
 ************************************************
-*==============* IF APP CRASHES *==============*
-
- Make sure your SQL Server service is running.
- 
- If that was not the problem, try these steps:
- 1) Kill all SQL Server processess with Task Manager
- 2) Delete DataBases folder (inside folder with .exe)
- 3) Delete all files in
- 	C://Users/{Your User}/AppData/Local/Microsoft/Microsoft SQL Server Data/SQLEXPRESS
- 4) Start SQL Server (you can use SQL Configuration Manager installed bu SQL Express)
- 5) Try launching the app again
- 
- AppData folder may be hidden, in that case, turn on showing hidden folders:
- 	https://support.microsoft.com/en-us/help/14201/windows-show-hidden-files
-
-************************************************
 
 For users:
  - To use the system you have to register a new account by submitting info about you and creating password
@@ -58,6 +42,7 @@ For librarians:
 ************************************************
 
 For admin:
+ - To log in as admin you have to know special password which can be obtained from system developers
  - You are the onwer of the system, you shouldn't register
  - After loggin in as admin you will able to:
 	a) Add/delete/modify information about librarians

@@ -422,7 +422,7 @@ namespace I2P_Project.Classes
         public ObservableCollection<Pages.MyBooksTable> GetUserBooks(int userID, int flags, string keyword)
         {
             ObservableCollection<Pages.MyBooksTable> tempTable = new ObservableCollection<Pages.MyBooksTable>();
-            var load_user_books = from c in db.Checkouts
+            var loadUserDocs = from c in db.Checkouts
                                   join b in db.Documents on c.BookID equals b.Id
                                   where c.UserID == userID && c.IsReturned == false
                                   select new
@@ -436,26 +436,72 @@ namespace I2P_Project.Classes
                                       c.DateTaked,
                                       c.TimeToBack
                                   };
-            foreach (var element in load_user_books)
-            {
-                if (Match((flags >> 2) % 2, element.Title, keyword) ||
-                     Match((flags >> 1) % 2, element.Autors, keyword) ||
-                     Match(flags % 2, element.Tags, keyword)) {
 
-                    Pages.MyBooksTable row = new Pages.MyBooksTable {
-                        checkID = element.CheckID,
-                        docID = element.BookID,
-                        docTitle = element.Title,
-                        docAutors = element.Autors,
-                        docPrice = element.Price,
-                        docFine = GetUserFineForDoc(userID, element.BookID),
-                        checkDateTaked = (DateTime)element.DateTaked,
-                        checkTimeToBack = element.TimeToBack
-                    };
-                    tempTable.Add(row);
+            string[] ANDSplit = keyword.Split(new[] { " AND " }, StringSplitOptions.None);
+            string[] ORSplit = keyword.Split(new[] { " OR " }, StringSplitOptions.None);
 
+            if (ANDSplit.Length == 2) {
+                foreach (var element in loadUserDocs) {
+                    if ((Match((flags >> 2) % 2, element.Title, ANDSplit[0]) && Match((flags >> 2) % 2, element.Title, ANDSplit[1])) ||
+                        (Match((flags >> 1) % 2, element.Autors, ANDSplit[0]) && Match((flags >> 1) % 2, element.Autors, ANDSplit[1])) ||
+                        (Match(flags % 2, element.Tags, ANDSplit[0]) && Match(flags % 2, element.Tags, ANDSplit[1]))) {
+
+                        Pages.MyBooksTable row = new Pages.MyBooksTable {
+                            checkID = element.CheckID,
+                            docID = element.BookID,
+                            docTitle = element.Title,
+                            docAutors = element.Autors,
+                            docPrice = element.Price,
+                            docFine = GetUserFineForDoc(userID, element.BookID),
+                            checkDateTaked = (DateTime)element.DateTaked,
+                            checkTimeToBack = element.TimeToBack
+                        };
+                        tempTable.Add(row);
+
+                    }
+                }
+            } else if (ORSplit.Length == 2) {
+                foreach (var element in loadUserDocs) {
+                    if ((Match((flags >> 2) % 2, element.Title, ORSplit[0]) || Match((flags >> 2) % 2, element.Title, ORSplit[1])) ||
+                        (Match((flags >> 1) % 2, element.Autors, ORSplit[0]) || Match((flags >> 1) % 2, element.Autors, ORSplit[1])) ||
+                        (Match(flags % 2, element.Tags, ORSplit[0]) || Match(flags % 2, element.Tags, ORSplit[1]))) {
+
+                        Pages.MyBooksTable row = new Pages.MyBooksTable {
+                            checkID = element.CheckID,
+                            docID = element.BookID,
+                            docTitle = element.Title,
+                            docAutors = element.Autors,
+                            docPrice = element.Price,
+                            docFine = GetUserFineForDoc(userID, element.BookID),
+                            checkDateTaked = (DateTime)element.DateTaked,
+                            checkTimeToBack = element.TimeToBack
+                        };
+                        tempTable.Add(row);
+
+                    }
+                }
+            } else {
+                foreach (var element in loadUserDocs) {
+                    if (Match((flags >> 2) % 2, element.Title, keyword) ||
+                        Match((flags >> 1) % 2, element.Autors, keyword) ||
+                        Match(flags % 2, element.Tags, keyword)) {
+
+                        Pages.MyBooksTable row = new Pages.MyBooksTable {
+                            checkID = element.CheckID,
+                            docID = element.BookID,
+                            docTitle = element.Title,
+                            docAutors = element.Autors,
+                            docPrice = element.Price,
+                            docFine = GetUserFineForDoc(userID, element.BookID),
+                            checkDateTaked = (DateTime)element.DateTaked,
+                            checkTimeToBack = element.TimeToBack
+                        };
+                        tempTable.Add(row);
+
+                    }
                 }
             }
+
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded table of " + GetUser(userID) + " docs");
             return tempTable;
         }
@@ -516,22 +562,60 @@ namespace I2P_Project.Classes
                                  p.Login,
                                  p.Address
                              };
-            foreach (var element in loadUsers)
-            {
-                if (Match((flags >> 1) % 2, element.Login, keyword) ||
-                    Match(flags % 2, element.Address, keyword)) {
 
-                    Pages.LibrarianUserView row = new Pages.LibrarianUserView {
-                        userID = element.Id,
-                        userLogin = element.Login,
-                        userMail = element.Address,
-                        docsNumber = GetUserBooksNumber(element.Id),
-                        userFine = GetUserFine(element.Id)
-                    };
-                    tempTable.Add(row);
+            string[] ANDSplit = keyword.Split(new[] { " AND " }, StringSplitOptions.None);
+            string[] ORSplit = keyword.Split(new[] { " OR " }, StringSplitOptions.None);
 
+            if (ANDSplit.Length == 2) {
+                foreach (var element in loadUsers) {
+                    if ((Match((flags >> 1) % 2, element.Login, ANDSplit[0]) && Match((flags >> 1) % 2, element.Login, ANDSplit[1])) ||
+                        (Match(flags % 2, element.Address, ANDSplit[0]) && Match(flags % 2, element.Address, ANDSplit[1]))) {
+
+                        Pages.LibrarianUserView row = new Pages.LibrarianUserView {
+                            userID = element.Id,
+                            userLogin = element.Login,
+                            userMail = element.Address,
+                            docsNumber = GetUserBooksNumber(element.Id),
+                            userFine = GetUserFine(element.Id)
+                        };
+                        tempTable.Add(row);
+
+                    }
+                }
+            } else if (ORSplit.Length == 2) {
+                foreach (var element in loadUsers) {
+                    if ((Match((flags >> 1) % 2, element.Login, ORSplit[0]) || Match((flags >> 1) % 2, element.Login, ORSplit[1])) ||
+                        (Match(flags % 2, element.Address, ORSplit[0]) || Match(flags % 2, element.Address, ORSplit[1]))) {
+
+                        Pages.LibrarianUserView row = new Pages.LibrarianUserView {
+                            userID = element.Id,
+                            userLogin = element.Login,
+                            userMail = element.Address,
+                            docsNumber = GetUserBooksNumber(element.Id),
+                            userFine = GetUserFine(element.Id)
+                        };
+                        tempTable.Add(row);
+
+                    }
+                }
+            } else {
+                foreach (var element in loadUsers) {
+                    if (Match((flags >> 1) % 2, element.Login, keyword) ||
+                        Match(flags % 2, element.Address, keyword)) {
+
+                        Pages.LibrarianUserView row = new Pages.LibrarianUserView {
+                            userID = element.Id,
+                            userLogin = element.Login,
+                            userMail = element.Address,
+                            docsNumber = GetUserBooksNumber(element.Id),
+                            userFine = GetUserFine(element.Id)
+                        };
+                        tempTable.Add(row);
+
+                    }
                 }
             }
+
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded users table");
             return tempTable;
         }
@@ -552,22 +636,63 @@ namespace I2P_Project.Classes
                                  p.Address,
                                  p.LibrarianType
                              };
-            foreach (var element in loadUsers) {
-                if (Match((flags >> 2) % 2, element.Login, keyword) ||
-                    Match((flags >> 1) % 2, element.Name, keyword) ||
-                    Match(flags % 2, element.Address, keyword)) {
 
-                    Pages.AdminUserView row = new Pages.AdminUserView {
-                        LibrarianID = element.Id,
-                        LibrarianLogin = element.Login,
-                        LibrarianName = element.Name,
-                        LibrarianMail = element.Address,
-                        LibrarianType = "Priv" + (element.LibrarianType + 1)
-                    };
-                    tempTable.Add(row);
+            string[] ANDSplit = keyword.Split(new[] { " AND " }, StringSplitOptions.None);
+            string[] ORSplit = keyword.Split(new[] { " OR " }, StringSplitOptions.None);
 
+            if (ANDSplit.Length == 2) {
+                foreach (var element in loadUsers) {
+                    if ((Match((flags >> 2) % 2, element.Login, ANDSplit[0]) && Match((flags >> 2) % 2, element.Login, ANDSplit[1])) ||
+                        (Match((flags >> 1) % 2, element.Name, ANDSplit[0]) && Match((flags >> 1) % 2, element.Name, ANDSplit[1])) ||
+                        (Match(flags % 2, element.Address, ANDSplit[0]) && Match(flags % 2, element.Address, ANDSplit[1]))) {
+
+                        Pages.AdminUserView row = new Pages.AdminUserView {
+                            LibrarianID = element.Id,
+                            LibrarianLogin = element.Login,
+                            LibrarianName = element.Name,
+                            LibrarianMail = element.Address,
+                            LibrarianType = "Priv" + (element.LibrarianType + 1)
+                        };
+                        tempTable.Add(row);
+
+                    }
+                }
+            } else if (ORSplit.Length == 2) {
+                foreach (var element in loadUsers) {
+                    if ((Match((flags >> 2) % 2, element.Login, ORSplit[0]) || Match((flags >> 2) % 2, element.Login, ORSplit[1])) ||
+                        (Match((flags >> 1) % 2, element.Name, ORSplit[0]) || Match((flags >> 1) % 2, element.Name, ORSplit[1])) ||
+                        (Match(flags % 2, element.Address, ORSplit[0]) || Match(flags % 2, element.Address, ORSplit[1]))) {
+
+                        Pages.AdminUserView row = new Pages.AdminUserView {
+                            LibrarianID = element.Id,
+                            LibrarianLogin = element.Login,
+                            LibrarianName = element.Name,
+                            LibrarianMail = element.Address,
+                            LibrarianType = "Priv" + (element.LibrarianType + 1)
+                        };
+                        tempTable.Add(row);
+
+                    }
+                }
+            } else {
+                foreach (var element in loadUsers) {
+                    if (Match((flags >> 2) % 2, element.Login, keyword) ||
+                        Match((flags >> 1) % 2, element.Name, keyword) ||
+                        Match(flags % 2, element.Address, keyword)) {
+
+                        Pages.AdminUserView row = new Pages.AdminUserView {
+                            LibrarianID = element.Id,
+                            LibrarianLogin = element.Login,
+                            LibrarianName = element.Name,
+                            LibrarianMail = element.Address,
+                            LibrarianType = "Priv" + (element.LibrarianType + 1)
+                        };
+                        tempTable.Add(row);
+
+                    }
                 }
             }
+
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded librarians table");
             return tempTable;
         }
@@ -590,24 +715,66 @@ namespace I2P_Project.Classes
                                      b.Tags,
                                      b.Quantity
                                  };
-            foreach (var element in loadUserDocs)
-            {
-                if (Match((flags >> 2) % 2, element.Title, keyword) ||
-                    Match((flags >> 1) % 2, element.Autors, keyword) ||
-                    Match(flags % 2, element.Tags, keyword)) {
 
-                    Pages.DocumentsTable row = new Pages.DocumentsTable {
-                        docID = element.Id,
-                        docAutors = element.Autors,
-                        docTitle = element.Title,
-                        docType = SDM.Strings.DOC_TYPES[element.DocType],
-                        docPrice = element.Price,
-                        docQuantity = element.Quantity
-                    };
-                    tempTable.Add(row);
+            string[] ANDSplit = keyword.Split(new[] {" AND "}, StringSplitOptions.None);
+            string[] ORSplit = keyword.Split(new[] {" OR "}, StringSplitOptions.None);
 
+            if (ANDSplit.Length == 2) {
+                foreach (var element in loadUserDocs) {
+                    if ((Match((flags >> 2) % 2, element.Title, ANDSplit[0]) && Match((flags >> 2) % 2, element.Title, ANDSplit[1])) ||
+                        (Match((flags >> 1) % 2, element.Autors, ANDSplit[0]) && Match((flags >> 1) % 2, element.Autors, ANDSplit[1])) ||
+                        (Match(flags % 2, element.Tags, ANDSplit[0]) && Match(flags % 2, element.Tags, ANDSplit[1]))) {
+
+                        Pages.DocumentsTable row = new Pages.DocumentsTable {
+                            docID = element.Id,
+                            docAutors = element.Autors,
+                            docTitle = element.Title,
+                            docType = SDM.Strings.DOC_TYPES[element.DocType],
+                            docPrice = element.Price,
+                            docQuantity = element.Quantity
+                        };
+                        tempTable.Add(row);
+
+                    }
+                }
+            } else if (ORSplit.Length == 2) {
+                foreach (var element in loadUserDocs) {
+                    if ((Match((flags >> 2) % 2, element.Title, ORSplit[0]) || Match((flags >> 2) % 2, element.Title, ORSplit[1])) ||
+                        (Match((flags >> 1) % 2, element.Autors, ORSplit[0]) || Match((flags >> 1) % 2, element.Autors, ORSplit[1])) ||
+                        (Match(flags % 2, element.Tags, ORSplit[0]) || Match(flags % 2, element.Tags, ORSplit[1]))) {
+
+                        Pages.DocumentsTable row = new Pages.DocumentsTable {
+                            docID = element.Id,
+                            docAutors = element.Autors,
+                            docTitle = element.Title,
+                            docType = SDM.Strings.DOC_TYPES[element.DocType],
+                            docPrice = element.Price,
+                            docQuantity = element.Quantity
+                        };
+                        tempTable.Add(row);
+
+                    }
+                }
+            } else {
+                foreach (var element in loadUserDocs) {
+                    if (Match((flags >> 2) % 2, element.Title, keyword) ||
+                        Match((flags >> 1) % 2, element.Autors, keyword) ||
+                        Match(flags % 2, element.Tags, keyword)) {
+
+                        Pages.DocumentsTable row = new Pages.DocumentsTable {
+                            docID = element.Id,
+                            docAutors = element.Autors,
+                            docTitle = element.Title,
+                            docType = SDM.Strings.DOC_TYPES[element.DocType],
+                            docPrice = element.Price,
+                            docQuantity = element.Quantity
+                        };
+                        tempTable.Add(row);
+
+                    }
                 }
             }
+
             log.Write(SDM.Strings.USER_TYPES[SDM.CurrentUser.UserType] + " " + SDM.CurrentUser.Login + " uploaded documents table");
             return tempTable;
         }

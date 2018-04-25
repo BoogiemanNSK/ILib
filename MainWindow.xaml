@@ -45,7 +45,7 @@
             <RadioButton x:Name="li_page_LibrariansManagement" Content="&#xE136;  Librarians" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
                              Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180" Style="{DynamicResource MenuButtonStyle}"
                              Foreground="White" Click="Page_LibrariansManagement_Click"/>
-            <RadioButton Content="&#xE115;  Settings" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
+            <RadioButton x:Name="li_page_Settings" Content="&#xE115;  Settings" FontSize="20" FontFamily="/I2P-Project;component/Fonts/#Segoe UI Symbol, /I2P-Project;component/Fonts/#Panton"
                              Height="60" RenderTransformOrigin="0.5,0.5" GroupName="menuButton" Width="180" Style="{DynamicResource MenuButtonStyle}"
                              Foreground="White" Click="Page_SettingsClick"/>
         </StackPanel>

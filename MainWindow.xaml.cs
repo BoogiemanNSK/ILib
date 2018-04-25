@@ -100,6 +100,7 @@ namespace I2P_Project
                     li_page_userHome.Visibility = Visibility.Collapsed;
                     li_page_UserLibrary.Visibility = Visibility.Collapsed;
                     li_page_UserMyBooks.Visibility = Visibility.Collapsed;
+                    li_page_Settings.Visibility = Visibility.Collapsed;
                     li_page_AdminHome.IsChecked = true;
                     break;
             }

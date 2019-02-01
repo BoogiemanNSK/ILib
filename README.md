@@ -1,6 +1,6 @@
-Ilib - A Library Management System
+# Ilib - A Library Management System
 
-System requirements:
+### System requirements:
  - Windows 7(max), 8, 8.1, 10
  - .NET Framework 4.7
  - SQL Express https://go.microsoft.com/fwlink/?LinkID=799012
@@ -15,7 +15,7 @@ To start the application go to
 
 ************************************************
 
-For users:
+## For users:
  - To use the system you have to register a new account by submitting info about you and creating password
  - After creating an account you would be able to log into the system
  - With Ilib LMS you will be able to search through system to find books and media you like and check them out to your account
@@ -30,7 +30,7 @@ For users:
  
 ************************************************
 
-For librarians:
+## For librarians:
  - To use the system as librarian you have to register AND fill serial number field at registration page
  - Serial number can be obtained from system developers
  - After logging in as librarian you will be able to:
@@ -41,7 +41,7 @@ For librarians:
 
 ************************************************
 
-For admin:
+## For admin:
  - To log in as admin you have to know special password which can be obtained from system developers
  - You are the onwer of the system, you shouldn't register
  - After loggin in as admin you will able to:
@@ -51,7 +51,7 @@ For admin:
  
 ************************************************
 
-System Developers:
+## System Developers:
  - Peter Zakharkin  | Architecture & Logic    | @DanielFaraday28    
  - Anton Krylov     | Back end                | @kartofaan
  - Valery Borisov   | Front end & DB          | @valer_xenus
